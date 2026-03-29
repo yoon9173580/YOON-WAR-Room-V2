@@ -433,6 +433,7 @@
       margin-bottom: 50px;
       box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
     }
+
     .scenario-title {
       font-family: var(--disp);
       font-size: 16px;
@@ -442,51 +443,116 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       border-bottom: 2px solid var(--border);
-      background: rgba(0,212,170,0.05);
+      background: rgba(0, 212, 170, 0.05);
     }
+
     .st-main td {
       color: var(--accent);
       font-size: 15px;
       font-weight: 900;
       padding-top: 25px;
       padding-bottom: 25px;
-      background: rgba(255,255,255,0.02);
+      background: rgba(255, 255, 255, 0.02);
       border-top: 2px solid var(--border);
     }
+
     .st-sub td {
       padding-top: 12px;
       padding-bottom: 12px;
       font-size: 15px;
       color: var(--text);
     }
+
     .pl-indent {
       padding-left: 55px !important;
       color: var(--textM);
       font-weight: 600;
       font-family: var(--disp);
     }
+
     .pl-indent-2 {
       padding-left: 85px !important;
       color: var(--textD);
       font-weight: 600;
       font-family: var(--disp);
     }
+
     .det {
       color: var(--textM) !important;
       font-size: 13px !important;
       font-weight: 500;
     }
-    .scenario-wrap table { border-collapse: collapse; width: 100%; }
-    .scenario-wrap th { padding: 25px 35px; background: rgba(0,0,0,0.4); text-align: left; font-size: 12px; font-weight: 900; letter-spacing: 2px; color: var(--textM); border-bottom: 3px solid var(--border); }
-    .scenario-wrap th.r { text-align: right; }
-    .scenario-wrap td { padding: 12px 35px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-    .st-main .pos { color: var(--accent); }
-    .st-main .neg { color: var(--bear); }
-    .st-sub .pos { color: var(--bull); font-weight:800; }
-    .st-sub .neg { color: var(--bear); font-weight:800; }
-    .st-cash td { background: rgba(0, 212, 170, 0.08); color: var(--accent) !important; font-weight: 900 !important; border-top: 2px dashed rgba(0,212,170,0.3); border-bottom: 2px dashed rgba(0,212,170,0.3); font-size: 15px; padding-top: 18px; padding-bottom: 18px;}
-    .st-cash .det-cash { font-family: var(--mono); font-size: 12px; color: rgba(0,212,170,0.6) !important; font-weight: 700 !important; }
-    .bal { font-size: 11px; color: var(--accent); opacity: 0.8; font-weight: 800; font-family: var(--mono); margin-top: 4px; display:block; }
+
+    .scenario-wrap table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .scenario-wrap th {
+      padding: 25px 35px;
+      background: rgba(0, 0, 0, 0.4);
+      text-align: left;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--textM);
+      border-bottom: 3px solid var(--border);
+    }
+
+    .scenario-wrap th.r {
+      text-align: right;
+    }
+
+    .scenario-wrap td {
+      padding: 12px 35px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .st-main .pos {
+      color: var(--accent);
+    }
+
+    .st-main .neg {
+      color: var(--bear);
+    }
+
+    .st-sub .pos {
+      color: var(--bull);
+      font-weight: 800;
+    }
+
+    .st-sub .neg {
+      color: var(--bear);
+      font-weight: 800;
+    }
+
+    .st-cash td {
+      background: rgba(0, 212, 170, 0.08);
+      color: var(--accent) !important;
+      font-weight: 900 !important;
+      border-top: 2px dashed rgba(0, 212, 170, 0.3);
+      border-bottom: 2px dashed rgba(0, 212, 170, 0.3);
+      font-size: 15px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    .st-cash .det-cash {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(0, 212, 170, 0.6) !important;
+      font-weight: 700 !important;
+    }
+
+    .bal {
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.8;
+      font-weight: 800;
+      font-family: var(--mono);
+      margin-top: 4px;
+      display: block;
+    }
   </style>
 </head>
 
@@ -820,7 +886,7 @@
                   <td class="r pos">$5,295,927</td>
                 </tr>
                 <tr class="st-cash">
-                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
                   <td class="det-cash">잔존 유동 현금 상태</td>
                   <td class="r pos">$8,705,430</td>
                   <td class="r pos">$10,031,972</td>
@@ -885,7 +951,7 @@
                   <td class="r neg">-$2,541,692<br><span class="bal">BAL $27,197,253</span></td>
                 </tr>
                 <tr class="st-cash">
-                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
                   <td class="det-cash">잔존 유동 현금 상태</td>
                   <td class="r pos">$7,184,950</td>
                   <td class="r pos">$8,211,492</td>
@@ -918,7 +984,7 @@
                   <td class="r neg">-$18,957,802</td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >├ Strike $40</td>
+                  <td class="pl-indent-2">├ Strike $40</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
                   <td class="r neg">-$982,653<br><span class="bal">BAL $2,702,297</span></td>
                   <td class="r neg">-$1,256,398<br><span class="bal">BAL $3,455,094</span></td>
@@ -926,7 +992,7 @@
                   <td class="r neg">-$6,319,267<br><span class="bal">BAL $17,377,986</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >├ Strike $45</td>
+                  <td class="pl-indent-2">├ Strike $45</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
                   <td class="r neg">-$982,653<br><span class="bal">BAL $1,719,644</span></td>
                   <td class="r neg">-$1,256,398<br><span class="bal">BAL $2,198,696</span></td>
@@ -934,7 +1000,7 @@
                   <td class="r neg">-$6,319,267<br><span class="bal">BAL $11,058,719</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >└ Strike $50</td>
+                  <td class="pl-indent-2">└ Strike $50</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
                   <td class="r neg">-$982,654<br><span class="bal">BAL $736,990</span></td>
                   <td class="r neg">-$1,256,398<br><span class="bal">BAL $942,298</span></td>
@@ -950,7 +1016,7 @@
                   <td class="r neg">-$4,739,451</td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >├ Strike $40</td>
+                  <td class="pl-indent-2">├ Strike $40</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
                   <td class="r neg">-$245,663<br><span class="bal">BAL $491,327</span></td>
                   <td class="r neg">-$314,099<br><span class="bal">BAL $628,199</span></td>
@@ -958,7 +1024,7 @@
                   <td class="r neg">-$1,579,817<br><span class="bal">BAL $3,159,634</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >├ Strike $45</td>
+                  <td class="pl-indent-2">├ Strike $45</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
                   <td class="r neg">-$245,663<br><span class="bal">BAL $245,664</span></td>
                   <td class="r neg">-$314,099<br><span class="bal">BAL $314,100</span></td>
@@ -966,7 +1032,7 @@
                   <td class="r neg">-$1,579,817<br><span class="bal">BAL $1,579,817</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent-2" >└ Strike $50</td>
+                  <td class="pl-indent-2">└ Strike $50</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
                   <td class="r neg">-$245,664<br><span class="bal">BAL $0</span></td>
                   <td class="r neg">-$314,100<br><span class="bal">BAL $0</span></td>
@@ -974,7 +1040,7 @@
                   <td class="r neg">-$1,579,817<br><span class="bal">BAL $0</span></td>
                 </tr>
                 <tr class="st-cash">
-                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
                   <td class="det-cash">풀-디플로이 후 잔존 금액</td>
                   <td class="r pos" style="color:#aaa;">$0</td>
                   <td class="r pos" style="color:#aaa;">$0</td>
@@ -999,7 +1065,7 @@
                   <td class="r bull">+$14,000,000<br><span class="bal">BAL $14,000,000</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent" >└ O&G (Energy)</td>
+                  <td class="pl-indent">└ O&G (Energy)</td>
                   <td class="det">IDC 100% 공제 (에너지 유정 WI)</td>
                   <td class="r neg">-$1,500,000<br><span class="bal">BAL $2,000,000</span></td>
                   <td class="r neg">-$1,500,000<br><span class="bal">BAL $2,500,000</span></td>
@@ -1007,7 +1073,7 @@
                   <td class="r neg">-$6,000,000<br><span class="bal">BAL $8,000,000</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent" >└ QOF Housing</td>
+                  <td class="pl-indent">└ QOF Housing</td>
                   <td class="det">QOZ 다세대 주택 (10년 면세)</td>
                   <td class="r neg">-$1,500,000<br><span class="bal">BAL $500,000</span></td>
                   <td class="r neg">-$1,500,000<br><span class="bal">BAL $1,000,000</span></td>
@@ -1015,7 +1081,7 @@
                   <td class="r neg">-$6,000,000<br><span class="bal">BAL $2,000,000</span></td>
                 </tr>
                 <tr class="st-sub">
-                  <td class="pl-indent" >└ CLAT (Trust)</td>
+                  <td class="pl-indent">└ CLAT (Trust)</td>
                   <td class="det">자선 소득 신탁 (즉시 소득 공제)</td>
                   <td class="r neg">-$500,000<br><span class="bal">BAL $0</span></td>
                   <td class="r neg">-$1,000,000<br><span class="bal">BAL $0</span></td>
@@ -1023,7 +1089,7 @@
                   <td class="r neg">-$2,000,000<br><span class="bal">BAL $0</span></td>
                 </tr>
                 <tr class="st-cash">
-                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
                   <td class="det-cash">Tax Shield 방어 후 최종 잔존</td>
                   <td class="r pos" style="color:#aaa;">$0</td>
                   <td class="r pos" style="color:#aaa;">$0</td>
@@ -1157,7 +1223,7 @@
       const conn = document.getElementById('connStatus');
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,GME260417C00050000,AMC260402C00002000";
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,GME260417C00050000,AMC260402C00002000,BTC-USD";
       const targetUrl = `/api/quote?symbols=${targets}`;
 
       try {
@@ -1168,18 +1234,18 @@
         if (json && json.quoteResponse && json.quoteResponse.result) {
           const dataList = json.quoteResponse.result;
           const extract = (sym) => {
-             let q = dataList.find(x => x.symbol === sym);
-             if (!q) return null;
-             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
-                 q.regularMarketPrice = q.postMarketPrice;
-                 q.regularMarketChange = q.postMarketChange;
-                 q.regularMarketChangePercent = q.postMarketChangePercent;
-             } else if (q.marketState === "PRE" && q.preMarketPrice) {
-                 q.regularMarketPrice = q.preMarketPrice;
-                 q.regularMarketChange = q.preMarketChange;
-                 q.regularMarketChangePercent = q.preMarketChangePercent;
-             }
-             return q;
+            let q = dataList.find(x => x.symbol === sym);
+            if (!q) return null;
+            if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
+              q.regularMarketPrice = q.postMarketPrice;
+              q.regularMarketChange = q.postMarketChange;
+              q.regularMarketChangePercent = q.postMarketChangePercent;
+            } else if (q.marketState === "PRE" && q.preMarketPrice) {
+              q.regularMarketPrice = q.preMarketPrice;
+              q.regularMarketChange = q.preMarketChange;
+              q.regularMarketChangePercent = q.preMarketChangePercent;
+            }
+            return q;
           };
 
           // Equities & Indices
@@ -1224,7 +1290,11 @@
           const qNOK = extract('NOK'); if (qNOK) { V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); }
 
           // Unified Backend Feed Parsing
-          if (json.crypto) {
+          const qBTC = extract('BTC-USD');
+          if (qBTC) {
+            V_BTC_P = qBTC.regularMarketPrice || 0;
+            V_BTC_PCT = qBTC.regularMarketChangePercent || 0;
+          } else if (json.crypto) {
             V_BTC_P = json.crypto.p || 0;
             V_BTC_PCT = json.crypto.pct || 0;
           }
@@ -1317,7 +1387,7 @@
 
       // SIDEBAR UNROLLED SYNC
       upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT); upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT); upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
-      upSB('BTC-USD', V_BTC_P, V_BTC_PCT, "");
+      upSB('BTC', V_BTC_P, V_BTC_PCT, "");
       upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT); upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT); upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
       upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT); upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
