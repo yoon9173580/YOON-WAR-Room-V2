@@ -1,11 +1,5 @@
 {
   "name": "yoon-war-room",
   "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "echo \"Vercel Build Triggered\""
-  },
-  "dependencies": {
-    "yahoo-finance2": "^2.13.0"
-  }
+  "private": true
 }

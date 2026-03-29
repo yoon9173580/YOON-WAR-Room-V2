@@ -1,4 +1,0 @@
-{
-  "installCommand": "npm install",
-  "buildCommand": "echo 'Triggering explicit build'"
-}
