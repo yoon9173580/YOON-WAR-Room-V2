@@ -484,6 +484,8 @@
     .st-main .neg { color: var(--bear); }
     .st-sub .pos { color: var(--bull); font-weight:800; }
     .st-sub .neg { color: var(--bear); font-weight:800; }
+    .st-cash td { background: rgba(0, 212, 170, 0.08); color: var(--accent) !important; font-weight: 900 !important; border-top: 2px dashed rgba(0,212,170,0.3); border-bottom: 2px dashed rgba(0,212,170,0.3); font-size: 15px; padding-top: 18px; padding-bottom: 18px;}
+    .st-cash .det-cash { font-family: var(--mono); font-size: 12px; color: rgba(0,212,170,0.6) !important; font-weight: 700 !important; }
   </style>
 </head>
 
@@ -792,6 +794,14 @@
                   <td class="r pos">$2,851,653</td>
                   <td class="r pos">$5,295,927</td>
                 </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="det-cash">잔존 유동 현금 상태</td>
+                  <td class="r pos">$8,705,430</td>
+                  <td class="r pos">$10,031,972</td>
+                  <td class="r pos">$16,540,318</td>
+                  <td class="r pos">$30,717,733</td>
+                </tr>
                 <!-- ST 2 -->
                 <tr class="st-main">
                   <td>ST 2. 즉시 집행금</td>
@@ -857,102 +867,102 @@
                   <td class="r neg">-$41,692</td>
                   <td class="r neg">-$41,692</td>
                 </tr>
-                <!-- ST 3 -->
-                <tr class="st-main">
-                  <td>ST 3. 초기 GME 투입</td>
-                  <td style="color:var(--textD)">[SECTION TOTAL (Maximized Spear)]</td>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="det-cash">잔존 유동 현금 상태</td>
                   <td class="r pos">$7,184,950</td>
                   <td class="r pos">$8,211,492</td>
                   <td class="r pos">$14,019,838</td>
                   <td class="r pos">$27,197,253</td>
                 </tr>
+                <!-- ST 3 -->
+                <tr class="st-main">
+                  <td>ST 3. 초기 GME 투입</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Maximized Spear)]</td>
+                  <td class="r neg">-$7,184,950</td>
+                  <td class="r neg">-$8,211,492</td>
+                  <td class="r neg">-$14,019,838</td>
+                  <td class="r neg">-$27,197,253</td>
+                </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--accent);">└ [DRS] 현물</td>
-                  <td class="det">GME 70,000주 확보 (Infinity)</td>
-                  <td class="r neg">-$2,450,000</td>
-                  <td class="r neg">-$2,450,000</td>
-                  <td class="r neg">-$2,450,000</td>
-                  <td class="r neg">-$2,450,000</td>
-                </tr>
-                <tr class="st-sub">
-                  <td class="pl-indent" style="color:var(--accent);">└ [Fid] 현물</td>
-                  <td class="det">GME 20,000주 확보 (Main)</td>
-                  <td class="r neg">-$700,000</td>
-                  <td class="r neg">-$700,000</td>
-                  <td class="r neg">-$700,000</td>
-                  <td class="r neg">-$700,000</td>
-                </tr>
-                <tr class="st-sub">
-                  <td class="pl-indent" style="color:var(--amber);">└ [Moo] 현물</td>
-                  <td class="det">GME 10,000주 확보 (Tactical)</td>
-                  <td class="r neg">-$350,000</td>
-                  <td class="r neg">-$350,000</td>
-                  <td class="r neg">-$350,000</td>
-                  <td class="r neg">-$350,000</td>
+                  <td class="det">GME 100,000주 집중 확보 (Infinity)</td>
+                  <td class="r neg">-$3,500,000</td>
+                  <td class="r neg">-$3,500,000</td>
+                  <td class="r neg">-$3,500,000</td>
+                  <td class="r neg">-$3,500,000</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
                   <td class="det">'27/'28 LEAPS (초기 화력 80%)</td>
-                  <td class="r pos">$2,947,960</td>
-                  <td class="r pos">$3,769,194</td>
-                  <td class="r pos">$8,415,870</td>
-                  <td class="r pos">$18,957,802</td>
+                  <td class="r neg">-$2,947,960</td>
+                  <td class="r neg">-$3,769,194</td>
+                  <td class="r neg">-$8,415,870</td>
+                  <td class="r neg">-$18,957,802</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">├ Strike $40</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
-                  <td class="r pos">$982,653</td>
-                  <td class="r pos">$1,256,398</td>
-                  <td class="r pos">$2,805,290</td>
-                  <td class="r pos">$6,319,267</td>
+                  <td class="r neg">-$982,653</td>
+                  <td class="r neg">-$1,256,398</td>
+                  <td class="r neg">-$2,805,290</td>
+                  <td class="r neg">-$6,319,267</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">├ Strike $45</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
-                  <td class="r pos">$982,653</td>
-                  <td class="r pos">$1,256,398</td>
-                  <td class="r pos">$2,805,290</td>
-                  <td class="r pos">$6,319,267</td>
+                  <td class="r neg">-$982,653</td>
+                  <td class="r neg">-$1,256,398</td>
+                  <td class="r neg">-$2,805,290</td>
+                  <td class="r neg">-$6,319,267</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">└ Strike $50</td>
                   <td class="det">LEAPS Call (Fidelity) 1/3</td>
-                  <td class="r pos">$982,654</td>
-                  <td class="r pos">$1,256,398</td>
-                  <td class="r pos">$2,805,290</td>
-                  <td class="r pos">$6,319,268</td>
+                  <td class="r neg">-$982,654</td>
+                  <td class="r neg">-$1,256,398</td>
+                  <td class="r neg">-$2,805,290</td>
+                  <td class="r neg">-$6,319,268</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Moo] 옵션</td>
                   <td class="det">'27/'28 LEAPS (초기 화력 20%)</td>
-                  <td class="r pos">$736,990</td>
-                  <td class="r pos">$942,298</td>
-                  <td class="r pos">$2,103,968</td>
-                  <td class="r pos">$4,739,451</td>
+                  <td class="r neg">-$736,990</td>
+                  <td class="r neg">-$942,298</td>
+                  <td class="r neg">-$2,103,968</td>
+                  <td class="r neg">-$4,739,451</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">├ Strike $40</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
-                  <td class="r pos">$245,663</td>
-                  <td class="r pos">$314,099</td>
-                  <td class="r pos">$701,323</td>
-                  <td class="r pos">$1,579,817</td>
+                  <td class="r neg">-$245,663</td>
+                  <td class="r neg">-$314,099</td>
+                  <td class="r neg">-$701,323</td>
+                  <td class="r neg">-$1,579,817</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">├ Strike $45</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
-                  <td class="r pos">$245,663</td>
-                  <td class="r pos">$314,099</td>
-                  <td class="r pos">$701,323</td>
-                  <td class="r pos">$1,579,817</td>
+                  <td class="r neg">-$245,663</td>
+                  <td class="r neg">-$314,099</td>
+                  <td class="r neg">-$701,323</td>
+                  <td class="r neg">-$1,579,817</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2">└ Strike $50</td>
                   <td class="det">LEAPS Call (Moomoo) 1/3</td>
-                  <td class="r pos">$245,664</td>
-                  <td class="r pos">$314,100</td>
-                  <td class="r pos">$701,322</td>
-                  <td class="r pos">$1,579,817</td>
+                  <td class="r neg">-$245,664</td>
+                  <td class="r neg">-$314,100</td>
+                  <td class="r neg">-$701,322</td>
+                  <td class="r neg">-$1,579,817</td>
+                </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="det-cash">풀-디플로이 후 잔존 금액</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
                 </tr>
                 <!-- ST 4 -->
                 <tr class="st-main">
@@ -995,6 +1005,14 @@
                   <td class="r neg">-$1,000,000</td>
                   <td class="r neg">-$2,000,000</td>
                 </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">🚀 [Liquid Cash]</td>
+                  <td class="det-cash">Tax Shield 방어 후 최종 잔존</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                  <td class="r pos" style="color:#aaa;">$0</td>
+                </tr>
                 <!-- ST 5 -->
                 <tr class="st-main">
                   <td>ST 5. 최종 완성</td>
@@ -1023,7 +1041,7 @@
                 <!-- Final Validation -->
                 <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
                   <td style="color:#fff;">최종 검증</td>
-                  <td style="color:#fff;">Zero-Sum Check (ST1 - 합계)</td>
+                  <td style="color:#fff;">Zero-Sum Check (현금흐름)</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
