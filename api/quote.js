@@ -1,15 +1,8 @@
 let initError = null;
-let yahooFinance;
-try {
-  yahooFinance = require('yahoo-finance2').default;
-} catch (e) {
-  initError = e.message || String(e);
-}
 
 const DATABENTO_KEY = 'db-3vQTNU4MucyxYXTsWUbGHSPJrUPf8';
 const FINNHUB_KEY = process.env.FINNHUB_TOKEN || '';
 
-// Safe fetch with manual timeout to avoid AbortSignal compatibility issues
 async function fetchWithTimeout(url, options = {}, limitMs = 3000) {
   return Promise.race([
     fetch(url, options),
@@ -66,22 +59,29 @@ async function fetchFearGreed() {
   return "--";
 }
 
-async function fetchDatabento(sym) {
-    const target = sym.replace('^', '');
-    try {
-      const url = `https://hist.databento.com/v0/timeseries.get_range?dataset=DBEQ.BASIC&schema=ohlcv-1m&symbols=${target}&limit=1`;
-      const res = await fetchWithTimeout(url, {
-          headers: {
-              'Authorization': 'Basic ' + Buffer.from(DATABENTO_KEY + ':').toString('base64')
-          }
-      }, 2000);
-      if (res && res.ok) {
-          const dbData = await res.json();
-          // Fallback parsing would go here, leaving as null since format is unknown
-          return null; 
+// Native Yahoo Fallback (No Dependencies)
+async function fetchYahooNative(sym) {
+  try {
+    const res = await fetchWithTimeout(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1m&range=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } }, 3000);
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && data.chart && data.chart.result && data.chart.result.length > 0) {
+        const meta = data.chart.result[0].meta;
+        const price = meta.regularMarketPrice;
+        const prev = meta.previousClose || meta.chartPreviousClose || price;
+        const change = price - prev;
+        const pct = prev > 0 ? (change / prev) * 100 : 0;
+        return {
+          symbol: sym,
+          regularMarketPrice: price,
+          regularMarketChange: change,
+          regularMarketChangePercent: pct,
+          marketState: meta.currentTradingPeriod ? "REGULAR" : "" // simplified metadata mapping
+        };
       }
-    } catch(e) {}
-    return null;
+    }
+  } catch(e) {}
+  return null;
 }
 
 module.exports = async function handler(req, res) {
@@ -91,10 +91,6 @@ module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
-
-    if (initError) {
-      return res.status(200).json({ error: "Init Error: " + initError });
-    }
 
     const { symbols } = req.query;
     if (!symbols) return res.status(400).json({ error: 'Missing symbols parameter' });
@@ -106,48 +102,34 @@ module.exports = async function handler(req, res) {
     try {
         const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
         if (symbolArray.length > 0) {
-          try {
-            const quoteData = await yahooFinance.quote(symbolArray);
-            stocksResult = Array.isArray(quoteData) ? quoteData : [quoteData];
-          } catch (bulkErr) {
             const fetchPromises = symbolArray.map(async (sym) => {
-              try {
-                return await yahooFinance.quote(sym);
-              } catch (err) {
-                if (FINNHUB_KEY && !sym.includes('C000')) {
-                    try {
-                        const fh = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`, {}, 3000);
-                        if (fh && fh.ok) {
-                          const fhJson = await fh.json();
-                          if(fhJson && fhJson.c) {
-                              return { symbol: sym, regularMarketPrice: fhJson.c, regularMarketChange: fhJson.d || 0, regularMarketChangePercent: fhJson.dp || 0 };
-                          }
+              // 1. Core Native Fetch
+              let q = await fetchYahooNative(sym);
+              if (q) return q;
+
+              // 2. Finnhub Redundancy
+              if (FINNHUB_KEY && !sym.includes('C000')) {
+                  try {
+                      const fh = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`, {}, 3000);
+                      if (fh && fh.ok) {
+                        const fhJson = await fh.json();
+                        if(fhJson && fhJson.c) {
+                            return { symbol: sym, regularMarketPrice: fhJson.c, regularMarketChange: fhJson.d || 0, regularMarketChangePercent: fhJson.dp || 0 };
                         }
-                    } catch(fherr) {}
-                }
-                
-                if (!sym.includes('C000')) {
-                    const dbRes = await fetchDatabento(sym);
-                    if(dbRes) return dbRes;
-                }
-                return null;
+                      }
+                  } catch(fherr) {}
               }
+              return null;
             });
             const resArray = await Promise.all(fetchPromises);
             stocksResult = resArray.filter(Boolean);
-          }
         }
     } catch (eStocks) {
         console.error("Stocks error", eStocks);
     }
 
-    try {
-      cryptoResult = await fetchCrypto();
-    } catch (eCrypt) {}
-
-    try {
-      fearGreedResult = await fetchFearGreed();
-    } catch (eFear) {}
+    try { cryptoResult = await fetchCrypto(); } catch (eCrypt) {}
+    try { fearGreedResult = await fetchFearGreed(); } catch (eFear) {}
 
     res.setHeader('Cache-Control', 's-maxage=5, stale-while-revalidate=10');
     
@@ -155,12 +137,11 @@ module.exports = async function handler(req, res) {
       quoteResponse: { result: stocksResult },
       crypto: cryptoResult,
       fear_greed: fearGreedResult,
-      debug: "OK"
+      debug: "OK NATIVE"
     });
 
   } catch (error) {
     console.error('API Orchestration Catastrophic Error:', error);
-    // Force 200 return to avoid Vercel 500 override, so frontend can see error
     return res.status(200).json({ error: String(error.message || error) });
   }
 };
