@@ -1483,6 +1483,17 @@
       const moo_ratio = 0.63;
       const moo_custom_option = Math.min(moo_max, (cs_custom_remaining - fid_custom_option) * moo_ratio);
       
+      // Calculate strike distributions with new ratios
+      // Fidelity strikes: $40(20%), $45(30%), $50(50%)
+      const fid_strike40 = fid_custom_option * 0.20;
+      const fid_strike45 = fid_custom_option * 0.30;
+      const fid_strike50 = fid_custom_option * 0.50;
+      
+      // Moomoo strikes: $40(20%), $45(30%), $50(50%)
+      const moo_strike40 = moo_custom_option * 0.20;
+      const moo_strike45 = moo_custom_option * 0.30;
+      const moo_strike50 = moo_custom_option * 0.50;
+      
       const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
       
       // Update ST 3 Custom values
@@ -1490,6 +1501,14 @@
       updateElementWithCustomPrice('cs-cost-custom', cs_custom);
       updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
       updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
+      
+      // Update individual strike values with new ratios
+      updateElementWithCustomPrice('fid-strike40-custom', fid_strike40);
+      updateElementWithCustomPrice('fid-strike45-custom', fid_strike45);
+      updateElementWithCustomPrice('fid-strike50-custom', fid_strike50);
+      updateElementWithCustomPrice('moo-strike40-custom', moo_strike40);
+      updateElementWithCustomPrice('moo-strike45-custom', moo_strike45);
+      updateElementWithCustomPrice('moo-strike50-custom', moo_strike50);
       
       // Update ST 3 cash remaining
       const st3_cash_remaining = st2_custom_remaining - st3_custom_total;
@@ -1514,7 +1533,7 @@
       updateElementWithCustomPrice('st4-cash-custom', st4_cash_remaining);
       
       // Add Custom Price columns to all rows
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option);
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50);
     }
     
     function applyCustomPrice() {
@@ -1540,7 +1559,7 @@
       }
     }
     
-    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option) {
+    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50) {
       // Find all rows in the pipeline table
       const table = document.querySelector('.scenario-wrap table tbody');
       if (!table) return;
@@ -1624,17 +1643,13 @@
                 customId = 'moo-option-custom';
               }
             } else if (secondCell.includes('Strike')) {
-              if (secondCell.includes('$40')) {
-                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
-                customClass = 'neg';
-                customId = secondCell.includes('Fidelity') ? 'fid-strike40-custom' : 'moo-strike40-custom';
-              } else if (secondCell.includes('$45')) {
-                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
-                customClass = 'neg';
+              const strikeRatio = secondCell.includes('$40') ? 0.20 : secondCell.includes('$45') ? 0.30 : 0.50;
+              customValue = secondCell.includes('Fidelity') ? fid_custom_option * strikeRatio : moo_custom_option * strikeRatio;
+              customClass = 'neg';
+              customId = secondCell.includes('Fidelity') ? 'fid-strike40-custom' : 'moo-strike40-custom';
+              if (secondCell.includes('$45')) {
                 customId = secondCell.includes('Fidelity') ? 'fid-strike45-custom' : 'moo-strike45-custom';
               } else if (secondCell.includes('$50')) {
-                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
-                customClass = 'neg';
                 customId = secondCell.includes('Fidelity') ? 'fid-strike50-custom' : 'moo-strike50-custom';
               }
             }
@@ -1685,6 +1700,18 @@
               newValue = fid_custom_option;
             } else if (cellId === 'moo-option-custom') {
               newValue = moo_custom_option;
+            } else if (cellId === 'fid-strike40-custom') {
+              newValue = fid_strike40;
+            } else if (cellId === 'fid-strike45-custom') {
+              newValue = fid_strike45;
+            } else if (cellId === 'fid-strike50-custom') {
+              newValue = fid_strike50;
+            } else if (cellId === 'moo-strike40-custom') {
+              newValue = moo_strike40;
+            } else if (cellId === 'moo-strike45-custom') {
+              newValue = moo_strike45;
+            } else if (cellId === 'moo-strike50-custom') {
+              newValue = moo_strike50;
             }
             
             // Update the cell content
