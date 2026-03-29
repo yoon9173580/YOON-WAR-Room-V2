@@ -984,10 +984,10 @@
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--accent);">└ [CS] 현물</td>
                   <td class="det">GME 100,000주 집중 확보 (Infinity)</td>
-                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $4,626,642</span></td>
-                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $5,953,184</span></td>
-                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $12,461,530</span></td>
-                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $26,638,945</span></td>
+                  <td class="r neg" id="cs-cost-1">-$3,500,000<br><span class="bal">BAL $4,626,642</span></td>
+                  <td class="r neg" id="cs-cost-2">-$3,500,000<br><span class="bal">BAL $5,953,184</span></td>
+                  <td class="r neg" id="cs-cost-3">-$3,500,000<br><span class="bal">BAL $12,461,530</span></td>
+                  <td class="r neg" id="cs-cost-4">-$3,500,000<br><span class="bal">BAL $26,638,945</span></td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
@@ -1532,6 +1532,25 @@
         const qof = st1_total * 0.3;
         const clat = st1_total * 0.15;
         const st4_total = gme_sell + og_idc + qof + clat;
+        
+        // Update CS cost display
+        const csEl1 = document.getElementById('cs-cost-1');
+        const csEl2 = document.getElementById('cs-cost-2');
+        const csEl3 = document.getElementById('cs-cost-3');
+        const csEl4 = document.getElementById('cs-cost-4');
+        
+        if (csEl1) {
+          csEl1.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+        }
+        if (csEl2) {
+          csEl2.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+        }
+        if (csEl3) {
+          csEl3.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+        }
+        if (csEl4) {
+          csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+        }
         
         // Update ST 2 display
         const st2El = document.getElementById(`st2-total-${i+1}`);
