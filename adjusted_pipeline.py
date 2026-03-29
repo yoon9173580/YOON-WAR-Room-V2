@@ -57,14 +57,13 @@ class AdjustedGMEPipeline:
         
         if abs_amount >= 1000000:  # 1M 이상
             million_amount = abs_amount / 1000000
-            if million_amount >= 10:  # 10M 이상은 한자리 적게
-                formatted = f"{million_amount:.0f}M"
-            else:  # 1M-9.9M은 소수점 첫째자리까지
-                formatted = f"{million_amount:.1f}M"
+            # 1M 이상은 모두 소수점 첫째자리까지
+            formatted = f"{million_amount:.1f}M"
             return f"-{formatted}" if amount < 0 else formatted
         elif abs_amount >= 1000:  # 1K-999.9K
             thousand_amount = abs_amount / 1000
-            formatted = f"{thousand_amount:.1f}K"
+            # K는 정수로 표시 (소수점 없이)
+            formatted = f"{int(thousand_amount)}K"
             return f"-{formatted}" if amount < 0 else formatted
         else:  # 1000 미만
             formatted = f"${int(abs_amount)}"
