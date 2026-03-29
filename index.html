@@ -896,6 +896,15 @@
                   <td class="r pos" id="st1-custom-total" style="color:var(--accent);">$0</td>
                 </tr>
                 <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--accent);">└ [한화 환산]</td>
+                  <td class="det-cash">실제 가치 기준 (1달러=1,380원)</td>
+                  <td class="r pos" style="color:var(--accent);">120억 1,161만원</td>
+                  <td class="r pos" style="color:var(--accent);">138억 4,411만원</td>
+                  <td class="r pos" style="color:var(--accent);">228억 556만원</td>
+                  <td class="r pos" style="color:var(--accent);">423억 9,019만원</td>
+                  <td class="r pos" id="st1-won-total" style="color:var(--accent);">0원</td>
+                </tr>
+                <tr class="st-sub">
                   <td class="pl-indent">└ Fidelity (Indiv)</td>
                   <td class="det">4,307.43주 발생분</td>
                   <td class="r pos">$904,560</td>
@@ -1437,57 +1446,6 @@
       
       // Reset header
       const customHeader = document.querySelector('th[style*="var(--accent)"]');
-      if (customHeader) {
-        customHeader.textContent = 'Custom Price (Live)';
-      }
-    }
-    
-    function calculateFullPipelineWithCustomPrice(customPrice) {
-      // Calculate ST 1 Custom values
-      const fid_shares = 4307.43;
-      const drs_shares = 30000;
-      const moomoo_shares = 7147;
-      
-      const fid_custom = fid_shares * customPrice;
-      const drs_custom = drs_shares * customPrice;
-      const moomoo_custom = moomoo_shares * customPrice;
-      const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
-      
-      // Update ST 1 Custom values
-      updateElementWithCustomPrice('st1-custom-total', st1_custom_total);
-      updateElementWithCustomPrice('fid-custom-total', fid_custom);
-      updateElementWithCustomPrice('drs-custom-total', drs_custom);
-      updateElementWithCustomPrice('moomoo-custom-total', moomoo_custom);
-      updateElementWithCustomPrice('cash-custom-total', st1_custom_total);
-      
-      // Calculate ST 2 Custom values (fixed amounts)
-      const st2_custom = 578788;
-      
-      // Calculate ST 3 Custom values
-      const cs_shares = 100000;
-      const cs_custom = cs_shares * customPrice;
-      const st2_custom_remaining = st1_custom_total - st2_custom;
-      const cs_custom_remaining = st2_custom_remaining - cs_custom;
-      
-      const fid_custom_option = Math.min(200000, cs_custom_remaining * 0.37);
-      const fid_custom_remaining = cs_custom_remaining - fid_custom_option;
-      const moo_custom_option = Math.min(300000, fid_custom_remaining * 0.63);
-      const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
-      
-      // Calculate ST 4 Custom values
-      const gme_sell_custom = st1_custom_total * 1.5;
-      const og_idc_custom = st1_custom_total * 0.4;
-      const qof_custom = st1_custom_total * 0.3;
-      const clat_custom = st1_custom_total * 0.15;
-      const st4_custom_total = gme_sell_custom + og_idc_custom + qof_custom + clat_custom;
-      
-      // Add Custom Price columns to all rows
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option);
-    }
-    
-    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option) {
-      // Find all rows in the pipeline table
-      const table = document.querySelector('.scenario-wrap table tbody');
       if (!table) return;
       
       const rows = table.querySelectorAll('tr');
