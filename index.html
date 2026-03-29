@@ -1317,6 +1317,7 @@
 
           conn.textContent = "[SATELLITE UPLINK: STABLE]";
           renderTerminal();
+          calculatePipelineTotals(); // Calculate pipeline values
         } else {
           conn.textContent = "[API ERROR: DATA CORRUPT]";
         }
@@ -1447,6 +1448,69 @@
     }
     function refreshAll() { fetchMaster(); }
     function setActive(s) { activeTicker = s; renderTerminal(); }
+
+    // PIPELINE SECTION TOTALS CALCULATION
+    function calculatePipelineTotals() {
+      if (V_GME_P === 0) return; // Wait for price data
+      
+      // Scenario totals (ST 1)
+      const st1_totals = [8705430, 10031972, 16540318, 30717733];
+      
+      // ST 2: Fixed at $600K
+      const st2_total = 600000;
+      
+      // Calculate for each scenario
+      for (let i = 0; i < 4; i++) {
+        const st1_total = st1_totals[i];
+        
+        // ST 2 calculations
+        const st2_remaining = st1_total - st2_total;
+        
+        // ST 3 calculations based on GME price
+        const cs_shares = 100000;
+        const cs_cost = cs_shares * V_GME_P;
+        const cs_remaining = st2_remaining - cs_cost;
+        
+        // Fidelity options (37% of remaining, max $200K)
+        const fid_max = 200000;
+        const fid_ratio = 0.37;
+        const fid_option = Math.min(fid_max, cs_remaining * fid_ratio);
+        const fid_remaining = cs_remaining - fid_option;
+        
+        // Moomoo options (63% of remaining, max $300K)
+        const moo_max = 300000;
+        const moo_ratio = 0.63;
+        const moo_option = Math.min(moo_max, fid_remaining * moo_ratio);
+        
+        // ST 3 total
+        const st3_total = cs_cost + fid_option + moo_option;
+        
+        // ST 4 calculations (Tax Shield)
+        const gme_sell = st1_total * 1.5;
+        const og_idc = st1_total * 0.4;
+        const qof = st1_total * 0.3;
+        const clat = st1_total * 0.15;
+        const st4_total = gme_sell + og_idc + qof + clat;
+        
+        // Update ST 2 display
+        const st2El = document.getElementById(`st2-total-${i+1}`);
+        if (st2El) {
+          st2El.innerHTML = `${fmtMK(-st2_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
+        }
+        
+        // Update ST 3 display
+        const st3El = document.getElementById(`st3-total-${i+1}`);
+        if (st3El) {
+          st3El.innerHTML = `${fmtMK(-st3_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
+        }
+        
+        // Update ST 4 display
+        const st4El = document.getElementById(`st4-total-${i+1}`);
+        if (st4El) {
+          st4El.innerHTML = `${fmtMK(-st4_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
+        }
+      }
+    }
   </script>
 </body>
 
