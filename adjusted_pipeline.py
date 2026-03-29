@@ -635,6 +635,27 @@ class AdjustedGMEPipeline:
                         </div>
                 """
             
+            # ST 4 섹션 추가
+            html += f"""
+                        <div class="section-title">ST 4. 절세 제국 스케일업</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">GME Partial Sell (1.5x):</span>
+                            <span class="clickable-amount positive" data-amount="{allocation['st1_total'] * 1.5}">{self.format_amount(allocation['st1_total'] * 1.5)}</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">O&G (Energy) IDC:</span>
+                            <span class="clickable-amount negative" data-amount="{allocation['st1_total'] * 0.4}">{self.format_amount(allocation['st1_total'] * 0.4)}</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">QOF Housing:</span>
+                            <span class="clickable-amount negative" data-amount="{allocation['st1_total'] * 0.3}">{self.format_amount(allocation['st1_total'] * 0.3)}</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">CLAT (Trust):</span>
+                            <span class="clickable-amount negative" data-amount="{allocation['st1_total'] * 0.15}">{self.format_amount(allocation['st1_total'] * 0.15)}</span>
+                        </div>
+            """
+            
             html += f"""
                         <div class="allocation-item">
                             <span class="allocation-label">총 옵션 컨트랙트:</span>
