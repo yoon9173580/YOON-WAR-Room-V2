@@ -1190,7 +1190,6 @@
                   <td class="pl-indent" style="color:var(--bull);">└ (월 예상 수익)</td>
                   <td class="det" style="color:var(--bull);">Monthly Passive Income (Net)</td>
                   <td class="r pos" style="color:var(--bull);">$21,000</td>
-                  <td class="r pos" style="color:var(--bull);">$21,000</td>
                   <td class="r pos" style="color:var(--bull);">$45,500</td>
                   <td class="r pos" style="color:var(--bull);">$84,000</td>
                   <td class="r pos" id="monthly-income-custom" style="color:var(--accent);">$0</td>
@@ -1203,6 +1202,7 @@
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" id="final-validation-custom" style="font-size:20px; font-weight:900; color:var(--accent);">$0</td>
                 </tr>
               </tbody>
             </table>
@@ -1291,6 +1291,23 @@
       }
       return "";
     };
+
+    // Exchange rate for KRW conversion
+    let currentKRWRate = 1380; // Default fallback rate
+    
+    // Fetch real-time exchange rate
+    async function fetchExchangeRate() {
+      try {
+        const response = await fetch('/api/exchange-rate');
+        if (response.ok) {
+          const data = await response.json();
+          currentKRWRate = data.rate || 1380;
+        }
+      } catch (e) {
+        // Keep default rate if API fails
+        console.log('Exchange rate API unavailable, using default rate');
+      }
+    }
 
     /* [REALITY SYNC] */
     async function fetchMaster() {
@@ -1420,7 +1437,7 @@
       const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
       
       // Calculate Korean Won conversion (1 USD = 1,380 KRW)
-      const exchange_rate = 1380;
+      const exchange_rate = currentKRWRate;
       const st1_won_total = st1_custom_total * exchange_rate;
       
       // Update ST 1 Custom values
@@ -1449,7 +1466,7 @@
       const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
       
       // Calculate Korean Won conversion (1 USD = 1,380 KRW)
-      const exchange_rate = 1380;
+      const exchange_rate = currentKRWRate;
       const st1_won_total = st1_custom_total * exchange_rate;
       
       // Update ST 1 Custom values
@@ -1561,6 +1578,10 @@
       updateElementWithCustomPrice('weavers-attorney-custom', weavers_attorney_fee);
       updateElementWithCustomPrice('tax-saved-custom', tax_saved_weavers);
       updateElementWithCustomPrice('monthly-income-custom', monthly_income);
+      
+      // Calculate final validation (Zero-Sum Check)
+      const final_validation = st4_cash_remaining - weavers_attorney_fee + tax_saved_weavers;
+      updateElementWithCustomPrice('final-validation-custom', final_validation);
       
       // Add Custom Price columns to all rows
       addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50);
