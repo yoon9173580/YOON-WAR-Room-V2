@@ -1445,6 +1445,47 @@
       renderTerminal();
       fetchMaster();
       setInterval(fetchMaster, 12000);
+      
+      // Add click handlers for pipeline totals
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('clickable-amount')) {
+          const amount = parseFloat(e.target.dataset.amount);
+          const formattedAmount = '$' + fmt(amount);
+          
+          // Toggle tooltip
+          let tooltip = e.target.querySelector('.tooltip');
+          if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.style.cssText = `
+              position: absolute;
+              top: -25px;
+              left: 50%;
+              transform: translateX(-50%);
+              background: var(--bg4);
+              border: 1px solid var(--borderB);
+              border-radius: 4px;
+              padding: 4px 8px;
+              font-size: 11px;
+              white-space: nowrap;
+              z-index: 1000;
+              pointer-events: none;
+              opacity: 0;
+              transition: opacity 0.2s ease;
+            `;
+            e.target.style.position = 'relative';
+            e.target.appendChild(tooltip);
+          }
+          
+          tooltip.textContent = 'Actual: ' + formattedAmount;
+          tooltip.style.opacity = tooltip.style.opacity === '1' ? '0' : '1';
+          
+          // Hide tooltip after 2 seconds
+          setTimeout(() => {
+            tooltip.style.opacity = '0';
+          }, 2000);
+        }
+      });
     }
     function refreshAll() { fetchMaster(); }
     function setActive(s) { activeTicker = s; renderTerminal(); }
@@ -1495,19 +1536,19 @@
         // Update ST 2 display
         const st2El = document.getElementById(`st2-total-${i+1}`);
         if (st2El) {
-          st2El.innerHTML = `${fmtMK(-st2_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
+          st2El.innerHTML = `<span class="clickable-amount" data-amount="${st2_total}" style="cursor:pointer;">-${(st2_total/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
         }
         
         // Update ST 3 display
         const st3El = document.getElementById(`st3-total-${i+1}`);
         if (st3El) {
-          st3El.innerHTML = `${fmtMK(-st3_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
+          st3El.innerHTML = `<span class="clickable-amount" data-amount="${st3_total}" style="cursor:pointer;">-${(st3_total/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
         }
         
         // Update ST 4 display
         const st4El = document.getElementById(`st4-total-${i+1}`);
         if (st4El) {
-          st4El.innerHTML = `${fmtMK(-st4_total)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
+          st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">-${(st4_total/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
         }
       }
     }
