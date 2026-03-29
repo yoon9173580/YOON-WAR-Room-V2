@@ -1,0 +1,1179 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>YOON MASTER COMMAND — Adjusted GME Pipeline V58</title>
+            <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+            <style>
+                :root {
+                    --bg: #05070a;
+                    --bg2: #0b0f15;
+                    --bg3: #10151d;
+                    --bg4: #141b25;
+                    --border: rgba(255, 255, 255, 0.07);
+                    --borderB: rgba(255, 255, 255, 0.13);
+                    --text: #dde6f0;
+                    --textM: #8899aa;
+                    --textD: #3d5068;
+                    --accent: #00d4aa;
+                    --amber: #f59e0b;
+                    --bull: #22d45a;
+                    --bear: #f04040;
+                    --purple: #a78bfa;
+                    --red: #ef4444;
+                    --orange: #f97316;
+                    --green: #10b981;
+                    --mono: 'JetBrains Mono', monospace;
+                    --disp: 'Syne', sans-serif;
+                }
+                
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                
+                body {
+                    background: var(--bg);
+                    color: var(--text);
+                    font-family: var(--mono);
+                    min-height: 100vh;
+                    font-size: 13px;
+                    line-height: 1.6;
+                }
+                
+                .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+                
+                .header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                }
+                
+                .header h1 {
+                    font-family: var(--disp);
+                    font-size: 28px;
+                    font-weight: 800;
+                    color: var(--text);
+                    margin-bottom: 8px;
+                }
+                
+                .subtitle {
+                    color: var(--textM);
+                    font-size: 14px;
+                }
+                
+                .price-banner {
+                    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
+                    padding: 24px;
+                    margin-bottom: 24px;
+                    text-align: center;
+                }
+                
+                .current-price {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: var(--accent);
+                    margin-bottom: 8px;
+                }
+                
+                .adjustment-notice {
+                    background: rgba(249, 115, 22, 0.1);
+                    border: 1px solid rgba(249, 115, 22, 0.3);
+                    border-radius: 8px;
+                    padding: 16px;
+                    margin-bottom: 24px;
+                    text-align: center;
+                }
+                
+                .adjustment-title {
+                    color: var(--orange);
+                    font-weight: 600;
+                    margin-bottom: 8px;
+                }
+                
+                .adjustment-text {
+                    font-size: 12px;
+                    color: var(--textM);
+                }
+                
+                .clickable-amount {
+                    cursor: pointer;
+                    color: var(--text);
+                    background: var(--bg3);
+                    border: 1px solid var(--border);
+                    border-radius: 4px;
+                    padding: 2px 6px;
+                    font-family: var(--mono);
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                    position: relative;
+                }
+                
+                .clickable-amount:hover {
+                    background: var(--bg4);
+                    border-color: var(--borderB);
+                    transform: translateY(-1px);
+                }
+                
+                .clickable-amount.negative {
+                    color: var(--bear);
+                    border-color: rgba(240, 64, 64, 0.3);
+                }
+                
+                .clickable-amount.positive {
+                    color: var(--bull);
+                    border-color: rgba(34, 212, 90, 0.3);
+                }
+                
+                .tooltip {
+                    position: absolute;
+                    top: -30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: var(--bg4);
+                    border: 1px solid var(--borderB);
+                    border-radius: 4px;
+                    padding: 4px 8px;
+                    font-size: 11px;
+                    white-space: nowrap;
+                    z-index: 1000;
+                    pointer-events: none;
+                    opacity: 0;
+                    transition: opacity 0.2s ease;
+                }
+                
+                .tooltip.show {
+                    opacity: 1;
+                }
+                
+                .scenario-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                    gap: 24px;
+                    margin-bottom: 30px;
+                }
+                
+                .scenario-card {
+                    background: var(--bg2);
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
+                    padding: 24px;
+                    transition: transform 0.2s ease;
+                }
+                
+                .scenario-card:hover {
+                    transform: translateY(-2px);
+                    border-color: var(--borderB);
+                }
+                
+                .scenario-header {
+                    border-bottom: 1px solid var(--border);
+                    padding-bottom: 16px;
+                    margin-bottom: 20px;
+                }
+                
+                .scenario-title {
+                    font-size: 20px;
+                    font-weight: 700;
+                    color: var(--text);
+                    margin-bottom: 8px;
+                }
+                
+                .scenario-total {
+                    font-size: 14px;
+                    color: var(--textM);
+                }
+                
+                .section-title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: var(--textM);
+                    margin-bottom: 12px;
+                    text-transform: uppercase;
+                    border-bottom: 1px solid var(--border);
+                    padding-bottom: 4px;
+                }
+                
+                .allocation-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 0;
+                    font-size: 12px;
+                }
+                
+                .allocation-label {
+                    color: var(--textM);
+                }
+                
+                .allocation-value {
+                    font-family: var(--mono);
+                    font-weight: 500;
+                    color: var(--text);
+                }
+                
+                .option-details {
+                    background: var(--bg3);
+                    border-radius: 8px;
+                    padding: 12px;
+                    margin-top: 12px;
+                }
+                
+                .option-header {
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: var(--textM);
+                    margin-bottom: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                
+                .strike-table {
+                    width: 100%;
+                    font-size: 11px;
+                }
+                
+                .strike-table th {
+                    text-align: left;
+                    padding: 4px 8px;
+                    background: var(--bg4);
+                    color: var(--textM);
+                    font-weight: 600;
+                }
+                
+                .strike-table td {
+                    padding: 4px 8px;
+                    border-bottom: 1px solid var(--border);
+                }
+                
+                .itm { color: var(--bull); }
+                .otm { color: var(--textD); }
+                
+                .final-cash-section {
+                    background: linear-gradient(135deg, var(--bg3), var(--bg4));
+                    border-radius: 8px;
+                    padding: 16px;
+                    margin-top: 16px;
+                    text-align: center;
+                }
+                
+                .final-cash-label {
+                    font-size: 12px;
+                    color: var(--textM);
+                    margin-bottom: 8px;
+                }
+                
+                .final-cash-amount {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: var(--bull);
+                }
+                
+                .utilization-meter {
+                    background: var(--bg4);
+                    border-radius: 4px;
+                    height: 8px;
+                    margin: 8px 0;
+                    overflow: hidden;
+                }
+                
+                .utilization-fill {
+                    height: 100%;
+                    background: var(--orange);
+                    transition: width 0.3s ease;
+                }
+                
+                .utilization-text {
+                    font-size: 10px;
+                    color: var(--textM);
+                }
+                
+                @media (max-width: 768px) {
+                    .scenario-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>YOON MASTER COMMAND</h1>
+                    <div class="subtitle">Adjusted GME Pipeline V58 — 100K Units, Click for Details</div>
+                </div>
+                
+                <div class="price-banner">
+                    <div class="current-price">GME: $25.00</div>
+                    <div style="font-size: 12px; color: var(--textM);">
+                        Real-Time Price • Updated: 2026-03-29 17:32:57
+                    </div>
+                </div>
+                
+                <div class="adjustment-notice">
+                    <div class="adjustment-title">ADJUSTMENT NOTICE</div>
+                    <div class="adjustment-text">
+                        ST 2 즉시 집행금이 $600,000으로 조정되었습니다. 
+                        모든 금액은 100K 단위로 표시되며, 클릭하면 실제 금액을 볼 수 있습니다.
+                        모든 숫자는 0000 단위로 반내림되었습니다.
+                    </div>
+                </div>
+                
+                <div class="scenario-grid">
+        
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-title">Scenario 1</div>
+                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="8705430">8.7M</span></div>
+                        </div>
+                        
+                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 집행금:</span>
+                            <span class="clickable-amount negative" data-amount="600000">600.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">집행 후 잔액:</span>
+                            <span class="clickable-amount positive" data-amount="8105430">8.1M</span>
+                        </div>
+                        
+                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">CS 현물 (100,000주):</span>
+                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">주당 가격:</span>
+                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Fidelity Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Moomoo Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 옵션 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="382">382개</span>
+                        </div>
+                        
+                        <div class="allocation-item">
+                            <span class="allocation-label">옵션 활용률:</span>
+                            <span class="clickable-amount" data-amount="1.7839844579274025">1.8%</span>
+                        </div>
+                        
+                        <div class="utilization-meter">
+                            <div class="utilization-fill" style="width: 1.7839844579274025%"></div>
+                        </div>
+                        
+                        <div class="final-cash-section">
+                            <div class="final-cash-label">최종 현금 잔고</div>
+                            <div class="final-cash-amount">
+                                <span class="clickable-amount positive" data-amount="5505430.0">5.5M</span>
+                            </div>
+                            <div class="utilization-text">
+                                63.2% of total funds remain as cash
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-title">Scenario 2</div>
+                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="10031972">10M</span></div>
+                        </div>
+                        
+                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 집행금:</span>
+                            <span class="clickable-amount negative" data-amount="600000">600.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">집행 후 잔액:</span>
+                            <span class="clickable-amount positive" data-amount="9431972">9.4M</span>
+                        </div>
+                        
+                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">CS 현물 (100,000주):</span>
+                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">주당 가격:</span>
+                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Fidelity Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Moomoo Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 옵션 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="382">382개</span>
+                        </div>
+                        
+                        <div class="allocation-item">
+                            <span class="allocation-label">옵션 활용률:</span>
+                            <span class="clickable-amount" data-amount="1.4425909394902345">1.4%</span>
+                        </div>
+                        
+                        <div class="utilization-meter">
+                            <div class="utilization-fill" style="width: 1.4425909394902345%"></div>
+                        </div>
+                        
+                        <div class="final-cash-section">
+                            <div class="final-cash-label">최종 현금 잔고</div>
+                            <div class="final-cash-amount">
+                                <span class="clickable-amount positive" data-amount="6831972.0">6.8M</span>
+                            </div>
+                            <div class="utilization-text">
+                                68.1% of total funds remain as cash
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-title">Scenario 3</div>
+                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="16540318">17M</span></div>
+                        </div>
+                        
+                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 집행금:</span>
+                            <span class="clickable-amount negative" data-amount="600000">600.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">집행 후 잔액:</span>
+                            <span class="clickable-amount positive" data-amount="15940318">16M</span>
+                        </div>
+                        
+                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">CS 현물 (100,000주):</span>
+                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">주당 가격:</span>
+                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Fidelity Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Moomoo Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 옵션 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="382">382개</span>
+                        </div>
+                        
+                        <div class="allocation-item">
+                            <span class="allocation-label">옵션 활용률:</span>
+                            <span class="clickable-amount" data-amount="0.7440300147660197">0.7%</span>
+                        </div>
+                        
+                        <div class="utilization-meter">
+                            <div class="utilization-fill" style="width: 0.7440300147660197%"></div>
+                        </div>
+                        
+                        <div class="final-cash-section">
+                            <div class="final-cash-label">최종 현금 잔고</div>
+                            <div class="final-cash-amount">
+                                <span class="clickable-amount positive" data-amount="13340318.0">13M</span>
+                            </div>
+                            <div class="utilization-text">
+                                80.7% of total funds remain as cash
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="scenario-card">
+                        <div class="scenario-header">
+                            <div class="scenario-title">Scenario 4</div>
+                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="30717733">31M</span></div>
+                        </div>
+                        
+                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 집행금:</span>
+                            <span class="clickable-amount negative" data-amount="600000">600.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">집행 후 잔액:</span>
+                            <span class="clickable-amount positive" data-amount="30117733">30M</span>
+                        </div>
+                        
+                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">CS 현물 (100,000주):</span>
+                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">주당 가격:</span>
+                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Fidelity Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 옵션:</span>
+                            <span class="clickable-amount negative" data-amount="50000">50.0K</span>
+                        </div>
+                        <div class="allocation-item">
+                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="191">191개</span>
+                        </div>
+            
+                        <div class="option-details">
+                            <div class="option-header">
+                                <span>Moomoo Option Contracts (191 contracts)</span>
+                                <span>Total Exposure: 19,100 shares</span>
+                            </div>
+                            <table class="strike-table">
+                                <thead>
+                                    <tr>
+                                        <th>Strike</th>
+                                        <th>Contracts</th>
+                                        <th>Premium/Contract</th>
+                                        <th>Total Cost</th>
+                                        <th>Type</th>
+                                        <th>Exposure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                
+                                    <tr>
+                                        <td>$20</td>
+                                        <td>16</td>
+                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="9600.0">9.6K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>1,600 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$22</td>
+                                        <td>25</td>
+                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="10000.0">10.0K</span></td>
+                                        <td><span class="itm">ITM</span></td>
+                                        <td>2,500 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$25</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$28</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                    <tr>
+                                        <td>$30</td>
+                                        <td>50</td>
+                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
+                                        <td><span class="clickable-amount negative" data-amount="5000.0">5.0K</span></td>
+                                        <td><span class="otm">OTM</span></td>
+                                        <td>5,000 shares</td>
+                                    </tr>
+                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                        <div class="allocation-item">
+                            <span class="allocation-label">총 옵션 컨트랙트:</span>
+                            <span class="clickable-amount" data-amount="382">382개</span>
+                        </div>
+                        
+                        <div class="allocation-item">
+                            <span class="allocation-label">옵션 활용률:</span>
+                            <span class="clickable-amount" data-amount="0.3620862001960842">0.4%</span>
+                        </div>
+                        
+                        <div class="utilization-meter">
+                            <div class="utilization-fill" style="width: 0.3620862001960842%"></div>
+                        </div>
+                        
+                        <div class="final-cash-section">
+                            <div class="final-cash-label">최종 현금 잔고</div>
+                            <div class="final-cash-amount">
+                                <span class="clickable-amount positive" data-amount="27517733.0">28M</span>
+                            </div>
+                            <div class="utilization-text">
+                                89.6% of total funds remain as cash
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+            
+            <script>
+                // Format currency function
+                function formatCurrency(amount) {
+                    return '$' + Math.round(amount).toLocaleString('en-US');
+                }
+                
+                // Add tooltip functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                    const clickableAmounts = document.querySelectorAll('.clickable-amount');
+                    
+                    clickableAmounts.forEach(element => {
+                        element.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            
+                            const amount = parseFloat(this.dataset.amount);
+                            const formattedAmount = formatCurrency(amount);
+                            
+                            // Toggle tooltip
+                            let tooltip = this.querySelector('.tooltip');
+                            if (!tooltip) {
+                                tooltip = document.createElement('div');
+                                tooltip.className = 'tooltip';
+                                this.appendChild(tooltip);
+                            }
+                            
+                            tooltip.textContent = 'Actual: ' + formattedAmount;
+                            tooltip.classList.toggle('show');
+                            
+                            // Hide tooltip when clicking elsewhere
+                            setTimeout(() => {
+                                tooltip.classList.remove('show');
+                            }, 2000);
+                        });
+                    });
+                    
+                    // Hide tooltips when clicking outside
+                    document.addEventListener('click', function() {
+                        document.querySelectorAll('.tooltip.show').forEach(tooltip => {
+                            tooltip.classList.remove('show');
+                        });
+                    });
+                });
+            </script>
+        </body>
+        </html>
+        

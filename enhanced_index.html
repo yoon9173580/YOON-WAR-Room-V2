@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>YOON MASTER COMMAND — Dynamic Tactical Hub V54</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* =========================================================
+       [1] CSS DESIGN SYSTEM - TITANIUM HARDENED
+       ========================================================= */
+    :root {
+      --bg: #05070a;
+      --bg2: #0b0f15;
+      --bg3: #10151d;
+      --bg4: #141b25;
+      --border: rgba(255, 255, 255, 0.07);
+      --borderB: rgba(255, 255, 255, 0.13);
+      --text: #dde6f0;
+      --textM: #8899aa;
+      --textD: #3d5068;
+      --accent: #00d4aa;
+      --blue: #3b82f6;
+      --amber: #f59e0b;
+      --bull: #22d45a;
+      --bear: #f04040;
+      --purple: #a78bfa;
+      --mono: 'JetBrains Mono', monospace;
+      --disp: 'Syne', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       [2] ENHANCED PIPELINE STYLES
+       ========================================================= */
+    .main-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-family: var(--disp);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .header .subtitle {
+      color: var(--textM);
+      font-size: 14px;
+    }
+
+    .pipeline-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+
+    .pipeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .pipeline-header h2 {
+      font-family: var(--disp);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .market-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bull);
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.inactive {
+      background: var(--textD);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .price-header {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .current-price {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .price-label {
+      color: var(--textM);
+      font-size: 12px;
+    }
+
+    .price-value {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .price-ratio {
+      font-size: 12px;
+      color: var(--textM);
+      background: var(--bg4);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .last-updated {
+      font-size: 11px;
+      color: var(--textD);
+    }
+
+    .stages-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stage-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stage-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--borderB);
+    }
+
+    .stage-card.st2 { border-left: 4px solid var(--amber); }
+    .stage-card.st3 { border-left: 4px solid var(--purple); }
+    .stage-card.st4 { border-left: 4px solid var(--bull); }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .stage-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stage-title {
+      font-size: 12px;
+      color: var(--textM);
+    }
+
+    .stage-total {
+      margin-bottom: 16px;
+    }
+
+    .stage-total .amount {
+      display: block;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--bear);
+      margin-bottom: 4px;
+    }
+
+    .stage-total .description {
+      font-size: 11px;
+      color: var(--textD);
+    }
+
+    .stage-breakdown {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      font-size: 12px;
+    }
+
+    .breakdown-item .label {
+      color: var(--textM);
+    }
+
+    .breakdown-item .value {
+      font-family: var(--mono);
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* =========================================================
+       [3] DETAILED PIPELINE TABLE
+       ========================================================= */
+    .pipeline-table {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 30px;
+    }
+
+    .pipeline-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .pipeline-table th {
+      background: var(--bg3);
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pipeline-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .st-main {
+      background: var(--bg3);
+      font-weight: 600;
+    }
+
+    .st-main td {
+      padding: 16px;
+      font-size: 14px;
+    }
+
+    .st-sub {
+      font-size: 12px;
+    }
+
+    .st-cash {
+      background: var(--bg4);
+      font-weight: 600;
+    }
+
+    .r {
+      text-align: right;
+      font-family: var(--mono);
+    }
+
+    .pos {
+      color: var(--bull);
+    }
+
+    .neg {
+      color: var(--bear);
+    }
+
+    .bal {
+      font-size: 10px;
+      color: var(--textD);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .det {
+      color: var(--textM);
+      font-size: 11px;
+    }
+
+    .pl-indent {
+      padding-left: 24px;
+    }
+
+    .pl-indent-2 {
+      padding-left: 48px;
+    }
+
+    /* =========================================================
+       [4] RESPONSIVE DESIGN
+       ========================================================= */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 12px;
+      }
+
+      .stages-overview {
+        grid-template-columns: 1fr;
+      }
+
+      .pipeline-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .price-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .pipeline-table {
+        font-size: 11px;
+      }
+
+      .pipeline-table th,
+      .pipeline-table td {
+        padding: 8px;
+      }
+    }
+
+    /* =========================================================
+       [5] ANIMATIONS AND TRANSITIONS
+       ========================================================= */
+    .updating {
+      animation: fadeUpdate 0.5s ease;
+    }
+
+    @keyframes fadeUpdate {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    .price-change-positive {
+      color: var(--bull) !important;
+      animation: priceFlash 0.5s ease;
+    }
+
+    .price-change-negative {
+      color: var(--bear) !important;
+      animation: priceFlash 0.5s ease;
+    }
+
+    @keyframes priceFlash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-container">
+    <div class="header">
+      <h1>YOON MASTER COMMAND</h1>
+      <div class="subtitle">Dynamic Tactical Hub V54 — Real-time GME Pipeline</div>
+    </div>
+
+    <!-- DYNAMIC PRICING HEADER -->
+    <div class="pipeline-container">
+      <div class="pipeline-header">
+        <h2>Live GME Pipeline</h2>
+        <div class="market-status">
+          <span class="status-indicator" id="marketIndicator"></span>
+          <span class="status-text" id="marketStatus">Loading...</span>
+        </div>
+      </div>
+      
+      <div class="price-header">
+        <div class="current-price">
+          <span class="price-label">GME Current Price:</span>
+          <span class="price-value" id="currentPrice">$25.00</span>
+          <span class="price-ratio" id="priceRatio">1.00x base</span>
+        </div>
+        <div class="last-updated" id="lastUpdated">
+          Last Updated: Loading...
+        </div>
+      </div>
+    </div>
+
+    <!-- ENHANCED STAGE CARDS -->
+    <div class="stages-overview">
+      <div class="stage-card st2">
+        <div class="stage-header">
+          <h3>ST 2</h3>
+          <span class="stage-title">즉시 집행금</span>
+        </div>
+        <div class="stage-total">
+          <span class="amount" id="st2Total">-$578,788</span>
+          <span class="description">Immediate Rewards</span>
+        </div>
+        <div class="stage-breakdown">
+          <div class="breakdown-item">
+            <span class="label">모빌리티:</span>
+            <span class="value">-$520,000</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">가족 조공:</span>
+            <span class="value">-$58,788</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="stage-card st3">
+        <div class="stage-header">
+          <h3>ST 3</h3>
+          <span class="stage-title">브로커 전액 GME 투입</span>
+        </div>
+        <div class="stage-total">
+          <span class="amount" id="st3Total">-$5,905,430</span>
+          <span class="description">Broker-Isolated Pipeline</span>
+        </div>
+        <div class="stage-breakdown">
+          <div class="breakdown-item">
+            <span class="label">CS 현물:</span>
+            <span class="value" id="csCost" data-base-cost="3500000">-$3,500,000</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Fid 옵션:</span>
+            <span class="value" id="fidOptions">-$904,560</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">Moo 옵션:</span>
+            <span class="value" id="mooOptions">-$1,500,870</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="stage-card st4">
+        <div class="stage-header">
+          <h3>ST 4</h3>
+          <span class="stage-title">절세 제국 스케일업</span>
+        </div>
+        <div class="stage-total">
+          <span class="amount" id="st4Total">-$13,058,145</span>
+          <span class="description">BBBY + GME STCG Offset</span>
+        </div>
+        <div class="stage-breakdown">
+          <div class="breakdown-item">
+            <span class="label">GME Partial Sell:</span>
+            <span class="value" id="gmeSell">+$5,250,000</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">O&G Energy:</span>
+            <span class="value">-$4,500,000</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">QOF Housing:</span>
+            <span class="value">-$3,000,000</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="label">CLAT Trust:</span>
+            <span class="value">-$1,500,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILED PIPELINE TABLE -->
+    <div class="pipeline-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>Description</th>
+            <th>Scenario 1</th>
+            <th>Scenario 2</th>
+            <th>Scenario 3</th>
+            <th>Scenario 4</th>
+          </tr>
+        </thead>
+        <tbody id="pipelineTableBody">
+          <!-- Table content will be dynamically generated -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let currentGMEPrice = 25.00;
+    let basePrice = 25.00;
+    let priceHistory = [];
+    let updateInterval;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePipeline();
+      startPriceUpdates();
+    });
+
+    function initializePipeline() {
+      // Load initial pipeline data
+      loadPipelineData();
+      // Start with current price
+      updateGMEPrice();
+    }
+
+    function startPriceUpdates() {
+      // Update price every 30 seconds
+      updateInterval = setInterval(updateGMEPrice, 30000);
+      
+      // Also update every 5 seconds during market hours
+      setInterval(checkMarketHours, 60000);
+    }
+
+    function updateGMEPrice() {
+      fetch('/api/gme-price')
+        .then(response => response.json())
+        .then(data => {
+          updatePriceDisplay(data);
+          updatePipelineValues(data);
+          updateMarketStatus(data.market_open);
+        })
+        .catch(error => {
+          console.error('Error updating price:', error);
+          // Fallback to static data
+          updatePriceDisplay({
+            price: 25.00,
+            price_ratio: 1.00,
+            timestamp: new Date().toLocaleString(),
+            market_open: false
+          });
+        });
+    }
+
+    function updatePriceDisplay(data) {
+      const priceElement = document.getElementById('currentPrice');
+      const ratioElement = document.getElementById('priceRatio');
+      const updatedElement = document.getElementById('lastUpdated');
+      
+      const oldPrice = currentGMEPrice;
+      currentGMEPrice = data.price;
+      
+      // Update price with animation
+      priceElement.textContent = '$' + data.price.toFixed(2);
+      ratioElement.textContent = data.price_ratio.toFixed(2) + 'x base';
+      updatedElement.textContent = 'Last Updated: ' + data.timestamp;
+      
+      // Add color animation for price changes
+      if (oldPrice !== currentGMEPrice) {
+        priceElement.classList.remove('price-change-positive', 'price-change-negative');
+        if (currentGMEPrice > oldPrice) {
+          priceElement.classList.add('price-change-positive');
+        } else {
+          priceElement.classList.add('price-change-negative');
+        }
+      }
+    }
+
+    function updatePipelineValues(data) {
+      // Update CS cost (dynamic based on GME price)
+      const csCostElement = document.getElementById('csCost');
+      const baseCSCost = 3500000;
+      const newCSCost = baseCSCost * data.price_ratio;
+      csCostElement.textContent = '-' + formatCurrency(newCSCost);
+      
+      // Update stage totals
+      const st3Total = newCSCost + 904560 + 1500870;
+      document.getElementById('st3Total').textContent = '-' + formatCurrency(st3Total);
+      
+      // Update ST4 based on GME price
+      const st4Base = 13058145;
+      const newST4Total = st4Base * data.price_ratio;
+      document.getElementById('st4Total').textContent = '-' + formatCurrency(newST4Total);
+      
+      // Update GME sell amount
+      const gmeSellBase = 5250000;
+      const newGmeSell = gmeSellBase * data.price_ratio;
+      document.getElementById('gmeSell').textContent = '+' + formatCurrency(newGmeSell);
+      
+      // Add update animation
+      document.querySelectorAll('.stage-card').forEach(card => {
+        card.classList.add('updating');
+        setTimeout(() => card.classList.remove('updating'), 500);
+      });
+    }
+
+    function updateMarketStatus(isOpen) {
+      const indicator = document.getElementById('marketIndicator');
+      const status = document.getElementById('marketStatus');
+      
+      if (isOpen) {
+        indicator.classList.remove('inactive');
+        status.textContent = 'Market Hours: Active';
+      } else {
+        indicator.classList.add('inactive');
+        status.textContent = 'Market Hours: Closed';
+      }
+    }
+
+    function checkMarketHours() {
+      const now = new Date();
+      const day = now.getDay();
+      const hour = now.getHours();
+      
+      // Simple check: 9:30 AM - 4:00 PM ET, Monday-Friday
+      const isOpen = day >= 1 && day <= 5 && hour >= 10 && hour < 16;
+      updateMarketStatus(isOpen);
+    }
+
+    function loadPipelineData() {
+      // Generate detailed pipeline table
+      const tableBody = document.getElementById('pipelineTableBody');
+      const pipelineData = generatePipelineData();
+      
+      tableBody.innerHTML = pipelineData.map(row => createTableRow(row)).join('');
+    }
+
+    function generatePipelineData() {
+      // Base pipeline data structure
+      return [
+        {
+          type: 'main',
+          stage: 'ST 2. 즉시 집행금',
+          description: '[SECTION TOTAL (Immediate Rewards)]',
+          values: [-578788, -578788, -578788, -578788]
+        },
+        {
+          type: 'sub',
+          stage: '└ 모빌리티 (본인)',
+          description: 'Aston Martin / MC20 / Ferrari F430',
+          values: [-400000, -400000, -400000, -400000]
+        },
+        {
+          type: 'sub',
+          stage: '└ 모빌리티 (아빠)',
+          description: 'BMW 740i',
+          values: [-120000, -120000, -120000, -120000]
+        },
+        {
+          type: 'cash',
+          stage: '💵 [현금 잔고]',
+          description: '즉시 집행 후 유동 현금',
+          values: [8128430, 9454972, 15963318, 30140733]
+        },
+        {
+          type: 'main',
+          stage: 'ST 3. 브로커 전액 GME 투입',
+          description: '[SECTION TOTAL (Broker-Isolated Pipeline)]',
+          values: [-5905430, -6271972, -8070318, -11987733]
+        },
+        {
+          type: 'sub',
+          stage: '└ [CS] 현물',
+          description: 'GME 100,000주 집중 확보 (Infinity)',
+          values: [-3500000, -3500000, -3500000, -3500000],
+          dynamic: true,
+          baseCost: 3500000
+        },
+        {
+          type: 'sub',
+          stage: '└ [Fid] 옵션',
+          description: "'27/'28 LEAPS (잔고 100% 풀매수)",
+          values: [-904560, -1042400, -1718665, -3191806]
+        },
+        {
+          type: 'sub',
+          stage: '└ [Moo] 옵션',
+          description: "'27/'28 LEAPS (잔고 100% 풀매수)",
+          values: [-1500870, -1729572, -2851653, -5295927]
+        },
+        {
+          type: 'cash',
+          stage: '💵 [최종 잔고]',
+          description: 'CS 잔존 캐쉬 (은행 브릿지 이체용)',
+          values: [2223000, 3183000, 7893000, 18153000]
+        },
+        {
+          type: 'main',
+          stage: 'ST 4. 절세 제국 스케일업',
+          description: '[SECTION TOTAL (BBBY + GME STCG Offset)]',
+          values: [-13058145, -15047958, -24810477, -46076599],
+          dynamic: true,
+          baseCost: 13058145
+        }
+      ];
+    }
+
+    function createTableRow(row) {
+      const rowClass = row.type === 'main' ? 'st-main' : 
+                      row.type === 'cash' ? 'st-cash' : 'st-sub';
+      
+      const indentClass = row.stage.includes('└') ? 'pl-indent' : 
+                         row.stage.includes('├') ? 'pl-indent-2' : '';
+      
+      const values = row.values.map((val, idx) => {
+        const isPositive = val > 0;
+        const className = isPositive ? 'pos' : 'neg';
+        const prefix = isPositive ? '+' : '-';
+        
+        let cellContent = prefix + formatCurrency(Math.abs(val));
+        
+        // Add balance indicator for cash rows
+        if (row.type === 'cash') {
+          cellContent += '<br><span class="bal">BAL ' + prefix + formatCurrency(Math.abs(val)) + '</span>';
+        }
+        
+        return `<td class="r ${className}">${cellContent}</td>`;
+      }).join('');
+      
+      return `
+        <tr class="${rowClass}">
+          <td class="${indentClass}">${row.stage}</td>
+          <td class="det">${row.description}</td>
+          ${values}
+        </tr>
+      `;
+    }
+
+    function formatCurrency(amount) {
+      return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+      if (updateInterval) {
+        clearInterval(updateInterval);
+      }
+    });
+  </script>
+</body>
+</html>
