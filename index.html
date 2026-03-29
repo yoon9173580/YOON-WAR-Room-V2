@@ -1025,7 +1025,7 @@
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
-                  <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
+                  <td class="det">'27/'28 LEAPS (잔고 37% 매수, 나머지 현금)</td>
                   <td class="r neg" id="fid-option-1">-$904,560</td>
                   <td class="r neg" id="fid-option-2">-$1,042,400</td>
                   <td class="r neg" id="fid-option-3">-$1,718,665</td>
@@ -1061,7 +1061,7 @@
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Moo] 옵션</td>
-                  <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
+                  <td class="det">'27/'28 LEAPS (잔고 63% 매수, 나머지 현금)</td>
                   <td class="r neg" id="moo-option-1">-$1,500,870</td>
                   <td class="r neg" id="moo-option-2">-$1,729,572</td>
                   <td class="r neg" id="moo-option-3">-$2,851,653</td>
@@ -1520,17 +1520,17 @@
       const cs_custom = cs_shares * customPrice;
       const cs_custom_remaining = st2_custom_remaining - cs_custom;
       
-      // Fid 옵션: 37% of remaining, max $200K (rounded)
+      // Fid 옵션: 37% of remaining, max $200K (round down - keep remaining as cash)
       const fid_max = 200000;
       const fid_ratio = 0.37;
       const fid_custom_option_raw = Math.min(fid_max, cs_custom_remaining * fid_ratio);
-      const fid_custom_option = Math.round(fid_custom_option_raw);
+      const fid_custom_option = Math.floor(fid_custom_option_raw);
       
-      // Moo 옵션: 63% of remaining after Fid, max $300K (rounded)  
+      // Moo 옵션: 63% of remaining after Fid, max $300K (round down - keep remaining as cash)  
       const moo_max = 300000;
       const moo_ratio = 0.63;
       const moo_custom_option_raw = Math.min(moo_max, (cs_custom_remaining - fid_custom_option) * moo_ratio);
-      const moo_custom_option = Math.round(moo_custom_option_raw);
+      const moo_custom_option = Math.floor(moo_custom_option_raw);
       
       // Calculate strike distributions with new ratios (rounded to dollars)
       // Fidelity strikes: $40(20%), $45(30%), $50(50%)
