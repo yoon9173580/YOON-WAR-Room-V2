@@ -992,10 +992,10 @@
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
                   <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
-                  <td class="r neg">-$904,560</td>
-                  <td class="r neg">-$1,042,400</td>
-                  <td class="r neg">-$1,718,665</td>
-                  <td class="r neg">-$3,191,806</td>
+                  <td class="r neg" id="fid-option-1">-$904,560</td>
+                  <td class="r neg" id="fid-option-2">-$1,042,400</td>
+                  <td class="r neg" id="fid-option-3">-$1,718,665</td>
+                  <td class="r neg" id="fid-option-4">-$3,191,806</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2" >├ Strike $40</td>
@@ -1024,10 +1024,10 @@
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--purple);">└ [Moo] 옵션</td>
                   <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
-                  <td class="r neg">-$1,500,870</td>
-                  <td class="r neg">-$1,729,572</td>
-                  <td class="r neg">-$2,851,653</td>
-                  <td class="r neg">-$5,295,927</td>
+                  <td class="r neg" id="moo-option-1">-$1,500,870</td>
+                  <td class="r neg" id="moo-option-2">-$1,729,572</td>
+                  <td class="r neg" id="moo-option-3">-$2,851,653</td>
+                  <td class="r neg" id="moo-option-4">-$5,295,927</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent-2" >├ Strike $40</td>
@@ -1550,6 +1550,44 @@
         }
         if (csEl4) {
           csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+        }
+        
+        // Update Fid option display
+        const fidEl1 = document.getElementById('fid-option-1');
+        const fidEl2 = document.getElementById('fid-option-2');
+        const fidEl3 = document.getElementById('fid-option-3');
+        const fidEl4 = document.getElementById('fid-option-4');
+        
+        if (fidEl1) {
+          fidEl1.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (fidEl2) {
+          fidEl2.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (fidEl3) {
+          fidEl3.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (fidEl4) {
+          fidEl4.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(2)}M</span>`;
+        }
+        
+        // Update Moo option display
+        const mooEl1 = document.getElementById('moo-option-1');
+        const mooEl2 = document.getElementById('moo-option-2');
+        const mooEl3 = document.getElementById('moo-option-3');
+        const mooEl4 = document.getElementById('moo-option-4');
+        
+        if (mooEl1) {
+          mooEl1.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (mooEl2) {
+          mooEl2.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (mooEl3) {
+          mooEl3.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(2)}M</span>`;
+        }
+        if (mooEl4) {
+          mooEl4.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(2)}M</span>`;
         }
         
         // Update ST 2 display
