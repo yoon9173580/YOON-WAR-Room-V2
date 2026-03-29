@@ -1532,16 +1532,16 @@
       const moo_custom_option_raw = Math.min(moo_max, (cs_custom_remaining - fid_custom_option) * moo_ratio);
       const moo_custom_option = Math.round(moo_custom_option_raw);
       
-      // Calculate strike distributions with new ratios
+      // Calculate strike distributions with new ratios (rounded to dollars)
       // Fidelity strikes: $40(20%), $45(30%), $50(50%)
-      const fid_strike40 = fid_custom_option * 0.20;
-      const fid_strike45 = fid_custom_option * 0.30;
-      const fid_strike50 = fid_custom_option * 0.50;
+      const fid_strike40 = Math.round(fid_custom_option * 0.20);
+      const fid_strike45 = Math.round(fid_custom_option * 0.30);
+      const fid_strike50 = Math.round(fid_custom_option * 0.50);
       
       // Moomoo strikes: $40(20%), $45(30%), $50(50%)
-      const moo_strike40 = moo_custom_option * 0.20;
-      const moo_strike45 = moo_custom_option * 0.30;
-      const moo_strike50 = moo_custom_option * 0.50;
+      const moo_strike40 = Math.round(moo_custom_option * 0.20);
+      const moo_strike45 = Math.round(moo_custom_option * 0.30);
+      const moo_strike50 = Math.round(moo_custom_option * 0.50);
       
       const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
       
