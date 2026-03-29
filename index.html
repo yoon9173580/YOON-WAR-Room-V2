@@ -553,6 +553,28 @@
       margin-top: 4px;
       display: block;
     }
+    /* Price Update Animation */
+    @keyframes priceFlash {
+      0% { background-color: rgba(0, 212, 170, 0.3); }
+      100% { background-color: transparent; }
+    }
+    @keyframes priceUp {
+      0% { color: var(--bull); transform: scale(1.1); }
+      100% { color: var(--text); transform: scale(1); }
+    }
+    @keyframes priceDown {
+      0% { color: var(--bear); transform: scale(1.1); }
+      100% { color: var(--text); transform: scale(1); }
+    }
+    .price-updated {
+      animation: priceFlash 0.5s ease-out;
+    }
+    .price-up {
+      animation: priceUp 0.5s ease-out;
+    }
+    .price-down {
+      animation: priceDown 0.5s ease-out;
+    }
   </style>
 </head>
 
@@ -1305,6 +1327,28 @@
 
     const fmt = (n, d = 2) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
     const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+    // M/K Formatting Function
+    const fmtMK = (amount) => {
+      const absAmount = Math.abs(amount);
+      let formatted;
+      if (absAmount >= 1000000) {
+        formatted = (absAmount / 1000000).toFixed(1) + 'M';
+      } else if (absAmount >= 1000) {
+        formatted = Math.floor(absAmount / 1000) + 'K';
+      } else {
+        formatted = '$' + absAmount.toFixed(0);
+      }
+      return amount < 0 ? '-' + formatted : formatted;
+    };
+
+    // Animation helper
+    const animatePrice = (element, isUp) => {
+      element.classList.remove('price-up', 'price-down', 'price-updated');
+      void element.offsetWidth; // Trigger reflow
+      element.classList.add('price-updated', isUp ? 'price-up' : 'price-down');
+      setTimeout(() => element.classList.remove('price-updated', 'price-up', 'price-down'), 500);
+    };
 
     function renderTerminal() {
       // 1. BBBYQ
