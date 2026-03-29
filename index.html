@@ -748,6 +748,7 @@
               <div class="live-indicator">
                 <div class="dot"></div><span id="connStatus" style="color:var(--accent);">SATELLITE STANDBY</span>
               </div>
+              <button id="format-toggle" class="btn-out" onclick="toggleAmountFormat()" style="background:var(--accent);">Show Actual Amounts</button>
               <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
             </div>
           </header>
@@ -1329,6 +1330,29 @@
     const fmt = (n, d = 2) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
     const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
 
+    // Global toggle for M/K format vs actual amounts
+    let showActualAmounts = false;
+    
+    function toggleAmountFormat() {
+      showActualAmounts = !showActualAmounts;
+      const button = document.getElementById('format-toggle');
+      if (button) {
+        button.textContent = showActualAmounts ? 'Show M/K Format' : 'Show Actual Amounts';
+        button.style.background = showActualAmounts ? 'var(--bull)' : 'var(--accent)';
+      }
+      // Recalculate all pipeline values with new format
+      calculatePipelineTotals();
+    }
+    
+    // Enhanced formatting function with global toggle
+    const fmtDisplay = (amount) => {
+      if (showActualAmounts) {
+        return '$' + fmt(Math.abs(amount));
+      } else {
+        return fmtMK(-Math.abs(amount));
+      }
+    };
+
     // M/K Formatting Function with proper threshold
     const fmtMK = (amount) => {
       const absAmount = Math.abs(amount);
@@ -1540,16 +1564,16 @@
         const csEl4 = document.getElementById('cs-cost-4');
         
         if (csEl1) {
-          csEl1.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtMK(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl1.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
         }
         if (csEl2) {
-          csEl2.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtMK(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl2.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
         }
         if (csEl3) {
-          csEl3.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtMK(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl3.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
         }
         if (csEl4) {
-          csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtMK(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
         }
         
         // Fixed values for Fid and Moo options (based on existing hardcoded numbers)
@@ -1563,16 +1587,16 @@
         const fidEl4 = document.getElementById('fid-option-4');
         
         if (fidEl1) {
-          fidEl1.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[0]}" style="cursor:pointer;">${fmtMK(-fid_fixed_values[0])}</span>`;
+          fidEl1.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[0]}" style="cursor:pointer;">${fmtDisplay(-fid_fixed_values[0])}</span>`;
         }
         if (fidEl2) {
-          fidEl2.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[1]}" style="cursor:pointer;">${fmtMK(-fid_fixed_values[1])}</span>`;
+          fidEl2.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[1]}" style="cursor:pointer;">${fmtDisplay(-fid_fixed_values[1])}</span>`;
         }
         if (fidEl3) {
-          fidEl3.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[2]}" style="cursor:pointer;">${fmtMK(-fid_fixed_values[2])}</span>`;
+          fidEl3.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[2]}" style="cursor:pointer;">${fmtDisplay(-fid_fixed_values[2])}</span>`;
         }
         if (fidEl4) {
-          fidEl4.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[3]}" style="cursor:pointer;">${fmtMK(-fid_fixed_values[3])}</span>`;
+          fidEl4.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[3]}" style="cursor:pointer;">${fmtDisplay(-fid_fixed_values[3])}</span>`;
         }
         
         // Update Moo option display with fixed values
@@ -1582,34 +1606,34 @@
         const mooEl4 = document.getElementById('moo-option-4');
         
         if (mooEl1) {
-          mooEl1.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[0]}" style="cursor:pointer;">${fmtMK(-moo_fixed_values[0])}</span>`;
+          mooEl1.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[0]}" style="cursor:pointer;">${fmtDisplay(-moo_fixed_values[0])}</span>`;
         }
         if (mooEl2) {
-          mooEl2.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[1]}" style="cursor:pointer;">${fmtMK(-moo_fixed_values[1])}</span>`;
+          mooEl2.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[1]}" style="cursor:pointer;">${fmtDisplay(-moo_fixed_values[1])}</span>`;
         }
         if (mooEl3) {
-          mooEl3.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[2]}" style="cursor:pointer;">${fmtMK(-moo_fixed_values[2])}</span>`;
+          mooEl3.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[2]}" style="cursor:pointer;">${fmtDisplay(-moo_fixed_values[2])}</span>`;
         }
         if (mooEl4) {
-          mooEl4.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[3]}" style="cursor:pointer;">${fmtMK(-moo_fixed_values[3])}</span>`;
+          mooEl4.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[3]}" style="cursor:pointer;">${fmtDisplay(-moo_fixed_values[3])}</span>`;
         }
         
         // Update ST 2 display
         const st2El = document.getElementById(`st2-total-${i+1}`);
         if (st2El) {
-          st2El.innerHTML = `<span class="clickable-amount" data-amount="${st2_total}" style="cursor:pointer;">${fmtMK(-st2_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
+          st2El.innerHTML = `<span class="clickable-amount" data-amount="${st2_total}" style="cursor:pointer;">${fmtDisplay(-st2_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
         }
         
         // Update ST 3 display
         const st3El = document.getElementById(`st3-total-${i+1}`);
         if (st3El) {
-          st3El.innerHTML = `<span class="clickable-amount" data-amount="${st3_total}" style="cursor:pointer;">${fmtMK(-st3_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
+          st3El.innerHTML = `<span class="clickable-amount" data-amount="${st3_total}" style="cursor:pointer;">${fmtDisplay(-st3_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
         }
         
         // Update ST 4 display
         const st4El = document.getElementById(`st4-total-${i+1}`);
         if (st4El) {
-          st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtMK(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
+          st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
         }
       }
     }
