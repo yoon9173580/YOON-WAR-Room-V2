@@ -59,24 +59,62 @@ async function fetchFearGreed() {
   return "--";
 }
 
-// Native Yahoo Fallback (No Dependencies)
 async function fetchYahooNative(sym) {
   try {
-    const res = await fetchWithTimeout(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1m&range=1d`, { headers: { 'User-Agent': 'Mozilla/5.0' } }, 3000);
+    const res = await fetchWithTimeout(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1m&range=1d&includePrePost=true`, { headers: { 'User-Agent': 'Mozilla/5.0' } }, 3000);
     if (res && res.ok) {
       const data = await res.json();
       if (data && data.chart && data.chart.result && data.chart.result.length > 0) {
-        const meta = data.chart.result[0].meta;
+        const result = data.chart.result[0];
+        const meta = result.meta;
+        const timestamps = result.timestamp || [];
+        const closes = (result.indicators.quote && result.indicators.quote.length > 0 && result.indicators.quote[0].close) ? result.indicators.quote[0].close : [];
+
         const price = meta.regularMarketPrice;
         const prev = meta.previousClose || meta.chartPreviousClose || price;
         const change = price - prev;
         const pct = prev > 0 ? (change / prev) * 100 : 0;
+
+        let preMarketPrice = null;
+        let postMarketPrice = null;
+
+        let regStart = 0; let regEnd = 0;
+        if (meta.currentTradingPeriod && meta.currentTradingPeriod.regular) {
+            regStart = meta.currentTradingPeriod.regular.start;
+            regEnd = meta.currentTradingPeriod.regular.end;
+        }
+
+        let lastTs = timestamps.length > 0 ? timestamps[timestamps.length-1] : 0;
+        let ms = "CLOSED";
+        if (lastTs >= regEnd && regEnd > 0) ms = "POST";
+        else if (lastTs < regStart && regStart > 0) ms = "PRE";
+        else ms = "REGULAR";
+
+        for (let i = timestamps.length - 1; i >= 0; i--) {
+            if (timestamps[i] >= regEnd && closes[i] != null) { postMarketPrice = closes[i]; break; }
+        }
+        for (let i = timestamps.length - 1; i >= 0; i--) {
+            if (timestamps[i] < regStart && closes[i] != null) { preMarketPrice = closes[i]; break; }
+        }
+
+        const postChange = postMarketPrice ? postMarketPrice - price : 0;
+        const postPct = price > 0 ? (postChange / price) * 100 : 0;
+
+        const preChange = preMarketPrice ? preMarketPrice - prev : 0;
+        const prePct = prev > 0 ? (preChange / prev) * 100 : 0;
+
         return {
           symbol: sym,
           regularMarketPrice: price,
           regularMarketChange: change,
           regularMarketChangePercent: pct,
-          marketState: meta.currentTradingPeriod ? "REGULAR" : "" // simplified metadata mapping
+          preMarketPrice: preMarketPrice,
+          preMarketChange: preChange,
+          preMarketChangePercent: prePct,
+          postMarketPrice: postMarketPrice,
+          postMarketChange: postChange,
+          postMarketChangePercent: postPct,
+          marketState: ms
         };
       }
     }

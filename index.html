@@ -636,6 +636,18 @@
             <div id="sb-TGT-price" class="sb-price">WAITING...</div>
             <div id="sb-TGT-ext" class="sb-ext"></div>
           </div>
+          <div class="sb-card" onclick="setActive('BB')">
+            <div class="sb-card-top"><span class="sb-sym">BB</span><span id="sb-BB-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BB-price" class="sb-price">WAITING...</div>
+            <div id="sb-BB-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('NOK')">
+            <div class="sb-card-top"><span class="sb-sym">NOK</span><span id="sb-NOK-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-NOK-price" class="sb-price">WAITING...</div>
+            <div id="sb-NOK-ext" class="sb-ext"></div>
+          </div>
         </div>
 
         <div class="main-content">
@@ -1098,6 +1110,8 @@
     let V_CHWY_P = 0, V_CHWY_PCT = 0, V_CHWY_EXT = "";
     let V_BBY_P = 0, V_BBY_PCT = 0, V_BBY_EXT = "";
     let V_TGT_P = 0, V_TGT_PCT = 0, V_TGT_EXT = "";
+    let V_BB_P = 0, V_BB_PCT = 0, V_BB_EXT = "";
+    let V_NOK_P = 0, V_NOK_PCT = 0, V_NOK_EXT = "";
 
     function submitPin() {
       const val = document.getElementById('pinInput').value;
@@ -1135,12 +1149,12 @@
       if ((state.includes("PRE")) && q.preMarketPrice) {
         let c = Number(q.preMarketChange) || 0;
         let pct = Number(q.preMarketChangePercent) || 0;
-        return `PRE: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `🌟 LATEST PREMARKET DATA: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
       if ((state.includes("POST") || state === "CLOSED") && q.postMarketPrice) {
         let c = Number(q.postMarketChange) || 0;
         let pct = Number(q.postMarketChangePercent) || 0;
-        return `AH: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `🌙 LATEST AFTERMARKET DATA: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
       return "";
     };
@@ -1150,7 +1164,7 @@
       const conn = document.getElementById('connStatus');
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,GME260417C00050000,AMC260402C00002000";
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,GME260417C00050000,AMC260402C00002000";
       const targetUrl = `/api/quote?symbols=${targets}`;
 
       try {
@@ -1160,7 +1174,20 @@
 
         if (json && json.quoteResponse && json.quoteResponse.result) {
           const dataList = json.quoteResponse.result;
-          const extract = (sym) => dataList.find(x => x.symbol === sym);
+          const extract = (sym) => {
+             let q = dataList.find(x => x.symbol === sym);
+             if (!q) return null;
+             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
+                 q.regularMarketPrice = q.postMarketPrice;
+                 q.regularMarketChange = q.postMarketChange;
+                 q.regularMarketChangePercent = q.postMarketChangePercent;
+             } else if (q.marketState === "PRE" && q.preMarketPrice) {
+                 q.regularMarketPrice = q.preMarketPrice;
+                 q.regularMarketChange = q.preMarketChange;
+                 q.regularMarketChangePercent = q.preMarketChangePercent;
+             }
+             return q;
+          };
 
           // Equities & Indices
           const qGME = extract('GME'); if (qGME) { V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = getExt(qGME); }
@@ -1200,6 +1227,8 @@
           const qCHWY = extract('CHWY'); if (qCHWY) { V_CHWY_P = Number(qCHWY.regularMarketPrice) || 0; V_CHWY_PCT = Number(qCHWY.regularMarketChangePercent) || 0; V_CHWY_EXT = getExt(qCHWY); }
           const qBBY = extract('BBY'); if (qBBY) { V_BBY_P = Number(qBBY.regularMarketPrice) || 0; V_BBY_PCT = Number(qBBY.regularMarketChangePercent) || 0; V_BBY_EXT = getExt(qBBY); }
           const qTGT = extract('TGT'); if (qTGT) { V_TGT_P = Number(qTGT.regularMarketPrice) || 0; V_TGT_PCT = Number(qTGT.regularMarketChangePercent) || 0; V_TGT_EXT = getExt(qTGT); }
+          const qBB = extract('BB'); if (qBB) { V_BB_P = Number(qBB.regularMarketPrice) || 0; V_BB_PCT = Number(qBB.regularMarketChangePercent) || 0; V_BB_EXT = getExt(qBB); }
+          const qNOK = extract('NOK'); if (qNOK) { V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); }
 
           // Unified Backend Feed Parsing
           if (json.crypto) {
@@ -1301,6 +1330,7 @@
       upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT); upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
       upSB('IEP', V_IEP_P, V_IEP_PCT, V_IEP_EXT); upSB('BYND', V_BYND_P, V_BYND_PCT, V_BYND_EXT); upSB('KOSS', V_KOSS_P, V_KOSS_PCT, V_KOSS_EXT); upSB('CHWY', V_CHWY_P, V_CHWY_PCT, V_CHWY_EXT);
       upSB('BBY', V_BBY_P, V_BBY_PCT, V_BBY_EXT); upSB('TGT', V_TGT_P, V_TGT_PCT, V_TGT_EXT);
+      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT);
     }
 
     function upSB(id, p, pt, ext = "") {
