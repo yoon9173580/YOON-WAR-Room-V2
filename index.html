@@ -863,6 +863,15 @@
 
           <div class="scenario-wrap">
             <div class="scenario-title">OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX</div>
+            
+            <!-- Custom Price Input Section -->
+            <div style="margin-bottom:20px; padding:15px; background:rgba(0,123,255,0.1); border:2px solid var(--accent); border-radius:10px; display:flex; align-items:center; gap:15px;">
+              <span style="font-weight:700; color:var(--text);">Custom Price Input:</span>
+              <input type="number" id="custom-price-input" placeholder="Enter GME price..." style="padding:8px 12px; border:1px solid var(--border); border-radius:5px; background:var(--bg2); color:var(--text); font-size:14px; width:150px;" step="0.01" min="0">
+              <button id="apply-custom-price" class="btn-out" style="background:var(--accent); padding:8px 16px;">Apply Price</button>
+              <button id="reset-custom-price" class="btn-out" style="background:var(--textM); padding:8px 16px;">Reset to Live</button>
+              <span id="custom-price-display" style="color:var(--accent); font-weight:600; margin-left:10px;"></span>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -1516,6 +1525,27 @@
           }, 2000);
         }
       });
+      
+      // Add event listeners for custom price input
+      const applyBtn = document.getElementById('apply-custom-price');
+      const resetBtn = document.getElementById('reset-custom-price');
+      const input = document.getElementById('custom-price-input');
+      
+      if (applyBtn) {
+        applyBtn.addEventListener('click', applyCustomPrice);
+      }
+      
+      if (resetBtn) {
+        resetBtn.addEventListener('click', resetCustomPrice);
+      }
+      
+      if (input) {
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            applyCustomPrice();
+          }
+        });
+      }
     }
     function refreshAll() { fetchMaster(); }
     function setActive(s) { activeTicker = s; renderTerminal(); }
@@ -1546,12 +1576,6 @@
         const fid_max = 200000;
         const fid_ratio = 0.37;
         const fid_option = Math.min(fid_max, cs_remaining * fid_ratio);
-        const fid_remaining = cs_remaining - fid_option;
-        
-        // Moomoo options (63% of remaining, max $300K)
-        const moo_max = 300000;
-        const moo_ratio = 0.63;
-        const moo_option = Math.min(moo_max, fid_remaining * moo_ratio);
         
         // ST 3 total
         const st3_total = cs_cost + fid_option + moo_option;
