@@ -1520,17 +1520,12 @@
       const cs_custom = cs_shares * customPrice;
       const cs_custom_remaining = st2_custom_remaining - cs_custom;
       
-      // Fid 옵션: ~37% of remaining, max $200K (round to nearest 10K for clean number)
-      const fid_max = 200000;
-      const fid_ratio = 0.37;
-      const fid_custom_option_raw = Math.min(fid_max, cs_custom_remaining * fid_ratio);
-      const fid_custom_option = Math.round(fid_custom_option_raw / 10000) * 10000;
+      // Fid 옵션: 적정 규모로 깔끔한 숫자로 (유연하게)
+      const fid_custom_option = Math.min(200000, Math.round(cs_custom_remaining * 0.4 / 10000) * 10000);
       
-      // Moo 옵션: ~63% of remaining after Fid, max $300K (round to nearest 10K for clean number)  
-      const moo_max = 300000;
-      const moo_ratio = 0.63;
-      const moo_custom_option_raw = Math.min(moo_max, (cs_custom_remaining - fid_custom_option) * moo_ratio);
-      const moo_custom_option = Math.round(moo_custom_option_raw / 10000) * 10000;
+      // Moo 옵션: Fid 제외한 잔여로 적정 규모 (유연하게)
+      const remaining_after_fid = cs_custom_remaining - fid_custom_option;
+      const moo_custom_option = Math.min(300000, Math.round(remaining_after_fid * 0.6 / 10000) * 10000);
       
       // Calculate strike distributions with new ratios (rounded to dollars)
       // Fidelity strikes: $40(20%), $45(30%), $50(50%)
