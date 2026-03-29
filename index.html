@@ -1166,14 +1166,25 @@
                   <td class="r pos" style="color:var(--bull);">완료</td>
                   <td class="r pos" style="color:var(--bull);">완료</td>
                   <td class="r pos" style="color:var(--bull);">완료</td>
+                  <td class="r pos" id="st5-custom-main" style="color:var(--accent);">완료</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--amber);">└ (Weavers 변호사)</td>
+                  <td class="det" style="color:var(--amber);">Weavers Tax Attorney (절세 전문)</td>
+                  <td class="r neg" style="color:var(--amber);">-$2.5M</td>
+                  <td class="r neg" style="color:var(--amber);">-$2.8M</td>
+                  <td class="r neg" style="color:var(--amber);">-$4.6M</td>
+                  <td class="r neg" style="color:var(--amber);">-$8.5M</td>
+                  <td class="r neg" id="weavers-attorney-custom" style="color:var(--accent);">$0</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--amber);">└ (세무 실익)</td>
-                  <td class="det" style="color:var(--amber);">Tax Saved (약 23.8% 기준)</td>
+                  <td class="det" style="color:var(--amber);">Tax Saved (Weavers 적용 후)</td>
                   <td class="r pos" style="color:var(--amber);">$833,000</td>
                   <td class="r pos" style="color:var(--amber);">$952,000</td>
                   <td class="r pos" style="color:var(--amber);">$1,785,000</td>
                   <td class="r pos" style="color:var(--amber);">$3,332,000</td>
+                  <td class="r pos" id="tax-saved-custom" style="color:var(--accent);">$0</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--bull);">└ (월 예상 수익)</td>
@@ -1182,6 +1193,7 @@
                   <td class="r pos" style="color:var(--bull);">$21,000</td>
                   <td class="r pos" style="color:var(--bull);">$45,500</td>
                   <td class="r pos" style="color:var(--bull);">$84,000</td>
+                  <td class="r pos" id="monthly-income-custom" style="color:var(--accent);">$0</td>
                 </tr>
                 <!-- Final Validation -->
                 <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
@@ -1532,6 +1544,24 @@
       const st4_cash_remaining = st3_cash_remaining + gme_sell_custom - st4_custom_total;
       updateElementWithCustomPrice('st4-cash-custom', st4_cash_remaining);
       
+      // Calculate ST 5 Custom values (Weavers Attorney + Final Completion)
+      // Weavers 변호사 비용: 정확한 million 단위로 계산
+      const weavers_attorney_fee = st1_custom_total <= 10000000 ? 2500000 : 
+                                   st1_custom_total <= 20000000 ? 2800000 :
+                                   st1_custom_total <= 30000000 ? 4600000 : 8500000;
+      
+      // 세무 실익: Weavers 적용 후 절세 혜택
+      const tax_saved_weavers = st4_custom_total * 0.238; // 약 23.8% 절세 효과
+      
+      // 월 예상 수익: 투자 금액 기준 월 수익률
+      const monthly_income = st4_cash_remaining * 0.003; // 약 0.3% 월 수익률
+      
+      // Update ST 5 Custom values
+      updateElementWithCustomPrice('st5-custom-main', '완료');
+      updateElementWithCustomPrice('weavers-attorney-custom', weavers_attorney_fee);
+      updateElementWithCustomPrice('tax-saved-custom', tax_saved_weavers);
+      updateElementWithCustomPrice('monthly-income-custom', monthly_income);
+      
       // Add Custom Price columns to all rows
       addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50);
     }
@@ -1597,9 +1627,22 @@
               customValue = st4_custom_total;
               customClass = 'neg';
               customId = 'st4-custom-main';
+            } else if (firstCell.includes('ST 5')) {
+              customValue = 0;
+              customId = 'st5-custom-main';
             }
           } else if (rowClass.includes('st-sub')) {
-            if (secondCell.includes('Fidelity')) {
+            if (secondCell.includes('Weavers')) {
+              customValue = weavers_attorney_fee;
+              customClass = 'neg';
+              customId = 'weavers-attorney-custom';
+            } else if (secondCell.includes('Tax Saved')) {
+              customValue = tax_saved_weavers;
+              customId = 'tax-saved-custom';
+            } else if (secondCell.includes('Monthly Passive')) {
+              customValue = monthly_income;
+              customId = 'monthly-income-custom';
+            } else if (secondCell.includes('Fidelity')) {
               customValue = fid_custom;
               customId = 'fid-custom-total';
             } else if (secondCell.includes('DRS')) {
@@ -1712,6 +1755,14 @@
               newValue = moo_strike45;
             } else if (cellId === 'moo-strike50-custom') {
               newValue = moo_strike50;
+            } else if (cellId === 'st5-custom-main') {
+              newValue = 0;
+            } else if (cellId === 'weavers-attorney-custom') {
+              newValue = weavers_attorney_fee;
+            } else if (cellId === 'tax-saved-custom') {
+              newValue = tax_saved_weavers;
+            } else if (cellId === 'monthly-income-custom') {
+              newValue = monthly_income;
             }
             
             // Update the cell content
