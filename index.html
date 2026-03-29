@@ -423,6 +423,67 @@
       box-shadow: 0 0 40px var(--accent);
       transform: scale(1.05);
     }
+
+    /* ── [SCENARIO MATRIX] ── */
+    .scenario-wrap {
+      background: var(--bg2);
+      border: 4px solid var(--border);
+      border-radius: 30px;
+      overflow: hidden;
+      margin-bottom: 50px;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
+    }
+    .scenario-title {
+      font-family: var(--disp);
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text);
+      padding: 30px 35px 25px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+      background: rgba(0,212,170,0.05);
+    }
+    .st-main td {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 900;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      background: rgba(255,255,255,0.02);
+      border-top: 2px solid var(--border);
+    }
+    .st-sub td {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 15px;
+      color: var(--text);
+    }
+    .pl-indent {
+      padding-left: 55px !important;
+      color: var(--textM);
+      font-weight: 600;
+      font-family: var(--disp);
+    }
+    .pl-indent-2 {
+      padding-left: 85px !important;
+      color: var(--textD);
+      font-weight: 600;
+      font-family: var(--disp);
+    }
+    .det {
+      color: var(--textM) !important;
+      font-size: 13px !important;
+      font-weight: 500;
+    }
+    .scenario-wrap table { border-collapse: collapse; width: 100%; }
+    .scenario-wrap th { padding: 25px 35px; background: rgba(0,0,0,0.4); text-align: left; font-size: 12px; font-weight: 900; letter-spacing: 2px; color: var(--textM); border-bottom: 3px solid var(--border); }
+    .scenario-wrap th.r { text-align: right; }
+    .scenario-wrap td { padding: 12px 35px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .st-main .pos { color: var(--accent); }
+    .st-main .neg { color: var(--bear); }
+    .st-sub .pos { color: var(--bull); font-weight:800; }
+    .st-sub .neg { color: var(--bear); font-weight:800; }
   </style>
 </head>
 
@@ -679,6 +740,319 @@
                   <td class="r" id="cell_amc_o_day">$0.00</td>
                   <td class="r" id="cell_amc_o_tot">$0.00</td>
                   <td class="r" id="cell_amc_o_roi">0.00%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="scenario-wrap">
+            <div class="scenario-title">OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>분류 및 단계 (STAGE)</th>
+                  <th>세부 항목 및 브로커 전술</th>
+                  <th class="r">Price $210</th>
+                  <th class="r">Price $242</th>
+                  <th class="r" style="color:var(--amber)">Price $399 (Glitch)</th>
+                  <th class="r" style="color:var(--bull)">Price $741 (Meme)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- ST 1 -->
+                <tr class="st-main">
+                  <td>ST 1. 확보 총액</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL]</td>
+                  <td class="r pos">$8,705,430</td>
+                  <td class="r pos">$10,031,972</td>
+                  <td class="r pos">$16,540,318</td>
+                  <td class="r pos">$30,717,733</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ Fidelity (Indiv)</td>
+                  <td class="det">4,307.43주 발생분</td>
+                  <td class="r pos">$904,560</td>
+                  <td class="r pos">$1,042,400</td>
+                  <td class="r pos">$1,718,665</td>
+                  <td class="r pos">$3,191,806</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ DRS (CS)</td>
+                  <td class="det">30,000.00주 발생분</td>
+                  <td class="r pos">$6,300,000</td>
+                  <td class="r pos">$7,260,000</td>
+                  <td class="r pos">$11,970,000</td>
+                  <td class="r pos">$22,230,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ Moomoo</td>
+                  <td class="det">7,147.00주 발생분</td>
+                  <td class="r pos">$1,500,870</td>
+                  <td class="r pos">$1,729,572</td>
+                  <td class="r pos">$2,851,653</td>
+                  <td class="r pos">$5,295,927</td>
+                </tr>
+                <!-- ST 2 -->
+                <tr class="st-main">
+                  <td>ST 2. 면세 제국</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL]</td>
+                  <td class="r neg">-$3,500,000</td>
+                  <td class="r neg">-$4,000,000</td>
+                  <td class="r neg">-$7,500,000</td>
+                  <td class="r neg">-$14,000,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ O&G (Energy)</td>
+                  <td class="det">IDC 100% 공제 (에너지 유정 WI)</td>
+                  <td class="r neg">-$1,500,000</td>
+                  <td class="r neg">-$1,500,000</td>
+                  <td class="r neg">-$3,250,000</td>
+                  <td class="r neg">-$6,000,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ QOF Housing</td>
+                  <td class="det">QOZ 다세대 주택 (10년 면세)</td>
+                  <td class="r neg">-$1,500,000</td>
+                  <td class="r neg">-$1,500,000</td>
+                  <td class="r neg">-$3,250,000</td>
+                  <td class="r neg">-$6,000,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ CLAT (Trust)</td>
+                  <td class="det">자선 소득 신탁 (즉시 소득 공제)</td>
+                  <td class="r neg">-$500,000</td>
+                  <td class="r neg">-$1,000,000</td>
+                  <td class="r neg">-$1,000,000</td>
+                  <td class="r neg">-$2,000,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--amber);">(절세 실익 분석)</td>
+                  <td class="det" style="color:var(--amber);">작전으로 아낀 실제 세금 (Tax Saved)</td>
+                  <td class="r pos" style="color:var(--amber);">$833,000</td>
+                  <td class="r pos" style="color:var(--amber);">$952,000</td>
+                  <td class="r pos" style="color:var(--amber);">$1,785,000</td>
+                  <td class="r pos" style="color:var(--amber);">$3,332,000</td>
+                </tr>
+                <!-- ST 3 -->
+                <tr class="st-main">
+                  <td>ST 3. 월 예상 수익</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Monthly)]</td>
+                  <td class="r pos">$21,000</td>
+                  <td class="r pos">$21,000</td>
+                  <td class="r pos">$45,500</td>
+                  <td class="r pos">$84,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ O&G 로열티</td>
+                  <td class="det">월 1.0% 배당 수익</td>
+                  <td class="r pos">$15,000</td>
+                  <td class="r pos">$15,000</td>
+                  <td class="r pos">$32,500</td>
+                  <td class="r pos">$60,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 하우징 임대료</td>
+                  <td class="det">월 0.4% 임대 수익</td>
+                  <td class="r pos">$6,000</td>
+                  <td class="r pos">$6,000</td>
+                  <td class="r pos">$13,000</td>
+                  <td class="r pos">$24,000</td>
+                </tr>
+                <!-- ST 4 -->
+                <tr class="st-main">
+                  <td>ST 4. 선봉대 예산</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL]</td>
+                  <td class="r neg">-$1,020,480</td>
+                  <td class="r neg">-$1,020,480</td>
+                  <td class="r neg">-$1,020,480</td>
+                  <td class="r neg">-$1,020,480</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (본인)</td>
+                  <td class="det">Aston Martin Vantage AMR</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (본인)</td>
+                  <td class="det">Maserati MC20</td>
+                  <td class="r neg">-$250,000</td>
+                  <td class="r neg">-$250,000</td>
+                  <td class="r neg">-$250,000</td>
+                  <td class="r neg">-$250,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (본인)</td>
+                  <td class="det">Ferrari F430 (Manual)</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (아빠)</td>
+                  <td class="det">BMW 740i</td>
+                  <td class="r neg">-$120,000</td>
+                  <td class="r neg">-$120,000</td>
+                  <td class="r neg">-$120,000</td>
+                  <td class="r neg">-$120,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (아빠)</td>
+                  <td class="det">Omega Seamaster Diver 300M</td>
+                  <td class="r neg">-$22,320</td>
+                  <td class="r neg">-$22,320</td>
+                  <td class="r neg">-$22,320</td>
+                  <td class="r neg">-$22,320</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (엄마)</td>
+                  <td class="det">Cartier Tank Louis & LV M27335</td>
+                  <td class="r neg">-$22,548</td>
+                  <td class="r neg">-$22,548</td>
+                  <td class="r neg">-$22,548</td>
+                  <td class="r neg">-$22,548</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (진이)</td>
+                  <td class="det">Omega Aqua Terra & Dior Bag</td>
+                  <td class="r neg">-$13,920</td>
+                  <td class="r neg">-$13,920</td>
+                  <td class="r neg">-$13,920</td>
+                  <td class="r neg">-$13,920</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 여비/항공</td>
+                  <td class="det">First Class & Meta Ray-Ban</td>
+                  <td class="r neg">-$20,480</td>
+                  <td class="r neg">-$20,480</td>
+                  <td class="r neg">-$20,480</td>
+                  <td class="r neg">-$20,480</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 예비비</td>
+                  <td class="det">한국 체류비 및 현찰 예비비</td>
+                  <td class="r neg">-$21,212</td>
+                  <td class="r neg">-$21,212</td>
+                  <td class="r neg">-$21,212</td>
+                  <td class="r neg">-$21,212</td>
+                </tr>
+                <!-- ST 5 -->
+                <tr class="st-main">
+                  <td>ST 5. 전술 여유분</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL]</td>
+                  <td class="r neg">-$500,000</td>
+                  <td class="r neg">-$800,000</td>
+                  <td class="r neg">-$1,500,000</td>
+                  <td class="r neg">-$2,500,000</td>
+                </tr>
+                <!-- ST 6 -->
+                <tr class="st-main">
+                  <td>ST 6. GME Deploy</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL]</td>
+                  <td class="r pos">$3,684,950</td>
+                  <td class="r pos">$4,211,492</td>
+                  <td class="r pos">$6,519,838</td>
+                  <td class="r pos">$13,197,253</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--accent);">└ [DRS] 현물</td>
+                  <td class="det">GME 70,000주 확보 (Infinity)</td>
+                  <td class="r neg">-$2,450,000</td>
+                  <td class="r neg">-$2,450,000</td>
+                  <td class="r neg">-$2,450,000</td>
+                  <td class="r neg">-$2,450,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--accent);">└ [Fid] 현물</td>
+                  <td class="det">GME 20,000주 확보 (Main)</td>
+                  <td class="r neg">-$700,000</td>
+                  <td class="r neg">-$700,000</td>
+                  <td class="r neg">-$700,000</td>
+                  <td class="r neg">-$700,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--amber);">└ [Moo] 현물</td>
+                  <td class="det">GME 10,000주 확보 (Tactical)</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                  <td class="r neg">-$350,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
+                  <td class="det">'27/'28 LEAPS (Main - 80%)</td>
+                  <td class="r pos">$147,960</td>
+                  <td class="r pos">$569,194</td>
+                  <td class="r pos">$2,415,870</td>
+                  <td class="r pos">$7,757,802</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">├ Strike $40</td>
+                  <td class="det">LEAPS Call (Fidelity)</td>
+                  <td class="r pos">$49,320</td>
+                  <td class="r pos">$189,731</td>
+                  <td class="r pos">$805,290</td>
+                  <td class="r pos">$2,585,934</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">├ Strike $45</td>
+                  <td class="det">LEAPS Call (Fidelity)</td>
+                  <td class="r pos">$49,320</td>
+                  <td class="r pos">$189,731</td>
+                  <td class="r pos">$805,290</td>
+                  <td class="r pos">$2,585,934</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">└ Strike $50</td>
+                  <td class="det">LEAPS Call (Fidelity)</td>
+                  <td class="r pos">$49,320</td>
+                  <td class="r pos">$189,732</td>
+                  <td class="r pos">$805,290</td>
+                  <td class="r pos">$2,585,934</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--purple);">└ [Moo] 옵션</td>
+                  <td class="det">'27/'28 LEAPS (Tactical - 20%)</td>
+                  <td class="r pos">$36,990</td>
+                  <td class="r pos">$142,298</td>
+                  <td class="r pos">$603,968</td>
+                  <td class="r pos">$1,939,451</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">├ Strike $40</td>
+                  <td class="det">LEAPS Call (Moomoo)</td>
+                  <td class="r pos">$12,330</td>
+                  <td class="r pos">$47,433</td>
+                  <td class="r pos">$201,323</td>
+                  <td class="r pos">$646,484</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">├ Strike $45</td>
+                  <td class="det">LEAPS Call (Moomoo)</td>
+                  <td class="r pos">$12,330</td>
+                  <td class="r pos">$47,433</td>
+                  <td class="r pos">$201,323</td>
+                  <td class="r pos">$646,484</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2">└ Strike $50</td>
+                  <td class="det">LEAPS Call (Moomoo)</td>
+                  <td class="r pos">$12,330</td>
+                  <td class="r pos">$47,432</td>
+                  <td class="r pos">$201,322</td>
+                  <td class="r pos">$646,483</td>
+                </tr>
+                <!-- Final Validation -->
+                <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
+                  <td style="color:#fff;">최종 검증</td>
+                  <td style="color:#fff;">Zero-Sum Check (ST1 - 합계)</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                 </tr>
               </tbody>
             </table>
