@@ -1552,42 +1552,46 @@
           csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">-${(cs_cost/1000000).toFixed(2)}M</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
         }
         
-        // Update Fid option display
+        // Fixed values for Fid and Moo options (based on existing hardcoded numbers)
+        const fid_fixed_values = [904560, 1042400, 1718665, 3191806];
+        const moo_fixed_values = [1500870, 1729572, 2851653, 5295927];
+        
+        // Update Fid option display with fixed values
         const fidEl1 = document.getElementById('fid-option-1');
         const fidEl2 = document.getElementById('fid-option-2');
         const fidEl3 = document.getElementById('fid-option-3');
         const fidEl4 = document.getElementById('fid-option-4');
         
         if (fidEl1) {
-          fidEl1.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(1)}M</span>`;
+          fidEl1.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[0]}" style="cursor:pointer;">-${(fid_fixed_values[0]/1000000).toFixed(1)}M</span>`;
         }
         if (fidEl2) {
-          fidEl2.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(1)}M</span>`;
+          fidEl2.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[1]}" style="cursor:pointer;">-${(fid_fixed_values[1]/1000000).toFixed(1)}M</span>`;
         }
         if (fidEl3) {
-          fidEl3.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(1)}M</span>`;
+          fidEl3.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[2]}" style="cursor:pointer;">-${(fid_fixed_values[2]/1000000).toFixed(1)}M</span>`;
         }
         if (fidEl4) {
-          fidEl4.innerHTML = `<span class="clickable-amount" data-amount="${fid_option}" style="cursor:pointer;">-${(fid_option/1000000).toFixed(1)}M</span>`;
+          fidEl4.innerHTML = `<span class="clickable-amount" data-amount="${fid_fixed_values[3]}" style="cursor:pointer;">-${(fid_fixed_values[3]/1000000).toFixed(1)}M</span>`;
         }
         
-        // Update Moo option display
+        // Update Moo option display with fixed values
         const mooEl1 = document.getElementById('moo-option-1');
         const mooEl2 = document.getElementById('moo-option-2');
         const mooEl3 = document.getElementById('moo-option-3');
         const mooEl4 = document.getElementById('moo-option-4');
         
         if (mooEl1) {
-          mooEl1.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(1)}M</span>`;
+          mooEl1.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[0]}" style="cursor:pointer;">-${(moo_fixed_values[0]/1000000).toFixed(1)}M</span>`;
         }
         if (mooEl2) {
-          mooEl2.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(1)}M</span>`;
+          mooEl2.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[1]}" style="cursor:pointer;">-${(moo_fixed_values[1]/1000000).toFixed(1)}M</span>`;
         }
         if (mooEl3) {
-          mooEl3.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(1)}M</span>`;
+          mooEl3.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[2]}" style="cursor:pointer;">-${(moo_fixed_values[2]/1000000).toFixed(1)}M</span>`;
         }
         if (mooEl4) {
-          mooEl4.innerHTML = `<span class="clickable-amount" data-amount="${moo_option}" style="cursor:pointer;">-${(moo_option/1000000).toFixed(1)}M</span>`;
+          mooEl4.innerHTML = `<span class="clickable-amount" data-amount="${moo_fixed_values[3]}" style="cursor:pointer;">-${(moo_fixed_values[3]/1000000).toFixed(1)}M</span>`;
         }
         
         // Update ST 2 display
