@@ -1553,11 +1553,8 @@
       // Calculate total with additional purchase
       const st3_custom_total_with_additional = st3_custom_total + additional_gme_purchase;
       
-      // Round ST 3 total to exact 10,000 units (만 단위) for fund manager precision
-      const st3_custom_total_rounded = Math.round(st3_custom_total_with_additional / 10000) * 10000;
-      
-      // Update ST 3 Custom values (using rounded amount for fund manager)
-      updateElementWithCustomPrice('st3-custom-main', st3_custom_total_rounded);
+      // Update ST 3 Custom values (US fund manager standard - exact amounts, no rounding)
+      updateElementWithCustomPrice('st3-custom-main', st3_custom_total_with_additional);
       updateElementWithCustomPrice('cs-cost-custom', cs_custom + additional_gme_purchase);
       updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
       updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
@@ -1570,8 +1567,8 @@
       updateElementWithCustomPrice('moo-strike45-custom', moo_strike45);
       updateElementWithCustomPrice('moo-strike50-custom', moo_strike50);
       
-      // Update ST 3 cash remaining (using rounded amount for fund manager)
-      const st3_cash_remaining = st2_custom_remaining - st3_custom_total_rounded;
+      // Update ST 3 cash remaining (US fund manager standard - exact amounts)
+      const st3_cash_remaining = st2_custom_remaining - st3_custom_total_with_additional;
       updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
       
       // Calculate ST 4 Custom values (Tax Shield)
@@ -1624,7 +1621,7 @@
       updateElementWithCustomPrice('final-validation-custom', final_validation);
       
       // Add Custom Price columns to all rows
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_rounded, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase);
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase);
     }
     
     function applyCustomPrice() {
@@ -1684,7 +1681,7 @@
               customClass = 'neg';
               customId = 'st2-custom-main';
             } else if (firstCell.includes('ST 3')) {
-              customValue = st3_custom_total_rounded;
+              customValue = st3_custom_total_with_additional;
               customClass = 'neg';
               customId = 'st3-custom-main';
             } else if (firstCell.includes('ST 4')) {
@@ -1805,7 +1802,7 @@
             } else if (cellId === 'st2-custom-main') {
               newValue = st2_custom;
             } else if (cellId === 'st3-custom-main') {
-              newValue = st3_custom_total_rounded;
+              newValue = st3_custom_total_with_additional;
             } else if (cellId === 'st4-custom-main') {
               newValue = st4_custom_total;
             } else if (cellId === 'cs-cost-custom') {
