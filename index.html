@@ -1073,34 +1073,34 @@
                 <tr class="st-sub">
                   <td class="pl-indent" style="color:var(--bull);">└ GME Partial Sell</td>
                   <td class="det">180일 내 LEAPS/현물 부분 청산</td>
-                  <td class="r bull">+$13,058,145<br><span class="bal">BAL $15,279,357</span></td>
-                  <td class="r bull">+$15,047,958<br><span class="bal">BAL $18,229,170</span></td>
-                  <td class="r bull">+$24,810,477<br><span class="bal">BAL $32,701,689</span></td>
-                  <td class="r bull">+$46,076,599<br><span class="bal">BAL $64,227,811</span></td>
+                  <td class="r bull" id="gme-partial-1">+$13,058,145<br><span class="bal">BAL $15,279,357</span></td>
+                  <td class="r bull" id="gme-partial-2">+$15,047,958<br><span class="bal">BAL $18,229,170</span></td>
+                  <td class="r bull" id="gme-partial-3">+$24,810,477<br><span class="bal">BAL $32,701,689</span></td>
+                  <td class="r bull" id="gme-partial-4">+$46,076,599<br><span class="bal">BAL $64,227,811</span></td>
                 </tr>
                 <tr class="st-sub">
                   <td class="" >└ O&G (Energy)</td>
                   <td class="det">IDC 100% 공제 (에너지 유정 WI)</td>
-                  <td class="r neg">-$7,461,801<br><span class="bal">BAL $7,817,556</span></td>
-                  <td class="r neg">-$8,598,837<br><span class="bal">BAL $9,630,333</span></td>
-                  <td class="r neg">-$14,177,418<br><span class="bal">BAL $18,524,271</span></td>
-                  <td class="r neg">-$26,329,488<br><span class="bal">BAL $37,898,323</span></td>
+                  <td class="r neg" id="og-energy-1">-$7,461,801<br><span class="bal">BAL $7,817,556</span></td>
+                  <td class="r neg" id="og-energy-2">-$8,598,837<br><span class="bal">BAL $9,630,333</span></td>
+                  <td class="r neg" id="og-energy-3">-$14,177,418<br><span class="bal">BAL $18,524,271</span></td>
+                  <td class="r neg" id="og-energy-4">-$26,329,488<br><span class="bal">BAL $37,898,323</span></td>
                 </tr>
                 <tr class="st-sub">
                   <td class="" >└ QOF Housing</td>
                   <td class="det">QOZ 다세대 주택 (10년 면세)</td>
-                  <td class="r neg">-$3,730,896<br><span class="bal">BAL $4,086,660</span></td>
-                  <td class="r neg">-$4,299,414<br><span class="bal">BAL $5,330,919</span></td>
-                  <td class="r neg">-$7,088,706<br><span class="bal">BAL $11,435,565</span></td>
-                  <td class="r neg">-$13,164,741<br><span class="bal">BAL $24,733,582</span></td>
+                  <td class="r neg" id="qof-housing-1">-$3,730,896<br><span class="bal">BAL $4,086,660</span></td>
+                  <td class="r neg" id="qof-housing-2">-$4,299,414<br><span class="bal">BAL $5,330,919</span></td>
+                  <td class="r neg" id="qof-housing-3">-$7,088,706<br><span class="bal">BAL $11,435,565</span></td>
+                  <td class="r neg" id="qof-housing-4">-$13,164,741<br><span class="bal">BAL $24,733,582</span></td>
                 </tr>
                 <tr class="st-sub">
                   <td class="" >└ CLAT (Trust)</td>
                   <td class="det">자선 소득 신탁 (즉시 소득 공제)</td>
-                  <td class="r neg">-$1,865,448<br><span class="bal">BAL $2,221,212</span></td>
-                  <td class="r neg">-$2,149,707<br><span class="bal">BAL $3,181,212</span></td>
-                  <td class="r neg">-$3,544,353<br><span class="bal">BAL $7,891,212</span></td>
-                  <td class="r neg">-$6,582,370<br><span class="bal">BAL $18,151,212</span></td>
+                  <td class="r neg" id="clat-trust-1">-$1,865,448<br><span class="bal">BAL $2,221,212</span></td>
+                  <td class="r neg" id="clat-trust-2">-$2,149,707<br><span class="bal">BAL $3,181,212</span></td>
+                  <td class="r neg" id="clat-trust-3">-$3,544,353<br><span class="bal">BAL $7,891,212</span></td>
+                  <td class="r neg" id="clat-trust-4">-$6,582,370<br><span class="bal">BAL $18,151,212</span></td>
                 </tr>
                 <tr class="st-cash">
                   <td class="pl-indent" style="color:var(--accent);">💵 [최종 현금 잔고]</td>
@@ -1634,6 +1634,88 @@
         const st4El = document.getElementById(`st4-total-${i+1}`);
         if (st4El) {
           st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
+        }
+        
+        // Update ST 4 individual items
+        const gmePartialValues = [13058145, 15047958, 24810477, 46076599];
+        const ogEnergyValues = [7461801, 8598837, 14177418, 26329488];
+        const qofHousingValues = [3730896, 4299414, 7088706, 13164741];
+        const clatTrustValues = [1865448, 2149707, 3544353, 6582370];
+        
+        // GME Partial Sell
+        const gmeEl1 = document.getElementById('gme-partial-1');
+        const gmeEl2 = document.getElementById('gme-partial-2');
+        const gmeEl3 = document.getElementById('gme-partial-3');
+        const gmeEl4 = document.getElementById('gme-partial-4');
+        
+        if (gmeEl1) {
+          gmeEl1.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[0]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15279357)}</span>`;
+        }
+        if (gmeEl2) {
+          gmeEl2.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[1]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(18229170)}</span>`;
+        }
+        if (gmeEl3) {
+          gmeEl3.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[2]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(32701689)}</span>`;
+        }
+        if (gmeEl4) {
+          gmeEl4.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[3]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(64227811)}</span>`;
+        }
+        
+        // O&G Energy
+        const ogEl1 = document.getElementById('og-energy-1');
+        const ogEl2 = document.getElementById('og-energy-2');
+        const ogEl3 = document.getElementById('og-energy-3');
+        const ogEl4 = document.getElementById('og-energy-4');
+        
+        if (ogEl1) {
+          ogEl1.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[0]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7817556)}</span>`;
+        }
+        if (ogEl2) {
+          ogEl2.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[1]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9630333)}</span>`;
+        }
+        if (ogEl3) {
+          ogEl3.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[2]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(18524271)}</span>`;
+        }
+        if (ogEl4) {
+          ogEl4.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[3]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(37898323)}</span>`;
+        }
+        
+        // QOF Housing
+        const qofEl1 = document.getElementById('qof-housing-1');
+        const qofEl2 = document.getElementById('qof-housing-2');
+        const qofEl3 = document.getElementById('qof-housing-3');
+        const qofEl4 = document.getElementById('qof-housing-4');
+        
+        if (qofEl1) {
+          qofEl1.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[0]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4086660)}</span>`;
+        }
+        if (qofEl2) {
+          qofEl2.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[1]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(5330919)}</span>`;
+        }
+        if (qofEl3) {
+          qofEl3.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[2]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(11435565)}</span>`;
+        }
+        if (qofEl4) {
+          qofEl4.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[3]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(24733582)}</span>`;
+        }
+        
+        // CLAT Trust
+        const clatEl1 = document.getElementById('clat-trust-1');
+        const clatEl2 = document.getElementById('clat-trust-2');
+        const clatEl3 = document.getElementById('clat-trust-3');
+        const clatEl4 = document.getElementById('clat-trust-4');
+        
+        if (clatEl1) {
+          clatEl1.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[0]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(2221212)}</span>`;
+        }
+        if (clatEl2) {
+          clatEl2.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[1]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(3181212)}</span>`;
+        }
+        if (clatEl3) {
+          clatEl3.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[2]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7891212)}</span>`;
+        }
+        if (clatEl4) {
+          clatEl4.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[3]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(18151212)}</span>`;
         }
       }
     }
