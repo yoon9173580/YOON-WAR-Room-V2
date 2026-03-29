@@ -1328,16 +1328,16 @@
     const fmt = (n, d = 2) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
     const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
 
-    // M/K Formatting Function
+    // M/K Formatting Function with 2 decimal places
     const fmtMK = (amount) => {
       const absAmount = Math.abs(amount);
       let formatted;
       if (absAmount >= 1000000) {
-        formatted = (absAmount / 1000000).toFixed(1) + 'M';
+        formatted = (absAmount / 1000000).toFixed(2) + 'M';
       } else if (absAmount >= 1000) {
-        formatted = Math.floor(absAmount / 1000) + 'K';
+        formatted = (absAmount / 1000).toFixed(2) + 'K';
       } else {
-        formatted = '$' + absAmount.toFixed(0);
+        formatted = '$' + absAmount.toFixed(2);
       }
       return amount < 0 ? '-' + formatted : formatted;
     };
