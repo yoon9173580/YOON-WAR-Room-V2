@@ -869,7 +869,6 @@
               <span style="font-weight:700; color:var(--text);">Custom Price Input:</span>
               <input type="number" id="custom-price-input" placeholder="Enter GME price..." style="padding:8px 12px; border:1px solid var(--border); border-radius:5px; background:var(--bg2); color:var(--text); font-size:14px; width:150px;" step="0.01" min="0">
               <button id="apply-custom-price" class="btn-out" style="background:var(--accent); padding:8px 16px;">Apply Price</button>
-              <button id="reset-custom-price" class="btn-out" style="background:var(--textM); padding:8px 16px;">Reset to Live</button>
               <span id="custom-price-display" style="color:var(--accent); font-weight:600; margin-left:10px;"></span>
             </div>
             <table>
@@ -1433,19 +1432,9 @@
       }
     }
     
-    function resetCustomPrice() {
-      const input = document.getElementById('custom-price-input');
-      const display = document.getElementById('custom-price-display');
-      
-      customUserPrice = null;
-      input.value = '';
-      display.textContent = 'Using Live Price';
-      
-      // Reset to live price calculation
-      calculateCustomPriceValues();
-      
-      // Reset header
-      const customHeader = document.querySelector('th[style*="var(--accent)"]');
+    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option) {
+      // Find all rows in the pipeline table
+      const table = document.querySelector('.scenario-wrap table tbody');
       if (!table) return;
       
       const rows = table.querySelectorAll('tr');
@@ -1779,15 +1768,10 @@
       
       // Add event listeners for custom price input
       const applyBtn = document.getElementById('apply-custom-price');
-      const resetBtn = document.getElementById('reset-custom-price');
       const input = document.getElementById('custom-price-input');
       
       if (applyBtn) {
         applyBtn.addEventListener('click', applyCustomPrice);
-      }
-      
-      if (resetBtn) {
-        resetBtn.addEventListener('click', resetCustomPrice);
       }
       
       if (input) {
