@@ -624,6 +624,18 @@
             <div id="sb-CHWY-price" class="sb-price">WAITING...</div>
             <div id="sb-CHWY-ext" class="sb-ext"></div>
           </div>
+          <div class="sb-card" onclick="setActive('BBY')">
+            <div class="sb-card-top"><span class="sb-sym">BBY</span><span id="sb-BBY-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BBY-price" class="sb-price">WAITING...</div>
+            <div id="sb-BBY-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('TGT')">
+            <div class="sb-card-top"><span class="sb-sym">TGT</span><span id="sb-TGT-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-TGT-price" class="sb-price">WAITING...</div>
+            <div id="sb-TGT-ext" class="sb-ext"></div>
+          </div>
         </div>
 
         <div class="main-content">
@@ -1084,6 +1096,8 @@
     let V_BYND_P = 0, V_BYND_PCT = 0, V_BYND_EXT = "";
     let V_KOSS_P = 0, V_KOSS_PCT = 0, V_KOSS_EXT = "";
     let V_CHWY_P = 0, V_CHWY_PCT = 0, V_CHWY_EXT = "";
+    let V_BBY_P = 0, V_BBY_PCT = 0, V_BBY_EXT = "";
+    let V_TGT_P = 0, V_TGT_PCT = 0, V_TGT_EXT = "";
 
     function submitPin() {
       const val = document.getElementById('pinInput').value;
@@ -1136,7 +1150,7 @@
       const conn = document.getElementById('connStatus');
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,GME260417C00050000,AMC260402C00002000";
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,GME260417C00050000,AMC260402C00002000";
       const targetUrl = `/api/quote?symbols=${targets}`;
 
       try {
@@ -1184,6 +1198,8 @@
           const qBYND = extract('BYND'); if (qBYND) { V_BYND_P = Number(qBYND.regularMarketPrice) || 0; V_BYND_PCT = Number(qBYND.regularMarketChangePercent) || 0; V_BYND_EXT = getExt(qBYND); }
           const qKOSS = extract('KOSS'); if (qKOSS) { V_KOSS_P = Number(qKOSS.regularMarketPrice) || 0; V_KOSS_PCT = Number(qKOSS.regularMarketChangePercent) || 0; V_KOSS_EXT = getExt(qKOSS); }
           const qCHWY = extract('CHWY'); if (qCHWY) { V_CHWY_P = Number(qCHWY.regularMarketPrice) || 0; V_CHWY_PCT = Number(qCHWY.regularMarketChangePercent) || 0; V_CHWY_EXT = getExt(qCHWY); }
+          const qBBY = extract('BBY'); if (qBBY) { V_BBY_P = Number(qBBY.regularMarketPrice) || 0; V_BBY_PCT = Number(qBBY.regularMarketChangePercent) || 0; V_BBY_EXT = getExt(qBBY); }
+          const qTGT = extract('TGT'); if (qTGT) { V_TGT_P = Number(qTGT.regularMarketPrice) || 0; V_TGT_PCT = Number(qTGT.regularMarketChangePercent) || 0; V_TGT_EXT = getExt(qTGT); }
 
           // Unified Backend Feed Parsing
           if (json.crypto) {
@@ -1284,6 +1300,7 @@
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
       upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT); upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
       upSB('IEP', V_IEP_P, V_IEP_PCT, V_IEP_EXT); upSB('BYND', V_BYND_P, V_BYND_PCT, V_BYND_EXT); upSB('KOSS', V_KOSS_P, V_KOSS_PCT, V_KOSS_EXT); upSB('CHWY', V_CHWY_P, V_CHWY_PCT, V_CHWY_EXT);
+      upSB('BBY', V_BBY_P, V_BBY_PCT, V_BBY_EXT); upSB('TGT', V_TGT_P, V_TGT_PCT, V_TGT_EXT);
     }
 
     function upSB(id, p, pt, ext = "") {
