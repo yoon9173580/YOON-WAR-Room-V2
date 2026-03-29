@@ -1355,8 +1355,301 @@
         button.textContent = showActualAmounts ? 'Show M/K Format' : 'Show Actual Amounts';
         button.style.background = showActualAmounts ? 'var(--bull)' : 'var(--accent)';
       }
-      // Recalculate all pipeline values with new format
-      calculatePipelineTotals();
+      // Calculate Custom Price values based on current GME price
+      calculateCustomPriceValues();
+    }
+    
+    // Custom Price calculation function
+    function calculateCustomPriceValues() {
+      const customPrice = V_GME_P;
+      if (customPrice === 0) return;
+      
+      // Calculate ST 1 Custom values
+      const fid_shares = 4307.43;
+      const drs_shares = 30000;
+      const moomoo_shares = 7147;
+      
+      const fid_custom = fid_shares * customPrice;
+      const drs_custom = drs_shares * customPrice;
+      const moomoo_custom = moomoo_shares * customPrice;
+      const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
+      
+      // Update ST 1 Custom values
+      const st1CustomEl = document.getElementById('st1-custom-total');
+      const fidCustomEl = document.getElementById('fid-custom-total');
+      const drsCustomEl = document.getElementById('drs-custom-total');
+      const moomooCustomEl = document.getElementById('moomoo-custom-total');
+      const cashCustomEl = document.getElementById('cash-custom-total');
+      
+      if (st1CustomEl) {
+        st1CustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st1_custom_total}" style="cursor:pointer;">${fmtDisplay(st1_custom_total)}</span>`;
+      }
+      if (fidCustomEl) {
+        fidCustomEl.innerHTML = `<span class="clickable-amount" data-amount="${fid_custom}" style="cursor:pointer;">${fmtDisplay(fid_custom)}</span>`;
+      }
+      if (drsCustomEl) {
+        drsCustomEl.innerHTML = `<span class="clickable-amount" data-amount="${drs_custom}" style="cursor:pointer;">${fmtDisplay(drs_custom)}</span>`;
+      }
+      if (moomooCustomEl) {
+        moomooCustomEl.innerHTML = `<span class="clickable-amount" data-amount="${moomoo_custom}" style="cursor:pointer;">${fmtDisplay(moomoo_custom)}</span>`;
+      }
+      if (cashCustomEl) {
+        cashCustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st1_custom_total}" style="cursor:pointer;">${fmtDisplay(st1_custom_total)}</span>`;
+      }
+    }
+    
+    // Custom Price Input System
+    let customUserPrice = null;
+    
+    function applyCustomPrice() {
+      const input = document.getElementById('custom-price-input');
+      const display = document.getElementById('custom-price-display');
+      const price = parseFloat(input.value);
+      
+      if (isNaN(price) || price <= 0) {
+        alert('Please enter a valid GME price greater than 0');
+        return;
+      }
+      
+      customUserPrice = price;
+      display.textContent = `Applied: $${price.toFixed(2)}`;
+      
+      // Calculate all values with custom price
+      calculateFullPipelineWithCustomPrice(price);
+      
+      // Update display to show custom mode
+      const customHeader = document.querySelector('th[style*="var(--accent)"]');
+      if (customHeader) {
+        customHeader.textContent = `Custom Price ($${price.toFixed(2)})`;
+      }
+    }
+    
+    function resetCustomPrice() {
+      const input = document.getElementById('custom-price-input');
+      const display = document.getElementById('custom-price-display');
+      
+      customUserPrice = null;
+      input.value = '';
+      display.textContent = 'Using Live Price';
+      
+      // Reset to live price calculation
+      calculateCustomPriceValues();
+      
+      // Reset header
+      const customHeader = document.querySelector('th[style*="var(--accent)"]');
+      if (customHeader) {
+        customHeader.textContent = 'Custom Price (Live)';
+      }
+    }
+    
+    function calculateFullPipelineWithCustomPrice(customPrice) {
+      // Calculate ST 1 Custom values
+      const fid_shares = 4307.43;
+      const drs_shares = 30000;
+      const moomoo_shares = 7147;
+      
+      const fid_custom = fid_shares * customPrice;
+      const drs_custom = drs_shares * customPrice;
+      const moomoo_custom = moomoo_shares * customPrice;
+      const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
+      
+      // Update ST 1 Custom values
+      updateElementWithCustomPrice('st1-custom-total', st1_custom_total);
+      updateElementWithCustomPrice('fid-custom-total', fid_custom);
+      updateElementWithCustomPrice('drs-custom-total', drs_custom);
+      updateElementWithCustomPrice('moomoo-custom-total', moomoo_custom);
+      updateElementWithCustomPrice('cash-custom-total', st1_custom_total);
+      
+      // Calculate ST 2 Custom values (fixed amounts)
+      const st2_custom = 578788;
+      
+      // Calculate ST 3 Custom values
+      const cs_shares = 100000;
+      const cs_custom = cs_shares * customPrice;
+      const st2_custom_remaining = st1_custom_total - st2_custom;
+      const cs_custom_remaining = st2_custom_remaining - cs_custom;
+      
+      const fid_custom_option = Math.min(200000, cs_custom_remaining * 0.37);
+      const fid_custom_remaining = cs_custom_remaining - fid_custom_option;
+      const moo_custom_option = Math.min(300000, fid_custom_remaining * 0.63);
+      const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
+      
+      // Calculate ST 4 Custom values
+      const gme_sell_custom = st1_custom_total * 1.5;
+      const og_idc_custom = st1_custom_total * 0.4;
+      const qof_custom = st1_custom_total * 0.3;
+      const clat_custom = st1_custom_total * 0.15;
+      const st4_custom_total = gme_sell_custom + og_idc_custom + qof_custom + clat_custom;
+      
+      // Add Custom Price columns to all rows
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option);
+    }
+    
+    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option) {
+      // Find all rows in the pipeline table
+      const table = document.querySelector('.scenario-wrap table tbody');
+      if (!table) return;
+      
+      const rows = table.querySelectorAll('tr');
+      
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const hasCustomColumn = Array.from(cells).some(cell => cell.id && cell.id.includes('custom'));
+        
+        if (!hasCustomColumn && cells.length >= 5) {
+          // This row needs a custom price column added
+          const rowClass = row.className;
+          const firstCell = cells[0].textContent;
+          const secondCell = cells[1] ? cells[1].textContent : '';
+          
+          let customValue = 0;
+          let customClass = 'pos';
+          let customId = '';
+          
+          // Determine the custom value based on row content
+          if (rowClass.includes('st-main')) {
+            if (firstCell.includes('ST 1')) {
+              customValue = st1_custom_total;
+              customId = 'st1-custom-total';
+            } else if (firstCell.includes('ST 2')) {
+              customValue = st2_custom;
+              customClass = 'neg';
+              customId = 'st2-custom-main';
+            } else if (firstCell.includes('ST 3')) {
+              customValue = st3_custom_total;
+              customClass = 'neg';
+              customId = 'st3-custom-main';
+            } else if (firstCell.includes('ST 4')) {
+              customValue = st4_custom_total;
+              customClass = 'neg';
+              customId = 'st4-custom-main';
+            }
+          } else if (rowClass.includes('st-sub')) {
+            if (secondCell.includes('Fidelity')) {
+              customValue = fid_custom;
+              customId = 'fid-custom-total';
+            } else if (secondCell.includes('DRS')) {
+              customValue = drs_custom;
+              customId = 'drs-custom-total';
+            } else if (secondCell.includes('Moomoo')) {
+              customValue = moomoo_custom;
+              customId = 'moomoo-custom-total';
+            } else if (secondCell.includes('모빌리티 (본인)')) {
+              customValue = 400000;
+              customClass = 'neg';
+              customId = 'mobility-self-custom';
+            } else if (secondCell.includes('모빌리티 (아빠)')) {
+              customValue = 120000;
+              customClass = 'neg';
+              customId = 'mobility-dad-custom';
+            } else if (secondCell.includes('기프트 (아빠)')) {
+              customValue = 22320;
+              customClass = 'neg';
+              customId = 'gift-dad-custom';
+            } else if (secondCell.includes('기프트 (엄마)')) {
+              customValue = 22548;
+              customClass = 'neg';
+              customId = 'gift-mom-custom';
+            } else if (secondCell.includes('기프트 (진이)')) {
+              customValue = 13920;
+              customClass = 'neg';
+              customId = 'gift-jini-custom';
+            } else if (secondCell.includes('현물')) {
+              customValue = cs_custom;
+              customClass = 'neg';
+              customId = 'cs-cost-custom';
+            } else if (secondCell.includes('옵션')) {
+              if (secondCell.includes('Fid')) {
+                customValue = fid_custom_option;
+                customClass = 'neg';
+                customId = 'fid-option-custom';
+              } else if (secondCell.includes('Moo')) {
+                customValue = moo_custom_option;
+                customClass = 'neg';
+                customId = 'moo-option-custom';
+              }
+            } else if (secondCell.includes('Strike')) {
+              if (secondCell.includes('$40')) {
+                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
+                customClass = 'neg';
+                customId = secondCell.includes('Fidelity') ? 'fid-strike40-custom' : 'moo-strike40-custom';
+              } else if (secondCell.includes('$45')) {
+                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
+                customClass = 'neg';
+                customId = secondCell.includes('Fidelity') ? 'fid-strike45-custom' : 'moo-strike45-custom';
+              } else if (secondCell.includes('$50')) {
+                customValue = secondCell.includes('Fidelity') ? 301520 : 500290;
+                customClass = 'neg';
+                customId = secondCell.includes('Fidelity') ? 'fid-strike50-custom' : 'moo-strike50-custom';
+              }
+            }
+          } else if (rowClass.includes('st-cash')) {
+            customValue = st1_custom_total;
+            customId = 'cash-custom-total';
+          }
+          
+          // Create custom price cell
+          const customCell = document.createElement('td');
+          customCell.className = `r ${customClass}`;
+          customCell.style.color = 'var(--accent)';
+          customCell.id = customId;
+          
+          const displayValue = fmtDisplay(Math.abs(customValue));
+          const prefix = customClass === 'neg' ? '-' : '+';
+          customCell.innerHTML = `<span class="clickable-amount" data-amount="${customValue}" style="cursor:pointer;">${prefix}${displayValue}</span>`;
+          
+          // Add the custom cell to the row
+          row.appendChild(customCell);
+        } else if (hasCustomColumn) {
+          // Update existing custom column
+          const customCell = Array.from(cells).find(cell => cell.id && cell.id.includes('custom'));
+          if (customCell) {
+            const cellId = customCell.id;
+            let newValue = 0;
+            
+            // Recalculate the value based on the cell ID
+            if (cellId === 'st1-custom-total') {
+              newValue = st1_custom_total;
+            } else if (cellId === 'fid-custom-total') {
+              newValue = fid_custom;
+            } else if (cellId === 'drs-custom-total') {
+              newValue = drs_custom;
+            } else if (cellId === 'moomoo-custom-total') {
+              newValue = moomoo_custom;
+            } else if (cellId === 'cash-custom-total') {
+              newValue = st1_custom_total;
+            } else if (cellId === 'st2-custom-main') {
+              newValue = st2_custom;
+            } else if (cellId === 'st3-custom-main') {
+              newValue = st3_custom_total;
+            } else if (cellId === 'st4-custom-main') {
+              newValue = st4_custom_total;
+            } else if (cellId === 'cs-cost-custom') {
+              newValue = cs_custom;
+            } else if (cellId === 'fid-option-custom') {
+              newValue = fid_custom_option;
+            } else if (cellId === 'moo-option-custom') {
+              newValue = moo_custom_option;
+            }
+            
+            // Update the cell content
+            const displayValue = fmtDisplay(Math.abs(newValue));
+            const prefix = newValue < 0 ? '-' : '+';
+            customCell.innerHTML = `<span class="clickable-amount" data-amount="${newValue}" style="cursor:pointer;">${prefix}${displayValue}</span>`;
+            customCell.className = `r ${newValue < 0 ? 'neg' : 'pos'}`;
+          }
+        }
+      });
+    }
+    
+    function updateElementWithCustomPrice(elementId, value) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        const isNegative = value < 0;
+        const displayValue = isNegative ? fmtDisplay(-value) : fmtDisplay(value);
+        const prefix = isNegative ? '-' : '+';
+        element.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${prefix}${displayValue}</span>`;
+      }
     }
     
     // Enhanced formatting function with global toggle
