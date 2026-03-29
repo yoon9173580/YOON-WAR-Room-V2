@@ -1,1251 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
 
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>YOON MASTER COMMAND — Adjusted GME Pipeline V58</title>
-            <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-            <style>
-                :root {
-                    --bg: #05070a;
-                    --bg2: #0b0f15;
-                    --bg3: #10151d;
-                    --bg4: #141b25;
-                    --border: rgba(255, 255, 255, 0.07);
-                    --borderB: rgba(255, 255, 255, 0.13);
-                    --text: #dde6f0;
-                    --textM: #8899aa;
-                    --textD: #3d5068;
-                    --accent: #00d4aa;
-                    --amber: #f59e0b;
-                    --bull: #22d45a;
-                    --bear: #f04040;
-                    --purple: #a78bfa;
-                    --red: #ef4444;
-                    --orange: #f97316;
-                    --green: #10b981;
-                    --mono: 'JetBrains Mono', monospace;
-                    --disp: 'Syne', sans-serif;
-                }
-                
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                
-                body {
-                    background: var(--bg);
-                    color: var(--text);
-                    font-family: var(--mono);
-                    min-height: 100vh;
-                    font-size: 13px;
-                    line-height: 1.6;
-                }
-                
-                .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
-                
-                .header {
-                    text-align: center;
-                    margin-bottom: 40px;
-                }
-                
-                .header h1 {
-                    font-family: var(--disp);
-                    font-size: 28px;
-                    font-weight: 800;
-                    color: var(--text);
-                    margin-bottom: 8px;
-                }
-                
-                .subtitle {
-                    color: var(--textM);
-                    font-size: 14px;
-                }
-                
-                .price-banner {
-                    background: linear-gradient(135deg, var(--bg2), var(--bg3));
-                    border: 1px solid var(--border);
-                    border-radius: 12px;
-                    padding: 24px;
-                    margin-bottom: 24px;
-                    text-align: center;
-                }
-                
-                .current-price {
-                    font-size: 32px;
-                    font-weight: 700;
-                    color: var(--accent);
-                    margin-bottom: 8px;
-                }
-                
-                .adjustment-notice {
-                    background: rgba(249, 115, 22, 0.1);
-                    border: 1px solid rgba(249, 115, 22, 0.3);
-                    border-radius: 8px;
-                    padding: 16px;
-                    margin-bottom: 24px;
-                    text-align: center;
-                }
-                
-                .adjustment-title {
-                    color: var(--orange);
-                    font-weight: 600;
-                    margin-bottom: 8px;
-                }
-                
-                .adjustment-text {
-                    font-size: 12px;
-                    color: var(--textM);
-                }
-                
-                .clickable-amount {
-                    cursor: pointer;
-                    color: var(--text);
-                    background: var(--bg3);
-                    border: 1px solid var(--border);
-                    border-radius: 4px;
-                    padding: 2px 6px;
-                    font-family: var(--mono);
-                    font-weight: 500;
-                    transition: all 0.2s ease;
-                    position: relative;
-                }
-                
-                .clickable-amount:hover {
-                    background: var(--bg4);
-                    border-color: var(--borderB);
-                    transform: translateY(-1px);
-                }
-                
-                .clickable-amount.negative {
-                    color: var(--bear);
-                    border-color: rgba(240, 64, 64, 0.3);
-                }
-                
-                .clickable-amount.positive {
-                    color: var(--bull);
-                    border-color: rgba(34, 212, 90, 0.3);
-                }
-                
-                .tooltip {
-                    position: absolute;
-                    top: -30px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: var(--bg4);
-                    border: 1px solid var(--borderB);
-                    border-radius: 4px;
-                    padding: 4px 8px;
-                    font-size: 11px;
-                    white-space: nowrap;
-                    z-index: 1000;
-                    pointer-events: none;
-                    opacity: 0;
-                    transition: opacity 0.2s ease;
-                }
-                
-                .tooltip.show {
-                    opacity: 1;
-                }
-                
-                .scenario-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-                    gap: 24px;
-                    margin-bottom: 30px;
-                }
-                
-                .scenario-card {
-                    background: var(--bg2);
-                    border: 1px solid var(--border);
-                    border-radius: 12px;
-                    padding: 24px;
-                    transition: transform 0.2s ease;
-                }
-                
-                .scenario-card:hover {
-                    transform: translateY(-2px);
-                    border-color: var(--borderB);
-                }
-                
-                .scenario-header {
-                    border-bottom: 1px solid var(--border);
-                    padding-bottom: 16px;
-                    margin-bottom: 20px;
-                }
-                
-                .scenario-title {
-                    font-size: 20px;
-                    font-weight: 700;
-                    color: var(--text);
-                    margin-bottom: 8px;
-                }
-                
-                .scenario-total {
-                    font-size: 14px;
-                    color: var(--textM);
-                }
-                
-                .section-title {
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: var(--textM);
-                    margin-bottom: 12px;
-                    text-transform: uppercase;
-                    border-bottom: 1px solid var(--border);
-                    padding-bottom: 4px;
-                }
-                
-                .allocation-item {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 8px 0;
-                    font-size: 12px;
-                }
-                
-                .allocation-label {
-                    color: var(--textM);
-                }
-                
-                .allocation-value {
-                    font-family: var(--mono);
-                    font-weight: 500;
-                    color: var(--text);
-                }
-                
-                .option-details {
-                    background: var(--bg3);
-                    border-radius: 8px;
-                    padding: 12px;
-                    margin-top: 12px;
-                }
-                
-                .option-header {
-                    font-size: 11px;
-                    font-weight: 600;
-                    color: var(--textM);
-                    margin-bottom: 8px;
-                    display: flex;
-                    justify-content: space-between;
-                }
-                
-                .strike-table {
-                    width: 100%;
-                    font-size: 11px;
-                }
-                
-                .strike-table th {
-                    text-align: left;
-                    padding: 4px 8px;
-                    background: var(--bg4);
-                    color: var(--textM);
-                    font-weight: 600;
-                }
-                
-                .strike-table td {
-                    padding: 4px 8px;
-                    border-bottom: 1px solid var(--border);
-                }
-                
-                .itm { color: var(--bull); }
-                .otm { color: var(--textD); }
-                
-                .final-cash-section {
-                    background: linear-gradient(135deg, var(--bg3), var(--bg4));
-                    border-radius: 8px;
-                    padding: 16px;
-                    margin-top: 16px;
-                    text-align: center;
-                }
-                
-                .final-cash-label {
-                    font-size: 12px;
-                    color: var(--textM);
-                    margin-bottom: 8px;
-                }
-                
-                .final-cash-amount {
-                    font-size: 18px;
-                    font-weight: 700;
-                    color: var(--bull);
-                }
-                
-                .utilization-meter {
-                    background: var(--bg4);
-                    border-radius: 4px;
-                    height: 8px;
-                    margin: 8px 0;
-                    overflow: hidden;
-                }
-                
-                .utilization-fill {
-                    height: 100%;
-                    background: var(--orange);
-                    transition: width 0.3s ease;
-                }
-                
-                .utilization-text {
-                    font-size: 10px;
-                    color: var(--textM);
-                }
-                
-                @media (max-width: 768px) {
-                    .scenario-grid {
-                        grid-template-columns: 1fr;
-                    }
-                }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>YOON MASTER COMMAND</h1>
-                    <div class="subtitle">Adjusted GME Pipeline V58 — 100K Units, Click for Details</div>
-                </div>
-                
-                <div class="price-banner">
-                    <div class="current-price">GME: $25.00</div>
-                    <div style="font-size: 12px; color: var(--textM);">
-                        Real-Time Price • Updated: 2026-03-29 17:57:08
-                    </div>
-                </div>
-                
-                <div class="adjustment-notice">
-                    <div class="adjustment-title">ADJUSTMENT NOTICE</div>
-                    <div class="adjustment-text">
-                        ST 2 즉시 집행금이 $600,000으로 조정되었습니다. 
-                        모든 금액은 100K 단위로 표시되며, 클릭하면 실제 금액을 볼 수 있습니다.
-                        모든 숫자는 0000 단위로 반내림되었습니다.
-                    </div>
-                </div>
-                
-                <div class="scenario-grid">
-        
-                    <div class="scenario-card">
-                        <div class="scenario-header">
-                            <div class="scenario-title">Scenario 1</div>
-                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="8705430">8.7M</span></div>
-                        </div>
-                        
-                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 집행금:</span>
-                            <span class="clickable-amount negative" data-amount="600000">600K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">집행 후 잔액:</span>
-                            <span class="clickable-amount positive" data-amount="8105430">8.1M</span>
-                        </div>
-                        
-                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CS 현물 (100,000주):</span>
-                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">주당 가격:</span>
-                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Fidelity Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Moomoo Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="section-title">ST 4. 절세 제국 스케일업</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">GME Partial Sell (1.5x):</span>
-                            <span class="clickable-amount positive" data-amount="13058145.0">13.1M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">O&G (Energy) IDC:</span>
-                            <span class="clickable-amount negative" data-amount="3482172.0">3.5M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">QOF Housing:</span>
-                            <span class="clickable-amount negative" data-amount="2611629.0">2.6M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CLAT (Trust):</span>
-                            <span class="clickable-amount negative" data-amount="1305814.5">1.3M</span>
-                        </div>
-            
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 옵션 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="382">382개</span>
-                        </div>
-                        
-                        <div class="allocation-item">
-                            <span class="allocation-label">옵션 활용률:</span>
-                            <span class="clickable-amount" data-amount="1.7839844579274025">1.8%</span>
-                        </div>
-                        
-                        <div class="utilization-meter">
-                            <div class="utilization-fill" style="width: 1.7839844579274025%"></div>
-                        </div>
-                        
-                        <div class="final-cash-section">
-                            <div class="final-cash-label">최종 현금 잔고</div>
-                            <div class="final-cash-amount">
-                                <span class="clickable-amount positive" data-amount="5505430.0">5.5M</span>
-                            </div>
-                            <div class="utilization-text">
-                                63.2% of total funds remain as cash
-                            </div>
-                        </div>
-                    </div>
-            
-                    <div class="scenario-card">
-                        <div class="scenario-header">
-                            <div class="scenario-title">Scenario 2</div>
-                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="10031972">10.0M</span></div>
-                        </div>
-                        
-                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 집행금:</span>
-                            <span class="clickable-amount negative" data-amount="600000">600K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">집행 후 잔액:</span>
-                            <span class="clickable-amount positive" data-amount="9431972">9.4M</span>
-                        </div>
-                        
-                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CS 현물 (100,000주):</span>
-                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">주당 가격:</span>
-                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Fidelity Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Moomoo Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="section-title">ST 4. 절세 제국 스케일업</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">GME Partial Sell (1.5x):</span>
-                            <span class="clickable-amount positive" data-amount="15047958.0">15.0M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">O&G (Energy) IDC:</span>
-                            <span class="clickable-amount negative" data-amount="4012788.8000000003">4.0M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">QOF Housing:</span>
-                            <span class="clickable-amount negative" data-amount="3009591.6">3.0M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CLAT (Trust):</span>
-                            <span class="clickable-amount negative" data-amount="1504795.8">1.5M</span>
-                        </div>
-            
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 옵션 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="382">382개</span>
-                        </div>
-                        
-                        <div class="allocation-item">
-                            <span class="allocation-label">옵션 활용률:</span>
-                            <span class="clickable-amount" data-amount="1.4425909394902345">1.4%</span>
-                        </div>
-                        
-                        <div class="utilization-meter">
-                            <div class="utilization-fill" style="width: 1.4425909394902345%"></div>
-                        </div>
-                        
-                        <div class="final-cash-section">
-                            <div class="final-cash-label">최종 현금 잔고</div>
-                            <div class="final-cash-amount">
-                                <span class="clickable-amount positive" data-amount="6831972.0">6.8M</span>
-                            </div>
-                            <div class="utilization-text">
-                                68.1% of total funds remain as cash
-                            </div>
-                        </div>
-                    </div>
-            
-                    <div class="scenario-card">
-                        <div class="scenario-header">
-                            <div class="scenario-title">Scenario 3</div>
-                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="16540318">16.5M</span></div>
-                        </div>
-                        
-                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 집행금:</span>
-                            <span class="clickable-amount negative" data-amount="600000">600K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">집행 후 잔액:</span>
-                            <span class="clickable-amount positive" data-amount="15940318">15.9M</span>
-                        </div>
-                        
-                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CS 현물 (100,000주):</span>
-                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">주당 가격:</span>
-                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Fidelity Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Moomoo Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="section-title">ST 4. 절세 제국 스케일업</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">GME Partial Sell (1.5x):</span>
-                            <span class="clickable-amount positive" data-amount="24810477.0">24.8M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">O&G (Energy) IDC:</span>
-                            <span class="clickable-amount negative" data-amount="6616127.2">6.6M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">QOF Housing:</span>
-                            <span class="clickable-amount negative" data-amount="4962095.399999999">5.0M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CLAT (Trust):</span>
-                            <span class="clickable-amount negative" data-amount="2481047.6999999997">2.5M</span>
-                        </div>
-            
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 옵션 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="382">382개</span>
-                        </div>
-                        
-                        <div class="allocation-item">
-                            <span class="allocation-label">옵션 활용률:</span>
-                            <span class="clickable-amount" data-amount="0.7440300147660197">0.7%</span>
-                        </div>
-                        
-                        <div class="utilization-meter">
-                            <div class="utilization-fill" style="width: 0.7440300147660197%"></div>
-                        </div>
-                        
-                        <div class="final-cash-section">
-                            <div class="final-cash-label">최종 현금 잔고</div>
-                            <div class="final-cash-amount">
-                                <span class="clickable-amount positive" data-amount="13340318.0">13.3M</span>
-                            </div>
-                            <div class="utilization-text">
-                                80.7% of total funds remain as cash
-                            </div>
-                        </div>
-                    </div>
-            
-                    <div class="scenario-card">
-                        <div class="scenario-header">
-                            <div class="scenario-title">Scenario 4</div>
-                            <div class="scenario-total">ST 1 Total: <span class="clickable-amount positive" data-amount="30717733">30.7M</span></div>
-                        </div>
-                        
-                        <div class="section-title">ST 2. 즉시 집행금 (조정됨)</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 집행금:</span>
-                            <span class="clickable-amount negative" data-amount="600000">600K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">집행 후 잔액:</span>
-                            <span class="clickable-amount positive" data-amount="30117733">30.1M</span>
-                        </div>
-                        
-                        <div class="section-title">ST 3. 현재가 기준 GME 투입</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CS 현물 (100,000주):</span>
-                            <span class="clickable-amount negative" data-amount="2500000.0">2.5M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">주당 가격:</span>
-                            <span class="clickable-amount" data-amount="25.0">$25.00</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Fidelity 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Fidelity Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 옵션:</span>
-                            <span class="clickable-amount negative" data-amount="50000">50K</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">Moomoo 총 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="191">191개</span>
-                        </div>
-            
-                        <div class="option-details">
-                            <div class="option-header">
-                                <span>Moomoo Option Contracts (191 contracts)</span>
-                                <span>Total Exposure: 19,100 shares</span>
-                            </div>
-                            <table class="strike-table">
-                                <thead>
-                                    <tr>
-                                        <th>Strike</th>
-                                        <th>Contracts</th>
-                                        <th>Premium/Contract</th>
-                                        <th>Total Cost</th>
-                                        <th>Type</th>
-                                        <th>Exposure</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                
-                                    <tr>
-                                        <td>$20</td>
-                                        <td>16</td>
-                                        <td><span class="clickable-amount" data-amount="600.0">$600.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="9600.0">9K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>1,600 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$22</td>
-                                        <td>25</td>
-                                        <td><span class="clickable-amount" data-amount="400.0">$400.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="10000.0">10K</span></td>
-                                        <td><span class="itm">ITM</span></td>
-                                        <td>2,500 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$25</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$28</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                    <tr>
-                                        <td>$30</td>
-                                        <td>50</td>
-                                        <td><span class="clickable-amount" data-amount="100.0">$100.00</span></td>
-                                        <td><span class="clickable-amount negative" data-amount="5000.0">5K</span></td>
-                                        <td><span class="otm">OTM</span></td>
-                                        <td>5,000 shares</td>
-                                    </tr>
-                    
-                                </tbody>
-                            </table>
-                        </div>
-                
-                        <div class="section-title">ST 4. 절세 제국 스케일업</div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">GME Partial Sell (1.5x):</span>
-                            <span class="clickable-amount positive" data-amount="46076599.5">46.1M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">O&G (Energy) IDC:</span>
-                            <span class="clickable-amount negative" data-amount="12287093.200000001">12.3M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">QOF Housing:</span>
-                            <span class="clickable-amount negative" data-amount="9215319.9">9.2M</span>
-                        </div>
-                        <div class="allocation-item">
-                            <span class="allocation-label">CLAT (Trust):</span>
-                            <span class="clickable-amount negative" data-amount="4607659.95">4.6M</span>
-                        </div>
-            
-                        <div class="allocation-item">
-                            <span class="allocation-label">총 옵션 컨트랙트:</span>
-                            <span class="clickable-amount" data-amount="382">382개</span>
-                        </div>
-                        
-                        <div class="allocation-item">
-                            <span class="allocation-label">옵션 활용률:</span>
-                            <span class="clickable-amount" data-amount="0.3620862001960842">0.4%</span>
-                        </div>
-                        
-                        <div class="utilization-meter">
-                            <div class="utilization-fill" style="width: 0.3620862001960842%"></div>
-                        </div>
-                        
-                        <div class="final-cash-section">
-                            <div class="final-cash-label">최종 현금 잔고</div>
-                            <div class="final-cash-amount">
-                                <span class="clickable-amount positive" data-amount="27517733.0">27.5M</span>
-                            </div>
-                            <div class="utilization-text">
-                                89.6% of total funds remain as cash
-                            </div>
-                        </div>
-                    </div>
-            
-                </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>YOON MASTER COMMAND — Tactical Hub V53</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* =========================================================
+       [1] CSS DESIGN SYSTEM - TITANIUM HARDENED
+       ========================================================= */
+    :root {
+      --bg: #05070a;
+      --bg2: #0b0f15;
+      --bg3: #10151d;
+      --bg4: #141b25;
+      --border: rgba(255, 255, 255, 0.07);
+      --borderB: rgba(255, 255, 255, 0.13);
+      --text: #dde6f0;
+      --textM: #8899aa;
+      --textD: #3d5068;
+      --accent: #00d4aa;
+      --blue: #3b82f6;
+      --amber: #f59e0b;
+      --bull: #22d45a;
+      --bear: #f04040;
+      --purple: #a78bfa;
+      --mono: 'JetBrains Mono', monospace;
+      --disp: 'Syne', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(0, 212, 170, 0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 170, 0.012) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── [LOCK SCREEN] ── */
+    #lockScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #05070a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.8s;
+    }
+
+    .lock-box {
+      background: #0b0f15;
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 30px;
+      padding: 80px 70px;
+      width: 560px;
+      box-shadow: 0 0 150px rgba(0, 212, 170, 0.2);
+      text-align: center;
+    }
+
+    .lock-logo {
+      font-family: var(--disp);
+      font-size: 38px;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+    }
+
+    .lock-sub {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--textD);
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      margin-bottom: 50px;
+    }
+
+    .lock-input {
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--borderB);
+      border-radius: 15px;
+      padding: 25px;
+      font-size: 32px;
+      color: #fff;
+      text-align: center;
+      outline: none;
+      letter-spacing: 20px;
+      margin-bottom: 40px;
+      transition: 0.3s;
+      font-weight: 900;
+    }
+
+    .lock-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0, 212, 170, 0.3);
+    }
+
+    .lock-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 15px;
+      padding: 25px;
+      font-weight: 900;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 16px;
+      transition: 0.4s;
+    }
+
+    .lock-btn:hover {
+      background: #00f0c0;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 212, 170, 0.3);
+    }
+
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 45px;
+    }
+
+    .pin-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      transition: 0.3s;
+    }
+
+    .pin-dot.filled {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--accent);
+      transform: scale(1.4);
+    }
+
+    /* ── [TERMINAL LAYOUT] ── */
+    .wrap {
+      max-width: 1920px;
+      margin: 0 auto;
+      padding: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-layout {
+      display: flex;
+      gap: 50px;
+      align-items: flex-start;
+    }
+
+    .market-sidebar {
+      width: 350px;
+      min-width: 350px;
+      flex-shrink: 0;
+      height: calc(100vh - 80px);
+      position: sticky;
+      top: 40px;
+      overflow-y: auto;
+      padding-right: 25px;
+    }
+
+    .market-sidebar::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .market-sidebar::-webkit-scrollbar-thumb {
+      background: var(--borderB);
+      border-radius: 10px;
+    }
+
+    .sidebar-title {
+      font-family: var(--disp);
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--textM);
+      text-transform: uppercase;
+      padding: 45px 0 20px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 25px;
+      letter-spacing: 5px;
+    }
+
+    .sb-card {
+      background: var(--bg2);
+      border: 3px solid var(--border);
+      border-radius: 20px;
+      padding: 25px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 10px solid transparent;
+    }
+
+    .sb-card:hover {
+      border-color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--bg3);
+      transform: translateX(12px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .sb-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .sb-sym {
+      font-family: var(--disp);
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .sb-price {
+      font-family: var(--disp);
+      font-size: 24px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      color: var(--text);
+    }
+
+    .sb-chg {
+      font-size: 14px;
+      font-weight: 900;
+      margin-left: auto;
+    }
+
+    .sb-ext {
+      font-size: 11px;
+      color: var(--amber);
+      font-weight: 800;
+      margin-top: 6px;
+      font-family: var(--mono);
+    }
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid var(--border);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+
+    .brand-name {
+      font-family: var(--disp);
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+
+    .port-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 25px;
+      margin-bottom: 55px;
+    }
+
+    .pstat {
+      background: var(--bg2);
+      border: 3px solid var(--border);
+      border-radius: 28px;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      border-bottom: 8px solid transparent;
+      transition: all 0.4s;
+    }
+
+    .pstat:hover {
+      border-bottom-color: var(--accent);
+      transform: translateY(-10px);
+    }
+
+    .pstat-lbl {
+      font-size: 11px;
+      color: var(--textM);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+      font-weight: 900;
+    }
+
+    .pstat-val {
+      font-family: var(--disp);
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1.8px;
+    }
+
+    .port-table-wrap {
+      background: var(--bg2);
+      border: 4px solid var(--border);
+      border-radius: 30px;
+      overflow: hidden;
+      margin-bottom: 50px;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-size: 12px;
+      color: var(--textM);
+      padding: 30px 35px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      text-transform: uppercase;
+      border-bottom: 4px solid var(--border);
+      font-weight: 900;
+    }
+
+    td {
+      padding: 30px 35px;
+      border-bottom: 2.5px solid var(--border);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .r {
+      text-align: right;
+    }
+
+    .pos {
+      color: var(--bull);
+    }
+
+    .neg {
+      color: var(--bear);
+    }
+
+    .sym-tag {
+      font-weight: 900;
+      font-family: var(--disp);
+      font-size: 24px;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+
+    .sub-tag {
+      font-size: 13px;
+      color: var(--textM);
+      display: block;
+      margin-top: 6px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+    }
+
+    .ext-badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber);
+      margin-top: 8px;
+      font-weight: 900;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-out {
+      background: transparent;
+      color: var(--accent);
+      border: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 18px 36px;
+      font-weight: 900;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: 0.4s;
+      font-size: 16px;
+    }
+
+    .btn-out:hover {
+      background: var(--accent);
+      color: #000;
+      box-shadow: 0 0 40px var(--accent);
+      transform: scale(1.05);
+    }
+
+    /* ── [SCENARIO MATRIX] ── */
+    .scenario-wrap {
+      background: var(--bg2);
+      border: 4px solid var(--border);
+      border-radius: 30px;
+      overflow: hidden;
+      margin-bottom: 50px;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
+    }
+
+    .scenario-title {
+      font-family: var(--disp);
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text);
+      padding: 30px 35px 25px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+      background: rgba(0, 212, 170, 0.05);
+    }
+
+    .st-main td {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 900;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      background: rgba(255, 255, 255, 0.02);
+      border-top: 2px solid var(--border);
+    }
+
+    .st-sub td {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .pl-indent {
+      padding-left: 55px !important;
+      color: var(--textM);
+      font-weight: 600;
+      font-family: var(--disp);
+    }
+
+    .pl-indent-2 {
+      padding-left: 85px !important;
+      color: var(--textD);
+      font-weight: 600;
+      font-family: var(--disp);
+    }
+
+    .det {
+      color: var(--textM) !important;
+      font-size: 13px !important;
+      font-weight: 500;
+    }
+
+    .scenario-wrap table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .scenario-wrap th {
+      padding: 25px 35px;
+      background: rgba(0, 0, 0, 0.4);
+      text-align: left;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--textM);
+      border-bottom: 3px solid var(--border);
+    }
+
+    .scenario-wrap th.r {
+      text-align: right;
+    }
+
+    .scenario-wrap td {
+      padding: 12px 35px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .st-main .pos {
+      color: var(--accent);
+    }
+
+    .st-main .neg {
+      color: var(--bear);
+    }
+
+    .st-sub .pos {
+      color: var(--bull);
+      font-weight: 800;
+    }
+
+    .st-sub .neg {
+      color: var(--bear);
+      font-weight: 800;
+    }
+
+    .st-cash td {
+      background: rgba(0, 212, 170, 0.08);
+      color: var(--accent) !important;
+      font-weight: 900 !important;
+      border-top: 2px dashed rgba(0, 212, 170, 0.3);
+      border-bottom: 2px dashed rgba(0, 212, 170, 0.3);
+      font-size: 15px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    .st-cash .det-cash {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(0, 212, 170, 0.6) !important;
+      font-weight: 700 !important;
+    }
+
+    .bal {
+      font-size: 11px;
+      color: var(--accent);
+      opacity: 0.8;
+      font-weight: 800;
+      font-family: var(--mono);
+      margin-top: 4px;
+      display: block;
+    }
+    /* Price Update Animation */
+    @keyframes priceFlash {
+      0% { background-color: rgba(0, 212, 170, 0.3); }
+      100% { background-color: transparent; }
+    }
+    @keyframes priceUp {
+      0% { color: var(--bull); transform: scale(1.1); }
+      100% { color: var(--text); transform: scale(1); }
+    }
+    @keyframes priceDown {
+      0% { color: var(--bear); transform: scale(1.1); }
+      100% { color: var(--text); transform: scale(1); }
+    }
+    .price-updated {
+      animation: priceFlash 0.5s ease-out;
+    }
+    .price-up {
+      animation: priceUp 0.5s ease-out;
+    }
+    .price-down {
+      animation: priceDown 0.5s ease-out;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="lockScreen">
+    <div class="lock-box">
+      <div class="lock-logo">YOON MASTER COMMAND</div>
+      <div class="lock-sub">VERCEL API ULTIMATE SYNC V53.0</div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="dot0"></div>
+        <div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div>
+        <div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot4"></div>
+        <div class="pin-dot" id="dot5"></div>
+        <div class="pin-dot" id="dot6"></div>
+      </div>
+      <input id="pinInput" class="lock-input" type="password" maxlength="7" placeholder="•••••••" autofocus
+        autocomplete="off" />
+      <button class="lock-btn" onclick="submitPin()">ESTABLISH SECURE LINK →</button>
+      <div id="lockErr"
+        style="margin-top:35px; text-align:center; color:var(--bear); font-weight:900; font-size:18px; height:24px;">
+      </div>
+    </div>
+  </div>
+
+  <div id="mainApp" style="display:none">
+    <div class="wrap">
+      <div class="app-layout">
+
+        <div class="market-sidebar">
+          <div class="sidebar-title">📡 Global Indices</div>
+          <div class="sb-card" onclick="setActive('SPY')">
+            <div class="sb-card-top"><span class="sb-sym">🇺🇸 SPY 500</span><span id="sb-SPY-chg"
+                class="sb-chg">—</span></div>
+            <div id="sb-SPY-price" class="sb-price">WAITING...</div>
+            <div id="sb-SPY-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('QQQ')">
+            <div class="sb-card-top"><span class="sb-sym">💻 QQQ 100</span><span id="sb-QQQ-chg" class="sb-chg">—</span>
             </div>
-            
-            <script>
-                // Format currency function
-                function formatCurrency(amount) {
-                    return '$' + Math.round(amount).toLocaleString('en-US');
-                }
-                
-                // Add tooltip functionality
-                document.addEventListener('DOMContentLoaded', function() {
-                    const clickableAmounts = document.querySelectorAll('.clickable-amount');
-                    
-                    clickableAmounts.forEach(element => {
-                        element.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            
-                            const amount = parseFloat(this.dataset.amount);
-                            const formattedAmount = formatCurrency(amount);
-                            
-                            // Toggle tooltip
-                            let tooltip = this.querySelector('.tooltip');
-                            if (!tooltip) {
-                                tooltip = document.createElement('div');
-                                tooltip.className = 'tooltip';
-                                this.appendChild(tooltip);
-                            }
-                            
-                            tooltip.textContent = 'Actual: ' + formattedAmount;
-                            tooltip.classList.toggle('show');
-                            
-                            // Hide tooltip when clicking elsewhere
-                            setTimeout(() => {
-                                tooltip.classList.remove('show');
-                            }, 2000);
-                        });
-                    });
-                    
-                    // Hide tooltips when clicking outside
-                    document.addEventListener('click', function() {
-                        document.querySelectorAll('.tooltip.show').forEach(tooltip => {
-                            tooltip.classList.remove('show');
-                        });
-                    });
-                });
-            </script>
-        </body>
-        </html>
-        
+            <div id="sb-QQQ-price" class="sb-price">WAITING...</div>
+            <div id="sb-QQQ-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('^VIX')">
+            <div class="sb-card-top"><span class="sb-sym">📉 VIX INDEX</span><span id="sb-VIX-chg"
+                class="sb-chg">—</span></div>
+            <div id="sb-VIX-price" class="sb-price">WAITING...</div>
+            <div id="sb-VIX-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sidebar-title">₿ Crypto Channels</div>
+          <div class="sb-card" onclick="setActive('BTC-USD')">
+            <div class="sb-card-top"><span class="sb-sym">₿ BITCOIN</span><span id="sb-BTC-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BTC-price" class="sb-price">WAITING...</div>
+            <div id="sb-BTC-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sidebar-title">💎 Magnificent 7</div>
+          <div class="sb-card" onclick="setActive('AAPL')">
+            <div class="sb-card-top"><span class="sb-sym">AAPL</span><span id="sb-AAPL-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-AAPL-price" class="sb-price">WAITING...</div>
+            <div id="sb-AAPL-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('NVDA')">
+            <div class="sb-card-top"><span class="sb-sym">NVDA</span><span id="sb-NVDA-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-NVDA-price" class="sb-price">WAITING...</div>
+            <div id="sb-NVDA-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('MSFT')">
+            <div class="sb-card-top"><span class="sb-sym">MSFT</span><span id="sb-MSFT-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-MSFT-price" class="sb-price">WAITING...</div>
+            <div id="sb-MSFT-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('TSLA')">
+            <div class="sb-card-top"><span class="sb-sym">TSLA</span><span id="sb-TSLA-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-TSLA-price" class="sb-price">WAITING...</div>
+            <div id="sb-TSLA-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('GOOGL')">
+            <div class="sb-card-top"><span class="sb-sym">GOOGL</span><span id="sb-GOOGL-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-GOOGL-price" class="sb-price">WAITING...</div>
+            <div id="sb-GOOGL-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('AMZN')">
+            <div class="sb-card-top"><span class="sb-sym">AMZN</span><span id="sb-AMZN-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-AMZN-price" class="sb-price">WAITING...</div>
+            <div id="sb-AMZN-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('META')">
+            <div class="sb-card-top"><span class="sb-sym">META</span><span id="sb-META-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-META-price" class="sb-price">WAITING...</div>
+            <div id="sb-META-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sidebar-title">🧺 Strategic Basket</div>
+          <div class="sb-card" onclick="setActive('GME')">
+            <div class="sb-card-top"><span class="sb-sym">GME</span><span id="sb-GME-chg" class="sb-chg">—</span></div>
+            <div id="sb-GME-price" class="sb-price">WAITING...</div>
+            <div id="sb-GME-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('AMC')">
+            <div class="sb-card-top"><span class="sb-sym">AMC</span><span id="sb-AMC-chg" class="sb-chg">—</span></div>
+            <div id="sb-AMC-price" class="sb-price">WAITING...</div>
+            <div id="sb-AMC-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('IEP')">
+            <div class="sb-card-top"><span class="sb-sym">IEP</span><span id="sb-IEP-chg" class="sb-chg">—</span></div>
+            <div id="sb-IEP-price" class="sb-price">WAITING...</div>
+            <div id="sb-IEP-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('BYND')">
+            <div class="sb-card-top"><span class="sb-sym">BYND</span><span id="sb-BYND-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BYND-price" class="sb-price">WAITING...</div>
+            <div id="sb-BYND-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('KOSS')">
+            <div class="sb-card-top"><span class="sb-sym">KOSS</span><span id="sb-KOSS-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-KOSS-price" class="sb-price">WAITING...</div>
+            <div id="sb-KOSS-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('CHWY')">
+            <div class="sb-card-top"><span class="sb-sym">CHWY</span><span id="sb-CHWY-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-CHWY-price" class="sb-price">WAITING...</div>
+            <div id="sb-CHWY-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('BBY')">
+            <div class="sb-card-top"><span class="sb-sym">BBY</span><span id="sb-BBY-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BBY-price" class="sb-price">WAITING...</div>
+            <div id="sb-BBY-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('TGT')">
+            <div class="sb-card-top"><span class="sb-sym">TGT</span><span id="sb-TGT-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-TGT-price" class="sb-price">WAITING...</div>
+            <div id="sb-TGT-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('BB')">
+            <div class="sb-card-top"><span class="sb-sym">BB</span><span id="sb-BB-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-BB-price" class="sb-price">WAITING...</div>
+            <div id="sb-BB-ext" class="sb-ext"></div>
+          </div>
+          <div class="sb-card" onclick="setActive('NOK')">
+            <div class="sb-card-top"><span class="sb-sym">NOK</span><span id="sb-NOK-chg" class="sb-chg">—</span>
+            </div>
+            <div id="sb-NOK-price" class="sb-price">WAITING...</div>
+            <div id="sb-NOK-ext" class="sb-ext"></div>
+          </div>
+        </div>
+
+        <div class="main-content">
+          <header>
+            <div class="brand-name">YOON MASTER COMMAND <span
+                style="font-size:12px; color:var(--textD); margin-left:40px; font-weight:900;">VERCEL API CORE
+                V53.0</span></div>
+            <div style="display:flex; align-items:center; gap:40px;">
+              <div class="live-indicator">
+                <div class="dot"></div><span id="connStatus" style="color:var(--accent);">SATELLITE STANDBY</span>
+              </div>
+              <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
+            </div>
+          </header>
+
+          <div class="port-bar">
+            <div class="pstat">
+              <div class="pstat-lbl">Real-Time Equity</div>
+              <div id="p-total" class="pstat-val">$0.00</div>
+            </div>
+            <div class="pstat">
+              <div class="pstat-lbl">Active Session Δ</div>
+              <div id="p-daypnl" class="pstat-val">$0.00</div>
+            </div>
+            <div class="pstat">
+              <div class="pstat-lbl">Total Unrealized Δ</div>
+              <div id="p-totpnl" class="pstat-val">$0.00</div>
+            </div>
+            <div class="pstat">
+              <div class="pstat-lbl">Scenario Payout Target ($399)</div>
+              <div class="pstat-val" style="color:var(--amber)">$16,540,146.00</div>
+            </div>
+            <div class="pstat">
+              <div class="pstat-lbl">Fear & Greed Index</div>
+              <div id="fear-val" class="pstat-val">--</div>
+            </div>
+          </div>
+
+          <div
+            style="margin-bottom:50px; padding:40px 45px; background:rgba(245,158,11,0.12); border:3px solid rgba(245,158,11,0.5); border-radius:30px; font-size:18px;">
+            <span style="font-size:38px; margin-right:25px; float:left;">🦋</span>
+            <span style="color:var(--text); line-height:1.8; font-weight:800;">
+              Strategic Intelligence: BBBYQ Recovery Target V2.<br>
+              Recovery Projection: <span style="color:var(--amber); font-weight:900;">$399.00 per share</span> → <span
+                style="color:var(--bull); font-weight:900;">$16,540,146.00 Total Reservoir.</span>
+            </span>
+            <div style="clear:both;"></div>
+          </div>
+
+          <div class="port-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset Instrument</th>
+                  <th class="r">Position</th>
+                  <th class="r">Avg Basis</th>
+                  <th class="r">Live Matrix</th>
+                  <th class="r">Terminal Value</th>
+                  <th class="r">Session Δ</th>
+                  <th class="r">Total Δ</th>
+                  <th class="r">ROI %</th>
+                </tr>
+              </thead>
+              <tbody id="portfolioBody">
+                <tr id="row_bbbyq">
+                  <td style="color:var(--amber); font-weight:900;"><span class="sym-tag">BBBYQ</span><br><span
+                      class="sub-tag">Bed Bath & Beyond</span></td>
+                  <td class="r">41,454</td>
+                  <td class="r muted">$2.00</td>
+                  <td class="r" style="font-weight:900;">BANKRUPT</td>
+                  <td class="r" id="cell_bbbyq_val">$0.00</td>
+                  <td class="r">—</td>
+                  <td class="r" id="cell_bbbyq_tot">$0.00</td>
+                  <td class="r" id="cell_bbbyq_roi">0.00%</td>
+                </tr>
+                <tr id="row_gme_e">
+                  <td style="color:var(--text); font-weight:900;"><span class="sym-tag">GME</span><br><span
+                      class="sub-tag">GameStop Equity</span></td>
+                  <td class="r">335</td>
+                  <td class="r muted">$30.00</td>
+                  <td class="r" style="font-weight:900;" id="cell_gme_e_p">WAITING...</td>
+                  <td class="r" id="cell_gme_e_val">$0.00</td>
+                  <td class="r" id="cell_gme_e_day">$0.00</td>
+                  <td class="r" id="cell_gme_e_tot">$0.00</td>
+                  <td class="r" id="cell_gme_e_roi">0.00%</td>
+                </tr>
+                <tr id="row_gme_o">
+                  <td style="color:var(--purple); font-weight:900;"><span class="sym-tag">GME $50C</span><br><span
+                      class="sub-tag">GME 17 Apr 26 Call</span></td>
+                  <td class="r">26</td>
+                  <td class="r muted">$0.36</td>
+                  <td class="r" style="font-weight:900;" id="cell_gme_o_p">WAITING...</td>
+                  <td class="r" id="cell_gme_o_val">$0.00</td>
+                  <td class="r" id="cell_gme_o_day">$0.00</td>
+                  <td class="r" id="cell_gme_o_tot">$0.00</td>
+                  <td class="r" id="cell_gme_o_roi">0.00%</td>
+                </tr>
+                <tr id="row_amc_e">
+                  <td style="color:var(--text); font-weight:900;"><span class="sym-tag">AMC</span><br><span
+                      class="sub-tag">AMC Entertainment</span></td>
+                  <td class="r">1</td>
+                  <td class="r muted">$1.18</td>
+                  <td class="r" style="font-weight:900;" id="cell_amc_e_p">WAITING...</td>
+                  <td class="r" id="cell_amc_e_val">$0.00</td>
+                  <td class="r" id="cell_amc_e_day">$0.00</td>
+                  <td class="r" id="cell_amc_e_tot">$0.00</td>
+                  <td class="r" id="cell_amc_e_roi">0.00%</td>
+                </tr>
+                <tr id="row_amc_o">
+                  <td style="color:var(--purple); font-weight:900;"><span class="sym-tag">AMC $2C</span><br><span
+                      class="sub-tag">AMC 02 Apr 26 Call</span></td>
+                  <td class="r">2</td>
+                  <td class="r muted">$0.07</td>
+                  <td class="r" style="font-weight:900;" id="cell_amc_o_p">WAITING...</td>
+                  <td class="r" id="cell_amc_o_val">$0.00</td>
+                  <td class="r" id="cell_amc_o_day">$0.00</td>
+                  <td class="r" id="cell_amc_o_tot">$0.00</td>
+                  <td class="r" id="cell_amc_o_roi">0.00%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="scenario-wrap">
+            <div class="scenario-title">OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>분류 및 단계 (STAGE)</th>
+                  <th>세부 항목 및 브로커 전술</th>
+                  <th class="r">Price $210</th>
+                  <th class="r">Price $242</th>
+                  <th class="r" style="color:var(--amber)">Price $399 (Glitch)</th>
+                  <th class="r" style="color:var(--bull)">Price $741 (Meme)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- ST 1 -->
+                <tr class="st-main">
+                  <td>ST 1. 확보 총액</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Gross)]</td>
+                  <td class="r pos">$8,705,430</td>
+                  <td class="r pos">$10,031,972</td>
+                  <td class="r pos">$16,540,318</td>
+                  <td class="r pos">$30,717,733</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ Fidelity (Indiv)</td>
+                  <td class="det">4,307.43주 발생분</td>
+                  <td class="r pos">$904,560</td>
+                  <td class="r pos">$1,042,400</td>
+                  <td class="r pos">$1,718,665</td>
+                  <td class="r pos">$3,191,806</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ DRS (CS)</td>
+                  <td class="det">30,000.00주 발생분</td>
+                  <td class="r pos">$6,300,000</td>
+                  <td class="r pos">$7,260,000</td>
+                  <td class="r pos">$11,970,000</td>
+                  <td class="r pos">$22,230,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ Moomoo</td>
+                  <td class="det">7,147.00주 발생분</td>
+                  <td class="r pos">$1,500,870</td>
+                  <td class="r pos">$1,729,572</td>
+                  <td class="r pos">$2,851,653</td>
+                  <td class="r pos">$5,295,927</td>
+                </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
+                  <td class="det-cash">잔존 유동 현금 상태</td>
+                  <td class="r pos">$8,705,430</td>
+                  <td class="r pos">$10,031,972</td>
+                  <td class="r pos">$16,540,318</td>
+                  <td class="r pos">$30,717,733</td>
+                </tr>
+                <!-- ST 2 -->
+                <!-- ST 2 ITEMS -->
+                <tr class="st-main">
+                  <td>ST 2. 즉시 집행금</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Immediate Rewards)]</td>
+                  <td class="r neg">-$578,788</td>
+                  <td class="r neg">-$578,788</td>
+                  <td class="r neg">-$578,788</td>
+                  <td class="r neg">-$578,788</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (본인)</td>
+                  <td class="det">Aston Martin / MC20 / Ferrari F430</td>
+                  <td class="r neg">-$400,000<br><span class="bal">BAL $8,305,430</span></td>
+                  <td class="r neg">-$400,000<br><span class="bal">BAL $9,631,972</span></td>
+                  <td class="r neg">-$400,000<br><span class="bal">BAL $16,140,318</span></td>
+                  <td class="r neg">-$400,000<br><span class="bal">BAL $30,317,733</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 모빌리티 (아빠)</td>
+                  <td class="det">BMW 740i</td>
+                  <td class="r neg">-$120,000<br><span class="bal">BAL $8,185,430</span></td>
+                  <td class="r neg">-$120,000<br><span class="bal">BAL $9,511,972</span></td>
+                  <td class="r neg">-$120,000<br><span class="bal">BAL $16,020,318</span></td>
+                  <td class="r neg">-$120,000<br><span class="bal">BAL $30,197,733</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (아빠)</td>
+                  <td class="det">Omega Seamaster Diver 300M</td>
+                  <td class="r neg">-$22,320<br><span class="bal">BAL $8,163,110</span></td>
+                  <td class="r neg">-$22,320<br><span class="bal">BAL $9,489,652</span></td>
+                  <td class="r neg">-$22,320<br><span class="bal">BAL $15,997,998</span></td>
+                  <td class="r neg">-$22,320<br><span class="bal">BAL $30,175,413</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (엄마)</td>
+                  <td class="det">Cartier Tank Louis & LV M27335</td>
+                  <td class="r neg">-$22,548<br><span class="bal">BAL $8,140,562</span></td>
+                  <td class="r neg">-$22,548<br><span class="bal">BAL $9,467,104</span></td>
+                  <td class="r neg">-$22,548<br><span class="bal">BAL $15,975,450</span></td>
+                  <td class="r neg">-$22,548<br><span class="bal">BAL $30,152,865</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent">└ 기프트 (진이)</td>
+                  <td class="det">Omega Aqua Terra & Dior Bag</td>
+                  <td class="r neg">-$13,920<br><span class="bal">BAL $8,126,642</span></td>
+                  <td class="r neg">-$13,920<br><span class="bal">BAL $9,453,184</span></td>
+                  <td class="r neg">-$13,920<br><span class="bal">BAL $15,961,530</span></td>
+                  <td class="r neg">-$13,920<br><span class="bal">BAL $30,138,945</span></td>
+                </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">💵 [현금 잔고]</td>
+                  <td class="det-cash">즉시 집행 후 유동 현금</td>
+                  <td class="r pos">$8,126,642</td>
+                  <td class="r pos">$9,453,184</td>
+                  <td class="r pos">$15,961,530</td>
+                  <td class="r pos">$30,138,945</td>
+                </tr>
+                <tr class="st-main">
+                  <td>ST 3. 브로커 전액 GME 투입</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Broker-Isolated Pipeline)]</td>
+                  <td class="r neg">-$5,905,430</td>
+                  <td class="r neg">-$6,271,972</td>
+                  <td class="r neg">-$8,070,318</td>
+                  <td class="r neg">-$11,987,733</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--accent);">└ [CS] 현물</td>
+                  <td class="det">GME 100,000주 집중 확보 (Infinity)</td>
+                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $4,626,642</span></td>
+                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $5,953,184</span></td>
+                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $12,461,530</span></td>
+                  <td class="r neg">-$3,500,000<br><span class="bal">BAL $26,638,945</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--purple);">└ [Fid] 옵션</td>
+                  <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
+                  <td class="r neg">-$904,560</td>
+                  <td class="r neg">-$1,042,400</td>
+                  <td class="r neg">-$1,718,665</td>
+                  <td class="r neg">-$3,191,806</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >├ Strike $40</td>
+                  <td class="det">LEAPS Call (Fidelity) 1/3</td>
+                  <td class="r neg">-$301,520<br><span class="bal">BAL $4,325,122</span></td>
+                  <td class="r neg">-$347,466<br><span class="bal">BAL $5,605,718</span></td>
+                  <td class="r neg">-$572,888<br><span class="bal">BAL $11,888,642</span></td>
+                  <td class="r neg">-$1,063,935<br><span class="bal">BAL $25,575,010</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >├ Strike $45</td>
+                  <td class="det">LEAPS Call (Fidelity) 1/3</td>
+                  <td class="r neg">-$301,520<br><span class="bal">BAL $4,023,602</span></td>
+                  <td class="r neg">-$347,466<br><span class="bal">BAL $5,258,252</span></td>
+                  <td class="r neg">-$572,888<br><span class="bal">BAL $11,315,754</span></td>
+                  <td class="r neg">-$1,063,935<br><span class="bal">BAL $24,511,075</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >└ Strike $50</td>
+                  <td class="det">LEAPS Call (Fidelity) 1/3</td>
+                  <td class="r neg">-$301,520<br><span class="bal">BAL $3,722,082</span></td>
+                  <td class="r neg">-$347,468<br><span class="bal">BAL $4,910,784</span></td>
+                  <td class="r neg">-$572,889<br><span class="bal">BAL $10,742,865</span></td>
+                  <td class="r neg">-$1,063,936<br><span class="bal">BAL $23,447,139</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--purple);">└ [Moo] 옵션</td>
+                  <td class="det">'27/'28 LEAPS (잔고 100% 풀매수)</td>
+                  <td class="r neg">-$1,500,870</td>
+                  <td class="r neg">-$1,729,572</td>
+                  <td class="r neg">-$2,851,653</td>
+                  <td class="r neg">-$5,295,927</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >├ Strike $40</td>
+                  <td class="det">LEAPS Call (Moomoo) 1/3</td>
+                  <td class="r neg">-$500,290<br><span class="bal">BAL $3,221,792</span></td>
+                  <td class="r neg">-$576,524<br><span class="bal">BAL $4,334,260</span></td>
+                  <td class="r neg">-$950,551<br><span class="bal">BAL $9,792,314</span></td>
+                  <td class="r neg">-$1,765,309<br><span class="bal">BAL $21,681,830</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >├ Strike $45</td>
+                  <td class="det">LEAPS Call (Moomoo) 1/3</td>
+                  <td class="r neg">-$500,290<br><span class="bal">BAL $2,721,502</span></td>
+                  <td class="r neg">-$576,524<br><span class="bal">BAL $3,757,736</span></td>
+                  <td class="r neg">-$950,551<br><span class="bal">BAL $8,841,763</span></td>
+                  <td class="r neg">-$1,765,309<br><span class="bal">BAL $19,916,521</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent-2" >└ Strike $50</td>
+                  <td class="det">LEAPS Call (Moomoo) 1/3</td>
+                  <td class="r neg">-$500,290<br><span class="bal">BAL $2,221,212</span></td>
+                  <td class="r neg">-$576,524<br><span class="bal">BAL $3,181,212</span></td>
+                  <td class="r neg">-$950,551<br><span class="bal">BAL $7,891,212</span></td>
+                  <td class="r neg">-$1,765,309<br><span class="bal">BAL $18,151,212</span></td>
+                </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">💵 [최종 잔고]</td>
+                  <td class="det-cash">CS 잔존 캐쉬 (은행 브릿지 이체용)</td>
+                  <td class="r pos">$2,221,212</td>
+                  <td class="r pos">$3,181,212</td>
+                  <td class="r pos">$7,891,212</td>
+                  <td class="r pos">$18,151,212</td>
+                </tr>
+                <tr class="st-main">
+                  <td>ST 4. 절세 제국 스케일업</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (BBBY + GME STCG Offset)]</td>
+                  <td class="r neg">-$13,058,145</td>
+                  <td class="r neg">-$15,047,958</td>
+                  <td class="r neg">-$24,810,477</td>
+                  <td class="r neg">-$46,076,599</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--bull);">└ GME Partial Sell</td>
+                  <td class="det">180일 내 LEAPS/현물 부분 청산</td>
+                  <td class="r bull">+$13,058,145<br><span class="bal">BAL $15,279,357</span></td>
+                  <td class="r bull">+$15,047,958<br><span class="bal">BAL $18,229,170</span></td>
+                  <td class="r bull">+$24,810,477<br><span class="bal">BAL $32,701,689</span></td>
+                  <td class="r bull">+$46,076,599<br><span class="bal">BAL $64,227,811</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="" >└ O&G (Energy)</td>
+                  <td class="det">IDC 100% 공제 (에너지 유정 WI)</td>
+                  <td class="r neg">-$7,461,801<br><span class="bal">BAL $7,817,556</span></td>
+                  <td class="r neg">-$8,598,837<br><span class="bal">BAL $9,630,333</span></td>
+                  <td class="r neg">-$14,177,418<br><span class="bal">BAL $18,524,271</span></td>
+                  <td class="r neg">-$26,329,488<br><span class="bal">BAL $37,898,323</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="" >└ QOF Housing</td>
+                  <td class="det">QOZ 다세대 주택 (10년 면세)</td>
+                  <td class="r neg">-$3,730,896<br><span class="bal">BAL $4,086,660</span></td>
+                  <td class="r neg">-$4,299,414<br><span class="bal">BAL $5,330,919</span></td>
+                  <td class="r neg">-$7,088,706<br><span class="bal">BAL $11,435,565</span></td>
+                  <td class="r neg">-$13,164,741<br><span class="bal">BAL $24,733,582</span></td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="" >└ CLAT (Trust)</td>
+                  <td class="det">자선 소득 신탁 (즉시 소득 공제)</td>
+                  <td class="r neg">-$1,865,448<br><span class="bal">BAL $2,221,212</span></td>
+                  <td class="r neg">-$2,149,707<br><span class="bal">BAL $3,181,212</span></td>
+                  <td class="r neg">-$3,544,353<br><span class="bal">BAL $7,891,212</span></td>
+                  <td class="r neg">-$6,582,370<br><span class="bal">BAL $18,151,212</span></td>
+                </tr>
+                <tr class="st-cash">
+                  <td class="pl-indent" style="color:var(--accent);">💵 [최종 현금 잔고]</td>
+                  <td class="det-cash">Tax Shield 방어 후 생존 잔고</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;">$2,221,212</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;">$3,181,212</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;">$7,891,212</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;">$18,151,212</td>
+                </tr>
+                <!-- ST 5 -->
+                <tr class="st-main">
+                  <td>ST 5. 최종 완성</td>
+                  <td style="color:var(--textD)">[SECTION TOTAL (Post-180 Days)]</td>
+                  <td class="r pos" style="color:var(--bull);">완료</td>
+                  <td class="r pos" style="color:var(--bull);">완료</td>
+                  <td class="r pos" style="color:var(--bull);">완료</td>
+                  <td class="r pos" style="color:var(--bull);">완료</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--amber);">└ (세무 실익)</td>
+                  <td class="det" style="color:var(--amber);">Tax Saved (약 23.8% 기준)</td>
+                  <td class="r pos" style="color:var(--amber);">$833,000</td>
+                  <td class="r pos" style="color:var(--amber);">$952,000</td>
+                  <td class="r pos" style="color:var(--amber);">$1,785,000</td>
+                  <td class="r pos" style="color:var(--amber);">$3,332,000</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--bull);">└ (월 예상 수익)</td>
+                  <td class="det" style="color:var(--bull);">Monthly Passive Income (Net)</td>
+                  <td class="r pos" style="color:var(--bull);">$21,000</td>
+                  <td class="r pos" style="color:var(--bull);">$21,000</td>
+                  <td class="r pos" style="color:var(--bull);">$45,500</td>
+                  <td class="r pos" style="color:var(--bull);">$84,000</td>
+                </tr>
+                <!-- Final Validation -->
+                <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
+                  <td style="color:#fff;">최종 검증</td>
+                  <td style="color:#fff;">Zero-Sum Check (현금흐름)</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                  <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       [GLOBAL DATA REPOSITORY]
+       ========================================================= */
+    let V_GME_P = 0, V_GME_C = 0, V_GME_PCT = 0, V_GME_EXT = "";
+    let V_AMC_P = 0, V_AMC_C = 0, V_AMC_PCT = 0, V_AMC_EXT = "";
+    let V_SPY_P = 0, V_SPY_C = 0, V_SPY_PCT = 0, V_SPY_EXT = "";
+    let V_QQQ_P = 0, V_QQQ_C = 0, V_QQQ_PCT = 0, V_QQQ_EXT = "";
+    let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
+
+    // Crypto
+    let V_BTC_P = 0, V_BTC_PCT = 0;
+
+    // Options
+    let V_GME_O_P = 0, V_GME_O_C = 0;
+    let V_AMC_O_P = 0, V_AMC_O_C = 0;
+
+    // Others
+    let V_AAPL_P = 0, V_AAPL_PCT = 0, V_AAPL_EXT = "";
+    let V_NVDA_P = 0, V_NVDA_PCT = 0, V_NVDA_EXT = "";
+    let V_MSFT_P = 0, V_MSFT_PCT = 0, V_MSFT_EXT = "";
+    let V_TSLA_P = 0, V_TSLA_PCT = 0, V_TSLA_EXT = "";
+    let V_GOOGL_P = 0, V_GOOGL_PCT = 0, V_GOOGL_EXT = "";
+    let V_AMZN_P = 0, V_AMZN_PCT = 0, V_AMZN_EXT = "";
+    let V_META_P = 0, V_META_PCT = 0, V_META_EXT = "";
+    let V_IEP_P = 0, V_IEP_PCT = 0, V_IEP_EXT = "";
+    let V_BYND_P = 0, V_BYND_PCT = 0, V_BYND_EXT = "";
+    let V_KOSS_P = 0, V_KOSS_PCT = 0, V_KOSS_EXT = "";
+    let V_CHWY_P = 0, V_CHWY_PCT = 0, V_CHWY_EXT = "";
+    let V_BBY_P = 0, V_BBY_PCT = 0, V_BBY_EXT = "";
+    let V_TGT_P = 0, V_TGT_PCT = 0, V_TGT_EXT = "";
+    let V_BB_P = 0, V_BB_PCT = 0, V_BB_EXT = "";
+    let V_NOK_P = 0, V_NOK_PCT = 0, V_NOK_EXT = "";
+
+    function submitPin() {
+      const val = document.getElementById('pinInput').value;
+      if (val === 'IMRICH!') {
+        document.getElementById('lockScreen').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('lockScreen').style.display = 'none';
+          document.getElementById('mainApp').style.display = 'block';
+          startEngine();
+        }, 600);
+      } else {
+        document.getElementById('lockErr').textContent = 'AUTH ERROR: COMMAND DENIED';
+        document.getElementById('pinInput').value = '';
+        for (let i = 0; i < 7; i++) document.getElementById('dot' + i).classList.remove('filled');
+      }
+    }
+
+    document.getElementById('pinInput').addEventListener('input', function () {
+      const L = this.value.length;
+      for (let i = 0; i < 7; i++) {
+        if (i < L) document.getElementById('dot' + i).classList.add('filled');
+        else document.getElementById('dot' + i).classList.remove('filled');
+      }
+      if (L === 7) setTimeout(submitPin, 150);
+    });
+
+    document.getElementById('pinInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') submitPin();
+    });
+
+    // ★ EXT ENGINE: Now includes percentage (%)
+    const getExt = (q) => {
+      if (!q) return "";
+      let state = q.marketState || "";
+      if ((state.includes("PRE")) && q.preMarketPrice) {
+        let c = Number(q.preMarketChange) || 0;
+        let pct = Number(q.preMarketChangePercent) || 0;
+        return `🌟 LATEST PREMARKET DATA: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+      if ((state.includes("POST") || state === "CLOSED") && q.postMarketPrice) {
+        let c = Number(q.postMarketChange) || 0;
+        let pct = Number(q.postMarketChangePercent) || 0;
+        return `🌙 LATEST AFTERMARKET DATA: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+      return "";
+    };
+
+    /* [REALITY SYNC] */
+    async function fetchMaster() {
+      const conn = document.getElementById('connStatus');
+      conn.textContent = "[UPLINKING VIA VERCEL API...]";
+
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targetUrl = `/api/quote?symbols=${targets}`;
+
+      try {
+        const res = await fetch(targetUrl);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+
+        if (json && json.quoteResponse && json.quoteResponse.result) {
+          const dataList = json.quoteResponse.result;
+          const extract = (sym) => {
+            let q = dataList.find(x => x.symbol === sym);
+            if (!q) return null;
+            if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
+              q.regularMarketPrice = q.postMarketPrice;
+              q.regularMarketChange = q.postMarketChange;
+              q.regularMarketChangePercent = q.postMarketChangePercent;
+            } else if (q.marketState === "PRE" && q.preMarketPrice) {
+              q.regularMarketPrice = q.preMarketPrice;
+              q.regularMarketChange = q.preMarketChange;
+              q.regularMarketChangePercent = q.preMarketChangePercent;
+            }
+            return q;
+          };
+
+          // Equities & Indices
+          const qGME = extract('GME'); if (qGME) { V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = getExt(qGME); }
+          const qAMC = extract('AMC'); if (qAMC) { V_AMC_P = Number(qAMC.regularMarketPrice) || 0; V_AMC_C = Number(qAMC.regularMarketChange) || 0; V_AMC_PCT = Number(qAMC.regularMarketChangePercent) || 0; V_AMC_EXT = getExt(qAMC); }
+          const qSPY = extract('SPY'); if (qSPY) { V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = getExt(qSPY); }
+          const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); }
+          const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
+
+          // Options (Real Yahoo Fetch with Zero Prediction)
+          const qGMEO = extract('GME260417C00050000');
+          if (qGMEO && qGMEO.regularMarketPrice) {
+            V_GME_O_P = qGMEO.regularMarketPrice; V_GME_O_C = qGMEO.regularMarketChange || 0;
+          } else {
+            V_GME_O_P = V_GME_O_P === 0 ? 0.035 : V_GME_O_P;
+            V_GME_O_C = V_GME_O_C === 0 ? 0 : V_GME_O_C;
+          }
+
+          const qAMCO = extract('AMC260402C00002000');
+          if (qAMCO && qAMCO.regularMarketPrice) {
+            V_AMC_O_P = qAMCO.regularMarketPrice; V_AMC_O_C = qAMCO.regularMarketChange || 0;
+          } else {
+            V_AMC_O_P = V_AMC_O_P === 0 ? 0.01 : V_AMC_O_P;
+            V_AMC_O_C = V_AMC_O_C === 0 ? 0 : V_AMC_O_C;
+          }
+
+          // Other Stocks
+          const qAAPL = extract('AAPL'); if (qAAPL) { V_AAPL_P = Number(qAAPL.regularMarketPrice) || 0; V_AAPL_PCT = Number(qAAPL.regularMarketChangePercent) || 0; V_AAPL_EXT = getExt(qAAPL); }
+          const qNVDA = extract('NVDA'); if (qNVDA) { V_NVDA_P = Number(qNVDA.regularMarketPrice) || 0; V_NVDA_PCT = Number(qNVDA.regularMarketChangePercent) || 0; V_NVDA_EXT = getExt(qNVDA); }
+          const qMSFT = extract('MSFT'); if (qMSFT) { V_MSFT_P = Number(qMSFT.regularMarketPrice) || 0; V_MSFT_PCT = Number(qMSFT.regularMarketChangePercent) || 0; V_MSFT_EXT = getExt(qMSFT); }
+          const qTSLA = extract('TSLA'); if (qTSLA) { V_TSLA_P = Number(qTSLA.regularMarketPrice) || 0; V_TSLA_PCT = Number(qTSLA.regularMarketChangePercent) || 0; V_TSLA_EXT = getExt(qTSLA); }
+          const qGOOGL = extract('GOOGL'); if (qGOOGL) { V_GOOGL_P = Number(qGOOGL.regularMarketPrice) || 0; V_GOOGL_PCT = Number(qGOOGL.regularMarketChangePercent) || 0; V_GOOGL_EXT = getExt(qGOOGL); }
+          const qAMZN = extract('AMZN'); if (qAMZN) { V_AMZN_P = Number(qAMZN.regularMarketPrice) || 0; V_AMZN_PCT = Number(qAMZN.regularMarketChangePercent) || 0; V_AMZN_EXT = getExt(qAMZN); }
+          const qMETA = extract('META'); if (qMETA) { V_META_P = Number(qMETA.regularMarketPrice) || 0; V_META_PCT = Number(qMETA.regularMarketChangePercent) || 0; V_META_EXT = getExt(qMETA); }
+          const qIEP = extract('IEP'); if (qIEP) { V_IEP_P = Number(qIEP.regularMarketPrice) || 0; V_IEP_PCT = Number(qIEP.regularMarketChangePercent) || 0; V_IEP_EXT = getExt(qIEP); }
+          const qBYND = extract('BYND'); if (qBYND) { V_BYND_P = Number(qBYND.regularMarketPrice) || 0; V_BYND_PCT = Number(qBYND.regularMarketChangePercent) || 0; V_BYND_EXT = getExt(qBYND); }
+          const qKOSS = extract('KOSS'); if (qKOSS) { V_KOSS_P = Number(qKOSS.regularMarketPrice) || 0; V_KOSS_PCT = Number(qKOSS.regularMarketChangePercent) || 0; V_KOSS_EXT = getExt(qKOSS); }
+          const qCHWY = extract('CHWY'); if (qCHWY) { V_CHWY_P = Number(qCHWY.regularMarketPrice) || 0; V_CHWY_PCT = Number(qCHWY.regularMarketChangePercent) || 0; V_CHWY_EXT = getExt(qCHWY); }
+          const qBBY = extract('BBY'); if (qBBY) { V_BBY_P = Number(qBBY.regularMarketPrice) || 0; V_BBY_PCT = Number(qBBY.regularMarketChangePercent) || 0; V_BBY_EXT = getExt(qBBY); }
+          const qTGT = extract('TGT'); if (qTGT) { V_TGT_P = Number(qTGT.regularMarketPrice) || 0; V_TGT_PCT = Number(qTGT.regularMarketChangePercent) || 0; V_TGT_EXT = getExt(qTGT); }
+          const qBB = extract('BB'); if (qBB) { V_BB_P = Number(qBB.regularMarketPrice) || 0; V_BB_PCT = Number(qBB.regularMarketChangePercent) || 0; V_BB_EXT = getExt(qBB); }
+          const qNOK = extract('NOK'); if (qNOK) { V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); }
+
+          // Unified Backend Feed Parsing
+          const qBTC = extract('BTC-USD');
+          if (qBTC) {
+            V_BTC_P = qBTC.regularMarketPrice || 0;
+            V_BTC_PCT = qBTC.regularMarketChangePercent || 0;
+          } else if (json.crypto) {
+            V_BTC_P = json.crypto.p || 0;
+            V_BTC_PCT = json.crypto.pct || 0;
+          }
+          if (json.fear_greed) {
+            document.getElementById('fear-val').textContent = json.fear_greed;
+          }
+
+          conn.textContent = "[SATELLITE UPLINK: STABLE]";
+          renderTerminal();
+        } else {
+          conn.textContent = "[API ERROR: DATA CORRUPT]";
+        }
+      } catch (e) {
+        conn.textContent = `[ERR: API CONNECT FAILED]`;
+      }
+    }
+
+    const fmt = (n, d = 2) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+    // M/K Formatting Function with 2 decimal places
+    const fmtMK = (amount) => {
+      const absAmount = Math.abs(amount);
+      let formatted;
+      if (absAmount >= 1000000) {
+        formatted = (absAmount / 1000000).toFixed(2) + 'M';
+      } else if (absAmount >= 1000) {
+        formatted = (absAmount / 1000).toFixed(2) + 'K';
+      } else {
+        formatted = '$' + absAmount.toFixed(2);
+      }
+      return amount < 0 ? '-' + formatted : formatted;
+    };
+
+    // Animation helper
+    const animatePrice = (element, isUp) => {
+      element.classList.remove('price-up', 'price-down', 'price-updated');
+      void element.offsetWidth; // Trigger reflow
+      element.classList.add('price-updated', isUp ? 'price-up' : 'price-down');
+      setTimeout(() => element.classList.remove('price-updated', 'price-up', 'price-down'), 500);
+    };
+
+    function renderTerminal() {
+      // 1. BBBYQ
+      const bb_val = 41454 * 0.07; const bb_cost = 41454 * 2.00;
+      const bb_profit = bb_val - bb_cost;
+      document.getElementById('cell_bbbyq_val').textContent = '$' + fmt(bb_val);
+      document.getElementById('cell_bbbyq_tot').textContent = '$' + fmt(Math.abs(bb_profit));
+      document.getElementById('cell_bbbyq_tot').className = 'r ' + (bb_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_bbbyq_roi').textContent = ((bb_profit) / bb_cost * 100).toFixed(2) + '%';
+      document.getElementById('cell_bbbyq_roi').className = 'r ' + (bb_profit >= 0 ? 'pos' : 'neg');
+
+      // 2. GME Equity
+      const ge_val = 335 * V_GME_P; const ge_cost = 335 * 30;
+      const ge_profit = ge_val - ge_cost;
+      document.getElementById('cell_gme_e_p').innerHTML = V_GME_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_GME_P) + (V_GME_EXT ? `<br><span class="ext-badge">${V_GME_EXT}</span>` : "");
+      document.getElementById('cell_gme_e_val').textContent = '$' + fmt(ge_val);
+      document.getElementById('cell_gme_e_day').textContent = (V_GME_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(335 * V_GME_C));
+      document.getElementById('cell_gme_e_day').className = 'r ' + (V_GME_C >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_e_tot').textContent = '$' + fmt(Math.abs(ge_profit));
+      document.getElementById('cell_gme_e_tot').className = 'r ' + (ge_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_e_roi').textContent = (ge_cost > 0 ? (ge_profit / ge_cost * 100) : 0).toFixed(2) + '%';
+      document.getElementById('cell_gme_e_roi').className = 'r ' + (ge_profit >= 0 ? 'pos' : 'neg');
+
+      // 3. GME Option
+      const go_val = 26 * V_GME_O_P * 100;
+      const go_cost = 26 * 0.36 * 100; const go_profit = go_val - go_cost;
+      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
+      document.getElementById('cell_gme_o_val').textContent = '$' + fmt(go_val);
+      document.getElementById('cell_gme_o_day').textContent = (V_GME_O_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(26 * V_GME_O_C * 100));
+      document.getElementById('cell_gme_o_day').className = 'r ' + (V_GME_O_C >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_o_tot').textContent = '$' + fmt(Math.abs(go_profit));
+      document.getElementById('cell_gme_o_tot').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_o_roi').textContent = (go_cost > 0 ? (go_profit / go_cost * 100) : 0).toFixed(2) + '%';
+      document.getElementById('cell_gme_o_roi').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
+
+      // 4. AMC Equity
+      const ae_val = 1 * V_AMC_P; const ae_cost = 1 * 1.18;
+      const ae_profit = ae_val - ae_cost;
+      document.getElementById('cell_amc_e_p').innerHTML = V_AMC_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_AMC_P) + (V_AMC_EXT ? `<br><span class="ext-badge">${V_AMC_EXT}</span>` : "");
+      document.getElementById('cell_amc_e_val').textContent = '$' + fmt(ae_val);
+      document.getElementById('cell_amc_e_day').textContent = (V_AMC_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(1 * V_AMC_C));
+      document.getElementById('cell_amc_e_day').className = 'r ' + (V_AMC_C >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_amc_e_tot').textContent = '$' + fmt(Math.abs(ae_profit));
+      document.getElementById('cell_amc_e_tot').className = 'r ' + (ae_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_amc_e_roi').textContent = (ae_cost > 0 ? (ae_profit / ae_cost * 100) : 0).toFixed(2) + '%';
+      document.getElementById('cell_amc_e_roi').className = 'r ' + (ae_profit >= 0 ? 'pos' : 'neg');
+
+      // 5. AMC Option
+      const ao_val = 2 * V_AMC_O_P * 100;
+      const ao_cost = 2 * 0.07 * 100; const ao_profit = ao_val - ao_cost;
+      document.getElementById('cell_amc_o_p').innerHTML = V_AMC_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_AMC_O_P);
+      document.getElementById('cell_amc_o_val').textContent = '$' + fmt(ao_val);
+      document.getElementById('cell_amc_o_day').textContent = (V_AMC_O_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(2 * V_AMC_O_C * 100));
+      document.getElementById('cell_amc_o_day').className = 'r ' + (V_AMC_O_C >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_amc_o_tot').textContent = '$' + fmt(Math.abs(ao_profit));
+      document.getElementById('cell_amc_o_tot').className = 'r ' + (ao_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_amc_o_roi').textContent = (ao_cost > 0 ? (ao_profit / ao_cost * 100) : 0).toFixed(2) + '%';
+      document.getElementById('cell_amc_o_roi').className = 'r ' + (ao_profit >= 0 ? 'pos' : 'neg');
+
+      // GLOBAL SUMMARY 
+      const g_total_val = bb_val + ge_val + go_val + ae_val + ao_val;
+      document.getElementById('p-total').textContent = '$' + fmt(g_total_val);
+
+      const total_day_delta = (335 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
+      document.getElementById('p-daypnl').textContent = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
+      document.getElementById('p-daypnl').className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
+
+      const total_profit = bb_profit + ge_profit + go_profit + ae_profit + ao_profit;
+      document.getElementById('p-totpnl').textContent = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
+      document.getElementById('p-totpnl').className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
+
+      // SIDEBAR UNROLLED SYNC
+      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT); upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT); upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+      upSB('BTC', V_BTC_P, V_BTC_PCT, "");
+      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT); upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT); upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
+      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
+      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT); upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
+      upSB('IEP', V_IEP_P, V_IEP_PCT, V_IEP_EXT); upSB('BYND', V_BYND_P, V_BYND_PCT, V_BYND_EXT); upSB('KOSS', V_KOSS_P, V_KOSS_PCT, V_KOSS_EXT); upSB('CHWY', V_CHWY_P, V_CHWY_PCT, V_CHWY_EXT);
+      upSB('BBY', V_BBY_P, V_BBY_PCT, V_BBY_EXT); upSB('TGT', V_TGT_P, V_TGT_PCT, V_TGT_EXT);
+      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT);
+    }
+
+    function upSB(id, p, pt, ext = "") {
+      const pe = document.getElementById(`sb-${id}-price`);
+      const ce = document.getElementById(`sb-${id}-chg`);
+      const extEl = document.getElementById(`sb-${id}-ext`);
+      if (pe) pe.innerHTML = p === 0 ? '<span style="color:var(--textM); font-size:14px;">WAITING...</span>' : '$' + fmt(p);
+      if (ce && p !== 0) { ce.textContent = (pt >= 0 ? '+' : '') + fmt(pt) + '%'; ce.className = 'sb-chg ' + (pt >= 0 ? 'pos' : 'neg'); }
+      if (extEl) extEl.textContent = ext;
+    }
+
+    function startEngine() {
+      renderTerminal();
+      fetchMaster();
+      setInterval(fetchMaster, 12000);
+    }
+    function refreshAll() { fetchMaster(); }
+    function setActive(s) { activeTicker = s; renderTerminal(); }
+  </script>
+</body>
+
+</html>
