@@ -1553,8 +1553,8 @@
       // Calculate total with additional purchase
       const st3_custom_total_with_additional = st3_custom_total + additional_gme_purchase;
       
-      // Round ST 3 total to exact million for fund manager precision
-      const st3_custom_total_rounded = Math.round(st3_custom_total_with_additional / 1000000) * 1000000;
+      // Round ST 3 total to exact 10,000 units (만 단위) for fund manager precision
+      const st3_custom_total_rounded = Math.round(st3_custom_total_with_additional / 10000) * 10000;
       
       // Update ST 3 Custom values (using rounded amount for fund manager)
       updateElementWithCustomPrice('st3-custom-main', st3_custom_total_rounded);
