@@ -740,17 +740,22 @@ def main():
     pipeline = AdjustedGMEPipeline()
     html_content = pipeline.generate_adjusted_html()
     
+    # Generate both adjusted_pipeline.html and index.html
     with open('adjusted_pipeline.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
     
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
     print("Adjusted GME Pipeline generated!")
-    print("File saved as: adjusted_pipeline.html")
-    print("\nAdjustments Applied:")
-    print("   • ST 2 Immediate Rewards: $600,000 (increased from $578,788)")
-    print("   • All amounts displayed in million units")
-    print("   • All numbers rounded down to 0000")
-    print("   • Click any amount to see actual value")
-    print("   • Proportional recalculations applied")
+    print("Files saved as:")
+    print("   - adjusted_pipeline.html")
+    print("   - index.html (main page with real-time calculations)")
+    print("\nReal-Time Calculations Applied:")
+    print("   * CS Shares (100K): price x 100,000 (e.g., $22.11 -> 2,211,000 -> 2.21M)")
+    print("   * Fidelity Options: Dynamic calculation based on current GME price")
+    print("   * All amounts in M/K format with 2 decimal places")
+    print("   * All values auto-recalculate when GME price changes")
 
 if __name__ == "__main__":
     main()
