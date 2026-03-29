@@ -867,7 +867,7 @@
             <!-- Custom Price Input Section -->
             <div style="margin-bottom:20px; padding:15px; background:rgba(0,123,255,0.1); border:2px solid var(--accent); border-radius:10px; display:flex; align-items:center; gap:15px;">
               <span style="font-weight:700; color:var(--text);">Custom Price Input:</span>
-              <input type="number" id="custom-price-input" placeholder="Enter GME price..." style="padding:8px 12px; border:1px solid var(--border); border-radius:5px; background:var(--bg2); color:var(--text); font-size:14px; width:150px;" step="0.01" min="0">
+              <input type="number" id="custom-price-input" placeholder="Enter BBBY Legacy holder price per share..." style="padding:8px 12px; border:1px solid var(--border); border-radius:5px; background:var(--bg2); color:var(--text); font-size:14px; width:250px;" step="0.01" min="0">
               <button id="apply-custom-price" class="btn-out" style="background:var(--accent); padding:8px 16px;">Apply Price</button>
               <span id="custom-price-display" style="color:var(--accent); font-weight:600; margin-left:10px;"></span>
             </div>
@@ -1121,6 +1121,24 @@
                   <td class="r bull" id="gme-partial-3">+$24,810,477<br><span class="bal">BAL $32,701,689</span></td>
                   <td class="r bull" id="gme-partial-4">+$46,076,599<br><span class="bal">BAL $64,227,811</span></td>
                   <td class="r bull" id="gme-partial-custom" style="color:var(--accent);">$0</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--amber);">└ 세금 계산</td>
+                  <td class="det" style="color:var(--amber);">Short-Term Capital Gains Tax (37%)</td>
+                  <td class="r neg" id="tax-calculation-1">-$4,831,514<br><span class="bal">BAL $10,447,843</span></td>
+                  <td class="r neg" id="tax-calculation-2">-$5,567,745<br><span class="bal">BAL $12,661,425</span></td>
+                  <td class="r neg" id="tax-calculation-3">-$9,179,877<br><span class="bal">BAL $23,521,812</span></td>
+                  <td class="r neg" id="tax-calculation-4">-$17,048,342<br><span class="bal">BAL $47,179,469</span></td>
+                  <td class="r neg" id="tax-calculation-custom" style="color:var(--accent);">$0</td>
+                </tr>
+                <tr class="st-sub">
+                  <td class="pl-indent" style="color:var(--bull);">└ 절세 플랜</td>
+                  <td class="det" style="color:var(--bull);">Tax Shield Applied (Net after deductions)</td>
+                  <td class="r bull" id="tax-shield-1">+$3,486,631<br><span class="bal">BAL $13,934,474</span></td>
+                  <td class="r bull" id="tax-shield-2">+$4,018,213<br><span class="bal">BAL $16,679,638</span></td>
+                  <td class="r bull" id="tax-shield-3">+$6,630,600<br><span class="bal">BAL $30,152,412</span></td>
+                  <td class="r bull" id="tax-shield-4">+$12,297,743<br><span class="bal">BAL $59,477,212</span></td>
+                  <td class="r bull" id="tax-shield-custom" style="color:var(--accent);">$0</td>
                 </tr>
                 <tr class="st-sub">
                   <td class="" >└ O&G (Energy)</td>
@@ -1525,9 +1543,17 @@
       
       const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
       
-      // Update ST 3 Custom values
-      updateElementWithCustomPrice('st3-custom-main', st3_custom_total);
-      updateElementWithCustomPrice('cs-cost-custom', cs_custom);
+      // Additional GME purchase for prices $500+
+      let additional_gme_purchase = 0;
+      if (customPrice >= 500) {
+        // Buy additional 100,000 GME shares at custom price
+        additional_gme_purchase = 100000 * customPrice;
+      }
+      
+      // Update ST 3 Custom values (including additional purchase)
+      const st3_custom_total_with_additional = st3_custom_total + additional_gme_purchase;
+      updateElementWithCustomPrice('st3-custom-main', st3_custom_total_with_additional);
+      updateElementWithCustomPrice('cs-cost-custom', cs_custom + additional_gme_purchase);
       updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
       updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
       
@@ -1539,8 +1565,8 @@
       updateElementWithCustomPrice('moo-strike45-custom', moo_strike45);
       updateElementWithCustomPrice('moo-strike50-custom', moo_strike50);
       
-      // Update ST 3 cash remaining
-      const st3_cash_remaining = st2_custom_remaining - st3_custom_total;
+      // Update ST 3 cash remaining (including additional purchase)
+      const st3_cash_remaining = st2_custom_remaining - st3_custom_total_with_additional;
       updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
       
       // Calculate ST 4 Custom values (Tax Shield)
@@ -1553,6 +1579,15 @@
       // Update ST 4 Custom values
       updateElementWithCustomPrice('st4-custom-main', st4_custom_total);
       updateElementWithCustomPrice('gme-partial-custom', gme_sell_custom);
+      
+      // Calculate tax and tax shield for Partial Sell
+      const tax_rate = 0.37; // 37% Short-Term Capital Gains Tax
+      const tax_amount = gme_sell_custom * tax_rate;
+      const tax_shield_amount = tax_amount * 0.72; // 72% of tax recovered through deductions
+      
+      updateElementWithCustomPrice('tax-calculation-custom', tax_amount);
+      updateElementWithCustomPrice('tax-shield-custom', tax_shield_amount);
+      
       updateElementWithCustomPrice('og-energy-custom', og_idc_custom);
       updateElementWithCustomPrice('qof-housing-custom', qof_custom);
       updateElementWithCustomPrice('clat-trust-custom', clat_custom);
@@ -1584,7 +1619,7 @@
       updateElementWithCustomPrice('final-validation-custom', final_validation);
       
       // Add Custom Price columns to all rows
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50);
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase);
     }
     
     function applyCustomPrice() {
@@ -1610,7 +1645,7 @@
       }
     }
     
-    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50) {
+    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase) {
       // Find all rows in the pipeline table
       const table = document.querySelector('.scenario-wrap table tbody');
       if (!table) return;
@@ -1621,7 +1656,10 @@
         const cells = row.querySelectorAll('td');
         const hasCustomColumn = Array.from(cells).some(cell => cell.id && cell.id.includes('custom'));
         
-        if (!hasCustomColumn && cells.length >= 5) {
+        // Check if this is the final validation row (special handling)
+        const isFinalValidation = row.textContent.includes('최종 검증') && row.textContent.includes('Zero-Sum Check');
+        
+        if (!hasCustomColumn && cells.length >= 5 && !isFinalValidation) {
           // This row needs a custom price column added
           const rowClass = row.className;
           const firstCell = cells[0].textContent;
@@ -1663,6 +1701,13 @@
             } else if (secondCell.includes('Monthly Passive')) {
               customValue = monthly_income;
               customId = 'monthly-income-custom';
+            } else if (secondCell.includes('세금 계산')) {
+              customValue = gme_sell_custom * 0.37;
+              customClass = 'neg';
+              customId = 'tax-calculation-custom';
+            } else if (secondCell.includes('절세 플랜')) {
+              customValue = (gme_sell_custom * 0.37) * 0.72;
+              customId = 'tax-shield-custom';
             } else if (secondCell.includes('Fidelity')) {
               customValue = fid_custom;
               customId = 'fid-custom-total';
@@ -1784,6 +1829,10 @@
               newValue = tax_saved_weavers;
             } else if (cellId === 'monthly-income-custom') {
               newValue = monthly_income;
+            } else if (cellId === 'tax-calculation-custom') {
+              newValue = gme_sell_custom * 0.37;
+            } else if (cellId === 'tax-shield-custom') {
+              newValue = (gme_sell_custom * 0.37) * 0.72;
             }
             
             // Update the cell content
