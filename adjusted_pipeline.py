@@ -52,21 +52,21 @@ class AdjustedGMEPipeline:
             return self.base_gme_price
     
     def format_amount(self, amount):
-        """금액에 따라 적절한 단위로 포맷팅 (M/K 접미사 없이 숫자만)"""
+        """금액에 따라 적절한 단위로 포맷팅 (M/K 접미사 포함)"""
         abs_amount = abs(amount)
         
         if abs_amount >= 1000000:  # 1M 이상
             million_amount = abs_amount / 1000000
-            # 1M 이상은 모두 소수점 첫째자리까지, M 접미사 없이
-            formatted = f"{million_amount:.1f}"
+            # 1M 이상은 모두 소수점 첫째자리까지, M 접미사 포함
+            formatted = f"{million_amount:.1f}M"
             return f"-{formatted}" if amount < 0 else formatted
         elif abs_amount >= 1000:  # 1K-999.9K
             thousand_amount = abs_amount / 1000
-            # K는 정수로 표시, K 접미사 없이
-            formatted = f"{int(thousand_amount)}"
+            # K는 정수로 표시, K 접미사 포함
+            formatted = f"{int(thousand_amount)}K"
             return f"-{formatted}" if amount < 0 else formatted
         else:  # 1000 미만
-            formatted = f"{int(abs_amount)}"
+            formatted = f"${int(abs_amount)}"
             return f"-{formatted}" if amount < 0 else formatted
     
     def calculate_adjusted_allocations(self):
