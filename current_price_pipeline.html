@@ -4095,20 +4095,16 @@
     // Real-time Net Worth calculation
     function updateRealTimeNetWorth() {
       if (netWorthMode === 'realtime') {
-        // BBBY is delisted - shares are worthless ($0)
-        const bbby_shares = 41454; // BBBY shares now worth $0
-        const bbby_value = 0; // Delisted = $0
+        // Actual GME shares owned: 355 (from user's portfolio)
+        const actual_gme_shares = 355;
+        const gme_value = actual_gme_shares * V_GME_P;
         
-        // GME shares at current price
-        const gme_shares = 4307.43 + 30000 + 7147;
-        const gme_value = gme_shares * V_GME_P;
+        // Cost basis for 355 shares at average purchase price
+        const avg_purchase_price = 30.00; // From screenshot: $30.00
+        const cost_basis = actual_gme_shares * avg_purchase_price;
         
-        // Total current equity
-        const total_equity = bbby_value + gme_value;
-        
-        // Cost basis (what was paid) - creates negative net worth
-        const cost_basis = 10000000; // Original investment
-        const real_time_net_worth = total_equity - cost_basis;
+        // Net worth = current value - cost basis (will be negative due to loss)
+        const real_time_net_worth = gme_value - cost_basis;
         
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
