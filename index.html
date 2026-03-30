@@ -3033,57 +3033,28 @@
       
 
       // CS 현물: 100,000주 at custom price
-
       const cs_shares = 100000;
-
       const cs_custom = cs_shares * customPrice;
-
       const cs_custom_remaining = st2_custom_remaining - cs_custom;
-
       
-
       // Fid 옵션: Fid 잔고의 90% 계산 후 반올림 (예: $814,104 → $800,000)
-
-      const fid_balance = cs_custom_remaining * 0.5; // Fid에 할당된 50% 잔고
-
-      const fid_exact_90 = fid_balance * 0.9; // 정확한 90%
-
-      const fid_custom_option = Math.min(200000, Math.floor(fid_exact_90 / 100000) * 100000); // 십만 단위로 내림
-
+      const fid_balance = cs_custom_remaining * 0.5;
+      const fid_exact_90 = fid_balance * 0.9;
+      const fid_custom_option = Math.floor(fid_exact_90 / 100000) * 100000;
       
-
       // Moo 옵션: Moo 잔고의 90% 계산 후 반올림
-
-      const moo_balance = cs_custom_remaining * 0.5; // Moo에 할당된 50% 잔고  
-
-      const moo_exact_90 = moo_balance * 0.9; // 정확한 90%
-
-      const moo_custom_option = Math.min(300000, Math.floor(moo_exact_90 / 100000) * 100000); // 십만 단위로 내림
-
+      const moo_balance = cs_custom_remaining * 0.5;
+      const moo_exact_90 = moo_balance * 0.9;
+      const moo_custom_option = Math.floor(moo_exact_90 / 100000) * 100000;
       
-
-      // Calculate strike distributions with new ratios (rounded to dollars)
-
-      // Fidelity strikes: $40(20%), $45(30%), $50(50%)
-
+      // Calculate strike distributions
       const fid_strike40 = Math.round(fid_custom_option * 0.20);
-
       const fid_strike45 = Math.round(fid_custom_option * 0.30);
-
       const fid_strike50 = Math.round(fid_custom_option * 0.50);
-
-      
-
-      // Moomoo strikes: $40(20%), $45(30%), $50(50%)
-
       const moo_strike40 = Math.round(moo_custom_option * 0.20);
-
       const moo_strike45 = Math.round(moo_custom_option * 0.30);
-
       const moo_strike50 = Math.round(moo_custom_option * 0.50);
-
       
-
       const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
 
       
