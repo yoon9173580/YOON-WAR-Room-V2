@@ -2588,32 +2588,32 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Overnight/Extended Hours (all stocks) - prioritize showing overnight data
-      if ((state.includes("POST") || state.includes("EXTENDED") || state.includes("NIGHT") || (state === "CLOSED" && q.postMarketPrice))) {
-        let price = q.postMarketPrice || q.regularMarketPrice || 0;
-        let c = Number(q.postMarketChange || q.regularMarketChange) || 0;
-        let pct = Number(q.postMarketChangePercent || q.regularMarketChangePercent) || 0;
+      // Overnight pricing - check for any extended hours data first
+      if (q.postMarketPrice || q.preMarketPrice) {
+        let price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
+        let c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
+        let pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
         
         if (isAsianStock) {
-          return `🌜 Live Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+          return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         } else {
-          return `🌙 Live Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+          return `🌙 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
       }
 
-      // Premarket
+      // Premarket only
       if (state.includes("PRE") && q.preMarketPrice) {
         let c = Number(q.preMarketChange) || 0;
         let pct = Number(q.preMarketChangePercent) || 0;
-        return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      // Closed market with no extended hours
-      if (state === "CLOSED") {
+      // Regular market or closed without extended hours
+      if (q.regularMarketPrice) {
         let price = q.regularMarketPrice || 0;
         let c = Number(q.regularMarketChange) || 0;
         let pct = Number(q.regularMarketChangePercent) || 0;
-        return `📊 Latest After Market Close: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `📊 Market: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
       return "";
