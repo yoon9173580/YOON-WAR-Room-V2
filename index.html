@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V54.3</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V54.4</title>
 
   <link
 
@@ -2909,17 +2909,17 @@
       
       prices.forEach((price, index) => {
         const suffix = priceSuffixes[index];
-        calculatePipelineForPrice(price, suffix);
+        calculateAndUpdateColumn(price, suffix);
       });
       
       // Also update custom if active
       if (customUserPrice && customUserPrice > 0) {
-        calculateFullPipelineWithCustomPrice(customUserPrice);
+        calculateAndUpdateColumn(customUserPrice, 'custom');
       }
     }
 
-    // Calculate pipeline values for a specific price and update corresponding column
-    function calculatePipelineForPrice(price, suffix) {
+    // Unified calculation and update function for any price column
+    function calculateAndUpdateColumn(price, suffix) {
       const fid_shares = 4307.43;
       const drs_shares = 30000;
       const moomoo_shares = 7147;
@@ -2930,7 +2930,7 @@
       const moomoo_val = moomoo_shares * price;
       const st1_total = fid_val + drs_val + moomoo_val;
       
-      // Update ST 1 cells with proper formatting
+      // Update ST 1 cells
       updateCellWithFormat(`st1-total-${suffix}`, st1_total, 'pos');
       updateCellWithFormat(`fid-total-${suffix}`, fid_val, 'pos');
       updateCellWithFormat(`drs-total-${suffix}`, drs_val, 'pos');
@@ -2990,6 +2990,23 @@
       updateCellWithFormat(`st2-summary-${suffix}`, -st2_total, 'neg');
       updateCellWithFormat(`st3-summary-${suffix}`, -st3_total, 'neg');
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
+      
+      // For custom column, also calculate complex ST3 values with options
+      if (suffix === 'custom') {
+        const st2_remaining = st1_total - st2_total;
+        const cs_custom = cs_val;
+        const remaining = st2_remaining - cs_custom;
+        
+        // Fid and Moo options
+        const fid_balance = remaining * 0.5;
+        const fid_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
+        const moo_balance = remaining * 0.5;
+        const moo_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
+        
+        // Update option cells
+        updateCellWithFormat('fid-option-custom', fid_option, 'pos');
+        updateCellWithFormat('moo-option-custom', moo_option, 'pos');
+      }
     }
 
     // Helper function to update a cell with proper formatting
@@ -2997,7 +3014,6 @@
       const cell = document.getElementById(cellId);
       if (cell) {
         const absValue = Math.abs(value);
-        const sign = value >= 0 ? '+' : '-';
         const displayValue = fmtDisplay(value);
         
         // Store raw value for clickable-amount
@@ -3015,143 +3031,39 @@
     
 
     function calculateFullPipelineWithCustomPrice(customPrice) {
-
-      // Calculate ST 1 Custom values
-
+      // Use unified calculation for all basic cells
+      calculateAndUpdateColumn(customPrice, 'custom');
+      
+      // Additional Custom-specific calculations (Won, options, strikes, etc.)
       const fid_shares = 4307.43;
-
       const drs_shares = 30000;
-
       const moomoo_shares = 7147;
-
-      
-
       const fid_custom = fid_shares * customPrice;
-
       const drs_custom = drs_shares * customPrice;
-
       const moomoo_custom = moomoo_shares * customPrice;
-
       const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
-
-      
-
-      // Calculate Korean Won conversion (1 USD = 1,380 KRW)
-
-      const exchange_rate = currentKRWRate;
-
-      const st1_won_total = st1_custom_total * exchange_rate;
-
-      
-
-      // Update ST 1 Custom values
-
-      updateElementWithCustomPrice('st1-custom-total', st1_custom_total);
-
-      updateElementWithCustomPrice('fid-custom-total', fid_custom);
-
-      updateElementWithCustomPrice('drs-custom-total', drs_custom);
-
-      updateElementWithCustomPrice('moomoo-custom-total', moomoo_custom);
-
-      updateElementWithCustomPrice('cash-custom-total', st1_custom_total);
-
-      
-
-      // Update Korean Won total
-
-      updateWonAmount('st1-won-total', st1_won_total);
-
-      
-
-      // ST 2: Dynamic Cash Reserve Matrix
-      // ST2 Total = $1,000,000 (minimum) + (GME Price × 1,000)
       const st2_minimum = 1000000;
       const st2_additional = customPrice * 1000;
       const st2_custom = st2_minimum + st2_additional;
-
-      // Update ST 2 Custom values with proper formatting
-      const st2CustomEl = document.getElementById('st2-custom-main');
-      if (st2CustomEl) {
-        st2CustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_custom}" style="cursor:pointer;">${fmtDisplay(-st2_custom)}</span>`;
-        st2CustomEl.className = 'r neg';
-      }
-      
-      const st2MinEl = document.getElementById('st2-minimum-custom');
-      if (st2MinEl) {
-        st2MinEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_minimum}" style="cursor:pointer;">${fmtDisplay(-st2_minimum)}</span>`;
-        st2MinEl.className = 'r neg';
-      }
-      
-      const st2AddEl = document.getElementById('st2-additional-custom');
-      if (st2AddEl) {
-        st2AddEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_additional}" style="cursor:pointer;">${fmtDisplay(-st2_additional)}</span>`;
-        st2AddEl.className = 'r neg';
-      }
-
-      // Calculate ST 2 cash remaining FIRST (before using in M.K items)
       const st2_cash_remaining = st1_custom_total - st2_custom;
-
-      // M.K items with balance display (same as fixed columns)
-      const mobilitySelfEl = document.getElementById('mobility-self-custom');
-      if (mobilitySelfEl) {
-        const bal1 = st2_cash_remaining - 400000;
-        mobilitySelfEl.innerHTML = `${fmtDisplay(-400000)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal1)}</span>`;
-      }
       
-      const mobilityDadEl = document.getElementById('mobility-dad-custom');
-      if (mobilityDadEl) {
-        const bal2 = st2_cash_remaining - 400000 - 120000;
-        mobilityDadEl.innerHTML = `${fmtDisplay(-120000)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal2)}</span>`;
-      }
+      // Update Korean Won total
+      const st1_won_total = st1_custom_total * currentKRWRate;
+      updateWonAmount('st1-won-total', st1_won_total);
       
-      const giftDadEl = document.getElementById('gift-dad-custom');
-      if (giftDadEl) {
-        const bal3 = st2_cash_remaining - 400000 - 120000 - 22320;
-        giftDadEl.innerHTML = `${fmtDisplay(-22320)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal3)}</span>`;
-      }
-      
-      const giftMomEl = document.getElementById('gift-mom-custom');
-      if (giftMomEl) {
-        const bal4 = st2_cash_remaining - 400000 - 120000 - 22320 - 22548;
-        giftMomEl.innerHTML = `${fmtDisplay(-22548)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal4)}</span>`;
-      }
-      
-      const giftJiniEl = document.getElementById('gift-jini-custom');
-      if (giftJiniEl) {
-        const bal5 = st2_cash_remaining - 400000 - 120000 - 22320 - 22548 - 13920;
-        giftJiniEl.innerHTML = `${fmtDisplay(-13920)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal5)}</span>`;
-      }
-
-      
-
-      // Update ST 2 cash remaining display
-      updateElementWithCustomPrice('st2-cash-custom', st2_cash_remaining);
-
-      
-
-      // Calculate ST 3 Custom values using existing ratios
-
+      // Custom-specific ST3 calculations (options, strikes)
       const st2_custom_remaining = st1_custom_total - st2_custom;
-
-      
-
-      // CS 현물: 100,000주 at custom price
       const cs_shares = 100000;
       const cs_custom = cs_shares * customPrice;
       const cs_custom_remaining = st2_custom_remaining - cs_custom;
       
-      // Fid 옵션: Fid 잔고의 90% 계산 후 반올림 (예: $814,104 → $800,000)
+      // Fid and Moo options
       const fid_balance = cs_custom_remaining * 0.5;
-      const fid_exact_90 = fid_balance * 0.9;
-      const fid_custom_option = Math.floor(fid_exact_90 / 100000) * 100000;
-      
-      // Moo 옵션: Moo 잔고의 90% 계산 후 반올림
+      const fid_custom_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
       const moo_balance = cs_custom_remaining * 0.5;
-      const moo_exact_90 = moo_balance * 0.9;
-      const moo_custom_option = Math.floor(moo_exact_90 / 100000) * 100000;
+      const moo_custom_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
       
-      // Calculate strike distributions
+      // Strike distributions
       const fid_strike40 = Math.round(fid_custom_option * 0.20);
       const fid_strike45 = Math.round(fid_custom_option * 0.30);
       const fid_strike50 = Math.round(fid_custom_option * 0.50);
@@ -3159,242 +3071,43 @@
       const moo_strike45 = Math.round(moo_custom_option * 0.30);
       const moo_strike50 = Math.round(moo_custom_option * 0.50);
       
-      const st3_custom_total = cs_custom + fid_custom_option + moo_custom_option;
-
-      
-
-      // Additional GME purchase for prices $500+
-
-      let additional_gme_purchase = 0;
-
-      if (customPrice >= 500) {
-
-        // Buy additional 100,000 GME shares at custom price
-
-        additional_gme_purchase = 100000 * customPrice;
-
-      }
-
-      
-
-      // Calculate total with additional purchase
-
-      const st3_custom_total_with_additional = st3_custom_total + additional_gme_purchase;
-
-      
-
-      // Calculate cs_cost_total outside the if block so it's available for strike price calculations
-      const cs_cost_total = cs_custom + additional_gme_purchase;
-      
-      // Update ST 3 Custom values (US fund manager standard - exact amounts, no rounding)
-      // CS Cost with balance display (same as fixed columns)
-      const csCostEl = document.getElementById('cs-cost-custom');
-      if (csCostEl) {
-        const cs_bal = st2_cash_remaining - cs_cost_total;
-        csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
-      }
-      
-      // Update ST 3 Custom main total with proper formatting
-      const st3CustomEl = document.getElementById('st3-custom-main');
-      if (st3CustomEl) {
-        st3CustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st3_custom_total_with_additional}" style="cursor:pointer;">${fmtDisplay(-st3_custom_total_with_additional)}</span>`;
-        st3CustomEl.className = 'r neg';
-      }
+      // Update strike prices with balance
+      const cs_cost_total = cs_custom;
+      updateStrikePriceWithBalance('fid-strike40-custom', fid_strike40, st2_cash_remaining - cs_cost_total - fid_strike40);
+      updateStrikePriceWithBalance('fid-strike45-custom', fid_strike45, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45);
+      updateStrikePriceWithBalance('fid-strike50-custom', fid_strike50, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50);
+      updateStrikePriceWithBalance('moo-strike40-custom', moo_strike40, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40);
+      updateStrikePriceWithBalance('moo-strike45-custom', moo_strike45, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45);
+      updateStrikePriceWithBalance('moo-strike50-custom', moo_strike50, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45 - moo_strike50);
       
       // Update Fidelity and Moomoo options
-      const fidOptionEl = document.getElementById('fid-option-custom');
-      if (fidOptionEl) {
-        fidOptionEl.innerHTML = `<span class="clickable-amount" data-amount="${fid_custom_option}" style="cursor:pointer;">${fmtDisplay(fid_custom_option)}</span>`;
+      updateCellWithFormat('fid-option-custom', fid_custom_option, 'pos');
+      updateCellWithFormat('moo-option-custom', moo_custom_option, 'pos');
+      
+      // M.K items with balance display
+      updateMKItemWithBalance('mobility-self-custom', -400000, st2_cash_remaining - 400000);
+      updateMKItemWithBalance('mobility-dad-custom', -120000, st2_cash_remaining - 400000 - 120000);
+      updateMKItemWithBalance('gift-dad-custom', -22320, st2_cash_remaining - 400000 - 120000 - 22320);
+      updateMKItemWithBalance('gift-mom-custom', -22548, st2_cash_remaining - 400000 - 120000 - 22320 - 22548);
+      updateMKItemWithBalance('gift-jini-custom', -13920, st2_cash_remaining - 400000 - 120000 - 22320 - 22548 - 13920);
+    }
+    
+    // Helper to update strike price cell with balance
+    function updateStrikePriceWithBalance(cellId, strikeValue, balValue) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${strikeValue}" style="cursor:pointer;">${fmtDisplay(-strikeValue)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.className = 'r neg';
       }
-      
-      const mooOptionEl = document.getElementById('moo-option-custom');
-      if (mooOptionEl) {
-        mooOptionEl.innerHTML = `<span class="clickable-amount" data-amount="${moo_custom_option}" style="cursor:pointer;">${fmtDisplay(moo_custom_option)}</span>`;
+    }
+    
+    // Helper to update M.K item with balance
+    function updateMKItemWithBalance(cellId, itemValue, balValue) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.innerHTML = `${fmtDisplay(itemValue)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.className = 'r neg';
       }
-      
-      // Update strike prices with balance display (same as fixed columns)
-      const fidStrike40El = document.getElementById('fid-strike40-custom');
-      if (fidStrike40El) {
-        const bal40 = st2_cash_remaining - cs_cost_total - fid_strike40;
-        fidStrike40El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike40}" style="cursor:pointer;">${fmtDisplay(-fid_strike40)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal40)}</span>`;
-      }
-      
-      const fidStrike45El = document.getElementById('fid-strike45-custom');
-      if (fidStrike45El) {
-        const bal45 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45;
-        fidStrike45El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike45}" style="cursor:pointer;">${fmtDisplay(-fid_strike45)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal45)}</span>`;
-      }
-      
-      const fidStrike50El = document.getElementById('fid-strike50-custom');
-      if (fidStrike50El) {
-        const bal50 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50;
-        fidStrike50El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike50}" style="cursor:pointer;">${fmtDisplay(-fid_strike50)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal50)}</span>`;
-      }
-      
-      const mooStrike40El = document.getElementById('moo-strike40-custom');
-      if (mooStrike40El) {
-        const mooBal40 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40;
-        mooStrike40El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike40}" style="cursor:pointer;">${fmtDisplay(-moo_strike40)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal40)}</span>`;
-      }
-      
-      const mooStrike45El = document.getElementById('moo-strike45-custom');
-      if (mooStrike45El) {
-        const mooBal45 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45;
-        mooStrike45El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike45}" style="cursor:pointer;">${fmtDisplay(-moo_strike45)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal45)}</span>`;
-      }
-      
-      const mooStrike50El = document.getElementById('moo-strike50-custom');
-      if (mooStrike50El) {
-        const mooBal50 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45 - moo_strike50;
-        mooStrike50El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike50}" style="cursor:pointer;">${fmtDisplay(-moo_strike50)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal50)}</span>`;
-      }
-      
-      // Calculate ST 3 cash remaining (same as fixed columns)
-      const st3_cash_remaining = st2_cash_remaining - st3_custom_total_with_additional;
-      
-      // Update ST 3 cash
-      updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
-      
-      // Directly update all other custom price cells that exist in HTML
-      const customCells = [
-        'st1-custom-total', 'fid-custom-total', 'drs-custom-total', 'moomoo-custom-total', 'cash-custom-total',
-        'st2-custom-main', 'mobility-self-custom', 'mobility-dad-custom', 'gift-dad-custom', 'gift-mom-custom', 'gift-jini-custom', 'st2-cash-custom',
-        'st4-custom-main', 'gme-partial-custom', 'og-energy-custom', 'qof-housing-custom', 'clat-trust-custom', 'st4-cash-custom',
-        'tax-calculation-custom', 'tax-shield-custom', 'st5-custom-main', 'weavers-attorney-custom', 'tax-saved-custom', 'monthly-income-custom', 'final-validation-custom'
-      ];
-      
-      // These will be updated by their respective calculation functions
-
-      
-
-      // Calculate ST 4 Custom values (Tax Shield)
-
-      const gme_sell_custom = st1_custom_total * 1.5;
-
-      const og_idc_custom = st1_custom_total * 0.4;
-
-      const qof_custom = st1_custom_total * 0.3;
-
-      const clat_custom = st1_custom_total * 0.15;
-
-      const st4_custom_total = gme_sell_custom + og_idc_custom + qof_custom + clat_custom;
-
-      
-
-      // Update ST 4 Custom values with balance display (same as fixed columns)
-      updateElementWithCustomPrice('st4-custom-main', st4_custom_total);
-
-      // GME Partial Sell with balance
-      const gmePartialEl = document.getElementById('gme-partial-custom');
-      if (gmePartialEl) {
-        const gmeBal = st3_cash_remaining + gme_sell_custom;
-        gmePartialEl.innerHTML = `<span class="bull">+${fmtDisplay(gme_sell_custom)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(gmeBal)}</span>`;
-      }
-
-      
-      // Calculate tax and tax shield for Partial Sell
-      const tax_rate = 0.37; // 37% Short-Term Capital Gains Tax
-      const tax_amount = gme_sell_custom * tax_rate;
-      const tax_shield_amount = tax_amount * 0.72; // 72% of tax recovered through deductions
-
-      
-      updateElementWithCustomPrice('tax-calculation-custom', tax_amount);
-      updateElementWithCustomPrice('tax-shield-custom', tax_shield_amount);
-
-      
-      // O&G Energy with balance
-      const ogEnergyEl = document.getElementById('og-energy-custom');
-      if (ogEnergyEl) {
-        const ogBal = st3_cash_remaining + gme_sell_custom - og_idc_custom;
-        ogEnergyEl.innerHTML = `${fmtDisplay(-og_idc_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(ogBal)}</span>`;
-      }
-
-      // QOF Housing with balance
-      const qofHousingEl = document.getElementById('qof-housing-custom');
-      if (qofHousingEl) {
-        const qofBal = st3_cash_remaining + gme_sell_custom - og_idc_custom - qof_custom;
-        qofHousingEl.innerHTML = `${fmtDisplay(-qof_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(qofBal)}</span>`;
-      }
-
-      // CLAT Trust with balance
-      const clatTrustEl = document.getElementById('clat-trust-custom');
-      if (clatTrustEl) {
-        const clatBal = st3_cash_remaining + gme_sell_custom - og_idc_custom - qof_custom - clat_custom;
-        clatTrustEl.innerHTML = `${fmtDisplay(-clat_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(clatBal)}</span>`;
-      }
-
-      
-
-      // Update ST 4 cash remaining
-
-      const st4_cash_remaining = st3_cash_remaining + gme_sell_custom - st4_custom_total;
-
-      updateElementWithCustomPrice('st4-cash-custom', st4_cash_remaining);
-
-      
-
-      // Calculate ST 5 Custom values (Weavers Attorney + Final Completion)
-
-      // Weavers 변호사 비용: 정확한 million 단위로 계산
-
-      const weavers_attorney_fee = st1_custom_total <= 10000000 ? 2500000 : 
-
-                                   st1_custom_total <= 20000000 ? 2800000 :
-
-                                   st1_custom_total <= 30000000 ? 4600000 : 8500000;
-
-      
-
-      // 세무 실익: Weavers 적용 후 절세 혜택
-
-      const tax_saved_weavers = st4_custom_total * 0.238; // 약 23.8% 절세 효과
-
-      
-
-      // 월 예상 수익: O&G, QOF, CLAT 각각 다른 수익률 적용
-      // O&G (Energy): 0.8% 월 수익 (에너지 유정은 고수익)
-      // QOF (Housing): 0.5% 월 수익 (임대 수익)
-      // CLAT (Trust): 0.2% 월 수익 (낮은 수익 but 세금 공제)
-      const monthly_income = (og_idc_custom * 0.008) + (qof_custom * 0.005) + (clat_custom * 0.002);
-
-      
-
-      // Update ST 5 Custom values
-
-      updateElementWithCustomPrice('st5-custom-main', '완료');
-
-      updateElementWithCustomPrice('weavers-attorney-custom', weavers_attorney_fee);
-
-      updateElementWithCustomPrice('tax-saved-custom', tax_saved_weavers);
-
-      updateElementWithCustomPrice('monthly-income-custom', monthly_income);
-
-      
-
-      // Update cash in hand (내 현금 수중)
-      const cash_in_hand = st4_cash_remaining;
-      updateElementWithCustomPrice('cash-hand-custom', cash_in_hand);
-
-      // Calculate and update port-bar Net Worth based on custom price
-      const custom_net_worth = st1_custom_total + st3_custom_total_with_additional + st4_custom_total;
-      const customHnwiTitle = custom_net_worth >= 30000000 ? 'UHNI' : custom_net_worth >= 5000000 ? 'VHNWI' : custom_net_worth >= 1000000 ? 'HNWI' : '';
-      const netWorthDisplayEl = document.getElementById('net-worth-display');
-      if (netWorthDisplayEl) {
-        netWorthDisplayEl.innerHTML = `$${fmt(custom_net_worth)}${customHnwiTitle ? `<br><span style="font-size:9px;">${customHnwiTitle}</span>` : ''}`;
-      }
-
-      // Calculate final validation (Zero-Sum Check)
-
-      const final_validation = st4_cash_remaining - weavers_attorney_fee + tax_saved_weavers;
-
-      updateElementWithCustomPrice('final-validation-custom', final_validation);
-
-      
-
-      // Add Custom Price columns to all rows
-
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, og_idc_custom, qof_custom, clat_custom, tax_amount, tax_shield_amount, additional_gme_purchase);
-
     }
 
     
