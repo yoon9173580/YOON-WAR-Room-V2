@@ -3045,9 +3045,9 @@
       const st3_total = cs_val;
       const st3_cash = st2_cash - st3_total;
       
-      // Update ST 3 cells
+      // Update ST 3 cells - CS Cost with BAL display
+      updateCSCostWithBalance(`cs-cost-${suffix}`, cs_val, st2_cash);
       updateCellWithFormat(`st3-total-${suffix}`, -st3_total, 'neg');
-      updateCellWithFormat(`cs-cost-${suffix}`, -cs_val, 'neg');
       updateCellWithFormat(`st3-cash-${suffix}`, st3_cash, 'pos');
       
       // ST 4 Calculations
@@ -3090,6 +3090,16 @@
         // Update option cells
         updateCellWithFormat('fid-option-custom', fid_option, 'pos');
         updateCellWithFormat('moo-option-custom', moo_option, 'pos');
+      }
+    }
+
+    // Helper function to update CS cost cells with BAL display
+    function updateCSCostWithBalance(cellId, csCost, st2Remaining) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        const bal = st2Remaining - csCost;
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal)}</span>`;
+        cell.className = 'r neg';
       }
     }
 
