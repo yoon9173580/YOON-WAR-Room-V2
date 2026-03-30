@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V53.4</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V53.5</title>
 
   <link
 
@@ -3269,42 +3269,35 @@
     function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, og_idc_custom, qof_custom, clat_custom, tax_amount, tax_shield_amount, additional_gme_purchase) {
 
       // Find all rows in the pipeline table
-
       const table = document.querySelector('.scenario-wrap table tbody');
-
-      if (!table) return;
-
       
+      console.log('DEBUG: addCustomPriceColumnsToAllRows called');
+      console.log('DEBUG: table found:', !!table);
+      
+      if (!table) {
+        console.log('DEBUG: No table found, returning');
+        return;
+      }
 
       const rows = table.querySelectorAll('tr');
+      console.log('DEBUG: Number of rows found:', rows.length);
 
-      
-
-      rows.forEach(row => {
-
+      rows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
-
         const hasCustomColumn = Array.from(cells).some(cell => cell.id && cell.id.includes('custom'));
-
         
-
         // Check if this is the final validation row (special handling)
-
         const isFinalValidation = row.textContent.includes('최종 검증') && row.textContent.includes('Zero-Sum Check');
-
         
+        console.log(`DEBUG: Row ${index}: cells.length=${cells.length}, hasCustomColumn=${hasCustomColumn}, isFinalValidation=${isFinalValidation}`);
 
         if (!hasCustomColumn && cells.length >= 5 && !isFinalValidation) {
-
           // This row needs a custom price column added
-
           const rowClass = row.className;
-
           const firstCell = cells[0].textContent;
-
           const secondCell = cells[1] ? cells[1].textContent : '';
-
           
+          console.log(`DEBUG: Row ${index} needs custom column: rowClass=${rowClass}, firstCell=${firstCell.substring(0, 30)}`);
 
           let customValue = 0;
 
