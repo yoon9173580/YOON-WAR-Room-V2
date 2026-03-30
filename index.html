@@ -1194,14 +1194,6 @@
             🌙 Overnight 데이터는 15-20분 지연될 수 있습니다
           </div>
 
-          <div class="sidebar-title" style="color:var(--accent); font-size:16px;">₿ BTC</div>
-
-          <div class="sb-card" onclick="setActive('BTC-USD')" style="border-left:4px solid var(--accent);">
-            <div class="sb-card-top"><span class="sb-sym" style="color:var(--accent);">₿ BITCOIN</span><span id="sb-BTC-chg" class="sb-chg">—</span></div>
-            <div id="sb-BTC-price" class="sb-price">WAITING...</div>
-            <div id="sb-BTC-ext" class="sb-ext"></div>
-          </div>
-
           <div class="sidebar-title">💎 Magnificent 7</div>
 
           <div class="sb-card" onclick="setActive('AAPL')">
@@ -1470,6 +1462,11 @@
             <div class="pstat">
               <div class="pstat-lbl">GME Price</div>
               <div id="gme-price-display" class="pstat-val" style="color:var(--bull)">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">BTC</div>
+              <div id="btc-price-display" class="pstat-val">$0.00</div>
             </div>
 
             <div class="pstat">
@@ -3881,6 +3878,12 @@
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
         gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      }
+
+      // Update BTC in port-bar
+      const btcPriceEl = document.getElementById('btc-price-display');
+      if (btcPriceEl && V_BTC_P > 0) {
+        btcPriceEl.textContent = '$' + fmt(V_BTC_P);
       }
 
       // Update SPY, QQQ, VIX in port-bar
