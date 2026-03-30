@@ -3711,8 +3711,8 @@
 
       // 1. BBBYQ (Delisted - Bankruptcy)
       const bb_val = 41454 * 0; // 41,454 shares @ $0 (delisted)
-      const bb_cost = 41454 * 0.20; // Cost basis $0.20 per share = $8,291
-      const bb_profit = bb_val - bb_cost; // -$8,291 loss
+      const bb_cost = 41454 * 0.80; // Cost basis $0.80 per share = $33,163
+      const bb_profit = bb_val - bb_cost; // -$33,163 loss
       document.getElementById('cell_bbbyq_val').textContent = '$' + fmt(bb_val);
       document.getElementById('cell_bbbyq_tot').textContent = '$' + fmt(Math.abs(bb_profit));
       document.getElementById('cell_bbbyq_tot').className = 'r neg';
