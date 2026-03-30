@@ -1135,15 +1135,11 @@
     }
 
     .price-up {
-
-      animation: flashGreen 0.6s ease-out;
-
+      animation: flashGreen 0.8s ease-out !important;
     }
 
     .price-down {
-
-      animation: flashRed 0.6s ease-out;
-
+      animation: flashRed 0.8s ease-out !important;
     }
 
   </style>
@@ -3266,12 +3262,25 @@
     // Animation helper for table cells - flashes green for positive, red for negative
     function flashCell(cellId, isPositive) {
       const cell = document.getElementById(cellId);
-      if (cell) {
-        cell.classList.remove('price-up', 'price-down');
-        void cell.offsetWidth; // Trigger reflow
-        cell.classList.add(isPositive ? 'price-up' : 'price-down');
-        setTimeout(() => cell.classList.remove('price-up', 'price-down'), 600);
-      }
+      if (!cell) return;
+      
+      // Remove any existing animation classes first
+      cell.classList.remove('price-up', 'price-down');
+      
+      // Use requestAnimationFrame to ensure DOM update before adding animation
+      requestAnimationFrame(() => {
+        // Force reflow to ensure removal takes effect
+        void cell.offsetWidth;
+        
+        // Add animation class
+        const animClass = isPositive ? 'price-up' : 'price-down';
+        cell.classList.add(animClass);
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          cell.classList.remove('price-up', 'price-down');
+        }, 800);
+      });
     }
 
     // Helper function to update a cell with proper formatting and animation
@@ -3790,16 +3799,14 @@
 
             
 
-            // Update the cell content
-
+            // Update the cell content with animation
             const displayValue = fmtDisplay(Math.abs(newValue));
-
             const prefix = newValue < 0 ? '-' : '+';
-
             customCell.innerHTML = `<span class="clickable-amount" data-amount="${newValue}" style="cursor:pointer;">${prefix}${displayValue}</span>`;
-
             customCell.className = `r ${newValue < 0 ? 'neg' : 'pos'}`;
-
+            
+            // Trigger flash animation
+            flashCell(cellId, newValue >= 0);
           }
 
         }
