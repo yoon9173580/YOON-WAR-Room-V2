@@ -3709,15 +3709,15 @@
 
     function renderTerminal() {
 
-      // 1. BBBYQ (Delisted - Bankruptcy, cost basis forfeited)
-      const bb_val = 0; // Worthless
-      const bb_cost = 0; // Cost basis forfeited
-      const bb_profit = 0;
-      document.getElementById('cell_bbbyq_val').textContent = '$0.00';
-      document.getElementById('cell_bbbyq_tot').textContent = '$0.00';
-      document.getElementById('cell_bbbyq_tot').className = 'r muted';
-      document.getElementById('cell_bbbyq_roi').textContent = '0.00%';
-      document.getElementById('cell_bbbyq_roi').className = 'r muted';
+      // 1. BBBYQ (Delisted - Bankruptcy)
+      const bb_val = 41454 * 0; // 41,454 shares @ $0 (delisted)
+      const bb_cost = 41454 * 0.20; // Cost basis $0.20 per share = $8,291
+      const bb_profit = bb_val - bb_cost; // -$8,291 loss
+      document.getElementById('cell_bbbyq_val').textContent = '$' + fmt(bb_val);
+      document.getElementById('cell_bbbyq_tot').textContent = '$' + fmt(Math.abs(bb_profit));
+      document.getElementById('cell_bbbyq_tot').className = 'r neg';
+      document.getElementById('cell_bbbyq_roi').textContent = '-100.00%';
+      document.getElementById('cell_bbbyq_roi').className = 'r neg';
 
 
 
@@ -3744,18 +3744,18 @@
 
 
 
-      // 3. GME Option (Expired - cost basis forfeited)
-      const go_val = 0; // Worthless
-      const go_cost = 0; // Cost basis forfeited
-      const go_profit = 0;
-      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">EXPIRED</span>' : '$' + fmtOpt(V_GME_O_P);
-      document.getElementById('cell_gme_o_val').textContent = '$0.00';
-      document.getElementById('cell_gme_o_day').textContent = '$0.00';
-      document.getElementById('cell_gme_o_day').className = 'r muted';
-      document.getElementById('cell_gme_o_tot').textContent = '$0.00';
-      document.getElementById('cell_gme_o_tot').className = 'r muted';
-      document.getElementById('cell_gme_o_roi').textContent = '0.00%';
-      document.getElementById('cell_gme_o_roi').className = 'r muted';
+      // 3. GME Option (26 contracts @ $0.36 per share = $36 per contract)
+      const go_val = 26 * V_GME_O_P * 100;
+      const go_cost = 26 * 0.36 * 100; // $936 total cost
+      const go_profit = go_val - go_cost;
+      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
+      document.getElementById('cell_gme_o_val').textContent = '$' + fmt(go_val);
+      document.getElementById('cell_gme_o_day').textContent = (V_GME_O_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(26 * V_GME_O_C * 100));
+      document.getElementById('cell_gme_o_day').className = 'r ' + (V_GME_O_C >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_o_tot').textContent = '$' + fmt(Math.abs(go_profit));
+      document.getElementById('cell_gme_o_tot').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_gme_o_roi').textContent = (go_cost > 0 ? (go_profit / go_cost * 100) : 0).toFixed(2) + '%';
+      document.getElementById('cell_gme_o_roi').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
 
 
 
