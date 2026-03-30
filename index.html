@@ -3191,7 +3191,7 @@
 
       // Add Custom Price columns to all rows
 
-      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase);
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom + additional_gme_purchase, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, og_idc_custom, qof_custom, clat_custom, tax_amount, tax_shield_amount, additional_gme_purchase);
 
     }
 
@@ -3245,11 +3245,14 @@
 
       }
 
+      // Add Custom Price columns to all rows with all calculated values
+      addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, og_idc_custom, qof_custom, clat_custom, tax_amount, tax_shield_amount, additional_gme_purchase);
+
     }
 
     
 
-    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, additional_gme_purchase) {
+    function addCustomPriceColumnsToAllRows(customPrice, st1_custom_total, st2_custom, st3_custom_total_with_additional, st4_custom_total, cs_custom, fid_custom_option, moo_custom_option, fid_strike40, fid_strike45, fid_strike50, moo_strike40, moo_strike45, moo_strike50, gme_sell_custom, og_idc_custom, qof_custom, clat_custom, tax_amount, tax_shield_amount, additional_gme_purchase) {
 
       // Find all rows in the pipeline table
 
