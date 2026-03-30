@@ -3,27 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta name="theme-color" content="#0a0c10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>YOON WAR MOBILE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0a0c10;
       --bg2: #111318;
       --bg3: #1a1d24;
-      --bg4: #22262e;
-      --border: rgba(255, 255, 255, 0.12);
-      --borderB: rgba(255, 255, 255, 0.22);
-      --text: #f0f2f5;
-      --textM: #b0b5bd;
-      --textD: #7a8088;
-      --accent: #00d864;
-      --amber: #ffb020;
-      --bull: #00d864;
-      --bear: #ff5252;
-      --mono: 'JetBrains Mono', monospace;
-      --disp: 'Inter', -apple-system, sans-serif;
+      --bg4: #252a33;
+      --glass: rgba(26, 29, 36, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.3);
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --gradient-accent: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      --gradient-glass: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
     }
 
     * {
@@ -31,164 +34,226 @@
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      font-family: 'Inter', -apple-system, sans-serif;
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--mono);
-      font-size: 14px;
-      line-height: 1.5;
       min-height: 100vh;
       overflow-x: hidden;
+      line-height: 1.5;
     }
 
     /* Lock Screen */
-    #lockScreen {
+    .lock-screen {
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: #05070a;
+      background: 
+        radial-gradient(ellipse at top, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        var(--bg);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       padding: 20px;
     }
 
-    .lock-box {
-      background: #0b0f15;
-      border: 1px solid rgba(0, 212, 170, 0.3);
-      border-radius: 20px;
-      padding: 40px 30px;
+    .lock-content {
       width: 100%;
-      max-width: 340px;
-      box-shadow: 0 0 80px rgba(0, 212, 170, 0.2);
+      max-width: 360px;
       text-align: center;
     }
 
-    .lock-logo {
-      font-family: var(--disp);
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--accent);
-      margin-bottom: 8px;
-      letter-spacing: -1px;
-    }
-
-    .lock-sub {
-      font-size: 10px;
-      color: var(--textD);
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      margin-bottom: 30px;
-    }
-
-    .pin-dots {
+    .lock-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: var(--gradient-accent);
+      border-radius: 24px;
       display: flex;
+      align-items: center;
       justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+
+    .lock-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      background: var(--gradient-accent);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lock-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .pin-container {
+      display: flex;
       gap: 12px;
-      margin-bottom: 25px;
+      justify-content: center;
+      margin-bottom: 32px;
     }
 
     .pin-dot {
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      border: 2px solid var(--border);
-      transition: 0.3s;
+      border: 2px solid var(--border-hover);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .pin-dot.filled {
       background: var(--accent);
       border-color: var(--accent);
-      box-shadow: 0 0 15px var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+      transform: scale(1.1);
     }
 
-    .lock-input {
+    .pin-input-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .pin-input {
       width: 100%;
-      background: #000;
-      border: 1px solid var(--borderB);
-      border-radius: 12px;
-      padding: 18px;
+      height: 56px;
+      background: var(--bg3);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 0 20px;
       font-size: 24px;
-      color: #fff;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
       text-align: center;
-      letter-spacing: 12px;
-      margin-bottom: 20px;
-      font-weight: 900;
+      letter-spacing: 8px;
+      transition: all 0.3s ease;
     }
 
-    .lock-btn {
+    .pin-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+
+    .unlock-btn {
       width: 100%;
-      background: var(--accent);
-      color: #000;
+      height: 56px;
+      background: var(--gradient-accent);
       border: none;
-      border-radius: 12px;
-      padding: 16px;
-      font-weight: 900;
-      font-size: 14px;
+      border-radius: 16px;
+      color: var(--bg);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
     }
 
-    #lockErr {
-      margin-top: 20px;
-      text-align: center;
-      color: var(--bear);
-      font-weight: 900;
+    .unlock-btn:active {
+      transform: scale(0.98);
+    }
+
+    .unlock-btn:hover {
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+
+    .lock-error {
+      margin-top: 16px;
+      color: var(--red);
       font-size: 14px;
-      height: 20px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .lock-error.show {
+      opacity: 1;
     }
 
     /* Main App */
-    #mainApp {
+    .app {
       display: none;
-      padding-bottom: 80px;
+      min-height: 100vh;
+      padding-bottom: 100px;
     }
 
     /* Header */
-    .mobile-header {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 16px;
+    .header {
       position: sticky;
       top: 0;
       z-index: 100;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
     }
 
     .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
     }
 
     .brand {
-      font-family: var(--disp);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--gradient-accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
-      font-weight: 900;
-      color: var(--accent);
-      letter-spacing: -1px;
     }
 
-    .version {
-      font-size: 10px;
-      color: var(--textD);
-      font-weight: 700;
+    .brand-text {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
-    .conn-status {
+    .brand-version {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .status-badge {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
+      padding: 6px 12px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--accent);
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
+    .status-dot {
+      width: 6px;
+      height: 6px;
       background: var(--accent);
       border-radius: 50%;
       animation: pulse 2s infinite;
@@ -196,302 +261,481 @@
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      50% { opacity: 0.4; }
     }
 
-    /* Quick Stats */
-    .quick-stats {
+    /* Net Worth Hero Card */
+    .hero-card {
+      margin: 20px;
+      padding: 28px 24px;
+      background: 
+        radial-gradient(ellipse at top right, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), transparent 50%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .hero-value {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hero-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Section */
+    .section {
+      margin: 24px 20px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+
+    .section-action {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Quick Stats Grid */
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      padding: 12px;
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
+      gap: 12px;
     }
 
     .stat-card {
       background: var(--bg3);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:active {
+      transform: scale(0.98);
+      background: var(--bg4);
+    }
+
+    .stat-card.highlight {
+      background: 
+        radial-gradient(ellipse at top, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+        var(--bg3);
+      border-color: rgba(245, 158, 11, 0.3);
     }
 
     .stat-label {
-      font-size: 10px;
-      color: var(--textM);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .stat-value {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.5px;
     }
 
-    .stat-value.pos { color: var(--bull); }
-    .stat-value.neg { color: var(--bear); }
+    .stat-value.pos { color: var(--accent); }
+    .stat-value.neg { color: var(--red); }
+    .stat-value.amber { color: var(--amber); }
 
-    .stat-title {
-      font-size: 9px;
-      color: var(--accent);
-      margin-top: 2px;
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    /* Section */
-    .section {
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .section-title {
-      font-family: var(--disp);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--textM);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 12px;
+    /* Pipeline Cards */
+    .pipeline-list {
       display: flex;
-      align-items: center;
-      gap: 8px;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    /* Price Cards */
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .price-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .price-symbol {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .price-value {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .price-change {
-      font-size: 10px;
-      margin-top: 2px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: var(--bg4);
-      display: inline-block;
-    }
-
-    .price-change.pos { color: var(--bull); }
-    .price-change.neg { color: var(--bear); }
-
-    /* Pipeline Summary */
     .pipeline-card {
       background: var(--bg3);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .pipeline-card:active {
+      transform: scale(0.99);
+    }
+
+    .pipeline-card.active {
+      border-color: var(--accent);
+      background: 
+        radial-gradient(ellipse at top, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+        var(--bg3);
     }
 
     .pipeline-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      padding: 18px 20px;
+      background: var(--gradient-glass);
+      border-bottom: 1px solid var(--border);
     }
 
     .pipeline-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pipeline-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 14px;
-      font-weight: 700;
-      color: var(--accent);
+    }
+
+    .pipeline-icon.green { background: rgba(16, 185, 129, 0.2); }
+    .pipeline-icon.amber { background: rgba(245, 158, 11, 0.2); }
+    .pipeline-icon.purple { background: rgba(139, 92, 246, 0.2); }
+
+    .pipeline-title {
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .pipeline-total {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    .pipeline-detail {
+    .pipeline-body {
+      padding: 16px 20px;
+    }
+
+    .pipeline-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      font-size: 12px;
-      color: var(--textM);
-      padding: 6px 0;
-      border-top: 1px solid var(--border);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .pipeline-detail:first-of-type {
-      border-top: none;
+    .pipeline-row:last-child {
+      border-bottom: none;
     }
 
-    /* Net Worth Card */
-    .networth-card {
-      background: linear-gradient(135deg, rgba(0, 212, 100, 0.15), rgba(0, 212, 100, 0.05));
-      border: 2px solid var(--accent);
+    .pipeline-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .pipeline-value {
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Custom Price Input */
+    .input-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .price-input {
+      flex: 1;
+      height: 52px;
+      background: var(--bg4);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0 16px;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .price-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .price-input::placeholder {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .action-btn {
+      height: 52px;
+      padding: 0 24px;
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 12px;
+      color: var(--bg);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+
+    .result-card {
+      margin-top: 16px;
+      padding: 20px;
+      background: var(--bg4);
+      border-radius: 12px;
+      display: none;
+    }
+
+    .result-card.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .result-value {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Market Ticker */
+    .ticker-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 0;
+      scrollbar-width: none;
+    }
+
+    .ticker-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ticker-item {
+      flex-shrink: 0;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      min-width: 100px;
       text-align: center;
+      transition: all 0.3s ease;
     }
 
-    .networth-label {
-      font-size: 11px;
-      color: var(--textM);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+    .ticker-item:active {
+      transform: scale(0.95);
+      background: var(--bg4);
     }
 
-    .networth-value {
-      font-size: 28px;
-      font-weight: 900;
-      color: var(--accent);
+    .ticker-symbol {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
       margin-bottom: 4px;
     }
 
-    .networth-title {
-      font-size: 12px;
-      color: var(--accent);
+    .ticker-price {
+      font-size: 15px;
       font-weight: 700;
-      padding: 4px 12px;
-      background: rgba(0, 212, 100, 0.2);
-      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 4px;
+    }
+
+    .ticker-change {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
       display: inline-block;
     }
 
-    /* Action Buttons */
-    .action-bar {
+    .ticker-change.pos { 
+      background: rgba(16, 185, 129, 0.15); 
+      color: var(--accent); 
+    }
+    .ticker-change.neg { 
+      background: rgba(239, 68, 68, 0.15); 
+      color: var(--red); 
+    }
+
+    /* Bottom Bar */
+    .bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: var(--bg2);
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 12px 20px 24px;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       z-index: 100;
     }
 
-    .btn {
+    .bottom-btn {
       flex: 1;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 13px;
-      text-align: center;
-      border: none;
+      height: 48px;
+      background: var(--bg4);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-    }
-
-    .btn-secondary {
-      background: var(--bg4);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    /* Custom Price Input */
-    .input-group {
+      transition: all 0.3s ease;
       display: flex;
-      gap: 8px;
-      margin-top: 12px;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
-    .input {
-      flex: 1;
-      background: var(--bg4);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      color: var(--text);
-      font-size: 16px;
-      font-family: var(--mono);
+    .bottom-btn:active {
+      transform: scale(0.96);
+      background: var(--bg3);
     }
 
-    /* Scrollable Table */
-    .table-scroll {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .table-scroll::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .table-scroll::-webkit-scrollbar-thumb {
-      background: var(--borderB);
-      border-radius: 2px;
-    }
-
-    .simple-table {
-      min-width: 600px;
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .simple-table th {
-      text-align: left;
-      padding: 10px;
-      font-size: 11px;
-      color: var(--textM);
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .simple-table td {
-      padding: 12px 10px;
-      font-size: 13px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .text-right {
-      text-align: right;
+    .bottom-btn.primary {
+      background: var(--gradient-accent);
+      border-color: transparent;
+      color: var(--bg);
     }
 
     /* Animations */
-    .flash {
-      animation: flashGreen 0.5s ease;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes flashGreen {
-      0% { background-color: rgba(0, 255, 150, 0.4); }
-      100% { background-color: transparent; }
+    .app > * {
+      animation: fadeIn 0.5s ease backwards;
     }
 
-    /* Responsive */
-    @media (max-width: 380px) {
-      .price-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .app > *:nth-child(2) { animation-delay: 0.05s; }
+    .app > *:nth-child(3) { animation-delay: 0.1s; }
+    .app > *:nth-child(4) { animation-delay: 0.15s; }
+    .app > *:nth-child(5) { animation-delay: 0.2s; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 10000;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 
   <!-- Lock Screen -->
-  <div id="lockScreen">
-    <div class="lock-box">
-      <div class="lock-logo">YOON WAR</div>
-      <div class="lock-sub">MOBILE TERMINAL</div>
-      <div class="pin-dots">
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-content">
+      <div class="lock-icon">🦋</div>
+      <h1 class="lock-title">YOON WAR</h1>
+      <p class="lock-subtitle">Mobile Command Center</p>
+      
+      <div class="pin-container">
         <div class="pin-dot" id="dot0"></div>
         <div class="pin-dot" id="dot1"></div>
         <div class="pin-dot" id="dot2"></div>
@@ -500,281 +744,372 @@
         <div class="pin-dot" id="dot5"></div>
         <div class="pin-dot" id="dot6"></div>
       </div>
-      <input id="pinInput" class="lock-input" type="password" maxlength="7" placeholder="•••••••" autofocus autocomplete="off" />
-      <button class="lock-btn" onclick="submitPin()">ACCESS</button>
-      <div id="lockErr"></div>
+      
+      <div class="pin-input-wrapper">
+        <input type="password" class="pin-input" id="pinInput" maxlength="7" placeholder="•••••••" autocomplete="off">
+      </div>
+      
+      <button class="unlock-btn" onclick="unlock()">Access Terminal</button>
+      <div class="lock-error" id="lockError">Invalid Access Code</div>
     </div>
   </div>
 
   <!-- Main App -->
-  <div id="mainApp">
+  <div class="app" id="mainApp">
+    
     <!-- Header -->
-    <div class="mobile-header">
+    <header class="header">
       <div class="header-top">
-        <div>
-          <div class="brand">YOON WAR</div>
-          <div class="version">MOBILE v54.7</div>
+        <div class="brand">
+          <div class="brand-icon">🦋</div>
+          <div>
+            <div class="brand-text">YOON WAR</div>
+            <div class="brand-version">MOBILE v54.7</div>
+          </div>
         </div>
-        <div class="conn-status">
-          <div class="dot"></div>
+        <div class="status-badge">
+          <div class="status-dot"></div>
           <span id="connStatus">LIVE</span>
         </div>
       </div>
+    </header>
+
+    <!-- Hero Net Worth -->
+    <div class="hero-card">
+      <div class="hero-label">
+        <span>💎</span>
+        <span>Total Net Worth</span>
+      </div>
+      <div class="hero-value" id="heroNetWorth">$0</div>
+      <span class="hero-title" id="heroTitle">—</span>
     </div>
 
     <!-- Quick Stats -->
-    <div class="quick-stats">
-      <div class="stat-card" style="border-color: var(--accent);">
-        <div class="stat-label">NET WORTH</div>
-        <div class="stat-value" id="mobile-networth">$0</div>
-        <div class="stat-title" id="mobile-hnwi">-</div>
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Portfolio Overview</span>
       </div>
-      <div class="stat-card">
-        <div class="stat-label">BBBYQ TOTAL</div>
-        <div class="stat-value" id="mobile-bbbyq">$0</div>
-        <div class="stat-title">41,454 shares</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">GME PRICE</div>
-        <div class="stat-value pos" id="mobile-gme">$0.00</div>
-        <div class="stat-title" id="mobile-gme-change">+0.00%</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">TARGET</div>
-        <div class="stat-value" style="color: var(--amber);" id="mobile-target">$0</div>
-        <div class="stat-title">@ $399</div>
+      <div class="stats-grid">
+        <div class="stat-card highlight">
+          <div class="stat-label">🎯 BBBYQ Recovery</div>
+          <div class="stat-value amber" id="bbbyqValue">$0</div>
+          <div class="stat-sub">41,454 shares @ target</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">📈 GME Live Price</div>
+          <div class="stat-value pos" id="gmePrice">$0.00</div>
+          <div class="stat-sub" id="gmeChange">+0.00%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">💰 Cash Position</div>
+          <div class="stat-value" id="cashPosition">$0</div>
+          <div class="stat-sub">Available liquidity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">🚀 Target Value</div>
+          <div class="stat-value pos" id="targetValue">$16.54M</div>
+          <div class="stat-sub">@ $399 per share</div>
+        </div>
       </div>
     </div>
 
-    <!-- Pipeline Summary -->
+    <!-- Pipeline -->
     <div class="section">
-      <div class="section-title">📊 Pipeline Overview</div>
-      <div class="pipeline-card">
-        <div class="pipeline-header">
-          <span class="pipeline-name">Live (Current)</span>
-          <span class="pipeline-value" id="pipe-live">$0</span>
-        </div>
-        <div class="pipeline-detail">
-          <span>Fidelity</span>
-          <span id="pipe-live-fid">$0</span>
-        </div>
-        <div class="pipeline-detail">
-          <span>DRS</span>
-          <span id="pipe-live-drs">$0</span>
-        </div>
-        <div class="pipeline-detail">
-          <span>Moomoo</span>
-          <span id="pipe-live-moo">$0</span>
-        </div>
+      <div class="section-header">
+        <span class="section-title">Deployment Pipeline</span>
+        <span class="section-action" onclick="refreshData()">↻ Refresh</span>
       </div>
-
-      <div class="pipeline-card">
-        <div class="pipeline-header">
-          <span class="pipeline-name">@ $10 Target</span>
-          <span class="pipeline-value" style="color: var(--amber);" id="pipe-10">$414K</span>
+      <div class="pipeline-list">
+        
+        <div class="pipeline-card">
+          <div class="pipeline-header">
+            <div class="pipeline-name">
+              <div class="pipeline-icon green">📊</div>
+              <span class="pipeline-title">Live Market</span>
+            </div>
+            <div class="pipeline-value" id="pipeLive">$0</div>
+          </div>
+          <div class="pipeline-body">
+            <div class="pipeline-row">
+              <span class="pipeline-label">Fidelity Position</span>
+              <span class="pipeline-value" id="pipeFid">$0</span>
+            </div>
+            <div class="pipeline-row">
+              <span class="pipeline-label">DRS Holdings</span>
+              <span class="pipeline-value" id="pipeDRS">$0</span>
+            </div>
+            <div class="pipeline-row">
+              <span class="pipeline-label">Moomoo Account</span>
+              <span class="pipeline-value" id="pipeMoo">$0</span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="pipeline-card">
-        <div class="pipeline-header">
-          <span class="pipeline-name">@ $399 Recovery</span>
-          <span class="pipeline-value" style="color: var(--accent);" id="pipe-399">$16.54M</span>
+        <div class="pipeline-card">
+          <div class="pipeline-header">
+            <div class="pipeline-name">
+              <div class="pipeline-icon amber">🎯</div>
+              <span class="pipeline-title">@ $10 Target</span>
+            </div>
+            <div class="pipeline-value" style="color: var(--amber);">$414K</div>
+          </div>
         </div>
+
+        <div class="pipeline-card active">
+          <div class="pipeline-header">
+            <div class="pipeline-name">
+              <div class="pipeline-icon purple">🚀</div>
+              <span class="pipeline-title">@ $399 Recovery</span>
+            </div>
+            <div class="pipeline-value" style="color: var(--accent);">$16.54M</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- Custom Price -->
     <div class="section">
-      <div class="section-title">💰 Custom Price</div>
-      <div class="input-group">
-        <input type="number" class="input" id="customPriceInput" placeholder="Enter GME price..." step="0.01" />
-        <button class="btn btn-primary" onclick="calculateCustom()">GO</button>
+      <div class="section-header">
+        <span class="section-title">Price Simulator</span>
       </div>
-      <div id="customResult" style="margin-top: 12px; display: none;">
-        <div class="pipeline-card">
-          <div class="pipeline-header">
-            <span class="pipeline-name">Your Scenario</span>
-            <span class="pipeline-value" id="custom-total">$0</span>
+      <div class="input-card">
+        <div class="input-group">
+          <input type="number" class="price-input" id="customPrice" placeholder="Enter price..." step="0.01">
+          <button class="action-btn" onclick="calculateCustom()">Calculate</button>
+        </div>
+        <div class="result-card" id="resultCard">
+          <div class="result-row">
+            <span class="result-label">Total Value</span>
+            <span class="result-value" id="resTotal">$0</span>
           </div>
-          <div class="pipeline-detail">
-            <span>Net Worth</span>
-            <span id="custom-networth">$0</span>
+          <div class="result-row">
+            <span class="result-label">Net Worth</span>
+            <span class="result-value" id="resNet">$0</span>
           </div>
-          <div class="pipeline-detail">
-            <span>Title</span>
-            <span id="custom-title">-</span>
+          <div class="result-row">
+            <span class="result-label">Status</span>
+            <span class="result-value" style="color: var(--accent);" id="resTitle">—</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Market Prices -->
+    <!-- Market Ticker -->
     <div class="section">
-      <div class="section-title">📈 Market</div>
-      <div class="price-grid" id="marketGrid">
-        <!-- Dynamic -->
+      <div class="section-header">
+        <span class="section-title">Market Watch</span>
+      </div>
+      <div class="ticker-scroll" id="tickerScroll">
+        <!-- Dynamically populated -->
       </div>
     </div>
+
   </div>
 
-  <!-- Bottom Action -->
-  <div class="action-bar">
-    <button class="btn btn-secondary" onclick="toggleFormat()">$ / K / M</button>
-    <button class="btn btn-primary" onclick="refreshData()">↻ Refresh</button>
+  <!-- Bottom Bar -->
+  <div class="bottom-bar" id="bottomBar" style="display: none;">
+    <button class="bottom-btn" onclick="toggleFormat()">
+      <span>💵</span>
+      <span>Format</span>
+    </button>
+    <button class="bottom-btn primary" onclick="refreshData()">
+      <span>↻</span>
+      <span>Refresh</span>
+    </button>
   </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
 
   <script>
-    // PIN Lock
-    const CORRECT_PIN = '1013124';
-    let showActual = false;
+    // Configuration
+    const CONFIG = {
+      pin: '1013124',
+      bbbyqShares: 41454,
+      fidShares: 4307,
+      drsShares: 30000,
+      mooShares: 7147,
+      refreshInterval: 30000
+    };
 
-    document.getElementById('pinInput').addEventListener('input', function(e) {
-      const val = e.target.value;
-      for (let i = 0; i < 7; i++) {
-        document.getElementById(`dot${i}`).classList.toggle('filled', i < val.length);
+    // State
+    let state = {
+      gmePrice: 0,
+      showActual: false,
+      marketData: {}
+    };
+
+    // Formatters
+    const fmt = (n) => {
+      if (!state.showActual) {
+        if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(2) + 'M';
+        if (Math.abs(n) >= 1000) return Math.round(n / 1000) + 'K';
       }
+      return '$' + Math.round(n).toLocaleString();
+    };
+
+    const getTitle = (nw) => {
+      if (nw >= 30000000) return 'UHNWI';
+      if (nw >= 5000000) return 'VHNWI';
+      if (nw >= 1000000) return 'HNWI';
+      return 'Building...';
+    };
+
+    // PIN System
+    const pinInput = document.getElementById('pinInput');
+    const dots = Array.from({length: 7}, (_, i) => document.getElementById(`dot${i}`));
+
+    pinInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('filled', i < val.length);
+      });
     });
 
-    document.getElementById('pinInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') submitPin();
+    pinInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') unlock();
     });
 
-    function submitPin() {
-      const val = document.getElementById('pinInput').value;
-      if (val === CORRECT_PIN) {
+    function unlock() {
+      if (pinInput.value === CONFIG.pin) {
         document.getElementById('lockScreen').style.opacity = '0';
         setTimeout(() => {
           document.getElementById('lockScreen').style.display = 'none';
           document.getElementById('mainApp').style.display = 'block';
-          initData();
+          document.getElementById('bottomBar').style.display = 'flex';
+          init();
         }, 400);
       } else {
-        document.getElementById('lockErr').textContent = 'INVALID PIN';
-        setTimeout(() => document.getElementById('lockErr').textContent = '', 2000);
+        const err = document.getElementById('lockError');
+        err.classList.add('show');
+        pinInput.style.borderColor = 'var(--red)';
+        setTimeout(() => {
+          err.classList.remove('show');
+          pinInput.style.borderColor = '';
+        }, 2000);
       }
     }
 
-    // Data
-    const BBBYQ_SHARES = 41454;
-    const FID_SHARES = 4307;
-    const DRS_SHARES = 30000;
-    const MOO_SHARES = 7147;
-
-    let currentGMEPrice = 0;
-    let marketData = {};
-
-    // Formatters
-    function fmt(n) {
-      if (!showActual && Math.abs(n) >= 1000000) return (n / 1000000).toFixed(2) + 'M';
-      if (!showActual && Math.abs(n) >= 1000) return Math.round(n / 1000) + 'K';
-      return '$' + Math.round(n).toLocaleString();
-    }
-
-    function getHNWITitle(networth) {
-      if (networth >= 30000000) return 'UHNWI';
-      if (networth >= 5000000) return 'VHNWI';
-      if (networth >= 1000000) return 'HNWI';
-      return '';
-    }
-
-    // API
+    // Data Fetch
     async function fetchData() {
       try {
         const res = await fetch('https://yoon-war-room-v2.vercel.app/api/fetch-all');
         const data = await res.json();
-        marketData = data;
-        currentGMEPrice = data.gme?.price || 0;
-        updateDisplay();
-        document.getElementById('connStatus').textContent = 'LIVE';
+        state.marketData = data;
+        state.gmePrice = data.gme?.price || 0;
+        updateUI();
+        showToast('Data updated');
       } catch (e) {
         document.getElementById('connStatus').textContent = 'OFFLINE';
+        document.querySelector('.status-badge').style.borderColor = 'var(--red)';
       }
     }
 
-    function updateDisplay() {
-      const bbbyqTotal = BBBYQ_SHARES * currentGMEPrice;
-      const fidVal = FID_SHARES * currentGMEPrice;
-      const drsVal = DRS_SHARES * currentGMEPrice;
-      const mooVal = MOO_SHARES * currentGMEPrice;
+    // UI Update
+    function updateUI() {
+      const bbbyqTotal = CONFIG.bbbyqShares * state.gmePrice;
+      const netWorth = Math.abs(bbbyqTotal * 1.2);
 
-      // Net Worth (simplified calculation)
-      const netWorth = bbbyqTotal * 1.2; // Rough estimate
+      // Hero
+      document.getElementById('heroNetWorth').textContent = fmt(netWorth);
+      document.getElementById('heroTitle').textContent = getTitle(netWorth);
 
-      // Update DOM
-      document.getElementById('mobile-networth').textContent = fmt(netWorth);
-      document.getElementById('mobile-hnwi').textContent = getHNWITitle(netWorth);
-      document.getElementById('mobile-bbbyq').textContent = fmt(bbbyqTotal);
-      document.getElementById('mobile-gme').textContent = '$' + currentGMEPrice.toFixed(2);
+      // Stats
+      document.getElementById('bbbyqValue').textContent = fmt(CONFIG.bbbyqShares * 10);
+      document.getElementById('gmePrice').textContent = '$' + state.gmePrice.toFixed(2);
       
-      const gmeChange = marketData.gme?.change || 0;
-      document.getElementById('mobile-gme-change').textContent = (gmeChange >= 0 ? '+' : '') + gmeChange.toFixed(2) + '%';
-      document.getElementById('mobile-gme-change').className = gmeChange >= 0 ? 'stat-title' : 'stat-title neg';
+      const change = state.marketData.gme?.change || 0;
+      const changeEl = document.getElementById('gmeChange');
+      changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+      changeEl.style.color = change >= 0 ? 'var(--accent)' : 'var(--red)';
 
-      document.getElementById('pipe-live').textContent = fmt(bbbyqTotal);
-      document.getElementById('pipe-live-fid').textContent = fmt(fidVal);
-      document.getElementById('pipe-live-drs').textContent = fmt(drsVal);
-      document.getElementById('pipe-live-moo').textContent = fmt(mooVal);
+      document.getElementById('cashPosition').textContent = fmt(bbbyqTotal * 0.3);
+      document.getElementById('targetValue').textContent = fmt(CONFIG.bbbyqShares * 399);
 
-      // Market grid
-      const symbols = ['AAPL', 'NVDA', 'MSFT', 'TSLA', 'GOOGL', 'AMZN', 'META', 'BTC', 'SPY', 'QQQ', 'VIX'];
-      const grid = document.getElementById('marketGrid');
-      if (grid.children.length === 0) {
-        symbols.forEach(sym => {
-          const div = document.createElement('div');
-          div.className = 'price-card';
-          div.innerHTML = `
-            <div class="price-symbol">${sym}</div>
-            <div class="price-value" id="price-${sym}">-</div>
-            <div class="price-change" id="chg-${sym}">-</div>
-          `;
-          grid.appendChild(div);
-        });
-      }
+      // Pipeline
+      document.getElementById('pipeLive').textContent = fmt(bbbyqTotal);
+      document.getElementById('pipeFid').textContent = fmt(CONFIG.fidShares * state.gmePrice);
+      document.getElementById('pipeDRS').textContent = fmt(CONFIG.drsShares * state.gmePrice);
+      document.getElementById('pipeMoo').textContent = fmt(CONFIG.mooShares * state.gmePrice);
 
-      symbols.forEach(sym => {
-        const price = marketData[sym.toLowerCase()]?.price || 0;
-        const pct = marketData[sym.toLowerCase()]?.change || 0;
-        document.getElementById(`price-${sym}`).textContent = '$' + price.toFixed(sym === 'BTC' ? 0 : 2);
-        const chgEl = document.getElementById(`chg-${sym}`);
-        chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-        chgEl.className = 'price-change ' + (pct >= 0 ? 'pos' : 'neg');
-      });
+      // Ticker
+      const symbols = [
+        {s: 'AAPL', p: state.marketData.aapl?.price, c: state.marketData.aapl?.change},
+        {s: 'NVDA', p: state.marketData.nvda?.price, c: state.marketData.nvda?.change},
+        {s: 'TSLA', p: state.marketData.tsla?.price, c: state.marketData.tsla?.change},
+        {s: 'BTC', p: state.marketData.btc?.price, c: state.marketData.btc?.change},
+        {s: 'SPY', p: state.marketData.spy?.price, c: state.marketData.spy?.change},
+        {s: 'VIX', p: state.marketData.vix?.price, c: state.marketData.vix?.change}
+      ];
+
+      const tickerHtml = symbols.map(sym => {
+        const price = sym.p || 0;
+        const change = sym.c || 0;
+        const isPos = change >= 0;
+        return `
+          <div class="ticker-item">
+            <div class="ticker-symbol">${sym.s}</div>
+            <div class="ticker-price" style="color: ${isPos ? 'var(--accent)' : 'var(--red)'}">
+              $${price.toFixed(sym.s === 'BTC' ? 0 : 2)}
+            </div>
+            <div class="ticker-change ${isPos ? 'pos' : 'neg'}">
+              ${isPos ? '+' : ''}${change.toFixed(2)}%
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('tickerScroll').innerHTML = tickerHtml;
     }
 
     // Custom Price
     function calculateCustom() {
-      const price = parseFloat(document.getElementById('customPriceInput').value);
-      if (!price || price <= 0) return;
+      const price = parseFloat(document.getElementById('customPrice').value);
+      if (!price || price <= 0) {
+        showToast('Enter valid price');
+        return;
+      }
 
-      const bbbyqTotal = BBBYQ_SHARES * price;
-      const netWorth = bbbyqTotal * 1.2;
+      const total = CONFIG.bbbyqShares * price;
+      const netWorth = total * 1.2;
 
-      document.getElementById('customResult').style.display = 'block';
-      document.getElementById('custom-total').textContent = fmt(bbbyqTotal);
-      document.getElementById('custom-networth').textContent = fmt(netWorth);
-      document.getElementById('custom-title').textContent = getHNWITitle(netWorth) || '—';
+      document.getElementById('resTotal').textContent = fmt(total);
+      document.getElementById('resNet').textContent = fmt(netWorth);
+      document.getElementById('resTitle').textContent = getTitle(netWorth);
+      document.getElementById('resultCard').classList.add('show');
     }
 
     // Actions
     function toggleFormat() {
-      showActual = !showActual;
-      updateDisplay();
-      if (document.getElementById('customResult').style.display !== 'none') {
+      state.showActual = !state.showActual;
+      updateUI();
+      if (document.getElementById('resultCard').classList.contains('show')) {
         calculateCustom();
       }
+      showToast(state.showActual ? 'Actual amounts' : 'Compact format');
     }
 
     function refreshData() {
       fetchData();
     }
 
-    function initData() {
-      fetchData();
-      setInterval(fetchData, 30000); // Refresh every 30s
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
-    // Initial
-    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+    // Init
+    function init() {
+      fetchData();
+      setInterval(fetchData, CONFIG.refreshInterval);
+      pinInput.focus();
+    }
+
+    // Focus input on load
+    setTimeout(() => pinInput.focus(), 100);
   </script>
 
 </body>
