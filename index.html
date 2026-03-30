@@ -3179,9 +3179,9 @@
 
       
 
-      // 월 예상 수익: 투자 금액 기준 월 수익률
+      // 월 예상 수익: O&G, QOF, CLAT 투자에서 발생하는 월간 수익
 
-      const monthly_income = st4_cash_remaining * 0.003; // 약 0.3% 월 수익률
+      const monthly_income = (og_idc_custom + qof_custom + clat_custom) * 0.004; // 약 0.4% 월 수익률 (절세 플랜 투자)
 
       
 
