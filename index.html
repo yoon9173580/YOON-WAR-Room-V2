@@ -4094,20 +4094,29 @@
 
     // Real-time Net Worth calculation
     function updateRealTimeNetWorth() {
-      if (netWorthMode === 'realtime' && V_GME_P > 0) {
-        // Current portfolio is in loss state - show negative value
-        const current_shares = 4307.43 + 30000 + 7147; // Total shares from ST1
-        const current_equity = current_shares * V_GME_P;
+      if (netWorthMode === 'realtime') {
+        // BBBY is delisted - shares are worthless ($0)
+        const bbby_shares = 41454; // BBBY shares now worth $0
+        const bbby_value = 0; // Delisted = $0
         
-        // Calculate actual loss: current equity should be much less than initial investment
-        const initial_investment = 10000000; // Estimated initial investment
-        const real_time_net_worth = -(initial_investment - current_equity); // Negative value showing loss
+        // GME shares at current price
+        const gme_shares = 4307.43 + 30000 + 7147;
+        const gme_value = gme_shares * V_GME_P;
         
-        const hnwiTitle = ''; // No HNWI title for negative net worth
+        // Total current equity
+        const total_equity = bbby_value + gme_value;
+        
+        // Cost basis (what was paid) - creates negative net worth
+        const cost_basis = 10000000; // Original investment
+        const real_time_net_worth = total_equity - cost_basis;
         
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
-          netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}`;
+          if (real_time_net_worth < 0) {
+            netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}`;
+          } else {
+            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}`;
+          }
         }
       }
     }
