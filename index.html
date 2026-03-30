@@ -2274,10 +2274,10 @@
 
                   <td class="det">IDC 100% 공제 (에너지 유정 WI)</td>
 
-                  <td class="r neg" id="og-energy-1">-$7,000,000<br><span class="bal">BAL $7,000,000</span></td>
-                  <td class="r neg" id="og-energy-2">-$9,000,000<br><span class="bal">BAL $8,000,000</span></td>
-                  <td class="r neg" id="og-energy-3">-$14,000,000<br><span class="bal">BAL $17,000,000</span></td>
-                  <td class="r neg" id="og-energy-4">-$26,000,000<br><span class="bal">BAL $34,000,000</span></td>
+                  <td class="r neg" id="og-energy-1">-$7M<br><span class="bal">BAL $7M</span></td>
+                  <td class="r neg" id="og-energy-2">-$9M<br><span class="bal">BAL $8M</span></td>
+                  <td class="r neg" id="og-energy-3">-$14M<br><span class="bal">BAL $17M</span></td>
+                  <td class="r neg" id="og-energy-4">-$26M<br><span class="bal">BAL $34M</span></td>
 
                   <td class="r neg" id="og-energy-custom" style="color:var(--accent);">$0</td>
 
@@ -2289,10 +2289,10 @@
 
                   <td class="det">QOZ 다세대 주택 (10년 면세)</td>
 
-                  <td class="r neg" id="qof-housing-1">-$4,000,000<br><span class="bal">BAL $4,000,000</span></td>
-                  <td class="r neg" id="qof-housing-2">-$4,000,000<br><span class="bal">BAL $5,000,000</span></td>
-                  <td class="r neg" id="qof-housing-3">-$7,000,000<br><span class="bal">BAL $11,000,000</span></td>
-                  <td class="r neg" id="qof-housing-4">-$13,000,000<br><span class="bal">BAL $24,000,000</span></td>
+                  <td class="r neg" id="qof-housing-1">-$4M<br><span class="bal">BAL $4M</span></td>
+                  <td class="r neg" id="qof-housing-2">-$4M<br><span class="bal">BAL $5M</span></td>
+                  <td class="r neg" id="qof-housing-3">-$7M<br><span class="bal">BAL $11M</span></td>
+                  <td class="r neg" id="qof-housing-4">-$13M<br><span class="bal">BAL $24M</span></td>
 
                   <td class="r neg" id="qof-housing-custom" style="color:var(--accent);">$0</td>
 
@@ -2304,10 +2304,10 @@
 
                   <td class="det">자선 소득 신탁 (즉시 소득 공제)</td>
 
-                  <td class="r neg" id="clat-trust-1">-$2,000,000<br><span class="bal">BAL $2,000,000</span></td>
-                  <td class="r neg" id="clat-trust-2">-$2,000,000<br><span class="bal">BAL $3,000,000</span></td>
-                  <td class="r neg" id="clat-trust-3">-$3,000,000<br><span class="bal">BAL $8,000,000</span></td>
-                  <td class="r neg" id="clat-trust-4">-$7,000,000<br><span class="bal">BAL $18,000,000</span></td>
+                  <td class="r neg" id="clat-trust-1">-$2M<br><span class="bal">BAL $2M</span></td>
+                  <td class="r neg" id="clat-trust-2">-$2M<br><span class="bal">BAL $3M</span></td>
+                  <td class="r neg" id="clat-trust-3">-$3M<br><span class="bal">BAL $8M</span></td>
+                  <td class="r neg" id="clat-trust-4">-$7M<br><span class="bal">BAL $18M</span></td>
 
                   <td class="r neg" id="clat-trust-custom" style="color:var(--accent);">$0</td>
 
@@ -2316,10 +2316,10 @@
                 <tr class="st-cash" style="white-space:nowrap;">
                   <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">💵 [최종 현금 잔고]</td>
                   <td class="det-cash" style="white-space:nowrap;">Tax Shield 방어 후 생존 잔고</td>
-                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$2,220,000</td>
-                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$3,180,000</td>
-                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$7,890,000</td>
-                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$18,150,000</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$1M</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$2M</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$6M</td>
+                  <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$13M</td>
                   <td class="r pos" id="st4-cash-custom" style="color:var(--accent);white-space:nowrap;">$0</td>
                 </tr>
 
@@ -2571,7 +2571,7 @@
 
         let pct = Number(q.preMarketChangePercent) || 0;
 
-        return `🌟 LATEST PREMARKET DATA: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
 
       }
 
@@ -2581,7 +2581,7 @@
 
         let pct = Number(q.postMarketChangePercent) || 0;
 
-        return `🌙 LATEST AFTERMARKET DATA: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        return `🌙 Aftermarket Price: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
 
       }
 
