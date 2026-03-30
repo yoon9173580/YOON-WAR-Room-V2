@@ -1538,7 +1538,15 @@
 
               <div class="pstat-lbl">Scenario Payout Target ($399)</div>
 
-              <div class="pstat-val" style="color:var(--amber)">$16,540,146.00</div>
+              <div class="pstat-val" style="color:var(--amber)">$16,540,000</div>
+
+            </div>
+
+            <div class="pstat">
+
+              <div class="pstat-lbl">Custom Payout Target</div>
+
+              <div id="custom-payout-target" class="pstat-val" style="color:var(--accent)">$0</div>
 
             </div>
 
@@ -1556,7 +1564,7 @@
 
           <div
 
-            style="margin-bottom:50px; padding:40px 45px; background:rgba(245,158,11,0.12); border:3px solid rgba(245,158,11,0.5); border-radius:30px; font-size:18px;">
+            style="margin-bottom:50px; padding:40px 45px; background:rgba(245,158,11,0.12); border:3px solid rgba(245,158,11,0.5); border-radius:30px; font-size:18px; overflow-x:auto;">
 
             <span style="font-size:38px; margin-right:25px; float:left;">🦋</span>
 
@@ -1792,7 +1800,7 @@
 
                 <tr class="st-sub" style="white-space:nowrap;">
                   <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">└ [한화 환산]</td>
-                  <td class="det-cash" style="white-space:nowrap;">실제 가치 기준 (1달러=1,380원)</td>
+                  <td class="det-cash" id="exchange-rate-display" style="white-space:nowrap;">실제 가치 기준 (1달러=<span id="live-krw-rate">1,380</span>원)</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">120억 1,161만원</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">138억 4,411만원</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">228억 556만원</td>
@@ -1976,13 +1984,23 @@
 
                 </tr>
 
+                <tr class="st-sub">
+                  <td class="pl-indent">└ Arun M5 CS Green</td>
+                  <td class="det">Private Mobility Infrastructure</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg">-$200,000</td>
+                  <td class="r neg" style="color:var(--accent);">-$200,000</td>
+                </tr>
+
                 <tr class="st-cash" style="white-space:nowrap;">
                   <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">💵 [현금 잔고]</td>
                   <td class="det-cash" style="white-space:nowrap;">즉시 집행 후 유동 현금</td>
-                  <td class="r pos" style="white-space:nowrap;">$8,130,000</td>
-                  <td class="r pos" style="white-space:nowrap;">$9,450,000</td>
-                  <td class="r pos" style="white-space:nowrap;">$15,960,000</td>
-                  <td class="r pos" style="white-space:nowrap;">$30,140,000</td>
+                  <td class="r pos" style="white-space:nowrap;">$7,930,000</td>
+                  <td class="r pos" style="white-space:nowrap;">$9,250,000</td>
+                  <td class="r pos" style="white-space:nowrap;">$15,760,000</td>
+                  <td class="r pos" style="white-space:nowrap;">$29,940,000</td>
                   <td class="r pos" id="st2-cash-custom" style="color:var(--accent);white-space:nowrap;">$0</td>
                 </tr>
 
@@ -2583,40 +2601,25 @@
 
 
     // Exchange rate for KRW conversion
-
     let currentKRWRate = 1380; // Default fallback rate
-
     
-
-    // Fetch real-time exchange rate
-
+    // Fetch real-time exchange rate from API
     async function fetchExchangeRate() {
-
       try {
-
-        const response = await fetch('/api/exchange-rate');
-
-        if (response.ok) {
-
-          const data = await response.json();
-
-          currentKRWRate = data.rate || 1380;
-
+        const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        if (res.ok) {
+          const data = await res.json();
+          currentKRWRate = data.rates.KRW;
+          // Update the display
+          const rateElement = document.getElementById('live-krw-rate');
+          if (rateElement) {
+            rateElement.textContent = Math.round(currentKRWRate).toLocaleString();
+          }
         }
-
       } catch (e) {
-
-        // Keep default rate if API fails
-
-        console.log('Exchange rate API unavailable, using default rate');
-
+        console.log('Exchange rate fetch failed, using default:', 1380);
       }
-
     }
-
-
-
-    /* [REALITY SYNC] */
 
     async function fetchMaster() {
 
