@@ -3327,11 +3327,15 @@
 
     // Live Price calculation function using real-time GME price
     function calculateLivePriceColumn() {
-      // BBBYQ is currently delisted - all values are $0
+      // BBBYQ is currently delisted - equity values are $0
       const bbbyq_price = 0;
       
-      // Calculate with $0 (current reality)
+      // Calculate equity-related cells with $0
       calculateAndUpdateColumn(bbbyq_price, 'live');
+      
+      // Override fixed values that should display regardless of BBBYQ price
+      // 미니멈 보장 (Minimum Guarantee) - fixed at 1M
+      updateCellWithFormat('st2-minimum-live', -1000000, 'neg');
       
       // Update Korean Won total for Live Price ($0)
       updateWonAmount('st1-won-live', 0);
