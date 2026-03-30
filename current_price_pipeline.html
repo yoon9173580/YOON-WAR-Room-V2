@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V54.4</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V54.5</title>
 
   <link
 
@@ -3639,17 +3639,13 @@
     // Enhanced formatting function with global toggle
 
     const fmtDisplay = (amount) => {
-
+      const absAmount = Math.abs(amount);
       if (showActualAmounts) {
-
-        return '$' + fmt(Math.abs(amount));
-
+        // Show as integer with $ prefix
+        return '$' + Math.round(absAmount).toLocaleString('en-US');
       } else {
-
-        return fmtMK(Math.abs(amount));
-
+        return fmtMK(absAmount);
       }
-
     };
 
 
@@ -3657,27 +3653,22 @@
     // M/K Formatting Function with proper threshold
 
     const fmtMK = (amount) => {
-
       const absAmount = Math.abs(amount);
-
       let formatted;
-
+      
       if (absAmount >= 1000000) {
-
-        formatted = (absAmount / 1000000).toFixed(2) + 'M';
-
+        // Round to nearest integer million (e.g., 7.15M -> 7M, 7.85M -> 8M)
+        const millions = Math.round(absAmount / 1000000);
+        formatted = millions + 'M';
       } else if (absAmount >= 1000) {
-
-        formatted = (absAmount / 1000).toFixed(1) + 'K';
-
+        // Round to nearest integer thousand (e.g., 500.5K -> 501K)
+        const thousands = Math.round(absAmount / 1000);
+        formatted = thousands + 'K';
       } else {
-
-        formatted = '$' + absAmount.toFixed(2);
-
+        formatted = '$' + Math.round(absAmount).toLocaleString('en-US');
       }
-
+      
       return amount < 0 ? '-' + formatted : formatted;
-
     };
 
 
