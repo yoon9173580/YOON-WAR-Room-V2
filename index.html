@@ -2399,13 +2399,13 @@
 
                   <td class="det" style="color:var(--bull);">Monthly Passive Income (Net)</td>
 
-                  <td class="r pos" style="color:var(--bull);">$68,000</td>
+                  <td class="r pos" style="color:var(--bull);">$106,000</td>
 
-                  <td class="r pos" style="color:var(--bull);">$76,000</td>
+                  <td class="r pos" style="color:var(--bull);">$122,000</td>
 
-                  <td class="r pos" style="color:var(--bull);">$124,000</td>
+                  <td class="r pos" style="color:var(--bull);">$200,000</td>
 
-                  <td class="r pos" style="color:var(--bull);">$256,000</td>
+                  <td class="r pos" style="color:var(--bull);">$407,000</td>
 
                   <td class="r pos" id="monthly-income-custom" style="color:var(--accent);">$0</td>
 
@@ -2588,8 +2588,8 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Overnight/Extended Hours (all stocks)
-      if (state.includes("POST") || state.includes("EXTENDED") || state.includes("NIGHT")) {
+      // Overnight/Extended Hours (all stocks) - prioritize showing overnight data
+      if ((state.includes("POST") || state.includes("EXTENDED") || state.includes("NIGHT") || (state === "CLOSED" && q.postMarketPrice))) {
         let price = q.postMarketPrice || q.regularMarketPrice || 0;
         let c = Number(q.postMarketChange || q.regularMarketChange) || 0;
         let pct = Number(q.postMarketChangePercent || q.regularMarketChangePercent) || 0;
@@ -2608,26 +2608,12 @@
         return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      // Aftermarket (POST state for US stocks)
-      if (state.includes("POST") && q.postMarketPrice) {
-        let c = Number(q.postMarketChange) || 0;
-        let pct = Number(q.postMarketChangePercent) || 0;
-        return `🌙 Aftermarket Price: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-      }
-
-      // Closed market - check for aftermarket data
+      // Closed market with no extended hours
       if (state === "CLOSED") {
-        if (q.postMarketPrice) {
-          let c = Number(q.postMarketChange) || 0;
-          let pct = Number(q.postMarketChangePercent) || 0;
-          return `🌙 Aftermarket Price: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-        } else {
-          // No extended hours trading
-          let price = q.regularMarketPrice || 0;
-          let c = Number(q.regularMarketChange) || 0;
-          let pct = Number(q.regularMarketChangePercent) || 0;
-          return `📊 Latest After Market Close: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-        }
+        let price = q.regularMarketPrice || 0;
+        let c = Number(q.regularMarketChange) || 0;
+        let pct = Number(q.regularMarketChangePercent) || 0;
+        return `📊 Latest After Market Close: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
       return "";
@@ -3181,9 +3167,11 @@
 
       
 
-      // 월 예상 수익: O&G, QOF, CLAT 투자에서 발생하는 월간 수익
-
-      const monthly_income = (og_idc_custom + qof_custom + clat_custom) * 0.004; // 약 0.4% 월 수익률 (절세 플랜 투자)
+      // 월 예상 수익: O&G, QOF, CLAT 각각 다른 수익률 적용
+      // O&G (Energy): 0.8% 월 수익 (에너지 유정은 고수익)
+      // QOF (Housing): 0.5% 월 수익 (임대 수익)
+      // CLAT (Trust): 0.2% 월 수익 (낮은 수익 but 세금 공제)
+      const monthly_income = (og_idc_custom * 0.008) + (qof_custom * 0.005) + (clat_custom * 0.002);
 
       
 
