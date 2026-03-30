@@ -860,7 +860,7 @@
 
       border-radius: 30px;
 
-      overflow-x: auto;
+      overflow: visible;
 
       margin-bottom: 50px;
 
@@ -980,17 +980,17 @@
 
     .scenario-wrap th {
 
-      padding: 25px 35px;
+      padding: 20px 15px;
 
       background: rgba(0, 0, 0, 0.4);
 
       text-align: left;
 
-      font-size: 12px;
+      font-size: 11px;
 
       font-weight: 900;
 
-      letter-spacing: 2px;
+      letter-spacing: 1px;
 
       color: var(--textM);
 
@@ -1010,9 +1010,11 @@
 
     .scenario-wrap td {
 
-      padding: 12px 35px;
+      padding: 10px 15px;
 
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+
+      font-size: 13px;
 
     }
 
@@ -3961,6 +3963,8 @@
     function startEngine() {
 
       renderTerminal();
+
+      fetchExchangeRate(); // Fetch real-time exchange rate
 
       fetchMaster();
 
