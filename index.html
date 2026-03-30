@@ -4275,11 +4275,10 @@
 
         // Update Net Worth display in port-bar
         const netWorthDisplayEl = document.getElementById('net-worth-display');
-        if (netWorthDisplayEl && V_GME_P > 0) {
-          // Calculate approximate net worth based on current GME price
-          const current_net_worth = Math.round(V_GME_P * 100000 * 0.6); // Simplified calculation
-          const portHnwiTitle = current_net_worth >= 30000000 ? 'UHNI' : current_net_worth >= 5000000 ? 'VHNWI' : current_net_worth >= 1000000 ? 'HNWI' : '';
-          netWorthDisplayEl.innerHTML = `$${fmt(current_net_worth)}${portHnwiTitle ? `<br><span style="font-size:9px;">${portHnwiTitle}</span>` : ''}`;
+        if (netWorthDisplayEl) {
+          // Only show actual portfolio net worth, not calculated projections
+          // Set to $0 until real data is available
+          netWorthDisplayEl.innerHTML = `$0`;
         }
 
         // Update ST 4 individual items
