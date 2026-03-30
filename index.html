@@ -3709,27 +3709,20 @@
 
     function renderTerminal() {
 
-      // 1. BBBYQ
-
-      const bb_val = 41454 * 0.07; const bb_cost = 41454 * 2.00;
-
-      const bb_profit = bb_val - bb_cost;
-
+      // 1. BBBYQ (Delisted - Bankruptcy)
+      const bb_val = 41454 * 0; // 41,454 shares @ $0 (delisted)
+      const bb_cost = 41454 * 0.80; // Cost basis $0.80 per share
+      const bb_profit = bb_val - bb_cost; // -$33,163 loss
       document.getElementById('cell_bbbyq_val').textContent = '$' + fmt(bb_val);
-
       document.getElementById('cell_bbbyq_tot').textContent = '$' + fmt(Math.abs(bb_profit));
-
-      document.getElementById('cell_bbbyq_tot').className = 'r ' + (bb_profit >= 0 ? 'pos' : 'neg');
-
-      document.getElementById('cell_bbbyq_roi').textContent = ((bb_profit) / bb_cost * 100).toFixed(2) + '%';
-
-      document.getElementById('cell_bbbyq_roi').className = 'r ' + (bb_profit >= 0 ? 'pos' : 'neg');
+      document.getElementById('cell_bbbyq_tot').className = 'r neg';
+      document.getElementById('cell_bbbyq_roi').textContent = '-100.00%';
+      document.getElementById('cell_bbbyq_roi').className = 'r neg';
 
 
 
-      // 2. GME Equity
-
-      const ge_val = 335 * V_GME_P; const ge_cost = 335 * 30;
+      // 2. GME Equity (355 shares)
+      const ge_val = 355 * V_GME_P; const ge_cost = 355 * 30.00;
 
       const ge_profit = ge_val - ge_cost;
 
@@ -3737,7 +3730,7 @@
 
       document.getElementById('cell_gme_e_val').textContent = '$' + fmt(ge_val);
 
-      document.getElementById('cell_gme_e_day').textContent = (V_GME_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(335 * V_GME_C));
+      document.getElementById('cell_gme_e_day').textContent = (V_GME_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(355 * V_GME_C));
 
       document.getElementById('cell_gme_e_day').className = 'r ' + (V_GME_C >= 0 ? 'pos' : 'neg');
 
@@ -3823,24 +3816,13 @@
 
 
 
-      // GLOBAL SUMMARY 
-
+      // GLOBAL SUMMARY with BBBYQ bankruptcy loss included
       const g_total_val = bb_val + ge_val + go_val + ae_val + ao_val;
-
       document.getElementById('p-total').textContent = '$' + fmt(g_total_val);
-
-
-
-      const total_day_delta = (335 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
-
+      const total_day_delta = (355 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
       document.getElementById('p-daypnl').textContent = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
-
       document.getElementById('p-daypnl').className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
-
-
-
       const total_profit = bb_profit + ge_profit + go_profit + ae_profit + ao_profit;
-
       document.getElementById('p-totpnl').textContent = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
 
       document.getElementById('p-totpnl').className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
@@ -4105,9 +4087,26 @@
         const gme_cost_basis = gme_shares * 30.00; // $10,650
         const gme_current_value = gme_shares * V_GME_P;
         
+        // AMC Equity: 1 share @ $1.18 cost basis
+        const amc_shares = 1;
+        const amc_cost_basis = amc_shares * 1.18; // $1.18
+        const amc_current_value = amc_shares * V_AMC_P;
+        
+        // AMC Option: 2 contracts @ $0.07 per share premium
+        const amc_option_contracts = 2;
+        const amc_option_cost_per_share = 0.07;
+        const amc_option_cost_basis = amc_option_contracts * amc_option_cost_per_share * 100; // $14
+        const amc_option_current_value = amc_option_contracts * V_AMC_O_P * 100;
+        
+        // GME Option: 26 contracts @ $0.36 per share premium ($50C strike)
+        const gme_option_contracts = 26;
+        const gme_option_cost_per_share = 0.36;
+        const gme_option_cost_basis = gme_option_contracts * gme_option_cost_per_share * 100; // $936
+        const gme_option_current_value = gme_option_contracts * V_GME_O_P * 100;
+        
         // Total calculations
-        const total_cost_basis = bbbyq_cost_basis + gme_cost_basis; // $43,813
-        const total_current_value = bbbyq_current_value + gme_current_value;
+        const total_cost_basis = bbbyq_cost_basis + gme_cost_basis + amc_cost_basis + amc_option_cost_basis + gme_option_cost_basis;
+        const total_current_value = bbbyq_current_value + gme_current_value + amc_current_value + amc_option_current_value + gme_option_current_value;
         
         // Net worth (will be negative due to losses)
         const real_time_net_worth = total_current_value - total_cost_basis;
