@@ -2564,12 +2564,17 @@
       if (!q) return "";
 
       let state = q.marketState || "";
+      let symbol = q.symbol || "";
+      
+      // Asian night market stocks (BABA, JD, PDD, NIO, XPEV, LI, TCEHY, etc.)
+      const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
+      const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Night Market (Asian extended hours)
-      if (state.includes("NIGHT") || state.includes("EXTENDED")) {
-        let price = q.regularMarketPrice || 0;
-        let c = Number(q.regularMarketChange) || 0;
-        let pct = Number(q.regularMarketChangePercent) || 0;
+      // Night Market (Asian extended hours or night market state)
+      if ((isAsianStock && (state.includes("EXTENDED") || state.includes("POST"))) || state.includes("NIGHT")) {
+        let price = q.postMarketPrice || q.regularMarketPrice || 0;
+        let c = Number(q.postMarketChange || q.regularMarketChange) || 0;
+        let pct = Number(q.postMarketChangePercent || q.regularMarketChangePercent) || 0;
         return `🌜 Night Market: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
@@ -2580,7 +2585,7 @@
         return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      // Aftermarket (POST state)
+      // Aftermarket (POST state for US stocks)
       if (state.includes("POST") && q.postMarketPrice) {
         let c = Number(q.postMarketChange) || 0;
         let pct = Number(q.postMarketChangePercent) || 0;
