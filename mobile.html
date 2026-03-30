@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="theme-color" content="#0a0c10" />
+  <title>YOON WAR MOBILE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --bg2: #111318;
+      --bg3: #1a1d24;
+      --bg4: #22262e;
+      --border: rgba(255, 255, 255, 0.12);
+      --borderB: rgba(255, 255, 255, 0.22);
+      --text: #f0f2f5;
+      --textM: #b0b5bd;
+      --textD: #7a8088;
+      --accent: #00d864;
+      --amber: #ffb020;
+      --bull: #00d864;
+      --bear: #ff5252;
+      --mono: 'JetBrains Mono', monospace;
+      --disp: 'Inter', -apple-system, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Lock Screen */
+    #lockScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #05070a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .lock-box {
+      background: #0b0f15;
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 0 80px rgba(0, 212, 170, 0.2);
+      text-align: center;
+    }
+
+    .lock-logo {
+      font-family: var(--disp);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .lock-sub {
+      font-size: 10px;
+      color: var(--textD);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 30px;
+    }
+
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .pin-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      transition: 0.3s;
+    }
+
+    .pin-dot.filled {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    .lock-input {
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--borderB);
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 24px;
+      color: #fff;
+      text-align: center;
+      letter-spacing: 12px;
+      margin-bottom: 20px;
+      font-weight: 900;
+    }
+
+    .lock-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    #lockErr {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--bear);
+      font-weight: 900;
+      font-size: 14px;
+      height: 20px;
+    }
+
+    /* Main App */
+    #mainApp {
+      display: none;
+      padding-bottom: 80px;
+    }
+
+    /* Header */
+    .mobile-header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      font-family: var(--disp);
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -1px;
+    }
+
+    .version {
+      font-size: 10px;
+      color: var(--textD);
+      font-weight: 700;
+    }
+
+    .conn-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Quick Stats */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 12px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--textM);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-value.pos { color: var(--bull); }
+    .stat-value.neg { color: var(--bear); }
+
+    .stat-title {
+      font-size: 9px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    /* Section */
+    .section {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: var(--disp);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--textM);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Price Cards */
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .price-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .price-symbol {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .price-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .price-change {
+      font-size: 10px;
+      margin-top: 2px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--bg4);
+      display: inline-block;
+    }
+
+    .price-change.pos { color: var(--bull); }
+    .price-change.neg { color: var(--bear); }
+
+    /* Pipeline Summary */
+    .pipeline-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .pipeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .pipeline-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .pipeline-total {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .pipeline-detail {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--textM);
+      padding: 6px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .pipeline-detail:first-of-type {
+      border-top: none;
+    }
+
+    /* Net Worth Card */
+    .networth-card {
+      background: linear-gradient(135deg, rgba(0, 212, 100, 0.15), rgba(0, 212, 100, 0.05));
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .networth-label {
+      font-size: 11px;
+      color: var(--textM);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .networth-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .networth-title {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      padding: 4px 12px;
+      background: rgba(0, 212, 100, 0.2);
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* Action Buttons */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-secondary {
+      background: var(--bg4);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    /* Custom Price Input */
+    .input-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .input {
+      flex: 1;
+      background: var(--bg4);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      color: var(--text);
+      font-size: 16px;
+      font-family: var(--mono);
+    }
+
+    /* Scrollable Table */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb {
+      background: var(--borderB);
+      border-radius: 2px;
+    }
+
+    .simple-table {
+      min-width: 600px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .simple-table th {
+      text-align: left;
+      padding: 10px;
+      font-size: 11px;
+      color: var(--textM);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .simple-table td {
+      padding: 12px 10px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    /* Animations */
+    .flash {
+      animation: flashGreen 0.5s ease;
+    }
+
+    @keyframes flashGreen {
+      0% { background-color: rgba(0, 255, 150, 0.4); }
+      100% { background-color: transparent; }
+    }
+
+    /* Responsive */
+    @media (max-width: 380px) {
+      .price-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lock Screen -->
+  <div id="lockScreen">
+    <div class="lock-box">
+      <div class="lock-logo">YOON WAR</div>
+      <div class="lock-sub">MOBILE TERMINAL</div>
+      <div class="pin-dots">
+        <div class="pin-dot" id="dot0"></div>
+        <div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div>
+        <div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot4"></div>
+        <div class="pin-dot" id="dot5"></div>
+        <div class="pin-dot" id="dot6"></div>
+      </div>
+      <input id="pinInput" class="lock-input" type="password" maxlength="7" placeholder="•••••••" autofocus autocomplete="off" />
+      <button class="lock-btn" onclick="submitPin()">ACCESS</button>
+      <div id="lockErr"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp">
+    <!-- Header -->
+    <div class="mobile-header">
+      <div class="header-top">
+        <div>
+          <div class="brand">YOON WAR</div>
+          <div class="version">MOBILE v54.7</div>
+        </div>
+        <div class="conn-status">
+          <div class="dot"></div>
+          <span id="connStatus">LIVE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="quick-stats">
+      <div class="stat-card" style="border-color: var(--accent);">
+        <div class="stat-label">NET WORTH</div>
+        <div class="stat-value" id="mobile-networth">$0</div>
+        <div class="stat-title" id="mobile-hnwi">-</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">BBBYQ TOTAL</div>
+        <div class="stat-value" id="mobile-bbbyq">$0</div>
+        <div class="stat-title">41,454 shares</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">GME PRICE</div>
+        <div class="stat-value pos" id="mobile-gme">$0.00</div>
+        <div class="stat-title" id="mobile-gme-change">+0.00%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TARGET</div>
+        <div class="stat-value" style="color: var(--amber);" id="mobile-target">$0</div>
+        <div class="stat-title">@ $399</div>
+      </div>
+    </div>
+
+    <!-- Pipeline Summary -->
+    <div class="section">
+      <div class="section-title">📊 Pipeline Overview</div>
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <span class="pipeline-name">Live (Current)</span>
+          <span class="pipeline-value" id="pipe-live">$0</span>
+        </div>
+        <div class="pipeline-detail">
+          <span>Fidelity</span>
+          <span id="pipe-live-fid">$0</span>
+        </div>
+        <div class="pipeline-detail">
+          <span>DRS</span>
+          <span id="pipe-live-drs">$0</span>
+        </div>
+        <div class="pipeline-detail">
+          <span>Moomoo</span>
+          <span id="pipe-live-moo">$0</span>
+        </div>
+      </div>
+
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <span class="pipeline-name">@ $10 Target</span>
+          <span class="pipeline-value" style="color: var(--amber);" id="pipe-10">$414K</span>
+        </div>
+      </div>
+
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <span class="pipeline-name">@ $399 Recovery</span>
+          <span class="pipeline-value" style="color: var(--accent);" id="pipe-399">$16.54M</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Price -->
+    <div class="section">
+      <div class="section-title">💰 Custom Price</div>
+      <div class="input-group">
+        <input type="number" class="input" id="customPriceInput" placeholder="Enter GME price..." step="0.01" />
+        <button class="btn btn-primary" onclick="calculateCustom()">GO</button>
+      </div>
+      <div id="customResult" style="margin-top: 12px; display: none;">
+        <div class="pipeline-card">
+          <div class="pipeline-header">
+            <span class="pipeline-name">Your Scenario</span>
+            <span class="pipeline-value" id="custom-total">$0</span>
+          </div>
+          <div class="pipeline-detail">
+            <span>Net Worth</span>
+            <span id="custom-networth">$0</span>
+          </div>
+          <div class="pipeline-detail">
+            <span>Title</span>
+            <span id="custom-title">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market Prices -->
+    <div class="section">
+      <div class="section-title">📈 Market</div>
+      <div class="price-grid" id="marketGrid">
+        <!-- Dynamic -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Action -->
+  <div class="action-bar">
+    <button class="btn btn-secondary" onclick="toggleFormat()">$ / K / M</button>
+    <button class="btn btn-primary" onclick="refreshData()">↻ Refresh</button>
+  </div>
+
+  <script>
+    // PIN Lock
+    const CORRECT_PIN = '1013124';
+    let showActual = false;
+
+    document.getElementById('pinInput').addEventListener('input', function(e) {
+      const val = e.target.value;
+      for (let i = 0; i < 7; i++) {
+        document.getElementById(`dot${i}`).classList.toggle('filled', i < val.length);
+      }
+    });
+
+    document.getElementById('pinInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') submitPin();
+    });
+
+    function submitPin() {
+      const val = document.getElementById('pinInput').value;
+      if (val === CORRECT_PIN) {
+        document.getElementById('lockScreen').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('lockScreen').style.display = 'none';
+          document.getElementById('mainApp').style.display = 'block';
+          initData();
+        }, 400);
+      } else {
+        document.getElementById('lockErr').textContent = 'INVALID PIN';
+        setTimeout(() => document.getElementById('lockErr').textContent = '', 2000);
+      }
+    }
+
+    // Data
+    const BBBYQ_SHARES = 41454;
+    const FID_SHARES = 4307;
+    const DRS_SHARES = 30000;
+    const MOO_SHARES = 7147;
+
+    let currentGMEPrice = 0;
+    let marketData = {};
+
+    // Formatters
+    function fmt(n) {
+      if (!showActual && Math.abs(n) >= 1000000) return (n / 1000000).toFixed(2) + 'M';
+      if (!showActual && Math.abs(n) >= 1000) return Math.round(n / 1000) + 'K';
+      return '$' + Math.round(n).toLocaleString();
+    }
+
+    function getHNWITitle(networth) {
+      if (networth >= 30000000) return 'UHNWI';
+      if (networth >= 5000000) return 'VHNWI';
+      if (networth >= 1000000) return 'HNWI';
+      return '';
+    }
+
+    // API
+    async function fetchData() {
+      try {
+        const res = await fetch('https://yoon-war-room-v2.vercel.app/api/fetch-all');
+        const data = await res.json();
+        marketData = data;
+        currentGMEPrice = data.gme?.price || 0;
+        updateDisplay();
+        document.getElementById('connStatus').textContent = 'LIVE';
+      } catch (e) {
+        document.getElementById('connStatus').textContent = 'OFFLINE';
+      }
+    }
+
+    function updateDisplay() {
+      const bbbyqTotal = BBBYQ_SHARES * currentGMEPrice;
+      const fidVal = FID_SHARES * currentGMEPrice;
+      const drsVal = DRS_SHARES * currentGMEPrice;
+      const mooVal = MOO_SHARES * currentGMEPrice;
+
+      // Net Worth (simplified calculation)
+      const netWorth = bbbyqTotal * 1.2; // Rough estimate
+
+      // Update DOM
+      document.getElementById('mobile-networth').textContent = fmt(netWorth);
+      document.getElementById('mobile-hnwi').textContent = getHNWITitle(netWorth);
+      document.getElementById('mobile-bbbyq').textContent = fmt(bbbyqTotal);
+      document.getElementById('mobile-gme').textContent = '$' + currentGMEPrice.toFixed(2);
+      
+      const gmeChange = marketData.gme?.change || 0;
+      document.getElementById('mobile-gme-change').textContent = (gmeChange >= 0 ? '+' : '') + gmeChange.toFixed(2) + '%';
+      document.getElementById('mobile-gme-change').className = gmeChange >= 0 ? 'stat-title' : 'stat-title neg';
+
+      document.getElementById('pipe-live').textContent = fmt(bbbyqTotal);
+      document.getElementById('pipe-live-fid').textContent = fmt(fidVal);
+      document.getElementById('pipe-live-drs').textContent = fmt(drsVal);
+      document.getElementById('pipe-live-moo').textContent = fmt(mooVal);
+
+      // Market grid
+      const symbols = ['AAPL', 'NVDA', 'MSFT', 'TSLA', 'GOOGL', 'AMZN', 'META', 'BTC', 'SPY', 'QQQ', 'VIX'];
+      const grid = document.getElementById('marketGrid');
+      if (grid.children.length === 0) {
+        symbols.forEach(sym => {
+          const div = document.createElement('div');
+          div.className = 'price-card';
+          div.innerHTML = `
+            <div class="price-symbol">${sym}</div>
+            <div class="price-value" id="price-${sym}">-</div>
+            <div class="price-change" id="chg-${sym}">-</div>
+          `;
+          grid.appendChild(div);
+        });
+      }
+
+      symbols.forEach(sym => {
+        const price = marketData[sym.toLowerCase()]?.price || 0;
+        const pct = marketData[sym.toLowerCase()]?.change || 0;
+        document.getElementById(`price-${sym}`).textContent = '$' + price.toFixed(sym === 'BTC' ? 0 : 2);
+        const chgEl = document.getElementById(`chg-${sym}`);
+        chgEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+        chgEl.className = 'price-change ' + (pct >= 0 ? 'pos' : 'neg');
+      });
+    }
+
+    // Custom Price
+    function calculateCustom() {
+      const price = parseFloat(document.getElementById('customPriceInput').value);
+      if (!price || price <= 0) return;
+
+      const bbbyqTotal = BBBYQ_SHARES * price;
+      const netWorth = bbbyqTotal * 1.2;
+
+      document.getElementById('customResult').style.display = 'block';
+      document.getElementById('custom-total').textContent = fmt(bbbyqTotal);
+      document.getElementById('custom-networth').textContent = fmt(netWorth);
+      document.getElementById('custom-title').textContent = getHNWITitle(netWorth) || '—';
+    }
+
+    // Actions
+    function toggleFormat() {
+      showActual = !showActual;
+      updateDisplay();
+      if (document.getElementById('customResult').style.display !== 'none') {
+        calculateCustom();
+      }
+    }
+
+    function refreshData() {
+      fetchData();
+    }
+
+    function initData() {
+      fetchData();
+      setInterval(fetchData, 30000); // Refresh every 30s
+    }
+
+    // Initial
+    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+  </script>
+
+</body>
+</html>
