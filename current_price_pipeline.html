@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V54.6</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V54.7</title>
 
   <link
 
@@ -1598,7 +1598,9 @@
 
                   <th class="r" style="color:var(--bull)">Price $741 (Meme)</th>
 
-                  <th class="r" style="color:var(--bull)">Custom Price (Live)</th>
+                  <th class="r" style="color:var(--accent)">Custom Price</th>
+
+                  <th class="r" style="color:var(--cyan)">Live Price (GME)</th>
 
                 </tr>
 
@@ -1624,6 +1626,8 @@
 
                   <td class="r pos" id="st1-custom-total">$0</td>
 
+                  <td class="r pos" id="st1-live-total">$0</td>
+
                 </tr>
 
                 <tr class="st-sub" style="white-space:nowrap;">
@@ -1634,6 +1638,7 @@
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">228억 556만원</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">423억 9,019만원</td>
                   <td class="r pos" id="st1-won-total" style="color:var(--accent);white-space:nowrap;">0원</td>
+                  <td class="r pos" id="st1-won-live" style="color:var(--accent);white-space:nowrap;">0원</td>
                 </tr>
 
                 <tr class="st-sub">
@@ -1651,6 +1656,8 @@
                   <td class="r pos">$3,191,806</td>
 
                   <td class="r pos" id="fid-custom-total">$0</td>
+
+                  <td class="r pos" id="fid-live-total">$0</td>
 
                 </tr>
 
@@ -1670,6 +1677,8 @@
 
                   <td class="r pos" id="drs-custom-total">$0</td>
 
+                  <td class="r pos" id="drs-live-total">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1688,6 +1697,8 @@
 
                   <td class="r pos" id="moomoo-custom-total">$0</td>
 
+                  <td class="r pos" id="moomoo-live-total">$0</td>
+
                 </tr>
 
                 <tr class="st-cash" style="white-space:nowrap;">
@@ -1698,6 +1709,7 @@
                   <td class="r pos" style="white-space:nowrap;">$16,540,000</td>
                   <td class="r pos" style="white-space:nowrap;">$30,720,000</td>
                   <td class="r pos" id="cash-custom-total" style="white-space:nowrap;">$0</td>
+                  <td class="r pos" id="cash-live-total" style="white-space:nowrap;">$0</td>
                 </tr>
 
                 <!-- ST 2 -->
@@ -1720,6 +1732,8 @@
 
                   <td class="r neg" id="st2-custom-main">-$0</td>
 
+                  <td class="r neg" id="st2-live-main">-$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1737,6 +1751,8 @@
                   <td class="r neg">-$1,000,000</td>
 
                   <td class="r neg" id="st2-minimum-custom">-$0</td>
+
+                  <td class="r neg" id="st2-minimum-live">-$0</td>
 
                 </tr>
 
@@ -1756,6 +1772,8 @@
 
                   <td class="r neg" id="st2-additional-custom">-$0</td>
 
+                  <td class="r neg" id="st2-additional-live">-$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1773,6 +1791,8 @@
                   <td class="r neg" id="mobility-self-4">-$400,000<br><span class="bal">BAL $30,317,733</span></td>
 
                   <td class="r neg" id="mobility-self-custom">-$400,000</td>
+
+                  <td class="r neg" id="mobility-self-live">-$400,000</td>
 
                 </tr>
 
@@ -1792,6 +1812,8 @@
 
                   <td class="r neg" id="mobility-dad-custom">-$120,000</td>
 
+                  <td class="r neg" id="mobility-dad-live">-$120,000</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1809,6 +1831,8 @@
                   <td class="r neg" id="gift-dad-4">-$22,320<br><span class="bal">BAL $30,175,413</span></td>
 
                   <td class="r neg" id="gift-dad-custom">-$22,320</td>
+
+                  <td class="r neg" id="gift-dad-live">-$22,320</td>
 
                 </tr>
 
@@ -1828,6 +1852,8 @@
 
                   <td class="r neg" id="gift-mom-custom">-$22,548</td>
 
+                  <td class="r neg" id="gift-mom-live">-$22,548</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1846,6 +1872,8 @@
 
                   <td class="r neg" id="gift-jini-custom">-$13,920</td>
 
+                  <td class="r neg" id="gift-jini-live">-$13,920</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1856,6 +1884,7 @@
                   <td class="r neg">-$200,000</td>
                   <td class="r neg">-$200,000</td>
                   <td class="r neg" style="color:var(--accent);">-$200,000</td>
+                  <td class="r neg" id="arun-m5-live">-$200,000</td>
                 </tr>
 
                 <tr class="st-cash" style="white-space:nowrap;">
@@ -1866,6 +1895,7 @@
                   <td class="r pos" style="white-space:nowrap;">$15,760,000</td>
                   <td class="r pos" style="white-space:nowrap;">$29,940,000</td>
                   <td class="r pos" id="st2-cash-custom" style="white-space:nowrap;">$0</td>
+                  <td class="r pos" id="st2-cash-live" style="white-space:nowrap;">$0</td>
                 </tr>
 
                 <!-- ST 3 -->
@@ -1886,6 +1916,8 @@
 
                   <td class="r neg" id="st3-custom-main">$0</td>
 
+                  <td class="r neg" id="st3-live-main">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1903,6 +1935,8 @@
                   <td class="r neg" id="cs-cost-4">-$3,500,000<br><span class="bal">BAL $26,638,945</span></td>
 
                   <td class="r neg" id="cs-cost-custom">$0</td>
+
+                  <td class="r neg" id="cs-cost-live">$0</td>
 
                 </tr>
 
@@ -1922,6 +1956,8 @@
 
                   <td class="r neg" id="fid-option-custom">$0</td>
 
+                  <td class="r neg" id="fid-option-live">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1939,6 +1975,8 @@
                   <td class="r neg" id="fid-strike40-4">-$1,063,935<br><span class="bal">BAL $25,575,010</span></td>
 
                   <td class="r neg" id="fid-strike40-custom">$0</td>
+
+                  <td class="r neg" id="fid-strike40-live">$0</td>
 
                 </tr>
 
@@ -1958,6 +1996,8 @@
 
                   <td class="r neg" id="fid-strike45-custom">$0</td>
 
+                  <td class="r neg" id="fid-strike45-live">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -1975,6 +2015,8 @@
                   <td class="r neg" id="fid-strike50-4">-$1,063,936<br><span class="bal">BAL $23,447,139</span></td>
 
                   <td class="r neg" id="fid-strike50-custom">$0</td>
+
+                  <td class="r neg" id="fid-strike50-live">$0</td>
 
                 </tr>
 
@@ -1994,6 +2036,8 @@
 
                   <td class="r neg" id="moo-option-custom">$0</td>
 
+                  <td class="r neg" id="moo-option-live">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2011,6 +2055,8 @@
                   <td class="r neg" id="moo-strike40-4">-$1,765,309<br><span class="bal">BAL $21,681,830</span></td>
 
                   <td class="r neg" id="moo-strike40-custom">$0</td>
+
+                  <td class="r neg" id="moo-strike40-live">$0</td>
 
                 </tr>
 
@@ -2030,6 +2076,8 @@
 
                   <td class="r neg" id="moo-strike45-custom">$0</td>
 
+                  <td class="r neg" id="moo-strike45-live">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2048,6 +2096,8 @@
 
                   <td class="r neg" id="moo-strike50-custom">$0</td>
 
+                  <td class="r neg" id="moo-strike50-live">$0</td>
+
                 </tr>
 
                 <tr class="st-cash" style="white-space:nowrap;">
@@ -2058,6 +2108,7 @@
                   <td class="r pos" style="white-space:nowrap;">$7,890,000</td>
                   <td class="r pos" style="white-space:nowrap;">$18,150,000</td>
                   <td class="r pos" id="st3-cash-custom" style="white-space:nowrap;">$0</td>
+                  <td class="r pos" id="st3-cash-live" style="white-space:nowrap;">$0</td>
                 </tr>
 
                 <tr class="st-main">
@@ -2075,6 +2126,8 @@
                   <td class="r neg" id="st4-total-4">-$46,076,599</td>
 
                   <td class="r neg" id="st4-custom-main">$0</td>
+
+                  <td class="r neg" id="st4-live-main">$0</td>
 
                 </tr>
 
@@ -2094,6 +2147,8 @@
 
                   <td class="r bull" id="gme-partial-custom">$0</td>
 
+                  <td class="r bull" id="gme-partial-live">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2111,6 +2166,8 @@
                   <td class="r neg" id="tax-calculation-4">-$17,048,342<br><span class="bal">BAL $47,179,469</span></td>
 
                   <td class="r neg" id="tax-calculation-custom" style="color:var(--accent);">$0</td>
+
+                  <td class="r neg" id="tax-calculation-live" style="color:var(--accent);">$0</td>
 
                 </tr>
 
@@ -2130,6 +2187,8 @@
 
                   <td class="r bull" id="tax-shield-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r bull" id="tax-shield-live" style="color:var(--accent);">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2144,6 +2203,8 @@
                   <td class="r neg" id="og-energy-4">-$36M<br><span class="bal">BAL $21M</span></td>
 
                   <td class="r neg" id="og-energy-custom" style="color:var(--accent);">$0</td>
+
+                  <td class="r neg" id="og-energy-live" style="color:var(--accent);">$0</td>
 
                 </tr>
 
@@ -2160,6 +2221,8 @@
 
                   <td class="r neg" id="qof-housing-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r neg" id="qof-housing-live" style="color:var(--accent);">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2175,6 +2238,8 @@
 
                   <td class="r neg" id="clat-trust-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r neg" id="clat-trust-live" style="color:var(--accent);">$0</td>
+
                 </tr>
 
                 <tr class="st-cash" style="white-space:nowrap;">
@@ -2185,11 +2250,8 @@
                   <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$0</td>
                   <td class="r pos" style="color:var(--bull); font-weight:900;white-space:nowrap;">$0</td>
                   <td class="r pos" id="st4-cash-custom" style="color:var(--accent);white-space:nowrap;">$0</td>
+                  <td class="r pos" id="st4-cash-live" style="color:var(--cyan);white-space:nowrap;">$0</td>
                 </tr>
-
-                <!-- ST 5 -->
-
-                <tr class="st-main">
 
                   <td>ST 5. 최종 완성</td>
 
@@ -2204,6 +2266,8 @@
                   <td class="r pos" style="color:var(--bull);">$256,000</td>
 
                   <td class="r pos" id="st5-custom-main" style="color:var(--accent);">완료</td>
+
+                  <td class="r pos" id="st5-live-main" style="color:var(--cyan);">완료</td>
 
                 </tr>
 
@@ -2223,6 +2287,8 @@
 
                   <td class="r neg" id="weavers-attorney-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r neg" id="weavers-attorney-live" style="color:var(--cyan);">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2241,6 +2307,8 @@
 
                   <td class="r pos" id="tax-saved-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r pos" id="tax-saved-live" style="color:var(--cyan);">$0</td>
+
                 </tr>
 
                 <tr class="st-sub">
@@ -2258,6 +2326,8 @@
                   <td class="r pos" style="color:var(--bull);">$407,000</td>
                   <td class="r pos" id="monthly-income-custom" style="color:var(--accent);">$0</td>
 
+                  <td class="r pos" id="monthly-income-live" style="color:var(--cyan);">$0</td>
+
                 </tr>
 
                 <!-- ST Integration Summary -->
@@ -2269,6 +2339,7 @@
                   <td class="r pos" id="st-integration-3" style="font-size:18px; font-weight:900; color:var(--accent);">$16,540,318</td>
                   <td class="r pos" id="st-integration-4" style="font-size:18px; font-weight:900; color:var(--accent);">$30,717,733</td>
                   <td class="r pos" id="st-integration-custom" style="font-size:18px; font-weight:900; color:var(--accent);">$0</td>
+                  <td class="r pos" id="st-integration-live" style="font-size:18px; font-weight:900; color:var(--cyan);">$0</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
@@ -2279,6 +2350,7 @@
                   <td class="r pos" id="st1-summary-3">$16,540,318</td>
                   <td class="r pos" id="st1-summary-4">$30,717,733</td>
                   <td class="r pos" id="st1-summary-custom">$0</td>
+                  <td class="r pos" id="st1-summary-live">$0</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
@@ -2289,6 +2361,7 @@
                   <td class="r neg" id="st2-summary-3">-$578,788</td>
                   <td class="r neg" id="st2-summary-4">-$578,788</td>
                   <td class="r neg" id="st2-summary-custom">-$578,788</td>
+                  <td class="r neg" id="st2-summary-live">-$578,788</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
@@ -2299,6 +2372,7 @@
                   <td class="r neg" id="st3-summary-3">-$2,290,000</td>
                   <td class="r neg" id="st3-summary-4">-$2,290,000</td>
                   <td class="r neg" id="st3-summary-custom">-$2,290,000</td>
+                  <td class="r neg" id="st3-summary-live">-$2,290,000</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
@@ -2309,6 +2383,7 @@
                   <td class="r neg" id="st4-summary-3">-$24,810,477</td>
                   <td class="r neg" id="st4-summary-4">-$46,076,599</td>
                   <td class="r neg" id="st4-summary-custom">$0</td>
+                  <td class="r neg" id="st4-summary-live">$0</td>
                 </tr>
 
                 <!-- Final Validation -->
@@ -2320,6 +2395,7 @@
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" id="final-validation-custom" style="font-size:20px; font-weight:900; color:var(--accent);">$0</td>
+                  <td class="r pos" id="final-validation-live" style="font-size:20px; font-weight:900; color:var(--cyan);">$0</td>
                 </tr>
 
                 <tr class="st-main" style="background:rgba(0,200,83,0.08);">
@@ -2330,6 +2406,7 @@
                   <td class="r pos" style="font-weight:900;" id="cash-hand-3">$14,545,318</td>
                   <td class="r pos" style="font-weight:900;" id="cash-hand-4">$27,012,733</td>
                   <td class="r pos" id="cash-hand-custom" style="font-weight:900; color:var(--accent);">$0</td>
+                  <td class="r pos" id="cash-hand-live" style="font-weight:900; color:var(--cyan);">$0</td>
                 </tr>
 
                 <tr class="st-main" style="background:rgba(0,212,170,0.15); border-top: 3px solid var(--accent);">
@@ -2340,6 +2417,7 @@
                   <td class="r pos" style="font-weight:900; font-size:16px;" id="net-worth-3">$41,635,794</td>
                   <td class="r pos" style="font-weight:900; font-size:16px;" id="net-worth-4">$77,420,586</td>
                   <td class="r pos" id="net-worth-custom" style="font-weight:900; font-size:16px; color:var(--accent);">$0</td>
+                  <td class="r pos" id="net-worth-live" style="font-weight:900; font-size:16px; color:var(--cyan);">$0</td>
                 </tr>
 
               </tbody>
@@ -2747,6 +2825,8 @@
           renderTerminal();
 
           updateRealTimeNetWorth(); // Update real-time net worth
+          
+          calculateLivePriceColumn(); // Update Live Price column with real-time GME price
 
           // NOTE: calculatePipelineTotals() removed to prevent overwriting custom net worth values
           // Only calculate when custom price is applied
@@ -3023,6 +3103,84 @@
     }
 
     
+
+    // Live Price calculation function using real-time GME price
+    function calculateLivePriceColumn() {
+      // Use real-time GME price (V_GME_P)
+      if (V_GME_P > 0) {
+        calculateAndUpdateColumn(V_GME_P, 'live');
+        
+        // Live-specific additional calculations
+        const fid_shares = 4307.43;
+        const drs_shares = 30000;
+        const moomoo_shares = 7147;
+        const fid_live = fid_shares * V_GME_P;
+        const drs_live = drs_shares * V_GME_P;
+        const moomoo_live = moomoo_shares * V_GME_P;
+        const st1_live_total = fid_live + drs_live + moomoo_live;
+        
+        // Update Korean Won total for Live Price
+        const st1_won_live = st1_live_total * currentKRWRate;
+        updateWonAmount('st1-won-live', st1_won_live);
+        
+        // Live Price ST3 calculations (options, strikes)
+        const st2_minimum = 1000000;
+        const st2_additional = V_GME_P * 1000;
+        const st2_live = st2_minimum + st2_additional;
+        const st2_live_remaining = st1_live_total - st2_live;
+        const cs_shares = 100000;
+        const cs_live = cs_shares * V_GME_P;
+        const remaining = st2_live_remaining - cs_live;
+        
+        // Fid and Moo options for Live Price
+        const fid_balance = remaining * 0.5;
+        const fid_live_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
+        const moo_balance = remaining * 0.5;
+        const moo_live_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
+        
+        // Update option cells for Live Price
+        updateCellWithFormat('fid-option-live', fid_live_option, 'pos');
+        updateCellWithFormat('moo-option-live', moo_live_option, 'pos');
+        
+        // Strike distributions for Live Price
+        const fid_strike40_live = Math.round(fid_live_option * 0.20);
+        const fid_strike45_live = Math.round(fid_live_option * 0.30);
+        const fid_strike50_live = Math.round(fid_live_option * 0.50);
+        const moo_strike40_live = Math.round(moo_live_option * 0.20);
+        const moo_strike45_live = Math.round(moo_live_option * 0.30);
+        const moo_strike50_live = Math.round(moo_live_option * 0.50);
+        
+        // Update strike prices with balance for Live Price
+        const cs_cost_total = cs_live;
+        updateStrikePriceWithBalance('fid-strike40-live', fid_strike40_live, st2_live_remaining - cs_cost_total - fid_strike40_live);
+        updateStrikePriceWithBalance('fid-strike45-live', fid_strike45_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live);
+        updateStrikePriceWithBalance('fid-strike50-live', fid_strike50_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live);
+        updateStrikePriceWithBalance('moo-strike40-live', moo_strike40_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live);
+        updateStrikePriceWithBalance('moo-strike45-live', moo_strike45_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live - moo_strike45_live);
+        updateStrikePriceWithBalance('moo-strike50-live', moo_strike50_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live - moo_strike45_live - moo_strike50_live);
+        
+        // Update CS Cost with balance display for Live Price
+        const csCostEl = document.getElementById('cs-cost-live');
+        if (csCostEl) {
+          const cs_bal = st2_live_remaining - cs_cost_total;
+          csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
+        }
+        
+        // M.K items with balance display for Live Price
+        updateMKItemWithBalance('mobility-self-live', -400000, st2_live_remaining - 400000);
+        updateMKItemWithBalance('mobility-dad-live', -120000, st2_live_remaining - 400000 - 120000);
+        updateMKItemWithBalance('gift-dad-live', -22320, st2_live_remaining - 400000 - 120000 - 22320);
+        updateMKItemWithBalance('gift-mom-live', -22548, st2_live_remaining - 400000 - 120000 - 22320 - 22548);
+        updateMKItemWithBalance('gift-jini-live', -13920, st2_live_remaining - 400000 - 120000 - 22320 - 22548 - 13920);
+        
+        // Arun M5 with balance for Live Price
+        const arunEl = document.getElementById('arun-m5-live');
+        if (arunEl) {
+          const arun_bal = st2_live_remaining - 400000 - 120000 - 22320 - 22548 - 13920 - 200000;
+          arunEl.innerHTML = `<span class="clickable-amount" data-amount="200000" style="cursor:pointer;">${fmtDisplay(-200000)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(arun_bal)}</span>`;
+        }
+      }
+    }
 
     // Custom Price Input System
 
