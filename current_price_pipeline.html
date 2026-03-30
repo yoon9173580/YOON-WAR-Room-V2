@@ -4262,7 +4262,7 @@
         const cashHandEl = document.getElementById(`cash-hand-${i+1}`);
         if (cashHandEl) {
           const cash_in_hand = st1_total - st2_total - st3_total - st4_total;
-          cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cash_in_hand}" style="cursor:pointer;">${fmtDisplay(cash_in_hand)}</span>`;
+          cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cash_in_hand}" style="cursor:pointer;">$${fmt(cash_in_hand)}</span>`;
         }
 
         // Update Net Worth with HNWI/VHNWI/UHNI title
@@ -4270,7 +4270,7 @@
         if (netWorthEl) {
           const net_worth = st1_total + st3_total + st4_total; // Total assets value
           const hnwiTitle = net_worth >= 30000000 ? 'UHNI' : net_worth >= 5000000 ? 'VHNWI' : net_worth >= 1000000 ? 'HNWI' : '';
-          netWorthEl.innerHTML = `<span class="clickable-amount" data-amount="${net_worth}" style="cursor:pointer;">${fmtDisplay(net_worth)}</span>${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
+          netWorthEl.innerHTML = `<span class="clickable-amount" data-amount="${net_worth}" style="cursor:pointer;">$${fmt(net_worth)}</span>${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
         }
 
         // Update Net Worth display in port-bar
