@@ -2829,6 +2829,7 @@
           calculateLivePriceColumn(); // Update Live Price column with real-time GME price
           
           // Recalculate all preset columns with live GME price for CS calculation
+          console.log('DEBUG: Recalculating all pipeline columns with V_GME_P:', V_GME_P);
           calculateAllPipelineColumns();
 
           // NOTE: calculatePipelineTotals() removed to prevent overwriting custom net worth values
@@ -3042,6 +3043,7 @@
       const cs_shares = 100000;
       // CS cost is ALWAYS based on LIVE GME price for ALL columns
       const cs_val = cs_shares * (V_GME_P > 0 ? V_GME_P : price);
+      console.log(`DEBUG CS [${suffix}]: V_GME_P=${V_GME_P}, price=${price}, cs_val=${cs_val}`);
       const st3_total = cs_val;
       const st3_cash = st2_cash - st3_total;
       
