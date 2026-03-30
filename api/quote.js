@@ -16,7 +16,7 @@ async function fetchCrypto() {
         return { p: cg.bitcoin.usd, pct: cg.bitcoin.usd_24h_change || 0 };
       }
     }
-  } catch (e) {}
+  } catch (e) { }
 
   try {
     const binData = await fetchWithTimeout('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT', {}, 3000);
@@ -24,8 +24,8 @@ async function fetchCrypto() {
       const bd = await binData.json();
       return { p: parseFloat(bd.lastPrice), pct: parseFloat(bd.priceChangePercent) };
     }
-  } catch(err2) {}
-  
+  } catch (err2) { }
+
   return { p: 0, pct: 0 };
 }
 
@@ -39,20 +39,20 @@ async function fetchFearGreed() {
       }
     }, 3000);
     if (cnnRes && cnnRes.ok) {
-        const cnnData = await cnnRes.json();
-        if (cnnData && cnnData.fear_and_greed && cnnData.fear_and_greed.score) {
-            return Math.round(cnnData.fear_and_greed.score).toString();
-        }
+      const cnnData = await cnnRes.json();
+      if (cnnData && cnnData.fear_and_greed && cnnData.fear_and_greed.score) {
+        return Math.round(cnnData.fear_and_greed.score).toString();
+      }
     }
-  } catch(e) {}
-  
+  } catch (e) { }
+
   try {
     const fng = await fetchWithTimeout('https://api.alternative.me/fng/?limit=1', {}, 3000);
     if (fng && fng.ok) {
       const fngD = await fng.json();
       if (fngD && fngD.data && fngD.data[0]) return fngD.data[0].value;
     }
-  } catch(err) {}
+  } catch (err) { }
   return "--";
 }
 
@@ -77,21 +77,21 @@ async function fetchYahooNative(sym) {
 
         let regStart = 0; let regEnd = 0;
         if (meta.currentTradingPeriod && meta.currentTradingPeriod.regular) {
-            regStart = meta.currentTradingPeriod.regular.start;
-            regEnd = meta.currentTradingPeriod.regular.end;
+          regStart = meta.currentTradingPeriod.regular.start;
+          regEnd = meta.currentTradingPeriod.regular.end;
         }
 
-        let lastTs = timestamps.length > 0 ? timestamps[timestamps.length-1] : 0;
+        let lastTs = timestamps.length > 0 ? timestamps[timestamps.length - 1] : 0;
         let ms = "CLOSED";
         if (lastTs >= regEnd && regEnd > 0) ms = "POST";
         else if (lastTs < regStart && regStart > 0) ms = "PRE";
         else ms = "REGULAR";
 
         for (let i = timestamps.length - 1; i >= 0; i--) {
-            if (timestamps[i] >= regEnd && closes[i] != null) { postMarketPrice = closes[i]; break; }
+          if (timestamps[i] >= regEnd && closes[i] != null) { postMarketPrice = closes[i]; break; }
         }
         for (let i = timestamps.length - 1; i >= 0; i--) {
-            if (timestamps[i] < regStart && closes[i] != null) { preMarketPrice = closes[i]; break; }
+          if (timestamps[i] < regStart && closes[i] != null) { preMarketPrice = closes[i]; break; }
         }
 
         const postChange = postMarketPrice ? postMarketPrice - price : 0;
@@ -115,7 +115,7 @@ async function fetchYahooNative(sym) {
         };
       }
     }
-  } catch(e) {}
+  } catch (e) { }
   return null;
 }
 
@@ -135,39 +135,39 @@ module.exports = async function handler(req, res) {
     let fearGreedResult = "--";
 
     try {
-        const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
-        if (symbolArray.length > 0) {
-            const fetchPromises = symbolArray.map(async (sym) => {
-              // 1. Core Native Fetch
-              let q = await fetchYahooNative(sym);
-              if (q) return q;
+      const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
+      if (symbolArray.length > 0) {
+        const fetchPromises = symbolArray.map(async (sym) => {
+          // 1. Core Native Fetch
+          let q = await fetchYahooNative(sym);
+          if (q) return q;
 
-              // 2. Finnhub Redundancy
-              if (FINNHUB_KEY && !sym.includes('C000')) {
-                  try {
-                      const fh = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`, {}, 3000);
-                      if (fh && fh.ok) {
-                        const fhJson = await fh.json();
-                        if(fhJson && fhJson.c) {
-                            return { symbol: sym, regularMarketPrice: fhJson.c, regularMarketChange: fhJson.d || 0, regularMarketChangePercent: fhJson.dp || 0 };
-                        }
-                      }
-                  } catch(fherr) {}
+          // 2. Finnhub Redundancy
+          if (FINNHUB_KEY && !sym.includes('C000')) {
+            try {
+              const fh = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`, {}, 3000);
+              if (fh && fh.ok) {
+                const fhJson = await fh.json();
+                if (fhJson && fhJson.c) {
+                  return { symbol: sym, regularMarketPrice: fhJson.c, regularMarketChange: fhJson.d || 0, regularMarketChangePercent: fhJson.dp || 0 };
+                }
               }
-              return null;
-            });
-            const resArray = await Promise.all(fetchPromises);
-            stocksResult = resArray.filter(Boolean);
-        }
+            } catch (fherr) { }
+          }
+          return null;
+        });
+        const resArray = await Promise.all(fetchPromises);
+        stocksResult = resArray.filter(Boolean);
+      }
     } catch (eStocks) {
-        console.error("Stocks error", eStocks);
+      console.error("Stocks error", eStocks);
     }
 
-    try { cryptoResult = await fetchCrypto(); } catch (eCrypt) {}
-    try { fearGreedResult = await fetchFearGreed(); } catch (eFear) {}
+    try { cryptoResult = await fetchCrypto(); } catch (eCrypt) { }
+    try { fearGreedResult = await fetchFearGreed(); } catch (eFear) { }
 
     res.setHeader('Cache-Control', 's-maxage=5, stale-while-revalidate=10');
-    
+
     return res.status(200).json({
       quoteResponse: { result: stocksResult },
       crypto: cryptoResult,

@@ -2304,13 +2304,13 @@
 
                   <td class="det" style="color:var(--bull);">Monthly Passive Income (Net)</td>
 
-                  <td class="r pos" style="color:var(--bull);">$106,000</td>
+                  <td class="r pos" id="monthly-income-1" style="color:var(--bull);">106K</td>
 
-                  <td class="r pos" style="color:var(--bull);">$122,000</td>
+                  <td class="r pos" id="monthly-income-2" style="color:var(--bull);">122K</td>
 
-                  <td class="r pos" style="color:var(--bull);">$200,000</td>
+                  <td class="r pos" id="monthly-income-3" style="color:var(--bull);">200K</td>
 
-                  <td class="r pos" style="color:var(--bull);">$407,000</td>
+                  <td class="r pos" id="monthly-income-4" style="color:var(--bull);">407K</td>
                   <td class="r pos" id="monthly-income-custom" style="color:var(--accent);">$0</td>
 
                   <td class="r pos" id="monthly-income-live" style="color:var(--cyan);">$0</td>
@@ -2343,32 +2343,32 @@
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
                   <td class="pl-indent" style="color:var(--text);">└ ST2 집행</td>
                   <td class="det">Immediate Execution</td>
-                  <td class="r neg" id="st2-summary-1">-$578,788</td>
-                  <td class="r neg" id="st2-summary-2">-$578,788</td>
-                  <td class="r neg" id="st2-summary-3">-$578,788</td>
-                  <td class="r neg" id="st2-summary-4">-$578,788</td>
-                  <td class="r neg" id="st2-summary-custom">-$578,788</td>
-                  <td class="r neg" id="st2-summary-live">-$578,788</td>
+                  <td class="r neg" id="st2-summary-1">-779K</td>
+                  <td class="r neg" id="st2-summary-2">-779K</td>
+                  <td class="r neg" id="st2-summary-3">-779K</td>
+                  <td class="r neg" id="st2-summary-4">-779K</td>
+                  <td class="r neg" id="st2-summary-custom">$0</td>
+                  <td class="r neg" id="st2-summary-live">$0</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
                   <td class="pl-indent" style="color:var(--text);">└ ST3 브로커</td>
                   <td class="det">Broker Pipeline</td>
-                  <td class="r neg" id="st3-summary-1">-$2,290,000</td>
-                  <td class="r neg" id="st3-summary-2">-$2,290,000</td>
-                  <td class="r neg" id="st3-summary-3">-$2,290,000</td>
-                  <td class="r neg" id="st3-summary-4">-$2,290,000</td>
-                  <td class="r neg" id="st3-summary-custom">-$2,290,000</td>
-                  <td class="r neg" id="st3-summary-live">-$2,290,000</td>
+                  <td class="r neg" id="st3-summary-1">-2M</td>
+                  <td class="r neg" id="st3-summary-2">-2M</td>
+                  <td class="r neg" id="st3-summary-3">-2M</td>
+                  <td class="r neg" id="st3-summary-4">-2M</td>
+                  <td class="r neg" id="st3-summary-custom">$0</td>
+                  <td class="r neg" id="st3-summary-live">$0</td>
                 </tr>
 
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
                   <td class="pl-indent" style="color:var(--text);">└ ST4 절세</td>
                   <td class="det">Tax Shield + Reinvestment</td>
-                  <td class="r neg" id="st4-summary-1">-$13,058,145</td>
-                  <td class="r neg" id="st4-summary-2">-$15,047,958</td>
-                  <td class="r neg" id="st4-summary-3">-$24,810,477</td>
-                  <td class="r neg" id="st4-summary-4">-$46,076,599</td>
+                  <td class="r neg" id="st4-summary-1">-13M</td>
+                  <td class="r neg" id="st4-summary-2">-15M</td>
+                  <td class="r neg" id="st4-summary-3">-25M</td>
+                  <td class="r neg" id="st4-summary-4">-46M</td>
                   <td class="r neg" id="st4-summary-custom">$0</td>
                   <td class="r neg" id="st4-summary-live">$0</td>
                 </tr>
@@ -3201,6 +3201,11 @@
       updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
       updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
+      
+      // Monthly Passive Income (Net) — estimated yields from reinvested assets
+      // O&G IDC ~10% annual, QOF ~6% annual, CLAT ~4% annual
+      const monthlyIncome = Math.round((og_idc * 0.10 + qof * 0.06 + clat * 0.04) / 12);
+      updateCellWithFormat(`monthly-income-${suffix}`, monthlyIncome, 'pos');
     }
 
     // Helper function to update CS cost cells with BAL display
