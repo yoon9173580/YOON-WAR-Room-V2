@@ -3230,6 +3230,7 @@
       // Custom-specific ST3 calculations (options, strikes)
       const st2_custom_remaining = st1_custom_total - st2_custom;
       const cs_shares = 100000;
+      // CS cost uses BBBYQ price (customPrice) for 100,000 GME shares
       const cs_custom = cs_shares * customPrice;
       const cs_custom_remaining = st2_custom_remaining - cs_custom;
       
