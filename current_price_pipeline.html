@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V53.5</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V53.6</title>
 
   <link
 
@@ -2905,6 +2905,9 @@
       updateElementWithCustomPrice('st2-minimum-custom', st2_minimum);
       updateElementWithCustomPrice('st2-additional-custom', st2_additional);
 
+      // Calculate ST 2 cash remaining FIRST (before using in M.K items)
+      const st2_cash_remaining = st1_custom_total - st2_custom;
+
       // M.K items with balance display (same as fixed columns)
       const mobilitySelfEl = document.getElementById('mobility-self-custom');
       if (mobilitySelfEl) {
@@ -2938,8 +2941,7 @@
 
       
 
-      // Update ST 2 cash remaining
-      const st2_cash_remaining = st1_custom_total - st2_custom;
+      // Update ST 2 cash remaining display
       updateElementWithCustomPrice('st2-cash-custom', st2_cash_remaining);
 
       
