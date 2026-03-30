@@ -1476,6 +1476,18 @@
 
           </div>
 
+          <div class="sb-card" onclick="setActive('BABA')">
+
+            <div class="sb-card-top"><span class="sb-sym">BABA</span><span id="sb-BABA-chg" class="sb-chg">—</span>
+
+            </div>
+
+            <div id="sb-BABA-price" class="sb-price">WAITING...</div>
+
+            <div id="sb-BABA-ext" class="sb-ext"></div>
+
+          </div>
+
         </div>
 
 
@@ -2497,6 +2509,8 @@
 
     let V_NOK_P = 0, V_NOK_PCT = 0, V_NOK_EXT = "";
 
+    let V_BABA_P = 0, V_BABA_PCT = 0, V_BABA_EXT = "";
+
 
 
     function submitPin() {
@@ -2642,7 +2656,7 @@
 
 
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,BYND,KOSS,CHWY,GOOGL,AMZN,META,BBY,TGT,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
 
       const targetUrl = `/api/quote?symbols=${targets}`;
 
@@ -2771,6 +2785,8 @@
           const qBB = extract('BB'); if (qBB) { V_BB_P = Number(qBB.regularMarketPrice) || 0; V_BB_PCT = Number(qBB.regularMarketChangePercent) || 0; V_BB_EXT = getExt(qBB); }
 
           const qNOK = extract('NOK'); if (qNOK) { V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); }
+
+          const qBABA = extract('BABA'); if (qBABA) { V_BABA_P = Number(qBABA.regularMarketPrice) || 0; V_BABA_PCT = Number(qBABA.regularMarketChangePercent) || 0; V_BABA_EXT = getExt(qBABA); }
 
 
 
@@ -3918,7 +3934,7 @@
 
       upSB('BBY', V_BBY_P, V_BBY_PCT, V_BBY_EXT); upSB('TGT', V_TGT_P, V_TGT_PCT, V_TGT_EXT);
 
-      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT);
+      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT); upSB('BABA', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
 
     }
 
