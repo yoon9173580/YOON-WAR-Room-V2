@@ -2786,17 +2786,27 @@
       const button = document.getElementById('format-toggle');
 
       if (button) {
-
         button.textContent = showActualAmounts ? 'Show M/K Format' : 'Show Actual Amounts';
-
         button.style.background = showActualAmounts ? 'var(--bull)' : 'var(--accent)';
-
       }
 
-      // Calculate Custom Price values based on current GME price
+      // Refresh all displayed values with new format
+      refreshAllFormats();
 
-      calculateCustomPriceValues();
+    }
 
+    // Function to refresh all values with current format setting
+    function refreshAllFormats() {
+      // If custom price is active, recalculate custom values
+      if (customUserPrice && customUserPrice > 0) {
+        calculateFullPipelineWithCustomPrice(customUserPrice);
+      } else {
+        // Recalculate with current GME price
+        calculateCustomPriceValues();
+      }
+      
+      // Re-render terminal to update all displays
+      renderTerminal();
     }
 
     
