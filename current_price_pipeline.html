@@ -2302,6 +2302,16 @@
                   <td class="r neg" id="st4-summary-custom">$0</td>
                 </tr>
 
+                <tr class="st-main" style="background:rgba(0,200,83,0.08);">
+                  <td style="color:var(--bull); font-weight:900;">💰 내 현금 수중</td>
+                  <td style="color:var(--text);">실제 수중 현금 (Cash in Hand)</td>
+                  <td class="r pos" style="font-weight:900;" id="cash-hand-1">$7,655,430</td>
+                  <td class="r pos" style="font-weight:900;" id="cash-hand-2">$8,821,972</td>
+                  <td class="r pos" style="font-weight:900;" id="cash-hand-3">$14,545,318</td>
+                  <td class="r pos" style="font-weight:900;" id="cash-hand-4">$27,012,733</td>
+                  <td class="r pos" id="cash-hand-custom" style="font-weight:900; color:var(--accent);">$0</td>
+                </tr>
+
                 <!-- Final Validation -->
                 <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
 
@@ -3066,6 +3076,10 @@
 
       
 
+      // Update cash in hand (내 현금 수중)
+      const cash_in_hand = st4_cash_remaining;
+      updateElementWithCustomPrice('cash-hand-custom', cash_in_hand);
+
       // Calculate final validation (Zero-Sum Check)
 
       const final_validation = st4_cash_remaining - weavers_attorney_fee + tax_saved_weavers;
@@ -3211,11 +3225,12 @@
               customId = 'st4-custom-main';
 
             } else if (firstCell.includes('ST 5')) {
-
               customValue = 0;
-
               customId = 'st5-custom-main';
-
+            } else if (firstCell.includes('내 현금 수중') || firstCell.includes('Cash in Hand')) {
+              customValue = st4_custom_total > 0 ? st1_custom_total - st2_custom - st3_custom_total_with_additional - st4_custom_total : 0;
+              customClass = 'pos';
+              customId = 'cash-hand-custom';
             }
 
           } else if (rowClass.includes('st-sub')) {
@@ -4232,16 +4247,17 @@
         
 
         // Update ST 4 display
-
         const st4El = document.getElementById(`st4-total-${i+1}`);
-
         if (st4El) {
-
           st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
-
         }
 
-        
+        // Update Cash in Hand (내 현금 수중)
+        const cashHandEl = document.getElementById(`cash-hand-${i+1}`);
+        if (cashHandEl) {
+          const cash_in_hand = st1_total - st2_total - st3_total - st4_total;
+          cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cash_in_hand}" style="cursor:pointer;">${fmtDisplay(cash_in_hand)}</span>`;
+        }
 
         // Update ST 4 individual items
 
