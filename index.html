@@ -3069,79 +3069,156 @@
         updateCellWithFormat(`moomoo-${suffix}-total`, moomoo_val, 'pos');
       }
       
-      // ST 2 Calculations
+      // ST 2 Calculations — with cascading running balance
       const st2_minimum = 1000000;
       const st2_additional = price * 1000;
       const st2_total = st2_minimum + st2_additional;
-      const st2_cash = st1_total - st2_total;
       
-      // Update ST 2 cells
-      updateCellWithFormat(`st2-total-${suffix}`, -st2_total, 'neg');
+      // Update ST 2 header cells
+      updateCellWithFormat(`st2-total-${suffix}`, -(st2_total), 'neg');
       updateCellWithFormat(`st2-minimum-${suffix}`, -st2_minimum, 'neg');
       updateCellWithFormat(`st2-additional-${suffix}`, -st2_additional, 'neg');
       
-      // M.K items
-      updateCellWithFormat(`mobility-self-${suffix}`, -400000, 'neg');
-      updateCellWithFormat(`mobility-dad-${suffix}`, -120000, 'neg');
-      updateCellWithFormat(`gift-dad-${suffix}`, -22320, 'neg');
-      updateCellWithFormat(`gift-mom-${suffix}`, -22548, 'neg');
-      updateCellWithFormat(`gift-jini-${suffix}`, -13920, 'neg');
+      // ST 2 M.K items with cascading BAL
+      let runBal = st1_total; // Start from ST1 total
+      
+      // 모빌리티 (본인) $400,000
+      runBal -= 400000;
+      updateMKItemWithBalance(`mobility-self-${suffix}`, -400000, runBal);
+      
+      // 모빌리티 (아빠) $120,000
+      runBal -= 120000;
+      updateMKItemWithBalance(`mobility-dad-${suffix}`, -120000, runBal);
+      
+      // 기프트 (아빠) $22,320
+      runBal -= 22320;
+      updateMKItemWithBalance(`gift-dad-${suffix}`, -22320, runBal);
+      
+      // 기프트 (엄마) $22,548
+      runBal -= 22548;
+      updateMKItemWithBalance(`gift-mom-${suffix}`, -22548, runBal);
+      
+      // 기프트 (진이) $13,920
+      runBal -= 13920;
+      updateMKItemWithBalance(`gift-jini-${suffix}`, -13920, runBal);
+      
+      // ST 2 cash remaining (after all immediate expenditures + minimum + additional)
+      const st2_cash = st1_total - st2_total;
       updateCellWithFormat(`st2-cash-${suffix}`, st2_cash, 'pos');
       
-      // ST 3 Calculations
+      // ST 3 Calculations — with cascading BAL
       const cs_shares = 100000;
       // CS cost is ALWAYS based on LIVE GME price for ALL columns
       const cs_val = cs_shares * (V_GME_P > 0 ? V_GME_P : price);
-      console.log(`DEBUG CS [${suffix}]: V_GME_P=${V_GME_P}, price=${price}, cs_val=${cs_val}`);
       const st3_total = cs_val;
       const st3_cash = st2_cash - st3_total;
       
-      // Update ST 3 cells - CS Cost with BAL display
-      updateCSCostWithBalance(`cs-cost-${suffix}`, cs_val, st2_cash);
-      updateCellWithFormat(`st3-total-${suffix}`, -st3_total, 'neg');
-      updateCellWithFormat(`st3-cash-${suffix}`, st3_cash, 'pos');
+      // Fid and Moo options calculations
+      const fid_option_pct = 0.37; // Fidelity gets 37% (잔고 37% 매수)
+      const moo_option_pct = 0.63; // Moomoo gets 63% (잔고 63% 매수)
+      const fid_option_val = fid_val; // Fidelity option = Fid share value
+      const moo_option_val = moomoo_val; // Moomoo option = Moomoo share value
       
-      // ST 4 Calculations
+      // Fidelity strike distribution (1/3 each)
+      const fid_strike40 = Math.round(fid_option_val / 3);
+      const fid_strike45 = Math.round(fid_option_val / 3);
+      const fid_strike50 = fid_option_val - fid_strike40 - fid_strike45;
+      
+      // Moomoo strike distribution (1/3 each)
+      const moo_strike40 = Math.round(moo_option_val / 3);
+      const moo_strike45 = Math.round(moo_option_val / 3);
+      const moo_strike50 = moo_option_val - moo_strike40 - moo_strike45;
+      
+      // Update ST 3 cells — CS Cost with BAL
+      updateCSCostWithBalance(`cs-cost-${suffix}`, cs_val, st2_cash);
+      updateCellWithFormat(`st3-total-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
+      
+      // Fidelity option total
+      updateCellWithFormat(`fid-option-${suffix}`, -fid_option_val, 'neg');
+      
+      // Fidelity strike prices with running BAL
+      let st3RunBal = st2_cash - cs_val;
+      st3RunBal -= fid_strike40;
+      updateStrikePriceWithBalance(`fid-strike40-${suffix}`, fid_strike40, st3RunBal);
+      st3RunBal -= fid_strike45;
+      updateStrikePriceWithBalance(`fid-strike45-${suffix}`, fid_strike45, st3RunBal);
+      st3RunBal -= fid_strike50;
+      updateStrikePriceWithBalance(`fid-strike50-${suffix}`, fid_strike50, st3RunBal);
+      
+      // Moomoo option total
+      updateCellWithFormat(`moo-option-${suffix}`, -moo_option_val, 'neg');
+      
+      // Moomoo strike prices with running BAL
+      st3RunBal -= moo_strike40;
+      updateStrikePriceWithBalance(`moo-strike40-${suffix}`, moo_strike40, st3RunBal);
+      st3RunBal -= moo_strike45;
+      updateStrikePriceWithBalance(`moo-strike45-${suffix}`, moo_strike45, st3RunBal);
+      st3RunBal -= moo_strike50;
+      updateStrikePriceWithBalance(`moo-strike50-${suffix}`, moo_strike50, st3RunBal);
+      
+      // ST 3 final cash
+      updateCellWithFormat(`st3-cash-${suffix}`, st3RunBal, 'pos');
+      
+      // ST 4 Calculations — with cascading BAL
       const gme_sell = st1_total * 1.5;
+      const tax_amount = gme_sell * 0.37;
+      const tax_shield = tax_amount * 0.72;
       const og_idc = st1_total * 0.4;
       const qof = st1_total * 0.3;
       const clat = st1_total * 0.15;
       const st4_total = gme_sell + og_idc + qof + clat;
-      const tax_amount = gme_sell * 0.37;
-      const tax_shield = tax_amount * 0.72;
       
-      // Update ST 4 cells
+      // GME Partial Sell — adds to running balance
+      let st4RunBal = st3RunBal + gme_sell;
+      updateCellWithBalancePositive(`gme-partial-${suffix}`, gme_sell, st4RunBal);
+      
+      // Tax — subtracts
+      st4RunBal -= tax_amount;
+      updateCellWithBalanceNeg(`tax-calculation-${suffix}`, tax_amount, st4RunBal);
+      
+      // Tax Shield — adds back
+      st4RunBal += tax_shield;
+      updateCellWithBalancePositive(`tax-shield-${suffix}`, tax_shield, st4RunBal);
+      
+      // O&G Energy — subtracts
+      st4RunBal -= og_idc;
+      updateCellWithBalanceNeg(`og-energy-${suffix}`, og_idc, st4RunBal);
+      
+      // QOF Housing — subtracts
+      st4RunBal -= qof;
+      updateCellWithBalanceNeg(`qof-housing-${suffix}`, qof, st4RunBal);
+      
+      // CLAT Trust — subtracts
+      st4RunBal -= clat;
+      updateCellWithBalanceNeg(`clat-trust-${suffix}`, clat, st4RunBal);
+      
+      // Update ST 4 header
       updateCellWithFormat(`st4-total-${suffix}`, -st4_total, 'neg');
-      updateCellWithFormat(`gme-partial-${suffix}`, gme_sell, 'bull');
-      updateCellWithFormat(`tax-calculation-${suffix}`, -tax_amount, 'neg');
-      updateCellWithFormat(`tax-shield-${suffix}`, tax_shield, 'bull');
-      updateCellWithFormat(`og-energy-${suffix}`, -og_idc, 'neg');
-      updateCellWithFormat(`qof-housing-${suffix}`, -qof, 'neg');
-      updateCellWithFormat(`clat-trust-${suffix}`, -clat, 'neg');
+      
+      // ST 4 final cash
+      updateCellWithFormat(`st4-cash-${suffix}`, st4RunBal, 'pos');
+      
+      // Cash in Hand
+      const fixedExpenses = 400000 + 120000 + 22320 + 22548 + 13920 + 200000; // ST2 M.K items + Arun
+      const cashInHand = st1_total - fixedExpenses;
+      updateCellWithFormat(`cash-hand-${suffix}`, cashInHand, 'pos');
+      
+      // Net Worth = cashInHand + all invested assets
+      const totalAssets = cs_val + fid_option_val + moo_option_val + og_idc + qof + clat;
+      const netWorth = cashInHand + totalAssets;
+      const hnwiTitle = netWorth >= 30000000 ? 'UHNWI' : netWorth >= 5000000 ? 'VHNWI' : netWorth >= 1000000 ? 'HNWI' : '';
+      const netWorthEl = document.getElementById(`net-worth-${suffix}`);
+      if (netWorthEl) {
+        netWorthEl.innerHTML = `<span class="clickable-amount" data-amount="${netWorth}" style="cursor:pointer;">$${fmt(netWorth)}</span>${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
+        netWorthEl.className = 'r pos';
+      }
       
       // Update ST Integration Summary
       updateCellWithFormat(`st-integration-${suffix}`, st1_total, 'pos');
       updateCellWithFormat(`st1-summary-${suffix}`, st1_total, 'pos');
-      updateCellWithFormat(`st2-summary-${suffix}`, -st2_total, 'neg');
-      updateCellWithFormat(`st3-summary-${suffix}`, -st3_total, 'neg');
+      updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
+      updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
-      
-      // For custom column, also calculate complex ST3 values with options
-      if (suffix === 'custom') {
-        const st2_remaining = st1_total - st2_total;
-        const cs_custom = cs_val;
-        const remaining = st2_remaining - cs_custom;
-        
-        // Fid and Moo options
-        const fid_balance = remaining * 0.5;
-        const fid_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
-        const moo_balance = remaining * 0.5;
-        const moo_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
-        
-        // Update option cells
-        updateCellWithFormat('fid-option-custom', fid_option, 'pos');
-        updateCellWithFormat('moo-option-custom', moo_option, 'pos');
-      }
     }
 
     // Helper function to update CS cost cells with BAL display
@@ -3150,6 +3227,24 @@
       if (cell) {
         const bal = st2Remaining - csCost;
         cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal)}</span>`;
+        cell.className = 'r neg';
+      }
+    }
+
+    // Helper: positive amount cell with running balance
+    function updateCellWithBalancePositive(cellId, value, balValue) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">+${fmtDisplay(value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.className = 'r pos';
+      }
+    }
+
+    // Helper: negative amount cell with running balance
+    function updateCellWithBalanceNeg(cellId, value, balValue) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${fmtDisplay(-value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
       }
     }
