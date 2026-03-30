@@ -3069,23 +3069,24 @@
 
     // Unified calculation and update function for any price column
     function calculateAndUpdateColumn(price, suffix) {
-      const fid_shares = 4307.43;
-      const drs_shares = 30000;
-      const moomoo_shares = 7147;
+      // BBBYQ shares: 41,454 shares total (delisted, bankruptcy)
+      const bbbyq_shares = 41454;
+      const bbbyq_total = bbbyq_shares * price; // First line: GME price × 41,454 shares
       
-      // ST 1 Calculations
-      const fid_val = fid_shares * price;
-      const drs_val = drs_shares * price;
-      const moomoo_val = moomoo_shares * price;
-      const st1_total = fid_val + drs_val + moomoo_val;
+      // For display purposes, split BBBYQ total across Fid/DRS/Moo (all are BBBYQ position)
+      const fid_bbbyq = bbbyq_total * 0.104;   // ~10.4% of BBBYQ
+      const drs_bbbyq = bbbyq_total * 0.724;  // ~72.4% of BBBYQ  
+      const moomoo_bbbyq = bbbyq_total * 0.172; // ~17.2% of BBBYQ
       
-      // Update ST 1 total cell
-      updateCellWithFormat(`st1-total-${suffix}`, st1_total, 'pos');
+      // Update ST 1 total cell - First line shows GME price × 41,454 shares
+      updateCellWithFormat(`st1-total-${suffix}`, bbbyq_total, 'pos');
+      
       // Note: Sub-item cells (fid, drs, moomoo) only have IDs for 'custom' and 'live' suffixes
+      // All represent portions of BBBYQ position
       if (suffix === 'custom' || suffix === 'live') {
-        updateCellWithFormat(`fid-${suffix}-total`, fid_val, 'pos');
-        updateCellWithFormat(`drs-${suffix}-total`, drs_val, 'pos');
-        updateCellWithFormat(`moomoo-${suffix}-total`, moomoo_val, 'pos');
+        updateCellWithFormat(`fid-${suffix}-total`, fid_bbbyq, 'pos');
+        updateCellWithFormat(`drs-${suffix}-total`, drs_bbbyq, 'pos');
+        updateCellWithFormat(`moomoo-${suffix}-total`, moomoo_bbbyq, 'pos');
       }
       
       // ST 2 Calculations — with cascading running balance
@@ -3099,7 +3100,7 @@
       updateCellWithFormat(`st2-additional-${suffix}`, -st2_additional, 'neg');
       
       // ST 2 M.K items with cascading BAL
-      let runBal = st1_total; // Start from ST1 total
+      let runBal = bbbyq_total; // Start from BBBYQ total (ST1)
       
       // 모빌리티 (본인) $400,000
       runBal -= 400000;
@@ -3122,25 +3123,25 @@
       updateMKItemWithBalance(`gift-jini-${suffix}`, -13920, runBal);
       
       // ST 2 cash remaining (after all immediate expenditures + minimum + additional)
-      const st2_cash = st1_total - st2_total;
+      const st2_cash = bbbyq_total - st2_total;
       updateCellWithBalancePositive(`st2-cash-${suffix}`, st2_cash, st2_cash);
       
       // ST 3 Calculations — with cascading BAL
-      // Dynamic CS calculation: proportional to ST1 total, 100k shares per $10M with 50k increments
+      // Dynamic CS calculation: proportional to BBBYQ total, 100k shares per $10M with 50k increments
       // Formula: base 100k at $10M, then +50k per additional $5M
-      const base_cs_shares = Math.round(st1_total / 100); // 100k shares per $10M = 1 share per $100
-      const additional_increments = Math.max(0, Math.floor((st1_total - 10000000) / 5000000));
+      const base_cs_shares = Math.round(bbbyq_total / 100); // 100k shares per $10M = 1 share per $100
+      const additional_increments = Math.max(0, Math.floor((bbbyq_total - 10000000) / 5000000));
       const cs_shares = base_cs_shares + (additional_increments * 50000);
       // CS cost is ALWAYS based on LIVE GME price for ALL columns
       const cs_val = cs_shares * (V_GME_P > 0 ? V_GME_P : price);
       const st3_total = cs_val;
       const st3_cash = st2_cash - st3_total;
       
-      // Fid and Moo options calculations
+      // Fid and Moo options calculations (based on BBBYQ position split)
       const fid_option_pct = 0.37; // Fidelity gets 37% (잔고 37% 매수)
       const moo_option_pct = 0.63; // Moomoo gets 63% (잔고 63% 매수)
-      const fid_option_val = fid_val; // Fidelity option = Fid share value
-      const moo_option_val = moomoo_val; // Moomoo option = Moomoo share value
+      const fid_option_val = fid_bbbyq; // Fidelity option = Fid portion of BBBYQ
+      const moo_option_val = moomoo_bbbyq; // Moomoo option = Moomoo portion of BBBYQ
       
       // Fidelity strike distribution (1/3 each)
       const fid_strike40 = Math.round(fid_option_val / 3);
@@ -3181,13 +3182,13 @@
       // ST 3 final cash
       updateCellWithBalancePositive(`st3-cash-${suffix}`, st3RunBal, st3RunBal);
       
-      // ST 4 Calculations — with cascading BAL
-      const gme_sell = st1_total * 1.5;
+      // ST 4 Calculations — with cascading BAL (based on BBBYQ total)
+      const gme_sell = bbbyq_total * 1.5;
       const tax_amount = gme_sell * 0.37;
       const tax_shield = tax_amount * 0.72;
-      const og_idc = st1_total * 0.4;
-      const qof = st1_total * 0.3;
-      const clat = st1_total * 0.15;
+      const og_idc = bbbyq_total * 0.4;
+      const qof = bbbyq_total * 0.3;
+      const clat = bbbyq_total * 0.15;
       const st4_total = gme_sell + og_idc + qof + clat;
       
       // GME Partial Sell — adds to running balance
@@ -3222,7 +3223,7 @@
       
       // Cash in Hand
       const fixedExpenses = 400000 + 120000 + 22320 + 22548 + 13920 + 200000; // ST2 M.K items + Arun
-      const cashInHand = st1_total - fixedExpenses;
+      const cashInHand = bbbyq_total - fixedExpenses;
       updateCellWithFormat(`cash-hand-${suffix}`, cashInHand, 'pos');
       
       // Net Worth = cashInHand + all invested assets
@@ -3237,7 +3238,7 @@
       
       // Update Net Worth
       updateCellWithFormat(`net-worth-${suffix}`, netWorth, 'pos');
-      updateCellWithFormat(`st1-summary-${suffix}`, st1_total, 'pos');
+      updateCellWithFormat(`st1-summary-${suffix}`, bbbyq_total, 'pos');
       updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
       updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
