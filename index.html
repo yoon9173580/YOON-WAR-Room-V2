@@ -2152,6 +2152,26 @@
                 </tr>
 
                 <tr class="st-sub">
+
+                  <td class="pl-indent">└ 모빌리티 (진이)</td>
+
+                  <td class="det">Porsche Macan</td>
+
+                  <td class="r neg" id="mobility-jini-1">-$80k<br><span class="bal">BAL $8.05M</span></td>
+
+                  <td class="r neg" id="mobility-jini-2">-$80k<br><span class="bal">BAL $9.38M</span></td>
+
+                  <td class="r neg" id="mobility-jini-3">-$80k<br><span class="bal">BAL $15.89M</span></td>
+
+                  <td class="r neg" id="mobility-jini-4">-$80k<br><span class="bal">BAL $30.06M</span></td>
+
+                  <td class="r neg" id="mobility-jini-custom">-$80k</td>
+
+                  <td class="r neg" id="mobility-jini-live">-$80k</td>
+
+                </tr>
+
+                <tr class="st-sub">
                   <td class="pl-indent">└ Arun M5 CS Green</td>
                   <td class="det">Private Mobility Infrastructure</td>
                   <td class="r neg">-$200k</td>
@@ -3349,6 +3369,10 @@
       runBal -= 13920;
       updateMKItemWithBalance(`gift-jini-${suffix}`, -13920, runBal);
       
+      // 모빌리티 (진이) $80,000 - Porsche Macan
+      runBal -= 80000;
+      updateMKItemWithBalance(`mobility-jini-${suffix}`, -80000, runBal);
+      
       // ST 2 cash remaining (after all immediate expenditures + minimum + additional)
       const st2_cash = st1_total - st2_total;
       updateCellWithBalancePositive(`st2-cash-${suffix}`, st2_cash, st2_cash);
@@ -3447,7 +3471,7 @@
       updateCellWithBalancePositive(`st4-cash-${suffix}`, st4RunBal, st4RunBal);
       
       // Cash in Hand
-      const fixedExpenses = 400000 + 120000 + 22320 + 22548 + 13920 + 200000; // ST2 M.K items + Arun
+      const fixedExpenses = 400000 + 120000 + 22320 + 22548 + 13920 + 80000 + 200000; // ST2 M.K items + Arun + Jini Porsche
       const cashInHand = st1_total - fixedExpenses;
       updateCellWithFormat(`cash-hand-${suffix}`, cashInHand, 'pos');
       
@@ -3853,6 +3877,14 @@
               customClass = 'neg';
 
               customId = 'gift-jini-custom';
+
+            } else if (secondCell.includes('모빌리티 (진이)')) {
+
+              customValue = 80000;
+
+              customClass = 'neg';
+
+              customId = 'mobility-jini-custom';
 
             } else if (secondCell.includes('현물')) {
 
@@ -4862,6 +4894,8 @@
 
         const giftJiniValues = [13920, 13920, 13920, 13920];
 
+        const mobilityJiniValues = [80000, 80000, 80000, 80000];
+
         
 
         // Update ST 2 items
@@ -5041,6 +5075,44 @@
         if (giftJiniEl4) {
 
           giftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30138945)}</span>`;
+
+        }
+
+        
+
+        // Update Jini Mobility (Porsche Macan)
+
+        const mobilityJiniEl1 = document.getElementById('mobility-jini-1');
+
+        const mobilityJiniEl2 = document.getElementById('mobility-jini-2');
+
+        const mobilityJiniEl3 = document.getElementById('mobility-jini-3');
+
+        const mobilityJiniEl4 = document.getElementById('mobility-jini-4');
+
+        
+
+        if (mobilityJiniEl1) {
+
+          mobilityJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8046642)}</span>`;
+
+        }
+
+        if (mobilityJiniEl2) {
+
+          mobilityJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9373184)}</span>`;
+
+        }
+
+        if (mobilityJiniEl3) {
+
+          mobilityJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15861530)}</span>`;
+
+        }
+
+        if (mobilityJiniEl4) {
+
+          mobilityJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30038945)}</span>`;
 
         }
 
