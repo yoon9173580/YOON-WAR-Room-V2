@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V53.3</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V53.4</title>
 
   <link
 
@@ -3003,6 +3003,16 @@
       if (csCostEl) {
         const cs_cost_total = cs_custom + additional_gme_purchase;
         const cs_bal = st2_cash_remaining - cs_cost_total;
+        
+        // DEBUG: Log CS calculation
+        console.log('DEBUG: CS Calculation:');
+        console.log('  cs_custom:', cs_custom);
+        console.log('  additional_gme_purchase:', additional_gme_purchase);
+        console.log('  cs_cost_total:', cs_cost_total);
+        console.log('  st2_cash_remaining:', st2_cash_remaining);
+        console.log('  cs_bal:', cs_bal);
+        console.log('  fmtDisplay(-cs_cost_total):', fmtDisplay(-cs_cost_total));
+        
         csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
       }
       
@@ -3207,8 +3217,17 @@
 
       
 
+      // DEBUG: Log input value
+      console.log('DEBUG: Custom Price Input:', input.value);
+      console.log('DEBUG: Parsed Price:', price);
+      console.log('DEBUG: IsNaN:', isNaN(price));
+      console.log('DEBUG: Price <= 0:', price <= 0);
+
+      
+
       if (isNaN(price) || price <= 0) {
 
+        console.log('DEBUG: Invalid price, showing alert');
         alert('Please enter a valid GME price greater than 0');
 
         return;
@@ -3216,6 +3235,8 @@
       }
 
       
+
+      console.log('DEBUG: Valid price, proceeding with calculations');
 
       customUserPrice = price;
 
@@ -3230,18 +3251,15 @@
       
 
       // Calculate all values with custom price
+      console.log('DEBUG: Calling calculateFullPipelineWithCustomPrice with price:', price);
       calculateFullPipelineWithCustomPrice(price);
 
       
 
       // Update display to show custom mode
-
       const customHeader = document.querySelector('th[style*="var(--accent)"]');
-
       if (customHeader) {
-
         customHeader.textContent = `Custom Price ($${price.toFixed(2)})`;
-
       }
 
     }
