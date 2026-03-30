@@ -34,18 +34,18 @@
       --bg2: #111318;
       --bg3: #1a1d24;
       --bg4: #22262e;
-      --border: rgba(255, 255, 255, 0.08);
-      --borderB: rgba(255, 255, 255, 0.15);
-      --text: #e8eaed;
-      --textM: #9aa0a6;
-      --textD: #5f6368;
-      --accent: #00c853;
+      --border: rgba(255, 255, 255, 0.12);
+      --borderB: rgba(255, 255, 255, 0.22);
+      --text: #f0f2f5;
+      --textM: #b0b5bd;
+      --textD: #7a8088;
+      --accent: #00d864;
       --blue: #1a73e8;
-      --amber: #f9ab00;
-      --bull: #00c853;
-      --bear: #ea4335;
-      --purple: #9334e6;
-      --cyan: #00bcd4;
+      --amber: #ffb020;
+      --bull: #00d864;
+      --bear: #ff5252;
+      --purple: #a855f7;
+      --cyan: #22d3ee;
       --mono: 'JetBrains Mono', monospace;
       --disp: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
     }
@@ -78,9 +78,15 @@
 
       overflow-x: hidden;
 
-      font-size: 13px;
+      font-size: 14px;
 
-      line-height: 1.6;
+      line-height: 1.7;
+
+      -webkit-font-smoothing: antialiased;
+
+      -moz-osx-font-smoothing: grayscale;
+
+      text-rendering: optimizeLegibility;
 
     }
 
@@ -940,21 +946,23 @@
 
     .scenario-wrap th {
 
-      padding: 20px 15px;
+      padding: 22px 15px;
 
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
 
       text-align: left;
 
-      font-size: 11px;
+      font-size: 12px;
 
       font-weight: 900;
 
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
 
       color: var(--textM);
 
       border-bottom: 3px solid var(--border);
+
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 
     }
 
@@ -970,11 +978,15 @@
 
     .scenario-wrap td {
 
-      padding: 10px 15px;
+      padding: 12px 15px;
 
-      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-      font-size: 13px;
+      font-size: 14px;
+
+      font-weight: 600;
+
+      letter-spacing: 0.2px;
 
     }
 
