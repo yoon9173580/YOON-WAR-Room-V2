@@ -1,6 +1,3 @@
-let initError = null;
-
-const DATABENTO_KEY = 'db-3vQTNU4MucyxYXTsWUbGHSPJrUPf8';
 const FINNHUB_KEY = process.env.FINNHUB_TOKEN || '';
 
 async function fetchWithTimeout(url, options = {}, limitMs = 3000) {

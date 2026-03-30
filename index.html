@@ -17,7 +17,7 @@
 
   <link
 
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap"
 
     rel="stylesheet" />
 
@@ -45,6 +45,7 @@
       --bull: #00c853;
       --bear: #ea4335;
       --purple: #9334e6;
+      --cyan: #00bcd4;
       --mono: 'JetBrains Mono', monospace;
       --disp: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
     }
@@ -1448,7 +1449,7 @@
 
                   <td class="r">41,454</td>
 
-                  <td class="r muted">$2.00</td>
+                  <td class="r muted">$0.80</td>
 
                   <td class="r" style="font-weight:900;">BANKRUPT</td>
 
@@ -1468,7 +1469,7 @@
 
                       class="sub-tag">GameStop Equity</span></td>
 
-                  <td class="r">335</td>
+                  <td class="r">355</td>
 
                   <td class="r muted">$30.00</td>
 
@@ -2255,6 +2256,7 @@
                   <td class="r pos" id="st4-cash-live" style="color:var(--cyan);white-space:nowrap;">$0</td>
                 </tr>
 
+                <tr class="st-main">
                   <td>ST 5. 최종 완성</td>
 
                   <td style="color:var(--textD)">[SECTION TOTAL (Post-180 Days)]</td>
@@ -2694,9 +2696,11 @@
 
           const extract = (sym) => {
 
-            let q = dataList.find(x => x.symbol === sym);
+            let found = dataList.find(x => x.symbol === sym);
 
-            if (!q) return null;
+            if (!found) return null;
+
+            let q = {...found};
 
             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
 
@@ -2912,7 +2916,7 @@
       upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
       upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
       upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT);
-      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, NVDA_EXT);
+      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT);
       upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT);
       upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT);
@@ -2924,6 +2928,46 @@
       
       // Update portfolio table values (without destroying custom columns)
       updatePortfolioTableValues();
+    }
+
+    // Update port-bar display values
+    function updatePortBarValues() {
+      const gmePriceEl = document.getElementById('gme-price-display');
+      if (gmePriceEl && V_GME_P > 0) gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      
+      const amcPriceEl = document.getElementById('amc-price-display');
+      if (amcPriceEl && V_AMC_P > 0) amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+      
+      const iepPriceEl = document.getElementById('iep-price-display');
+      if (iepPriceEl && V_IEP_P > 0) iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+      
+      const bbPriceEl = document.getElementById('bb-price-display');
+      if (bbPriceEl && V_BB_P > 0) bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+      
+      const nokPriceEl = document.getElementById('nok-price-display');
+      if (nokPriceEl && V_NOK_P > 0) nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+      
+      const babaPriceEl = document.getElementById('baba-price-display');
+      if (babaPriceEl && V_BABA_P > 0) babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
+      
+      const btcPriceEl = document.getElementById('btc-price-display');
+      if (btcPriceEl && V_BTC_P > 0) btcPriceEl.textContent = '$' + fmt(V_BTC_P);
+      
+      const spyPriceEl = document.getElementById('spy-price-display');
+      if (spyPriceEl && V_SPY_P > 0) spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+      
+      const qqqPriceEl = document.getElementById('qqq-price-display');
+      if (qqqPriceEl && V_QQQ_P > 0) qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+      
+      const vixPriceEl = document.getElementById('vix-price-display');
+      if (vixPriceEl && V_VIX_P > 0) vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+    }
+
+    // Update portfolio table values without full re-render
+    function updatePortfolioTableValues() {
+      // This is a lightweight update that preserves custom columns
+      // Full rendering is handled by renderTerminal()
+      renderTerminal();
     }
 
     
@@ -3016,11 +3060,14 @@
       const moomoo_val = moomoo_shares * price;
       const st1_total = fid_val + drs_val + moomoo_val;
       
-      // Update ST 1 cells
+      // Update ST 1 total cell
       updateCellWithFormat(`st1-total-${suffix}`, st1_total, 'pos');
-      updateCellWithFormat(`fid-total-${suffix}`, fid_val, 'pos');
-      updateCellWithFormat(`drs-total-${suffix}`, drs_val, 'pos');
-      updateCellWithFormat(`moomoo-total-${suffix}`, moomoo_val, 'pos');
+      // Note: Sub-item cells (fid, drs, moomoo) only have IDs for 'custom' and 'live' suffixes
+      if (suffix === 'custom' || suffix === 'live') {
+        updateCellWithFormat(`fid-${suffix}-total`, fid_val, 'pos');
+        updateCellWithFormat(`drs-${suffix}-total`, drs_val, 'pos');
+        updateCellWithFormat(`moomoo-${suffix}-total`, moomoo_val, 'pos');
+      }
       
       // ST 2 Calculations
       const st2_minimum = 1000000;
@@ -3450,7 +3497,7 @@
               customId = 'st2-additional-custom';
             } else if (secondCell.includes('Weavers')) {
 
-              customValue = weavers_attorney_fee;
+              customValue = 0;
 
               customClass = 'neg';
 
@@ -3458,13 +3505,13 @@
 
             } else if (secondCell.includes('Tax Saved')) {
 
-              customValue = tax_saved_weavers;
+              customValue = 0;
 
               customId = 'tax-saved-custom';
 
             } else if (secondCell.includes('Monthly Passive')) {
 
-              customValue = monthly_income;
+              customValue = 0;
 
               customId = 'monthly-income-custom';
 
