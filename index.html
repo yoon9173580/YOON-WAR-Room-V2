@@ -1571,6 +1571,8 @@
 
               <button id="apply-custom-price" class="btn-out" style="background:var(--accent); padding:8px 16px;">Apply Price</button>
 
+              <button id="reset-net-worth" class="btn-out" style="background:var(--bear); padding:8px 16px;">Reset to Real-time</button>
+
               <span id="custom-price-display" style="color:var(--accent); font-weight:600; margin-left:10px;"></span>
 
             </div>
@@ -2364,6 +2366,7 @@
     let V_GME_P = 0, V_GME_C = 0, V_GME_PCT = 0, V_GME_EXT = "";
 
     let pipelineValuesInitialized = false; // Flag to prevent overwriting fixed values
+    let netWorthMode = 'realtime'; // 'realtime' or 'custom'
 
     let V_AMC_P = 0, V_AMC_C = 0, V_AMC_PCT = 0, V_AMC_EXT = "";
 
@@ -2716,6 +2719,8 @@
           conn.textContent = "[SATELLITE UPLINK: STABLE]";
 
           renderTerminal();
+
+          updateRealTimeNetWorth(); // Update real-time net worth
 
           // NOTE: calculatePipelineTotals() removed to prevent overwriting custom net worth values
           // Only calculate when custom price is applied
@@ -3139,7 +3144,8 @@
 
       
 
-      // Reset flag to allow cash in hand and net worth updates with custom price
+      // Switch to custom mode and reset flag to allow cash in hand and net worth updates with custom price
+      netWorthMode = 'custom';
       pipelineValuesInitialized = false;
 
       
@@ -4034,6 +4040,14 @@
 
       
 
+      // Add reset button event listener
+      const resetBtn = document.getElementById('reset-net-worth');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', resetNetWorthToRealtime);
+      }
+
+      
+
       if (input) {
 
         input.addEventListener('keypress', function(e) {
@@ -4054,7 +4068,44 @@
 
     function setActive(s) { activeTicker = s; renderTerminal(); }
 
+    // Reset Net Worth to real-time mode
+    function resetNetWorthToRealtime() {
+      netWorthMode = 'realtime';
+      customUserPrice = 0;
+      
+      // Clear custom price display
+      const display = document.getElementById('custom-price-display');
+      if (display) {
+        display.textContent = '';
+      }
+      
+      // Clear custom price input
+      const input = document.getElementById('custom-price-input');
+      if (input) {
+        input.value = '';
+      }
+      
+      // Update net worth immediately
+      updateRealTimeNetWorth();
+    }
 
+    // Real-time Net Worth calculation
+    function updateRealTimeNetWorth() {
+      if (netWorthMode === 'realtime' && V_GME_P > 0) {
+        // Calculate based on current GME price and existing shares
+        const current_shares = 4307.43 + 30000 + 7147; // Total shares from ST1
+        const current_equity = current_shares * V_GME_P;
+        
+        // Simple net worth calculation (can be refined)
+        const real_time_net_worth = current_equity - 83545.60; // Current loss adjustment
+        const hnwiTitle = real_time_net_worth >= 30000000 ? 'UHNI' : real_time_net_worth >= 5000000 ? 'VHNWI' : real_time_net_worth >= 1000000 ? 'HNWI' : '';
+        
+        const netWorthDisplayEl = document.getElementById('net-worth-display');
+        if (netWorthDisplayEl) {
+          netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:9px;">${hnwiTitle}</span>` : ''}`;
+        }
+      }
+    }
 
     // PIPELINE SECTION TOTALS CALCULATION
 
