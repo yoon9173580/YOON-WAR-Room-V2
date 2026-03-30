@@ -1279,136 +1279,6 @@
 
           </div>
 
-
-
-          <div class="sidebar-title">🧺 Strategic Basket</div>
-
-          <div class="sb-card" onclick="setActive('GME')">
-
-            <div class="sb-card-top"><span class="sb-sym">GME</span><span id="sb-GME-chg" class="sb-chg">—</span></div>
-
-            <div id="sb-GME-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-GME-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('AMC')">
-
-            <div class="sb-card-top"><span class="sb-sym">AMC</span><span id="sb-AMC-chg" class="sb-chg">—</span></div>
-
-            <div id="sb-AMC-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-AMC-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('IEP')">
-
-            <div class="sb-card-top"><span class="sb-sym">IEP</span><span id="sb-IEP-chg" class="sb-chg">—</span></div>
-
-            <div id="sb-IEP-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-IEP-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('BYND')">
-
-            <div class="sb-card-top"><span class="sb-sym">BYND</span><span id="sb-BYND-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-BYND-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-BYND-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('KOSS')">
-
-            <div class="sb-card-top"><span class="sb-sym">KOSS</span><span id="sb-KOSS-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-KOSS-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-KOSS-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('CHWY')">
-
-            <div class="sb-card-top"><span class="sb-sym">CHWY</span><span id="sb-CHWY-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-CHWY-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-CHWY-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('BBY')">
-
-            <div class="sb-card-top"><span class="sb-sym">BBY</span><span id="sb-BBY-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-BBY-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-BBY-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('TGT')">
-
-            <div class="sb-card-top"><span class="sb-sym">TGT</span><span id="sb-TGT-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-TGT-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-TGT-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('BB')">
-
-            <div class="sb-card-top"><span class="sb-sym">BB</span><span id="sb-BB-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-BB-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-BB-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('NOK')">
-
-            <div class="sb-card-top"><span class="sb-sym">NOK</span><span id="sb-NOK-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-NOK-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-NOK-ext" class="sb-ext"></div>
-
-          </div>
-
-          <div class="sb-card" onclick="setActive('BABA')">
-
-            <div class="sb-card-top"><span class="sb-sym">BABA</span><span id="sb-BABA-chg" class="sb-chg">—</span>
-
-            </div>
-
-            <div id="sb-BABA-price" class="sb-price">WAITING...</div>
-
-            <div id="sb-BABA-ext" class="sb-ext"></div>
-
-          </div>
-
         </div>
 
 
@@ -1461,6 +1331,16 @@
             <div class="pstat">
               <div class="pstat-lbl">GME Price</div>
               <div id="gme-price-display" class="pstat-val" style="color:var(--bull)">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">AMC</div>
+              <div id="amc-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">IEP</div>
+              <div id="iep-price-display" class="pstat-val">$0.00</div>
             </div>
 
             <div class="pstat">
@@ -3926,6 +3806,18 @@
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
         gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      }
+
+      // Update AMC price in port-bar
+      const amcPriceEl = document.getElementById('amc-price-display');
+      if (amcPriceEl && V_AMC_P > 0) {
+        amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+      }
+
+      // Update IEP price in port-bar
+      const iepPriceEl = document.getElementById('iep-price-display');
+      if (iepPriceEl && V_IEP_P > 0) {
+        iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
       }
 
       // Update BTC in port-bar
