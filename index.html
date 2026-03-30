@@ -2667,7 +2667,7 @@
           }
         }
       } catch (e) {
-        console.log('Exchange rate fetch failed, using default:', 1380);
+        console.error('Exchange rate fetch failed, using default:', 1380);
       }
     }
 
@@ -2702,7 +2702,7 @@
           // Debug: Log GME data
           const qGME_Debug = dataList.find(x => x.symbol === 'GME');
           if (qGME_Debug) {
-            console.log('GME API Data:', {
+            console.log('[DEBUG] GME API Data:', {
               symbol: qGME_Debug.symbol,
               marketState: qGME_Debug.marketState,
               regularMarketPrice: qGME_Debug.regularMarketPrice,
@@ -2854,7 +2854,7 @@
           calculateLivePriceColumn(); // Update Live Price column with real-time GME price
           
           // Recalculate all preset columns with live GME price for CS calculation
-          console.log('DEBUG: Recalculating all pipeline columns with V_GME_P:', V_GME_P);
+          console.log('[DEBUG] Recalculating all pipeline columns with V_GME_P:', V_GME_P);
           calculateAllPipelineColumns();
 
           // NOTE: calculatePipelineTotals() removed to prevent overwriting custom net worth values
@@ -3393,16 +3393,16 @@
       
 
       // DEBUG: Log input value
-      console.log('DEBUG: Custom Price Input:', input.value);
-      console.log('DEBUG: Parsed Price:', price);
-      console.log('DEBUG: IsNaN:', isNaN(price));
-      console.log('DEBUG: Price <= 0:', price <= 0);
+      console.log('[DEBUG] Custom Price Input:', input.value);
+      console.log('[DEBUG] Parsed Price:', price);
+      console.log('[DEBUG] IsNaN:', isNaN(price));
+      console.log('[DEBUG] Price <= 0:', price <= 0);
 
       
 
       if (isNaN(price) || price <= 0) {
 
-        console.log('DEBUG: Invalid price, showing alert');
+        console.log('[DEBUG] Invalid price, showing alert');
         alert('Please enter a valid GME price greater than 0');
 
         return;
@@ -3411,7 +3411,7 @@
 
       
 
-      console.log('DEBUG: Valid price, proceeding with calculations');
+      console.log('[DEBUG] Valid price, proceeding with calculations');
 
       customUserPrice = price;
 
@@ -3426,7 +3426,7 @@
       
 
       // Calculate all values with custom price
-      console.log('DEBUG: Calling calculateFullPipelineWithCustomPrice with price:', price);
+      console.log('[DEBUG] Calling calculateFullPipelineWithCustomPrice with price:', price);
       calculateFullPipelineWithCustomPrice(price);
 
       
@@ -3446,16 +3446,16 @@
       // Find all rows in the pipeline table
       const table = document.querySelector('.scenario-wrap table tbody');
       
-      console.log('DEBUG: addCustomPriceColumnsToAllRows called');
-      console.log('DEBUG: table found:', !!table);
+      console.log('[DEBUG] addCustomPriceColumnsToAllRows called');
+      console.log('[DEBUG] table found:', !!table);
       
       if (!table) {
-        console.log('DEBUG: No table found, returning');
+        console.log('[DEBUG] No table found, returning');
         return;
       }
 
       const rows = table.querySelectorAll('tr');
-      console.log('DEBUG: Number of rows found:', rows.length);
+      console.log('[DEBUG] Number of rows found:', rows.length);
 
       rows.forEach((row, index) => {
         const cells = row.querySelectorAll('td');
@@ -3464,7 +3464,7 @@
         // Check if this is the final validation row (special handling)
         const isFinalValidation = row.textContent.includes('최종 검증') && row.textContent.includes('Zero-Sum Check');
         
-        console.log(`DEBUG: Row ${index}: cells.length=${cells.length}, hasCustomColumn=${hasCustomColumn}, isFinalValidation=${isFinalValidation}`);
+        console.log(`[DEBUG] Row ${index}: cells.length=${cells.length}, hasCustomColumn=${hasCustomColumn}, isFinalValidation=${isFinalValidation}`);
 
         if (!hasCustomColumn && cells.length >= 5 && !isFinalValidation) {
           // This row needs a custom price column added
@@ -3472,7 +3472,7 @@
           const firstCell = cells[0].textContent;
           const secondCell = cells[1] ? cells[1].textContent : '';
           
-          console.log(`DEBUG: Row ${index} needs custom column: rowClass=${rowClass}, firstCell=${firstCell.substring(0, 30)}`);
+          console.log(`[DEBUG] Row ${index} needs custom column: rowClass=${rowClass}, firstCell=${firstCell.substring(0, 30)}`);
 
           let customValue = 0;
 
