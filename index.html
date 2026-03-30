@@ -4258,27 +4258,30 @@
           st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
         }
 
-        // Update Cash in Hand (내 현금 수중)
+        // Update Cash in Hand (내 현금 수중) - use fixed HTML values
         const cashHandEl = document.getElementById(`cash-hand-${i+1}`);
         if (cashHandEl) {
-          const cash_in_hand = st1_total - st2_total - st3_total - st4_total;
+          // Fixed values from HTML: $7,655,430 / $8,821,972 / $14,545,318 / $27,012,733
+          const fixedCashValues = [7655430, 8821972, 14545318, 27012733];
+          const cash_in_hand = fixedCashValues[i];
           cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cash_in_hand}" style="cursor:pointer;">$${fmt(cash_in_hand)}</span>`;
         }
 
-        // Update Net Worth with HNWI/VHNWI/UHNI title
+        // Update Net Worth with HNWI/VHNWI/UHNI title - use fixed HTML values
         const netWorthEl = document.getElementById(`net-worth-${i+1}`);
         if (netWorthEl) {
-          const net_worth = st1_total + st3_total + st4_total; // Total assets value
+          // Fixed values from HTML: $21,910,860 / $25,265,944 / $41,635,794 / $77,420,586
+          const fixedNetWorthValues = [21910860, 25265944, 41635794, 77420586];
+          const net_worth = fixedNetWorthValues[i];
           const hnwiTitle = net_worth >= 30000000 ? 'UHNI' : net_worth >= 5000000 ? 'VHNWI' : net_worth >= 1000000 ? 'HNWI' : '';
           netWorthEl.innerHTML = `<span class="clickable-amount" data-amount="${net_worth}" style="cursor:pointer;">$${fmt(net_worth)}</span>${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
         }
 
-        // Update Net Worth display in port-bar
+        // Update Net Worth display in port-bar - use projected value based on scenario
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
-          // Only show actual portfolio net worth, not calculated projections
-          // Set to $0 until real data is available
-          netWorthDisplayEl.innerHTML = `$0`;
+          // Show projected net worth for $399 scenario (Glitch)
+          netWorthDisplayEl.innerHTML = `$41,635,794<br><span style="font-size:9px;">VHNWI</span>`;
         }
 
         // Update ST 4 individual items
