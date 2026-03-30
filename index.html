@@ -3047,6 +3047,9 @@
         mooStrike50El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike50}" style="cursor:pointer;">${fmtDisplay(-moo_strike50)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal50)}</span>`;
       }
       
+      // Calculate ST 3 cash remaining (same as fixed columns)
+      const st3_cash_remaining = st2_cash_remaining - st3_custom_total_with_additional;
+      
       // Update ST 3 cash
       updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
       
@@ -3076,35 +3079,47 @@
 
       
 
-      // Update ST 4 Custom values
-
+      // Update ST 4 Custom values with balance display (same as fixed columns)
       updateElementWithCustomPrice('st4-custom-main', st4_custom_total);
 
-      updateElementWithCustomPrice('gme-partial-custom', gme_sell_custom);
+      // GME Partial Sell with balance
+      const gmePartialEl = document.getElementById('gme-partial-custom');
+      if (gmePartialEl) {
+        const gmeBal = st3_cash_remaining + gme_sell_custom;
+        gmePartialEl.innerHTML = `<span class="bull">+${fmtDisplay(gme_sell_custom)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(gmeBal)}</span>`;
+      }
 
       
-
       // Calculate tax and tax shield for Partial Sell
-
       const tax_rate = 0.37; // 37% Short-Term Capital Gains Tax
-
       const tax_amount = gme_sell_custom * tax_rate;
-
       const tax_shield_amount = tax_amount * 0.72; // 72% of tax recovered through deductions
 
       
-
       updateElementWithCustomPrice('tax-calculation-custom', tax_amount);
-
       updateElementWithCustomPrice('tax-shield-custom', tax_shield_amount);
 
       
+      // O&G Energy with balance
+      const ogEnergyEl = document.getElementById('og-energy-custom');
+      if (ogEnergyEl) {
+        const ogBal = st3_cash_remaining + gme_sell_custom - og_idc_custom;
+        ogEnergyEl.innerHTML = `${fmtDisplay(-og_idc_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(ogBal)}</span>`;
+      }
 
-      updateElementWithCustomPrice('og-energy-custom', og_idc_custom);
+      // QOF Housing with balance
+      const qofHousingEl = document.getElementById('qof-housing-custom');
+      if (qofHousingEl) {
+        const qofBal = st3_cash_remaining + gme_sell_custom - og_idc_custom - qof_custom;
+        qofHousingEl.innerHTML = `${fmtDisplay(-qof_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(qofBal)}</span>`;
+      }
 
-      updateElementWithCustomPrice('qof-housing-custom', qof_custom);
-
-      updateElementWithCustomPrice('clat-trust-custom', clat_custom);
+      // CLAT Trust with balance
+      const clatTrustEl = document.getElementById('clat-trust-custom');
+      if (clatTrustEl) {
+        const clatBal = st3_cash_remaining + gme_sell_custom - og_idc_custom - qof_custom - clat_custom;
+        clatTrustEl.innerHTML = `${fmtDisplay(-clat_custom)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(clatBal)}</span>`;
+      }
 
       
 
