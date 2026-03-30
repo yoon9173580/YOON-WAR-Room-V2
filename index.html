@@ -1344,6 +1344,21 @@
             </div>
 
             <div class="pstat">
+              <div class="pstat-lbl">BB</div>
+              <div id="bb-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">NOK</div>
+              <div id="nok-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">BABA</div>
+              <div id="baba-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
               <div class="pstat-lbl">BTC</div>
               <div id="btc-price-display" class="pstat-val">$0.00</div>
             </div>
@@ -3790,8 +3805,6 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT); upSB('BABA', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
-
       // Update GME price in port-bar
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
@@ -3808,6 +3821,24 @@
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) {
         iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+      }
+
+      // Update BB price in port-bar
+      const bbPriceEl = document.getElementById('bb-price-display');
+      if (bbPriceEl && V_BB_P > 0) {
+        bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+      }
+
+      // Update NOK price in port-bar
+      const nokPriceEl = document.getElementById('nok-price-display');
+      if (nokPriceEl && V_NOK_P > 0) {
+        nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+      }
+
+      // Update BABA price in port-bar
+      const babaPriceEl = document.getElementById('baba-price-display');
+      if (babaPriceEl && V_BABA_P > 0) {
+        babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
       }
 
       // Update BTC in port-bar
