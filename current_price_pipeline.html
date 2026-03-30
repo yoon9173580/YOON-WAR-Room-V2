@@ -1699,17 +1699,53 @@
 
                   <td>ST 2. 즉시 집행금</td>
 
-                  <td style="color:var(--textD)">[SECTION TOTAL (Immediate Rewards)]</td>
+                  <td style="color:var(--textD)">[Dynamic Cash Reserve Matrix]</td>
 
-                  <td class="r neg" id="st2-total-1">-$578,788</td>
+                  <td class="r neg" id="st2-total-1">-$1,050,000</td>
 
-                  <td class="r neg" id="st2-total-2">-$578,788</td>
+                  <td class="r neg" id="st2-total-2">-$1,210,000</td>
 
-                  <td class="r neg" id="st2-total-3">-$578,788</td>
+                  <td class="r neg" id="st2-total-3">-$1,995,000</td>
 
-                  <td class="r neg" id="st2-total-4">-$578,788</td>
+                  <td class="r neg" id="st2-total-4">-$3,705,000</td>
 
-                  <td class="r neg" id="st2-custom-main">-$578,788</td>
+                  <td class="r neg" id="st2-custom-main">-$0</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ 미니멈 보장</td>
+
+                  <td class="det">Base Cash Reserve</td>
+
+                  <td class="r neg">-$1,000,000</td>
+
+                  <td class="r neg">-$1,000,000</td>
+
+                  <td class="r neg">-$1,000,000</td>
+
+                  <td class="r neg">-$1,000,000</td>
+
+                  <td class="r neg" id="st2-minimum-custom">-$0</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ 주가 연동 추가금</td>
+
+                  <td class="det">Price-Linked Additional (GME × 1,000)</td>
+
+                  <td class="r neg" id="st2-additional-1">-$50,000</td>
+
+                  <td class="r neg" id="st2-additional-2">-$210,000</td>
+
+                  <td class="r neg" id="st2-additional-3">-$995,000</td>
+
+                  <td class="r neg" id="st2-additional-4">-$2,705,000</td>
+
+                  <td class="r neg" id="st2-additional-custom">-$0</td>
 
                 </tr>
 
@@ -2831,32 +2867,27 @@
 
       
 
-      // ST 2: Fixed values (independent of custom price)
+      // ST 2: Dynamic Cash Reserve Matrix
+      // ST2 Total = $1,000,000 (minimum) + (GME Price × 1,000)
+      const st2_minimum = 1000000;
+      const st2_additional = customPrice * 1000;
+      const st2_custom = st2_minimum + st2_additional;
 
-      const st2_custom = 578788; // Fixed amount
-
-      
-
-      // Update ST 2 Custom values (fixed)
-
+      // Update ST 2 Custom values
       updateElementWithCustomPrice('st2-custom-main', st2_custom);
+      updateElementWithCustomPrice('st2-minimum-custom', st2_minimum);
+      updateElementWithCustomPrice('st2-additional-custom', st2_additional);
 
       updateElementWithCustomPrice('mobility-self-custom', 400000);
-
       updateElementWithCustomPrice('mobility-dad-custom', 120000);
-
       updateElementWithCustomPrice('gift-dad-custom', 22320);
-
       updateElementWithCustomPrice('gift-mom-custom', 22548);
-
       updateElementWithCustomPrice('gift-jini-custom', 13920);
 
       
 
       // Update ST 2 cash remaining
-
       const st2_cash_remaining = st1_custom_total - st2_custom;
-
       updateElementWithCustomPrice('st2-cash-custom', st2_cash_remaining);
 
       
@@ -3188,8 +3219,15 @@
             }
 
           } else if (rowClass.includes('st-sub')) {
-
-            if (secondCell.includes('Weavers')) {
+            if (firstCell.includes('미니멈 보장')) {
+              customValue = 1000000;
+              customClass = 'neg';
+              customId = 'st2-minimum-custom';
+            } else if (firstCell.includes('주가 연동 추가금')) {
+              customValue = customPrice * 1000;
+              customClass = 'neg';
+              customId = 'st2-additional-custom';
+            } else if (secondCell.includes('Weavers')) {
 
               customValue = weavers_attorney_fee;
 
@@ -3992,18 +4030,17 @@
       // Scenario totals (ST 1) - rounded to nearest 10K
       const st1_totals = [8710000, 10030000, 16540000, 30720000];
       
-      // ST 2: Fixed at $578,788 (rounded to nearest 10K = $580,000)
-      const st2_total = 580000;
-
-      
+      // ST 2: Dynamic Cash Reserve Matrix
+      // ST2 Total = $1,000,000 (minimum) + (GME Price × 1,000)
+      const st2_minimum = 1000000;
+      const st2_additional = V_GME_P * 1000;
+      const st2_total = st2_minimum + st2_additional;
 
       // Calculate for each scenario
 
       for (let i = 0; i < 4; i++) {
 
         const st1_total = st1_totals[i];
-
-        
 
         // ST 2 calculations
 
