@@ -3351,6 +3351,10 @@
       // calculateAndUpdateColumn now handles ALL cells including BAL displays
       calculateAndUpdateColumn(customPrice, 'custom');
       
+      // Override fixed values that should display regardless of custom price
+      // 미니멈 보장 (Minimum Guarantee) - fixed at 1M
+      updateCellWithFormat('st2-minimum-custom', -1000000, 'neg');
+      
       // Update Korean Won total for Custom Price (BBBYQ 41,454 shares)
       const bbbyq_total_shares = 41454;
       const st1_custom_total = bbbyq_total_shares * customPrice;
