@@ -1109,15 +1109,41 @@
     }
 
     @keyframes flashGreen {
-      0% { background-color: rgba(0, 212, 170, 0.6); box-shadow: 0 0 20px rgba(0, 212, 170, 0.8); transform: scale(1.02); }
-      50% { background-color: rgba(0, 212, 170, 0.3); }
-      100% { background-color: transparent; box-shadow: none; transform: scale(1); }
+      0% { 
+        background-color: rgba(0, 255, 150, 0.8) !important; 
+        box-shadow: 0 0 30px rgba(0, 255, 150, 1), inset 0 0 20px rgba(0, 255, 150, 0.5) !important;
+        transform: scale(1.05);
+        color: #000 !important;
+        font-weight: 900 !important;
+      }
+      50% { 
+        background-color: rgba(0, 255, 150, 0.4) !important; 
+        box-shadow: 0 0 15px rgba(0, 255, 150, 0.6) !important;
+      }
+      100% { 
+        background-color: transparent !important; 
+        box-shadow: none !important;
+        transform: scale(1);
+      }
     }
 
     @keyframes flashRed {
-      0% { background-color: rgba(255, 82, 82, 0.6); box-shadow: 0 0 20px rgba(255, 82, 82, 0.8); transform: scale(1.02); }
-      50% { background-color: rgba(255, 82, 82, 0.3); }
-      100% { background-color: transparent; box-shadow: none; transform: scale(1); }
+      0% { 
+        background-color: rgba(255, 50, 50, 0.8) !important; 
+        box-shadow: 0 0 30px rgba(255, 50, 50, 1), inset 0 0 20px rgba(255, 50, 50, 0.5) !important;
+        transform: scale(1.05);
+        color: #fff !important;
+        font-weight: 900 !important;
+      }
+      50% { 
+        background-color: rgba(255, 50, 50, 0.4) !important; 
+        box-shadow: 0 0 15px rgba(255, 50, 50, 0.6) !important;
+      }
+      100% { 
+        background-color: transparent !important; 
+        box-shadow: none !important;
+        transform: scale(1);
+      }
     }
 
     .price-updated {
@@ -1127,11 +1153,13 @@
     }
 
     .price-up {
-      animation: flashGreen 0.8s ease-out !important;
+      animation: flashGreen 1s ease-out !important;
+      z-index: 100;
     }
 
     .price-down {
-      animation: flashRed 0.8s ease-out !important;
+      animation: flashRed 1s ease-out !important;
+      z-index: 100;
     }
 
   </style>
@@ -3254,6 +3282,7 @@
     // Animation helper for table cells - flashes green for positive, red for negative
     function flashCell(cellId, isPositive) {
       const cell = document.getElementById(cellId);
+      console.log(`[DEBUG] flashCell called: cellId=${cellId}, isPositive=${isPositive}, cellFound=${!!cell}`);
       if (!cell) return;
       
       // Remove any existing animation classes first
@@ -3267,11 +3296,13 @@
         // Add animation class
         const animClass = isPositive ? 'price-up' : 'price-down';
         cell.classList.add(animClass);
+        console.log(`[DEBUG] Animation class added: ${animClass} to ${cellId}`);
         
         // Remove animation class after animation completes
         setTimeout(() => {
           cell.classList.remove('price-up', 'price-down');
-        }, 800);
+          console.log(`[DEBUG] Animation class removed from ${cellId}`);
+        }, 1000);
       });
     }
 
