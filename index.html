@@ -2317,18 +2317,6 @@
 
                 </tr>
 
-                <!-- ST Integration Summary -->
-                <tr class="st-main" style="background:linear-gradient(145deg, rgba(0,212,170,0.1), rgba(0,212,170,0.05)); border:2px solid var(--accent); border-radius:15px;">
-                  <td style="color:var(--accent); font-weight:900;">📊 ST 통합</td>
-                  <td style="color:var(--accent);">Stage Integration Summary</td>
-                  <td class="r pos" id="st-integration-1" style="font-size:18px; font-weight:900; color:var(--accent);">$8,705,430</td>
-                  <td class="r pos" id="st-integration-2" style="font-size:18px; font-weight:900; color:var(--accent);">$10,031,972</td>
-                  <td class="r pos" id="st-integration-3" style="font-size:18px; font-weight:900; color:var(--accent);">$16,540,318</td>
-                  <td class="r pos" id="st-integration-4" style="font-size:18px; font-weight:900; color:var(--accent);">$30,717,733</td>
-                  <td class="r pos" id="st-integration-custom" style="font-size:18px; font-weight:900; color:var(--accent);">$0</td>
-                  <td class="r pos" id="st-integration-live" style="font-size:18px; font-weight:900; color:var(--cyan);">$0</td>
-                </tr>
-
                 <tr class="st-sub" style="background:rgba(0,212,170,0.05);">
                   <td class="pl-indent" style="color:var(--text);">└ ST1 확보</td>
                   <td class="det">Acquisition Gross</td>
@@ -3195,9 +3183,8 @@
         netWorthEl.className = 'r pos';
       }
       
-      // Update ST Integration Summary - should be total of all stages
-      const st_total = st1_total - fixedExpenses - (cs_val + fid_option_val + moo_option_val) - st4_total;
-      updateCellWithFormat(`st-integration-${suffix}`, st_total, 'pos');
+      // Update Net Worth
+      updateCellWithFormat(`net-worth-${suffix}`, netWorth, 'pos');
       updateCellWithFormat(`st1-summary-${suffix}`, st1_total, 'pos');
       updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
       updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
