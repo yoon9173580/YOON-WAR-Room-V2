@@ -1279,6 +1279,68 @@
 
           </div>
 
+          <div class="sidebar-title">🧺 Strategic Basket</div>
+
+          <div class="sb-card" onclick="setActive('GME')">
+            <div class="sb-card-top"><span class="sb-sym">GME</span><span id="sb-GME-chg" class="sb-chg">—</span></div>
+            <div id="sb-GME-price" class="sb-price">WAITING...</div>
+            <div id="sb-GME-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('AMC')">
+            <div class="sb-card-top"><span class="sb-sym">AMC</span><span id="sb-AMC-chg" class="sb-chg">—</span></div>
+            <div id="sb-AMC-price" class="sb-price">WAITING...</div>
+            <div id="sb-AMC-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('IEP')">
+            <div class="sb-card-top"><span class="sb-sym">IEP</span><span id="sb-IEP-chg" class="sb-chg">—</span></div>
+            <div id="sb-IEP-price" class="sb-price">WAITING...</div>
+            <div id="sb-IEP-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('BB')">
+            <div class="sb-card-top"><span class="sb-sym">BB</span><span id="sb-BB-chg" class="sb-chg">—</span></div>
+            <div id="sb-BB-price" class="sb-price">WAITING...</div>
+            <div id="sb-BB-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('NOK')">
+            <div class="sb-card-top"><span class="sb-sym">NOK</span><span id="sb-NOK-chg" class="sb-chg">—</span></div>
+            <div id="sb-NOK-price" class="sb-price">WAITING...</div>
+            <div id="sb-NOK-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('BABA')">
+            <div class="sb-card-top"><span class="sb-sym">BABA</span><span id="sb-BABA-chg" class="sb-chg">—</span></div>
+            <div id="sb-BABA-price" class="sb-price">WAITING...</div>
+            <div id="sb-BABA-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('BTC-USD')">
+            <div class="sb-card-top"><span class="sb-sym">₿ BTC</span><span id="sb-BTC-chg" class="sb-chg">—</span></div>
+            <div id="sb-BTC-price" class="sb-price">WAITING...</div>
+            <div id="sb-BTC-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('SPY')">
+            <div class="sb-card-top"><span class="sb-sym">SPY</span><span id="sb-SPY-chg" class="sb-chg">—</span></div>
+            <div id="sb-SPY-price" class="sb-price">WAITING...</div>
+            <div id="sb-SPY-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('QQQ')">
+            <div class="sb-card-top"><span class="sb-sym">QQQ</span><span id="sb-QQQ-chg" class="sb-chg">—</span></div>
+            <div id="sb-QQQ-price" class="sb-price">WAITING...</div>
+            <div id="sb-QQQ-ext" class="sb-ext"></div>
+          </div>
+
+          <div class="sb-card" onclick="setActive('^VIX')">
+            <div class="sb-card-top"><span class="sb-sym">VIX</span><span id="sb-VIX-chg" class="sb-chg">—</span></div>
+            <div id="sb-VIX-price" class="sb-price">WAITING...</div>
+            <div id="sb-VIX-ext" class="sb-ext"></div>
+          </div>
+
         </div>
 
 
@@ -3804,6 +3866,14 @@
       upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT); upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT); upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
+
+      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT); upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
+
+      upSB('IEP', V_IEP_P, V_IEP_PCT, V_IEP_EXT); upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT); upSB('BABA', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
+
+      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT); upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT); upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+
+      upSB('BTC', V_BTC_P, V_BTC_PCT, "");
 
       // Update GME price in port-bar
       const gmePriceEl = document.getElementById('gme-price-display');
