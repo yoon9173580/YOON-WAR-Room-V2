@@ -2671,6 +2671,20 @@
 
           const dataList = json.quoteResponse.result;
 
+          // Debug: Log GME data
+          const qGME_Debug = dataList.find(x => x.symbol === 'GME');
+          if (qGME_Debug) {
+            console.log('GME API Data:', {
+              symbol: qGME_Debug.symbol,
+              marketState: qGME_Debug.marketState,
+              regularMarketPrice: qGME_Debug.regularMarketPrice,
+              postMarketPrice: qGME_Debug.postMarketPrice,
+              preMarketPrice: qGME_Debug.preMarketPrice,
+              postMarketChange: qGME_Debug.postMarketChange,
+              postMarketChangePercent: qGME_Debug.postMarketChangePercent
+            });
+          }
+
           const extract = (sym) => {
 
             let q = dataList.find(x => x.symbol === sym);
