@@ -1375,83 +1375,87 @@
 
           <div class="port-bar" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between;">
 
-            <div class="pstat">
-              <div class="pstat-lbl">Real-Time Equity</div>
-              <div id="p-total" class="pstat-val">$0.00</div>
-            </div>
-
-            <div class="pstat">
-              <div class="pstat-lbl">Active Session Δ</div>
-              <div id="p-daypnl" class="pstat-val">$0.00</div>
-            </div>
-
-            <div class="pstat">
-              <div class="pstat-lbl">Total Unrealized Δ</div>
-              <div id="p-totpnl" class="pstat-val">$0.00</div>
-            </div>
-
-            <div class="pstat">
-              <div class="pstat-lbl">GME Price</div>
+            <!-- 🧺 BASKET STOCKS -->
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 GME</div>
               <div id="gme-price-display" class="pstat-val" style="color:var(--bull)">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">AMC</div>
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 AMC</div>
               <div id="amc-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">IEP</div>
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 IEP</div>
               <div id="iep-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">BB</div>
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 BB</div>
               <div id="bb-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">NOK</div>
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 NOK</div>
               <div id="nok-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">BABA</div>
+            <div class="pstat" style="border-left:4px solid var(--bull);">
+              <div class="pstat-lbl">🧺 BABA</div>
               <div id="baba-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">BTC</div>
+            <!-- 📊 INDICES -->
+            <div class="pstat" style="border-left:4px solid var(--accent);">
+              <div class="pstat-lbl">📊 BTC</div>
               <div id="btc-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">SPY</div>
+            <div class="pstat" style="border-left:4px solid var(--accent);">
+              <div class="pstat-lbl">📊 SPY</div>
               <div id="spy-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">QQQ</div>
+            <div class="pstat" style="border-left:4px solid var(--accent);">
+              <div class="pstat-lbl">📊 QQQ</div>
               <div id="qqq-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">VIX</div>
+            <!-- 📈 VIX & SENTIMENT -->
+            <div class="pstat" style="border-left:4px solid var(--amber);">
+              <div class="pstat-lbl">📈 VIX</div>
               <div id="vix-price-display" class="pstat-val">$0.00</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">Fear & Greed Index</div>
+            <div class="pstat" style="border-left:4px solid var(--amber);">
+              <div class="pstat-lbl">📈 Fear & Greed</div>
               <div id="fear-val" class="pstat-val">--</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">Scenario Payout Target ($399)</div>
+            <!-- 💼 PORTFOLIO STATUS -->
+            <div class="pstat" style="border-left:4px solid #fff;">
+              <div class="pstat-lbl">💼 Real-Time Equity</div>
+              <div id="p-total" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat" style="border-left:4px solid #fff;">
+              <div class="pstat-lbl">💼 Session Δ</div>
+              <div id="p-daypnl" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat" style="border-left:4px solid #fff;">
+              <div class="pstat-lbl">💼 Unrealized Δ</div>
+              <div id="p-totpnl" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat" style="border-left:4px solid var(--amber);">
+              <div class="pstat-lbl">🎯 Scenario Target</div>
               <div class="pstat-val" style="color:var(--amber)">$16,540,000</div>
             </div>
 
-            <div class="pstat">
-              <div class="pstat-lbl">Custom Payout Target</div>
+            <div class="pstat" style="border-left:4px solid var(--accent);">
+              <div class="pstat-lbl">🎯 Custom Target</div>
               <div id="custom-payout-target" class="pstat-val" style="color:var(--accent)">$0</div>
             </div>
 
