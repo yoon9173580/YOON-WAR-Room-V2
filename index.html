@@ -1526,54 +1526,41 @@
 
 
 
-          <div class="port-bar">
+          <div class="port-bar" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between;">
 
             <div class="pstat">
-
               <div class="pstat-lbl">Real-Time Equity</div>
-
               <div id="p-total" class="pstat-val">$0.00</div>
-
             </div>
 
             <div class="pstat">
-
               <div class="pstat-lbl">Active Session Δ</div>
-
               <div id="p-daypnl" class="pstat-val">$0.00</div>
-
             </div>
 
             <div class="pstat">
-
               <div class="pstat-lbl">Total Unrealized Δ</div>
-
               <div id="p-totpnl" class="pstat-val">$0.00</div>
-
             </div>
 
             <div class="pstat">
-
-              <div class="pstat-lbl">Scenario Payout Target ($399)</div>
-
-              <div class="pstat-val" style="color:var(--amber)">$16,540,000</div>
-
+              <div class="pstat-lbl">GME Price</div>
+              <div id="gme-price-display" class="pstat-val" style="color:var(--bull)">$0.00</div>
             </div>
 
             <div class="pstat">
-
-              <div class="pstat-lbl">Custom Payout Target</div>
-
-              <div id="custom-payout-target" class="pstat-val" style="color:var(--accent)">$0</div>
-
-            </div>
-
-            <div class="pstat">
-
               <div class="pstat-lbl">Fear & Greed Index</div>
-
               <div id="fear-val" class="pstat-val">--</div>
+            </div>
 
+            <div class="pstat">
+              <div class="pstat-lbl">Scenario Payout Target ($399)</div>
+              <div class="pstat-val" style="color:var(--amber)">$16,540,000</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">Custom Payout Target</div>
+              <div id="custom-payout-target" class="pstat-val" style="color:var(--accent)">$0</div>
             </div>
 
           </div>
@@ -3950,6 +3937,12 @@
       upSB('BBY', V_BBY_P, V_BBY_PCT, V_BBY_EXT); upSB('TGT', V_TGT_P, V_TGT_PCT, V_TGT_EXT);
 
       upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT); upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT); upSB('BABA', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
+
+      // Update GME price in port-bar
+      const gmePriceEl = document.getElementById('gme-price-display');
+      if (gmePriceEl && V_GME_P > 0) {
+        gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      }
 
     }
 
