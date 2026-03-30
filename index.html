@@ -1521,6 +1521,21 @@
             </div>
 
             <div class="pstat">
+              <div class="pstat-lbl">SPY</div>
+              <div id="spy-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">QQQ</div>
+              <div id="qqq-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
+              <div class="pstat-lbl">VIX</div>
+              <div id="vix-price-display" class="pstat-val">$0.00</div>
+            </div>
+
+            <div class="pstat">
               <div class="pstat-lbl">Fear & Greed Index</div>
               <div id="fear-val" class="pstat-val">--</div>
             </div>
@@ -3914,6 +3929,22 @@
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
         gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      }
+
+      // Update SPY, QQQ, VIX in port-bar
+      const spyPriceEl = document.getElementById('spy-price-display');
+      if (spyPriceEl && V_SPY_P > 0) {
+        spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+      }
+
+      const qqqPriceEl = document.getElementById('qqq-price-display');
+      if (qqqPriceEl && V_QQQ_P > 0) {
+        qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+      }
+
+      const vixPriceEl = document.getElementById('vix-price-display');
+      if (vixPriceEl && V_VIX_P > 0) {
+        vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
       }
 
     }
