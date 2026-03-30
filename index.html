@@ -2586,12 +2586,17 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Night Market (Asian extended hours or night market state)
-      if ((isAsianStock && (state.includes("EXTENDED") || state.includes("POST"))) || state.includes("NIGHT")) {
+      // Overnight/Extended Hours (all stocks)
+      if (state.includes("POST") || state.includes("EXTENDED") || state.includes("NIGHT")) {
         let price = q.postMarketPrice || q.regularMarketPrice || 0;
         let c = Number(q.postMarketChange || q.regularMarketChange) || 0;
         let pct = Number(q.postMarketChangePercent || q.regularMarketChangePercent) || 0;
-        return `🌜 Live Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        
+        if (isAsianStock) {
+          return `🌜 Live Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        } else {
+          return `🌙 Live Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        }
       }
 
       // Premarket
