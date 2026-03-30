@@ -2805,8 +2805,31 @@
         calculateCustomPriceValues();
       }
       
-      // Re-render terminal to update all displays
-      renderTerminal();
+      // Update portfolio values without re-rendering terminal
+      updatePortfolioValues();
+    }
+
+    // Function to update portfolio values without destroying custom columns
+    function updatePortfolioValues() {
+      // Update sidebar values
+      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT);
+      upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
+      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
+      upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
+      upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT);
+      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, NVDA_EXT);
+      upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
+      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT);
+      upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT);
+      upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT);
+      upSB('META', V_META_P, V_META_PCT, V_META_EXT);
+      
+      // Update port-bar values
+      updatePortBarValues();
+      
+      // Update portfolio table values (without destroying custom columns)
+      updatePortfolioTableValues();
     }
 
     
