@@ -2973,18 +2973,54 @@
       
 
       // Update ST 3 Custom values (US fund manager standard - exact amounts, no rounding)
+      // CS Cost with balance display (same as fixed columns)
+      const csCostEl = document.getElementById('cs-cost-custom');
+      if (csCostEl) {
+        const cs_cost_total = cs_custom + additional_gme_purchase;
+        const cs_bal = st2_cash_remaining - cs_cost_total;
+        csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
+      }
+      
       updateElementWithCustomPrice('st3-custom-main', st3_custom_total_with_additional);
-      updateElementWithCustomPrice('cs-cost-custom', cs_custom + additional_gme_purchase);
       updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
       updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
       
-      // Update individual strike values
-      updateElementWithCustomPrice('fid-strike40-custom', fid_strike40);
-      updateElementWithCustomPrice('fid-strike45-custom', fid_strike45);
-      updateElementWithCustomPrice('fid-strike50-custom', fid_strike50);
-      updateElementWithCustomPrice('moo-strike40-custom', moo_strike40);
-      updateElementWithCustomPrice('moo-strike45-custom', moo_strike45);
-      updateElementWithCustomPrice('moo-strike50-custom', moo_strike50);
+      // Update strike prices with balance display (same as fixed columns)
+      const fidStrike40El = document.getElementById('fid-strike40-custom');
+      if (fidStrike40El) {
+        const bal40 = st2_cash_remaining - cs_cost_total - fid_strike40;
+        fidStrike40El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike40}" style="cursor:pointer;">${fmtDisplay(-fid_strike40)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal40)}</span>`;
+      }
+      
+      const fidStrike45El = document.getElementById('fid-strike45-custom');
+      if (fidStrike45El) {
+        const bal45 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45;
+        fidStrike45El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike45}" style="cursor:pointer;">${fmtDisplay(-fid_strike45)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal45)}</span>`;
+      }
+      
+      const fidStrike50El = document.getElementById('fid-strike50-custom');
+      if (fidStrike50El) {
+        const bal50 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50;
+        fidStrike50El.innerHTML = `<span class="clickable-amount" data-amount="${fid_strike50}" style="cursor:pointer;">${fmtDisplay(-fid_strike50)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal50)}</span>`;
+      }
+      
+      const mooStrike40El = document.getElementById('moo-strike40-custom');
+      if (mooStrike40El) {
+        const mooBal40 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40;
+        mooStrike40El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike40}" style="cursor:pointer;">${fmtDisplay(-moo_strike40)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal40)}</span>`;
+      }
+      
+      const mooStrike45El = document.getElementById('moo-strike45-custom');
+      if (mooStrike45El) {
+        const mooBal45 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45;
+        mooStrike45El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike45}" style="cursor:pointer;">${fmtDisplay(-moo_strike45)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal45)}</span>`;
+      }
+      
+      const mooStrike50El = document.getElementById('moo-strike50-custom');
+      if (mooStrike50El) {
+        const mooBal50 = st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45 - moo_strike50;
+        mooStrike50El.innerHTML = `<span class="clickable-amount" data-amount="${moo_strike50}" style="cursor:pointer;">${fmtDisplay(-moo_strike50)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(mooBal50)}</span>`;
+      }
       
       // Update ST 3 cash
       updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
