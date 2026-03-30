@@ -3080,38 +3080,31 @@
       
 
       // Update ST 3 Custom values (US fund manager standard - exact amounts, no rounding)
-
       updateElementWithCustomPrice('st3-custom-main', st3_custom_total_with_additional);
-
       updateElementWithCustomPrice('cs-cost-custom', cs_custom + additional_gme_purchase);
-
       updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
-
       updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
-
       
-
-      // Update individual strike values with new ratios
-
+      // Update individual strike values
       updateElementWithCustomPrice('fid-strike40-custom', fid_strike40);
-
       updateElementWithCustomPrice('fid-strike45-custom', fid_strike45);
-
       updateElementWithCustomPrice('fid-strike50-custom', fid_strike50);
-
       updateElementWithCustomPrice('moo-strike40-custom', moo_strike40);
-
       updateElementWithCustomPrice('moo-strike45-custom', moo_strike45);
-
       updateElementWithCustomPrice('moo-strike50-custom', moo_strike50);
-
       
-
-      // Update ST 3 cash remaining (US fund manager standard - exact amounts)
-
-      const st3_cash_remaining = st2_custom_remaining - st3_custom_total_with_additional;
-
+      // Update ST 3 cash
       updateElementWithCustomPrice('st3-cash-custom', st3_cash_remaining);
+      
+      // Directly update all other custom price cells that exist in HTML
+      const customCells = [
+        'st1-custom-total', 'fid-custom-total', 'drs-custom-total', 'moomoo-custom-total', 'cash-custom-total',
+        'st2-custom-main', 'mobility-self-custom', 'mobility-dad-custom', 'gift-dad-custom', 'gift-mom-custom', 'gift-jini-custom', 'st2-cash-custom',
+        'st4-custom-main', 'gme-partial-custom', 'og-energy-custom', 'qof-housing-custom', 'clat-trust-custom', 'st4-cash-custom',
+        'tax-calculation-custom', 'tax-shield-custom', 'st5-custom-main', 'weavers-attorney-custom', 'tax-saved-custom', 'monthly-income-custom', 'final-validation-custom'
+      ];
+      
+      // These will be updated by their respective calculation functions
 
       
 
@@ -4138,22 +4131,19 @@
         
 
         // ST 3 calculations based on GME price
-
         const cs_shares = 100000;
-
         const cs_cost = cs_shares * V_GME_P;
-
         const cs_remaining = st2_remaining - cs_cost;
-
         
-
-        // Fidelity options (37% of remaining, max $200K)
-
-        const fid_max = 200000;
-
-        const fid_ratio = 0.37;
-
-        const fid_option = Math.min(fid_max, cs_remaining * fid_ratio);
+        // Fid 옵션: 잔고의 90% 계산 후 십만 단위로 반올림 (예: $814,104 → $800,000)
+        const fid_balance = cs_remaining * 0.5;
+        const fid_exact_90 = fid_balance * 0.9;
+        const fid_option = Math.floor(fid_exact_90 / 100000) * 100000;
+        
+        // Moo 옵션: 잔고의 90% 계산 후 십만 단위로 반올림
+        const moo_balance = cs_remaining * 0.5;
+        const moo_exact_90 = moo_balance * 0.9;
+        const moo_option = Math.floor(moo_exact_90 / 100000) * 100000;
 
         
 
