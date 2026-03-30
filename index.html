@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V54.5</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V54.6</title>
 
   <link
 
@@ -3079,6 +3079,13 @@
       updateStrikePriceWithBalance('moo-strike40-custom', moo_strike40, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40);
       updateStrikePriceWithBalance('moo-strike45-custom', moo_strike45, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45);
       updateStrikePriceWithBalance('moo-strike50-custom', moo_strike50, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45 - moo_strike50);
+      
+      // Update CS Cost with balance display (same as fixed columns)
+      const csCostEl = document.getElementById('cs-cost-custom');
+      if (csCostEl) {
+        const cs_bal = st2_cash_remaining - cs_cost_total;
+        csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
+      }
       
       // Update Fidelity and Moomoo options
       updateCellWithFormat('fid-option-custom', fid_custom_option, 'pos');
