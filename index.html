@@ -2905,11 +2905,36 @@
       updateElementWithCustomPrice('st2-minimum-custom', st2_minimum);
       updateElementWithCustomPrice('st2-additional-custom', st2_additional);
 
-      updateElementWithCustomPrice('mobility-self-custom', 400000);
-      updateElementWithCustomPrice('mobility-dad-custom', 120000);
-      updateElementWithCustomPrice('gift-dad-custom', 22320);
-      updateElementWithCustomPrice('gift-mom-custom', 22548);
-      updateElementWithCustomPrice('gift-jini-custom', 13920);
+      // M.K items with balance display (same as fixed columns)
+      const mobilitySelfEl = document.getElementById('mobility-self-custom');
+      if (mobilitySelfEl) {
+        const bal1 = st2_cash_remaining - 400000;
+        mobilitySelfEl.innerHTML = `${fmtDisplay(-400000)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal1)}</span>`;
+      }
+      
+      const mobilityDadEl = document.getElementById('mobility-dad-custom');
+      if (mobilityDadEl) {
+        const bal2 = st2_cash_remaining - 400000 - 120000;
+        mobilityDadEl.innerHTML = `${fmtDisplay(-120000)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal2)}</span>`;
+      }
+      
+      const giftDadEl = document.getElementById('gift-dad-custom');
+      if (giftDadEl) {
+        const bal3 = st2_cash_remaining - 400000 - 120000 - 22320;
+        giftDadEl.innerHTML = `${fmtDisplay(-22320)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal3)}</span>`;
+      }
+      
+      const giftMomEl = document.getElementById('gift-mom-custom');
+      if (giftMomEl) {
+        const bal4 = st2_cash_remaining - 400000 - 120000 - 22320 - 22548;
+        giftMomEl.innerHTML = `${fmtDisplay(-22548)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal4)}</span>`;
+      }
+      
+      const giftJiniEl = document.getElementById('gift-jini-custom');
+      if (giftJiniEl) {
+        const bal5 = st2_cash_remaining - 400000 - 120000 - 22320 - 22548 - 13920;
+        giftJiniEl.innerHTML = `${fmtDisplay(-13920)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(bal5)}</span>`;
+      }
 
       
 
