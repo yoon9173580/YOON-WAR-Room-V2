@@ -4292,12 +4292,8 @@
           netWorthEl.innerHTML = `<span class="clickable-amount" data-amount="${net_worth}" style="cursor:pointer;">$${fmt(net_worth)}</span>${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
         }
 
-        // Update Net Worth display in port-bar - use projected value based on scenario
-        const netWorthDisplayEl = document.getElementById('net-worth-display');
-        if (netWorthDisplayEl) {
-          // Show projected net worth for $399 scenario (Glitch)
-          netWorthDisplayEl.innerHTML = `$41,635,794<br><span style="font-size:9px;">VHNWI</span>`;
-        }
+        // NOTE: Port-bar Net Worth is now only updated via calculateFullPipelineWithCustomPrice()
+        // Do not update here to prevent overwriting custom price values
 
         // Update ST 4 individual items
 
