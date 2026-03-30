@@ -3195,8 +3195,9 @@
         netWorthEl.className = 'r pos';
       }
       
-      // Update ST Integration Summary
-      updateCellWithFormat(`st-integration-${suffix}`, st1_total, 'pos');
+      // Update ST Integration Summary - should be total of all stages
+      const st_total = st1_total - fixedExpenses - (cs_val + fid_option_val + moo_option_val) - st4_total;
+      updateCellWithFormat(`st-integration-${suffix}`, st_total, 'pos');
       updateCellWithFormat(`st1-summary-${suffix}`, st1_total, 'pos');
       updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
       updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
