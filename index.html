@@ -3088,6 +3088,14 @@
       const cash_in_hand = st4_cash_remaining;
       updateElementWithCustomPrice('cash-hand-custom', cash_in_hand);
 
+      // Calculate and update port-bar Net Worth based on custom price
+      const custom_net_worth = st1_custom_total + st3_custom_total_with_additional + st4_custom_total;
+      const customHnwiTitle = custom_net_worth >= 30000000 ? 'UHNI' : custom_net_worth >= 5000000 ? 'VHNWI' : custom_net_worth >= 1000000 ? 'HNWI' : '';
+      const netWorthDisplayEl = document.getElementById('net-worth-display');
+      if (netWorthDisplayEl) {
+        netWorthDisplayEl.innerHTML = `$${fmt(custom_net_worth)}${customHnwiTitle ? `<br><span style="font-size:9px;">${customHnwiTitle}</span>` : ''}`;
+      }
+
       // Calculate final validation (Zero-Sum Check)
 
       const final_validation = st4_cash_remaining - weavers_attorney_fee + tax_saved_weavers;
