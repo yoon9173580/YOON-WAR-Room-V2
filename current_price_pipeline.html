@@ -2717,7 +2717,8 @@
 
           renderTerminal();
 
-          calculatePipelineTotals(); // Calculate pipeline values
+          // NOTE: calculatePipelineTotals() removed to prevent overwriting custom net worth values
+          // Only calculate when custom price is applied
 
         } else {
 
