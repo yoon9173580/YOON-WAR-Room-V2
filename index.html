@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V54.1</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V54.2</title>
 
   <link
 
@@ -2767,7 +2767,15 @@
 
 
 
-    const fmt = (n, d = 2) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    const fmt = (n, d = 2) => {
+      const num = Number(n) || 0;
+      // For large numbers (millions+), round to integer
+      if (Math.abs(num) >= 1000000) {
+        return Math.round(num).toLocaleString('en-US');
+      }
+      // For smaller numbers, use 2 decimal places
+      return num.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    };
 
     const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
 
@@ -2956,10 +2964,24 @@
       const st2_additional = customPrice * 1000;
       const st2_custom = st2_minimum + st2_additional;
 
-      // Update ST 2 Custom values
-      updateElementWithCustomPrice('st2-custom-main', st2_custom);
-      updateElementWithCustomPrice('st2-minimum-custom', st2_minimum);
-      updateElementWithCustomPrice('st2-additional-custom', st2_additional);
+      // Update ST 2 Custom values with proper formatting
+      const st2CustomEl = document.getElementById('st2-custom-main');
+      if (st2CustomEl) {
+        st2CustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_custom}" style="cursor:pointer;">${fmtDisplay(-st2_custom)}</span>`;
+        st2CustomEl.className = 'r neg';
+      }
+      
+      const st2MinEl = document.getElementById('st2-minimum-custom');
+      if (st2MinEl) {
+        st2MinEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_minimum}" style="cursor:pointer;">${fmtDisplay(-st2_minimum)}</span>`;
+        st2MinEl.className = 'r neg';
+      }
+      
+      const st2AddEl = document.getElementById('st2-additional-custom');
+      if (st2AddEl) {
+        st2AddEl.innerHTML = `<span class="clickable-amount" data-amount="${st2_additional}" style="cursor:pointer;">${fmtDisplay(-st2_additional)}</span>`;
+        st2AddEl.className = 'r neg';
+      }
 
       // Calculate ST 2 cash remaining FIRST (before using in M.K items)
       const st2_cash_remaining = st1_custom_total - st2_custom;
@@ -3066,9 +3088,23 @@
         csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
       }
       
-      updateElementWithCustomPrice('st3-custom-main', st3_custom_total_with_additional);
-      updateElementWithCustomPrice('fid-option-custom', fid_custom_option);
-      updateElementWithCustomPrice('moo-option-custom', moo_custom_option);
+      // Update ST 3 Custom main total with proper formatting
+      const st3CustomEl = document.getElementById('st3-custom-main');
+      if (st3CustomEl) {
+        st3CustomEl.innerHTML = `<span class="clickable-amount" data-amount="${st3_custom_total_with_additional}" style="cursor:pointer;">${fmtDisplay(-st3_custom_total_with_additional)}</span>`;
+        st3CustomEl.className = 'r neg';
+      }
+      
+      // Update Fidelity and Moomoo options
+      const fidOptionEl = document.getElementById('fid-option-custom');
+      if (fidOptionEl) {
+        fidOptionEl.innerHTML = `<span class="clickable-amount" data-amount="${fid_custom_option}" style="cursor:pointer;">${fmtDisplay(fid_custom_option)}</span>`;
+      }
+      
+      const mooOptionEl = document.getElementById('moo-option-custom');
+      if (mooOptionEl) {
+        mooOptionEl.innerHTML = `<span class="clickable-amount" data-amount="${moo_custom_option}" style="cursor:pointer;">${fmtDisplay(moo_custom_option)}</span>`;
+      }
       
       // Update strike prices with balance display (same as fixed columns)
       const fidStrike40El = document.getElementById('fid-strike40-custom');
