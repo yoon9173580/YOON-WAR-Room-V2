@@ -3068,20 +3068,26 @@
 
     // Unified calculation and update function for any price column
     function calculateAndUpdateColumn(price, suffix) {
-      // GME total position: 355 shares (no broker split needed for Live/Custom columns)
-      const gme_total_shares = 355;
-      const st1_total = gme_total_shares * price; // First line: GME price × 355 shares
+      // BBBYQ position: 41,454 shares split across brokers
+      const bbbyq_total_shares = 41454;
+      const fid_shares = 4307;
+      const drs_shares = 30000;
+      const moomoo_shares = 7147;
       
-      // Update ST 1 total cell - First line shows GME price × 355 shares
+      // ST 1 Calculations - each broker's BBBYQ position value
+      const st1_total = bbbyq_total_shares * price; // Total BBBYQ position
+      const fid_val = fid_shares * price;
+      const drs_val = drs_shares * price;
+      const moomoo_val = moomoo_shares * price;
+      
+      // Update ST 1 total cell - First line shows total BBBYQ value
       updateCellWithFormat(`st1-total-${suffix}`, st1_total, 'pos');
       
-      // Note: Sub-item cells (fid, drs, moomoo) are NOT shown for Live/Custom columns
-      // as 355 shares is the total GME position without broker split
+      // Update sub-item cells for Fid/DRS/Moomoo (BBBYQ portions)
       if (suffix === 'custom' || suffix === 'live') {
-        // Set Fid/DRS/Moomoo cells to empty or same as total (no split)
-        updateCellWithFormat(`fid-${suffix}-total`, st1_total, 'pos');
-        updateCellWithFormat(`drs-${suffix}-total`, st1_total, 'pos');
-        updateCellWithFormat(`moomoo-${suffix}-total`, st1_total, 'pos');
+        updateCellWithFormat(`fid-${suffix}-total`, fid_val, 'pos');
+        updateCellWithFormat(`drs-${suffix}-total`, drs_val, 'pos');
+        updateCellWithFormat(`moomoo-${suffix}-total`, moomoo_val, 'pos');
       }
       
       // ST 2 Calculations — with cascading running balance
@@ -3095,7 +3101,7 @@
       updateCellWithFormat(`st2-additional-${suffix}`, -st2_additional, 'neg');
       
       // ST 2 M.K items with cascading BAL
-      let runBal = st1_total; // Start from GME total (355 shares × price)
+      let runBal = st1_total; // Start from BBBYQ total (41,454 shares × price)
       
       // 모빌리티 (본인) $400,000
       runBal -= 400000;
@@ -3122,7 +3128,7 @@
       updateCellWithBalancePositive(`st2-cash-${suffix}`, st2_cash, st2_cash);
       
       // ST 3 Calculations — with cascading BAL
-      // Dynamic CS calculation: proportional to GME 355-share total, 100k shares per $10M with 50k increments
+      // Dynamic CS calculation: proportional to BBBYQ total, 100k shares per $10M with 50k increments
       // Formula: base 100k at $10M, then +50k per additional $5M
       const base_cs_shares = Math.round(st1_total / 100); // 100k shares per $10M = 1 share per $100
       const additional_increments = Math.max(0, Math.floor((st1_total - 10000000) / 5000000));
@@ -3132,9 +3138,9 @@
       const st3_total = cs_val;
       const st3_cash = st2_cash - st3_total;
       
-      // Fid and Moo options calculations (based on GME 355-share total - no broker split)
-      const fid_option_val = st1_total * 0.37; // Fidelity gets 37% of GME total
-      const moo_option_val = st1_total * 0.63; // Moomoo gets 63% of GME total
+      // Fid and Moo options calculations (based on BBBYQ broker split)
+      const fid_option_val = fid_val; // Fidelity BBBYQ position value
+      const moo_option_val = moomoo_val; // Moomoo BBBYQ position value
       
       // Fidelity strike distribution (1/3 each)
       const fid_strike40 = Math.round(fid_option_val / 3);
@@ -3175,7 +3181,7 @@
       // ST 3 final cash
       updateCellWithBalancePositive(`st3-cash-${suffix}`, st3RunBal, st3RunBal);
       
-      // ST 4 Calculations — with cascading BAL (based on GME 355-share total)
+      // ST 4 Calculations — with cascading BAL (based on BBBYQ total)
       const gme_sell = st1_total * 1.5;
       const tax_amount = gme_sell * 0.37;
       const tax_shield = tax_amount * 0.72;
@@ -3325,9 +3331,9 @@
         // calculateAndUpdateColumn now handles ALL cells including BAL displays
         calculateAndUpdateColumn(V_GME_P, 'live');
         
-        // Update Korean Won total for Live Price (GME 355 shares)
-        const gme_total_shares = 355;
-        const st1_live_total = gme_total_shares * V_GME_P;
+        // Update Korean Won total for Live Price (BBBYQ 41,454 shares)
+        const bbbyq_total_shares = 41454;
+        const st1_live_total = bbbyq_total_shares * V_GME_P;
         const st1_won_live = st1_live_total * currentKRWRate;
         updateWonAmount('st1-won-live', st1_won_live);
       }
@@ -3343,9 +3349,9 @@
       // calculateAndUpdateColumn now handles ALL cells including BAL displays
       calculateAndUpdateColumn(customPrice, 'custom');
       
-      // Update Korean Won total for Custom Price (GME 355 shares)
-      const gme_total_shares = 355;
-      const st1_custom_total = gme_total_shares * customPrice;
+      // Update Korean Won total for Custom Price (BBBYQ 41,454 shares)
+      const bbbyq_total_shares = 41454;
+      const st1_custom_total = bbbyq_total_shares * customPrice;
       const st1_won_total = st1_custom_total * currentKRWRate;
       updateWonAmount('st1-won-total', st1_won_total);
     }
