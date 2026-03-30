@@ -2133,6 +2133,26 @@
 
                 <tr class="st-sub">
 
+                  <td class="pl-indent">└ 현금 선물 (아빠)</td>
+
+                  <td class="det">Cash Gift $380k</td>
+
+                  <td class="r neg" id="cash-gift-dad-1">-$380k<br><span class="bal">BAL $7.78M</span></td>
+
+                  <td class="r neg" id="cash-gift-dad-2">-$380k<br><span class="bal">BAL $9.11M</span></td>
+
+                  <td class="r neg" id="cash-gift-dad-3">-$380k<br><span class="bal">BAL $15.62M</span></td>
+
+                  <td class="r neg" id="cash-gift-dad-4">-$380k<br><span class="bal">BAL $29.80M</span></td>
+
+                  <td class="r neg" id="cash-gift-dad-custom">-$380k</td>
+
+                  <td class="r neg" id="cash-gift-dad-live">-$380k</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
                   <td class="pl-indent">└ 기프트 (엄마)</td>
 
                   <td class="det">Cartier Tank Louis & LV M27335</td>
@@ -2153,6 +2173,26 @@
 
                 <tr class="st-sub">
 
+                  <td class="pl-indent">└ 현금 선물 (엄마)</td>
+
+                  <td class="det">Cash Gift $380k</td>
+
+                  <td class="r neg" id="cash-gift-mom-1">-$380k<br><span class="bal">BAL $7.76M</span></td>
+
+                  <td class="r neg" id="cash-gift-mom-2">-$380k<br><span class="bal">BAL $9.09M</span></td>
+
+                  <td class="r neg" id="cash-gift-mom-3">-$380k<br><span class="bal">BAL $15.61M</span></td>
+
+                  <td class="r neg" id="cash-gift-mom-4">-$380k<br><span class="bal">BAL $29.77M</span></td>
+
+                  <td class="r neg" id="cash-gift-mom-custom">-$380k</td>
+
+                  <td class="r neg" id="cash-gift-mom-live">-$380k</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
                   <td class="pl-indent">└ 기프트 (진이)</td>
 
                   <td class="det">Omega Aqua Terra & Dior Bag</td>
@@ -2168,6 +2208,26 @@
                   <td class="r neg" id="gift-jini-custom">-$13.9k</td>
 
                   <td class="r neg" id="gift-jini-live">-$13.9k</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ 현금 선물 (진이)</td>
+
+                  <td class="det">Cash Gift $100k</td>
+
+                  <td class="r neg" id="cash-gift-jini-1">-$100k<br><span class="bal">BAL $8.03M</span></td>
+
+                  <td class="r neg" id="cash-gift-jini-2">-$100k<br><span class="bal">BAL $9.36M</span></td>
+
+                  <td class="r neg" id="cash-gift-jini-3">-$100k<br><span class="bal">BAL $15.87M</span></td>
+
+                  <td class="r neg" id="cash-gift-jini-4">-$100k<br><span class="bal">BAL $30.04M</span></td>
+
+                  <td class="r neg" id="cash-gift-jini-custom">-$100k</td>
+
+                  <td class="r neg" id="cash-gift-jini-live">-$100k</td>
 
                 </tr>
 
@@ -3385,13 +3445,25 @@
       runBal -= 22320;
       updateMKItemWithBalance(`gift-dad-${suffix}`, -22320, runBal);
       
+      // 현금 선물 (아빠) $380,000
+      runBal -= 380000;
+      updateMKItemWithBalance(`cash-gift-dad-${suffix}`, -380000, runBal);
+      
       // 기프트 (엄마) $22,548
       runBal -= 22548;
       updateMKItemWithBalance(`gift-mom-${suffix}`, -22548, runBal);
       
+      // 현금 선물 (엄마) $380,000
+      runBal -= 380000;
+      updateMKItemWithBalance(`cash-gift-mom-${suffix}`, -380000, runBal);
+      
       // 기프트 (진이) $13,920
       runBal -= 13920;
       updateMKItemWithBalance(`gift-jini-${suffix}`, -13920, runBal);
+      
+      // 현금 선물 (진이) $100,000
+      runBal -= 100000;
+      updateMKItemWithBalance(`cash-gift-jini-${suffix}`, -100000, runBal);
       
       // 모빌리티 (진이) $80,000 - Porsche Macan
       runBal -= 80000;
@@ -3495,7 +3567,7 @@
       updateCellWithBalancePositive(`st4-cash-${suffix}`, st4RunBal, st4RunBal);
       
       // Cash in Hand
-      const fixedExpenses = 400000 + 120000 + 60000 + 22320 + 22548 + 13920 + 80000 + 200000; // ST2 M.K items + Arun + Mom Tesla + Jini Porsche
+      const fixedExpenses = 400000 + 120000 + 60000 + 22320 + 22548 + 13920 + 380000 + 380000 + 100000 + 80000 + 200000; // ST2 M.K items + Cash Gifts + Arun + Mom Tesla + Jini Porsche
       const cashInHand = st1_total - fixedExpenses;
       updateCellWithFormat(`cash-hand-${suffix}`, cashInHand, 'pos');
       
@@ -3894,6 +3966,14 @@
 
               customId = 'gift-dad-custom';
 
+            } else if (secondCell.includes('현금 선물 (아빠)')) {
+
+              customValue = 380000;
+
+              customClass = 'neg';
+
+              customId = 'cash-gift-dad-custom';
+
             } else if (secondCell.includes('기프트 (엄마)')) {
 
               customValue = 22548;
@@ -3902,6 +3982,14 @@
 
               customId = 'gift-mom-custom';
 
+            } else if (secondCell.includes('현금 선물 (엄마)')) {
+
+              customValue = 380000;
+
+              customClass = 'neg';
+
+              customId = 'cash-gift-mom-custom';
+
             } else if (secondCell.includes('기프트 (진이)')) {
 
               customValue = 13920;
@@ -3909,6 +3997,14 @@
               customClass = 'neg';
 
               customId = 'gift-jini-custom';
+
+            } else if (secondCell.includes('현금 선물 (진이)')) {
+
+              customValue = 100000;
+
+              customClass = 'neg';
+
+              customId = 'cash-gift-jini-custom';
 
             } else if (secondCell.includes('모빌리티 (진이)')) {
 
@@ -4924,9 +5020,15 @@
 
         const giftDadValues = [22320, 22320, 22320, 22320];
 
+        const cashGiftDadValues = [380000, 380000, 380000, 380000];
+
         const giftMomValues = [22548, 22548, 22548, 22548];
 
+        const cashGiftMomValues = [380000, 380000, 380000, 380000];
+
         const giftJiniValues = [13920, 13920, 13920, 13920];
+
+        const cashGiftJiniValues = [100000, 100000, 100000, 100000];
 
         const mobilityJiniValues = [80000, 80000, 80000, 80000];
 
@@ -5080,6 +5182,44 @@
 
         
 
+        // Update Dad Cash Gift ($380k)
+
+        const cashGiftDadEl1 = document.getElementById('cash-gift-dad-1');
+
+        const cashGiftDadEl2 = document.getElementById('cash-gift-dad-2');
+
+        const cashGiftDadEl3 = document.getElementById('cash-gift-dad-3');
+
+        const cashGiftDadEl4 = document.getElementById('cash-gift-dad-4');
+
+        
+
+        if (cashGiftDadEl1) {
+
+          cashGiftDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7779430)}</span>`;
+
+        }
+
+        if (cashGiftDadEl2) {
+
+          cashGiftDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9105972)}</span>`;
+
+        }
+
+        if (cashGiftDadEl3) {
+
+          cashGiftDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15634318)}</span>`;
+
+        }
+
+        if (cashGiftDadEl4) {
+
+          cashGiftDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(29769333)}</span>`;
+
+        }
+
+        
+
         const giftMomEl1 = document.getElementById('gift-mom-1');
 
         const giftMomEl2 = document.getElementById('gift-mom-2');
@@ -5116,6 +5256,44 @@
 
         
 
+        // Update Mom Cash Gift ($380k)
+
+        const cashGiftMomEl1 = document.getElementById('cash-gift-mom-1');
+
+        const cashGiftMomEl2 = document.getElementById('cash-gift-mom-2');
+
+        const cashGiftMomEl3 = document.getElementById('cash-gift-mom-3');
+
+        const cashGiftMomEl4 = document.getElementById('cash-gift-mom-4');
+
+        
+
+        if (cashGiftMomEl1) {
+
+          cashGiftMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7760562)}</span>`;
+
+        }
+
+        if (cashGiftMomEl2) {
+
+          cashGiftMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9087104)}</span>`;
+
+        }
+
+        if (cashGiftMomEl3) {
+
+          cashGiftMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15615450)}</span>`;
+
+        }
+
+        if (cashGiftMomEl4) {
+
+          cashGiftMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(29750465)}</span>`;
+
+        }
+
+        
+
         const giftJiniEl1 = document.getElementById('gift-jini-1');
 
         const giftJiniEl2 = document.getElementById('gift-jini-2');
@@ -5147,6 +5325,44 @@
         if (giftJiniEl4) {
 
           giftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30138945)}</span>`;
+
+        }
+
+        
+
+        // Update Jini Cash Gift ($100k)
+
+        const cashGiftJiniEl1 = document.getElementById('cash-gift-jini-1');
+
+        const cashGiftJiniEl2 = document.getElementById('cash-gift-jini-2');
+
+        const cashGiftJiniEl3 = document.getElementById('cash-gift-jini-3');
+
+        const cashGiftJiniEl4 = document.getElementById('cash-gift-jini-4');
+
+        
+
+        if (cashGiftJiniEl1) {
+
+          cashGiftJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8029430)}</span>`;
+
+        }
+
+        if (cashGiftJiniEl2) {
+
+          cashGiftJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9355972)}</span>`;
+
+        }
+
+        if (cashGiftJiniEl3) {
+
+          cashGiftJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15894318)}</span>`;
+
+        }
+
+        if (cashGiftJiniEl4) {
+
+          cashGiftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30029333)}</span>`;
 
         }
 
