@@ -2667,7 +2667,7 @@
           }
         }
       } catch (e) {
-        console.error('Exchange rate fetch failed, using default:', 1380);
+        console.error('[ERROR] Exchange rate fetch failed, using default:', 1380);
       }
     }
 
@@ -2867,9 +2867,8 @@
         }
 
       } catch (e) {
-
+        console.error('[ERROR] fetchMaster failed:', e);
         conn.textContent = `[ERR: API CONNECT FAILED]`;
-
       }
 
     }
