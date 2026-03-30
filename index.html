@@ -3327,16 +3327,14 @@
 
     // Live Price calculation function using real-time GME price
     function calculateLivePriceColumn() {
-      if (V_GME_P > 0) {
-        // calculateAndUpdateColumn now handles ALL cells including BAL displays
-        calculateAndUpdateColumn(V_GME_P, 'live');
-        
-        // Update Korean Won total for Live Price (BBBYQ 41,454 shares)
-        const bbbyq_total_shares = 41454;
-        const st1_live_total = bbbyq_total_shares * V_GME_P;
-        const st1_won_live = st1_live_total * currentKRWRate;
-        updateWonAmount('st1-won-live', st1_won_live);
-      }
+      // BBBYQ is currently delisted - all values are $0
+      const bbbyq_price = 0;
+      
+      // Calculate with $0 (current reality)
+      calculateAndUpdateColumn(bbbyq_price, 'live');
+      
+      // Update Korean Won total for Live Price ($0)
+      updateWonAmount('st1-won-live', 0);
     }
 
     // Custom Price Input System
