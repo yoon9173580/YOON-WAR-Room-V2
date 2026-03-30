@@ -1082,17 +1082,37 @@
 
     @keyframes priceUp {
 
-      0% { color: var(--bull); transform: scale(1.1); }
+      0% { color: var(--bull); transform: scale(1.1); text-shadow: 0 0 10px var(--bull); }
 
-      100% { color: var(--text); transform: scale(1); }
+      100% { color: var(--text); transform: scale(1); text-shadow: none; }
 
     }
 
     @keyframes priceDown {
 
-      0% { color: var(--bear); transform: scale(1.1); }
+      0% { color: var(--bear); transform: scale(1.1); text-shadow: 0 0 10px var(--bear); }
 
-      100% { color: var(--text); transform: scale(1); }
+      100% { color: var(--text); transform: scale(1); text-shadow: none; }
+
+    }
+
+    @keyframes flashGreen {
+
+      0% { background-color: rgba(0, 212, 170, 0.4); box-shadow: 0 0 15px rgba(0, 212, 170, 0.6); }
+
+      50% { background-color: rgba(0, 212, 170, 0.2); }
+
+      100% { background-color: transparent; box-shadow: none; }
+
+    }
+
+    @keyframes flashRed {
+
+      0% { background-color: rgba(255, 82, 82, 0.4); box-shadow: 0 0 15px rgba(255, 82, 82, 0.6); }
+
+      50% { background-color: rgba(255, 82, 82, 0.2); }
+
+      100% { background-color: transparent; box-shadow: none; }
 
     }
 
@@ -1104,13 +1124,13 @@
 
     .price-up {
 
-      animation: priceUp 0.5s ease-out;
+      animation: flashGreen 0.6s ease-out;
 
     }
 
     .price-down {
 
-      animation: priceDown 0.5s ease-out;
+      animation: flashRed 0.6s ease-out;
 
     }
 
@@ -3200,44 +3220,62 @@
       updateCellWithFormat(`monthly-income-${suffix}`, monthlyIncome, 'pos');
     }
 
-    // Helper function to update CS cost cells with BAL display
+    // Helper function to update CS cost cells with BAL display and animation
     function updateCSCostWithBalance(cellId, csCost, st2Remaining) {
       const cell = document.getElementById(cellId);
       if (cell) {
         const bal = st2Remaining - csCost;
         cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal)}</span>`;
         cell.className = 'r neg';
+        flashCell(cellId, false);
       }
     }
 
-    // Helper: positive amount cell with running balance
+    // Helper: positive amount cell with running balance and animation
     function updateCellWithBalancePositive(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
         cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">+${fmtDisplay(value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r pos';
+        flashCell(cellId, true);
       }
     }
 
-    // Helper: negative amount cell with running balance
+    // Helper: negative amount cell with running balance and animation
     function updateCellWithBalanceNeg(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
         cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${fmtDisplay(-value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
+        flashCell(cellId, false);
       }
     }
 
-    // Helper function to update a cell with proper formatting
+    // Animation helper for table cells - flashes green for positive, red for negative
+    function flashCell(cellId, isPositive) {
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.classList.remove('price-up', 'price-down');
+        void cell.offsetWidth; // Trigger reflow
+        cell.classList.add(isPositive ? 'price-up' : 'price-down');
+        setTimeout(() => cell.classList.remove('price-up', 'price-down'), 600);
+      }
+    }
+
+    // Helper function to update a cell with proper formatting and animation
     function updateCellWithFormat(cellId, value, type) {
       const cell = document.getElementById(cellId);
       if (cell) {
         const absValue = Math.abs(value);
         const displayValue = fmtDisplay(value);
+        const isPositive = value >= 0;
         
         // Store raw value for clickable-amount
         cell.innerHTML = `<span class="clickable-amount" data-amount="${absValue}" style="cursor:pointer;">${displayValue}</span>`;
         cell.className = `r ${type}`;
+        
+        // Trigger flash animation
+        flashCell(cellId, isPositive);
       }
     }
 
@@ -3278,21 +3316,23 @@
       updateWonAmount('st1-won-total', st1_won_total);
     }
     
-    // Helper to update strike price cell with balance
+    // Helper to update strike price cell with balance and animation
     function updateStrikePriceWithBalance(cellId, strikeValue, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
         cell.innerHTML = `<span class="clickable-amount" data-amount="${strikeValue}" style="cursor:pointer;">${fmtDisplay(-strikeValue)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
+        flashCell(cellId, false);
       }
     }
     
-    // Helper to update M.K item with balance
+    // Helper to update M.K item with balance and animation
     function updateMKItemWithBalance(cellId, itemValue, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
         cell.innerHTML = `${fmtDisplay(itemValue)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
+        flashCell(cellId, false);
       }
     }
 
