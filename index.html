@@ -3843,8 +3843,8 @@
       let formatted;
       
       if (absAmount >= 1000000) {
-        // Round to nearest integer million (e.g., 7.15M -> 7M, 7.85M -> 8M)
-        const millions = Math.round(absAmount / 1000000);
+        // Show 2 decimal places for millions (e.g., 7.15M)
+        const millions = (absAmount / 1000000).toFixed(2);
         formatted = millions + 'M';
       } else if (absAmount >= 1000) {
         // Round to nearest integer thousand (e.g., 500.5K -> 501K)
