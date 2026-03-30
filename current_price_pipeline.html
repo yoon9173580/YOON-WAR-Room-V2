@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V53.7</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V53.8</title>
 
   <link
 
@@ -2492,35 +2492,58 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Overnight pricing - check for any extended hours data first
-      if (q.postMarketPrice || q.preMarketPrice) {
-        let price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
-        let c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
-        let pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
-        
-        if (isAsianStock) {
-          return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-        } else {
-          return `🌙 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      // CLOSED state - show last market price or after hours data
+      if (state === "CLOSED") {
+        if (q.postMarketPrice) {
+          const c = Number(q.postMarketChange) || 0;
+          const pct = Number(q.postMarketChangePercent) || 0;
+          return `🔒 Closed (After Hours): $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        } else if (q.regularMarketPrice) {
+          const c = Number(q.regularMarketChange) || 0;
+          const pct = Number(q.regularMarketChangePercent) || 0;
+          return `🔒 Closed: $${q.regularMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
       }
 
-      // Premarket only
-      if (state.includes("PRE") && q.preMarketPrice) {
-        let c = Number(q.preMarketChange) || 0;
-        let pct = Number(q.preMarketChangePercent) || 0;
+      // POST (Aftermarket) state
+      if (state === "POST" && q.postMarketPrice) {
+        const c = Number(q.postMarketChange) || 0;
+        const pct = Number(q.postMarketChangePercent) || 0;
+        return `🌆 Aftermarket: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+
+      // PRE (Premarket) state
+      if (state === "PRE" && q.preMarketPrice) {
+        const c = Number(q.preMarketChange) || 0;
+        const pct = Number(q.preMarketChangePercent) || 0;
         return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      // Regular market or closed without extended hours
-      if (q.regularMarketPrice) {
-        let price = q.regularMarketPrice || 0;
-        let c = Number(q.regularMarketChange) || 0;
-        let pct = Number(q.regularMarketChangePercent) || 0;
+      // Overnight pricing for Asian stocks during extended hours
+      if ((state === "POST" || state === "PRE") && isAsianStock && (q.postMarketPrice || q.preMarketPrice)) {
+        const price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
+        const c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
+        const pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
+        return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+
+      // Regular market hours
+      if (state === "REGULAR" || state === "OPEN" || (!state && q.regularMarketPrice)) {
+        const price = q.regularMarketPrice || 0;
+        const c = Number(q.regularMarketChange) || 0;
+        const pct = Number(q.regularMarketChangePercent) || 0;
         return `📊 Market: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      return "";
+      // Fallback to regular price if available
+      if (q.regularMarketPrice) {
+        const price = q.regularMarketPrice || 0;
+        const c = Number(q.regularMarketChange) || 0;
+        const pct = Number(q.regularMarketChangePercent) || 0;
+        return `📊 Market: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+
+      return ""; // No data available
 
     };
 
