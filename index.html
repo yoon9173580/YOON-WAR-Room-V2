@@ -2363,6 +2363,8 @@
 
     let V_GME_P = 0, V_GME_C = 0, V_GME_PCT = 0, V_GME_EXT = "";
 
+    let pipelineValuesInitialized = false; // Flag to prevent overwriting fixed values
+
     let V_AMC_P = 0, V_AMC_C = 0, V_AMC_PCT = 0, V_AMC_EXT = "";
 
     let V_SPY_P = 0, V_SPY_C = 0, V_SPY_PCT = 0, V_SPY_EXT = "";
@@ -3125,6 +3127,11 @@
       customUserPrice = price;
 
       display.textContent = `Applied: $${price.toFixed(2)}`;
+
+      
+
+      // Reset flag to allow cash in hand and net worth updates with custom price
+      pipelineValuesInitialized = false;
 
       
 
@@ -4258,18 +4265,18 @@
           st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
         }
 
-        // Update Cash in Hand (내 현금 수중) - use fixed HTML values
+        // Update Cash in Hand (내 현금 수중) - use fixed HTML values, only on first init or custom price
         const cashHandEl = document.getElementById(`cash-hand-${i+1}`);
-        if (cashHandEl) {
+        if (cashHandEl && !pipelineValuesInitialized) {
           // Fixed values from HTML: $7,655,430 / $8,821,972 / $14,545,318 / $27,012,733
           const fixedCashValues = [7655430, 8821972, 14545318, 27012733];
           const cash_in_hand = fixedCashValues[i];
           cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cash_in_hand}" style="cursor:pointer;">$${fmt(cash_in_hand)}</span>`;
         }
 
-        // Update Net Worth with HNWI/VHNWI/UHNI title - use fixed HTML values
+        // Update Net Worth with HNWI/VHNWI/UHNI title - use fixed HTML values, only on first init or custom price
         const netWorthEl = document.getElementById(`net-worth-${i+1}`);
-        if (netWorthEl) {
+        if (netWorthEl && !pipelineValuesInitialized) {
           // Fixed values from HTML: $21,910,860 / $25,265,944 / $41,635,794 / $77,420,586
           const fixedNetWorthValues = [21910860, 25265944, 41635794, 77420586];
           const net_worth = fixedNetWorthValues[i];
@@ -4879,6 +4886,9 @@
         }
 
       }
+
+      // Mark values as initialized after first run
+      pipelineValuesInitialized = true;
 
     }
 
