@@ -3266,79 +3266,17 @@
 
     // Live Price calculation function using real-time GME price
     function calculateLivePriceColumn() {
-      // Use real-time GME price (V_GME_P)
       if (V_GME_P > 0) {
+        // calculateAndUpdateColumn now handles ALL cells including BAL displays
         calculateAndUpdateColumn(V_GME_P, 'live');
         
-        // Live-specific additional calculations
+        // Update Korean Won total for Live Price
         const fid_shares = 4307.43;
         const drs_shares = 30000;
         const moomoo_shares = 7147;
-        const fid_live = fid_shares * V_GME_P;
-        const drs_live = drs_shares * V_GME_P;
-        const moomoo_live = moomoo_shares * V_GME_P;
-        const st1_live_total = fid_live + drs_live + moomoo_live;
-        
-        // Update Korean Won total for Live Price
+        const st1_live_total = (fid_shares + drs_shares + moomoo_shares) * V_GME_P;
         const st1_won_live = st1_live_total * currentKRWRate;
         updateWonAmount('st1-won-live', st1_won_live);
-        
-        // Live Price ST3 calculations (options, strikes)
-        const st2_minimum = 1000000;
-        const st2_additional = V_GME_P * 1000;
-        const st2_live = st2_minimum + st2_additional;
-        const st2_live_remaining = st1_live_total - st2_live;
-        const cs_shares = 100000;
-        const cs_live = cs_shares * V_GME_P;
-        const remaining = st2_live_remaining - cs_live;
-        
-        // Fid and Moo options for Live Price
-        const fid_balance = remaining * 0.5;
-        const fid_live_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
-        const moo_balance = remaining * 0.5;
-        const moo_live_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
-        
-        // Update option cells for Live Price
-        updateCellWithFormat('fid-option-live', fid_live_option, 'pos');
-        updateCellWithFormat('moo-option-live', moo_live_option, 'pos');
-        
-        // Strike distributions for Live Price
-        const fid_strike40_live = Math.round(fid_live_option * 0.20);
-        const fid_strike45_live = Math.round(fid_live_option * 0.30);
-        const fid_strike50_live = Math.round(fid_live_option * 0.50);
-        const moo_strike40_live = Math.round(moo_live_option * 0.20);
-        const moo_strike45_live = Math.round(moo_live_option * 0.30);
-        const moo_strike50_live = Math.round(moo_live_option * 0.50);
-        
-        // Update strike prices with balance for Live Price
-        const cs_cost_total = cs_live;
-        updateStrikePriceWithBalance('fid-strike40-live', fid_strike40_live, st2_live_remaining - cs_cost_total - fid_strike40_live);
-        updateStrikePriceWithBalance('fid-strike45-live', fid_strike45_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live);
-        updateStrikePriceWithBalance('fid-strike50-live', fid_strike50_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live);
-        updateStrikePriceWithBalance('moo-strike40-live', moo_strike40_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live);
-        updateStrikePriceWithBalance('moo-strike45-live', moo_strike45_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live - moo_strike45_live);
-        updateStrikePriceWithBalance('moo-strike50-live', moo_strike50_live, st2_live_remaining - cs_cost_total - fid_strike40_live - fid_strike45_live - fid_strike50_live - moo_strike40_live - moo_strike45_live - moo_strike50_live);
-        
-        // Update CS Cost with balance display for Live Price
-        const csCostEl = document.getElementById('cs-cost-live');
-        if (csCostEl) {
-          const cs_bal = st2_live_remaining - cs_cost_total;
-          csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
-        }
-        
-        // M.K items with balance display for Live Price
-        updateMKItemWithBalance('mobility-self-live', -400000, st2_live_remaining - 400000);
-        updateMKItemWithBalance('mobility-dad-live', -120000, st2_live_remaining - 400000 - 120000);
-        updateMKItemWithBalance('gift-dad-live', -22320, st2_live_remaining - 400000 - 120000 - 22320);
-        updateMKItemWithBalance('gift-mom-live', -22548, st2_live_remaining - 400000 - 120000 - 22320 - 22548);
-        updateMKItemWithBalance('gift-jini-live', -13920, st2_live_remaining - 400000 - 120000 - 22320 - 22548 - 13920);
-        
-        // Arun M5 with balance for Live Price
-        const arunEl = document.getElementById('arun-m5-live');
-        if (arunEl) {
-          const arun_bal = st2_live_remaining - 400000 - 120000 - 22320 - 22548 - 13920 - 200000;
-          arunEl.innerHTML = `<span class="clickable-amount" data-amount="200000" style="cursor:pointer;">${fmtDisplay(-200000)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(arun_bal)}</span>`;
-        }
       }
     }
 
@@ -3349,73 +3287,16 @@
     
 
     function calculateFullPipelineWithCustomPrice(customPrice) {
-      // Use unified calculation for all basic cells
+      // calculateAndUpdateColumn now handles ALL cells including BAL displays
       calculateAndUpdateColumn(customPrice, 'custom');
       
-      // Additional Custom-specific calculations (Won, options, strikes, etc.)
+      // Update Korean Won total for Custom Price
       const fid_shares = 4307.43;
       const drs_shares = 30000;
       const moomoo_shares = 7147;
-      const fid_custom = fid_shares * customPrice;
-      const drs_custom = drs_shares * customPrice;
-      const moomoo_custom = moomoo_shares * customPrice;
-      const st1_custom_total = fid_custom + drs_custom + moomoo_custom;
-      const st2_minimum = 1000000;
-      const st2_additional = customPrice * 1000;
-      const st2_custom = st2_minimum + st2_additional;
-      const st2_cash_remaining = st1_custom_total - st2_custom;
-      
-      // Update Korean Won total
+      const st1_custom_total = (fid_shares + drs_shares + moomoo_shares) * customPrice;
       const st1_won_total = st1_custom_total * currentKRWRate;
       updateWonAmount('st1-won-total', st1_won_total);
-      
-      // Custom-specific ST3 calculations (options, strikes)
-      const st2_custom_remaining = st1_custom_total - st2_custom;
-      const cs_shares = 100000;
-      // CS cost uses LIVE GME price for 100,000 GME shares (not BBBYQ price)
-      const cs_custom = cs_shares * (V_GME_P > 0 ? V_GME_P : customPrice);
-      const cs_custom_remaining = st2_custom_remaining - cs_custom;
-      
-      // Fid and Moo options
-      const fid_balance = cs_custom_remaining * 0.5;
-      const fid_custom_option = Math.floor((fid_balance * 0.9) / 100000) * 100000;
-      const moo_balance = cs_custom_remaining * 0.5;
-      const moo_custom_option = Math.floor((moo_balance * 0.9) / 100000) * 100000;
-      
-      // Strike distributions
-      const fid_strike40 = Math.round(fid_custom_option * 0.20);
-      const fid_strike45 = Math.round(fid_custom_option * 0.30);
-      const fid_strike50 = Math.round(fid_custom_option * 0.50);
-      const moo_strike40 = Math.round(moo_custom_option * 0.20);
-      const moo_strike45 = Math.round(moo_custom_option * 0.30);
-      const moo_strike50 = Math.round(moo_custom_option * 0.50);
-      
-      // Update strike prices with balance
-      const cs_cost_total = cs_custom;
-      updateStrikePriceWithBalance('fid-strike40-custom', fid_strike40, st2_cash_remaining - cs_cost_total - fid_strike40);
-      updateStrikePriceWithBalance('fid-strike45-custom', fid_strike45, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45);
-      updateStrikePriceWithBalance('fid-strike50-custom', fid_strike50, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50);
-      updateStrikePriceWithBalance('moo-strike40-custom', moo_strike40, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40);
-      updateStrikePriceWithBalance('moo-strike45-custom', moo_strike45, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45);
-      updateStrikePriceWithBalance('moo-strike50-custom', moo_strike50, st2_cash_remaining - cs_cost_total - fid_strike40 - fid_strike45 - fid_strike50 - moo_strike40 - moo_strike45 - moo_strike50);
-      
-      // Update CS Cost with balance display (same as fixed columns)
-      const csCostEl = document.getElementById('cs-cost-custom');
-      if (csCostEl) {
-        const cs_bal = st2_cash_remaining - cs_cost_total;
-        csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
-      }
-      
-      // Update Fidelity and Moomoo options
-      updateCellWithFormat('fid-option-custom', fid_custom_option, 'pos');
-      updateCellWithFormat('moo-option-custom', moo_custom_option, 'pos');
-      
-      // M.K items with balance display
-      updateMKItemWithBalance('mobility-self-custom', -400000, st2_cash_remaining - 400000);
-      updateMKItemWithBalance('mobility-dad-custom', -120000, st2_cash_remaining - 400000 - 120000);
-      updateMKItemWithBalance('gift-dad-custom', -22320, st2_cash_remaining - 400000 - 120000 - 22320);
-      updateMKItemWithBalance('gift-mom-custom', -22548, st2_cash_remaining - 400000 - 120000 - 22320 - 22548);
-      updateMKItemWithBalance('gift-jini-custom', -13920, st2_cash_remaining - 400000 - 120000 - 22320 - 22548 - 13920);
     }
     
     // Helper to update strike price cell with balance
