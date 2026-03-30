@@ -1904,23 +1904,6 @@
 
                   <td class="r pos" id="st2-cash-4" style="white-space:nowrap;">$27.01M</td>
 
-
-                  <td>ST 3. 브로커 전액 GME 투입</td>
-
-                  <td style="color:var(--textD)">[SECTION TOTAL (Broker-Isolated Pipeline)]</td>
-
-                  <td class="r neg" id="st3-total-1">-$5.91M</td>
-
-                  <td class="r neg" id="st3-total-2">-$6.27M</td>
-
-                  <td class="r neg" id="st3-total-3">-$8.07M</td>
-
-                  <td class="r neg" id="st3-total-4">-$11.99M</td>
-
-                  <td class="r neg" id="st3-custom-main">$0</td>
-
-                  <td class="r neg" id="st3-live-main">$0</td>
-
                 </tr>
 
                 <tr class="st-sub">
@@ -3131,7 +3114,6 @@
       
       // Update ST 3 cells — CS Cost with BAL
       updateCSCostWithBalance(`cs-cost-${suffix}`, cs_val, st2_cash);
-      updateCellWithFormat(`st3-total-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
       
       // Fidelity option total
       updateCellWithFormat(`fid-option-${suffix}`, -fid_option_val, 'neg');
