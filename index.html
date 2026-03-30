@@ -2565,24 +2565,41 @@
 
       let state = q.marketState || "";
 
-      if ((state.includes("PRE")) && q.preMarketPrice) {
-
-        let c = Number(q.preMarketChange) || 0;
-
-        let pct = Number(q.preMarketChangePercent) || 0;
-
-        return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-
+      // Night Market (Asian extended hours)
+      if (state.includes("NIGHT") || state.includes("EXTENDED")) {
+        let price = q.regularMarketPrice || 0;
+        let c = Number(q.regularMarketChange) || 0;
+        let pct = Number(q.regularMarketChangePercent) || 0;
+        return `🌜 Night Market: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      if ((state.includes("POST") || state === "CLOSED") && q.postMarketPrice) {
+      // Premarket
+      if (state.includes("PRE") && q.preMarketPrice) {
+        let c = Number(q.preMarketChange) || 0;
+        let pct = Number(q.preMarketChangePercent) || 0;
+        return `🌟 Premarket Price: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
 
+      // Aftermarket (POST state)
+      if (state.includes("POST") && q.postMarketPrice) {
         let c = Number(q.postMarketChange) || 0;
-
         let pct = Number(q.postMarketChangePercent) || 0;
-
         return `🌙 Aftermarket Price: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
 
+      // Closed market - check for aftermarket data
+      if (state === "CLOSED") {
+        if (q.postMarketPrice) {
+          let c = Number(q.postMarketChange) || 0;
+          let pct = Number(q.postMarketChangePercent) || 0;
+          return `🌙 Aftermarket Price: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        } else {
+          // No extended hours trading
+          let price = q.regularMarketPrice || 0;
+          let c = Number(q.regularMarketChange) || 0;
+          let pct = Number(q.regularMarketChangePercent) || 0;
+          return `📊 Latest After Market Close: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        }
       }
 
       return "";
