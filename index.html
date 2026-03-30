@@ -1900,7 +1900,7 @@
 
                   <td class="r pos" style="white-space:nowrap;">$29.94M</td>
 
-                  <td class="r pos" id="st2-cash-custom" style="white-space:nowrap;">$0</td>
+                  <td class="r pos" id="st2-cash-custom" style="white-space:nowrap;">$0<br><span class="bal">BAL $0</span></td>
 
                   <td class="r pos" id="st2-cash-4" style="white-space:nowrap;">$27.01M</td>
 
@@ -2093,8 +2093,8 @@
                   <td class="r pos" style="white-space:nowrap;">$3.18M</td>
                   <td class="r pos" style="white-space:nowrap;">$7.89M</td>
                   <td class="r pos" style="white-space:nowrap;">$18.15M</td>
-                  <td class="r pos" id="st3-cash-custom" style="white-space:nowrap;">$0</td>
-                  <td class="r pos" id="st3-cash-live" style="white-space:nowrap;">$0</td>
+                  <td class="r pos" id="st3-cash-custom" style="white-space:nowrap;">$0<br><span class="bal">BAL $0</span></td>
+                  <td class="r pos" id="st3-cash-live" style="white-space:nowrap;">$0<br><span class="bal">BAL $0</span></td>
                 </tr>
 
                 <tr class="st-main">
@@ -3075,7 +3075,7 @@
       
       // ST 2 cash remaining (after all immediate expenditures + minimum + additional)
       const st2_cash = st1_total - st2_total;
-      updateCellWithFormat(`st2-cash-${suffix}`, st2_cash, 'pos');
+      updateCellWithBalancePositive(`st2-cash-${suffix}`, st2_cash, st2_cash);
       
       // ST 3 Calculations — with cascading BAL
       // Dynamic CS calculation: proportional to ST1 total, 100k shares per $10M with 50k increments
@@ -3131,7 +3131,7 @@
       updateStrikePriceWithBalance(`moo-strike50-${suffix}`, moo_strike50, st3RunBal);
       
       // ST 3 final cash
-      updateCellWithFormat(`st3-cash-${suffix}`, st3RunBal, 'pos');
+      updateCellWithBalancePositive(`st3-cash-${suffix}`, st3RunBal, st3RunBal);
       
       // ST 4 Calculations — with cascading BAL
       const gme_sell = st1_total * 1.5;
@@ -3170,7 +3170,7 @@
       updateCellWithFormat(`st4-total-${suffix}`, -st4_total, 'neg');
       
       // ST 4 final cash
-      updateCellWithFormat(`st4-cash-${suffix}`, st4RunBal, 'pos');
+      updateCellWithBalancePositive(`st4-cash-${suffix}`, st4RunBal, st4RunBal);
       
       // Cash in Hand
       const fixedExpenses = 400000 + 120000 + 22320 + 22548 + 13920 + 200000; // ST2 M.K items + Arun
