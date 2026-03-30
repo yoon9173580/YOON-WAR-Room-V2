@@ -13,7 +13,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <title>YOON MASTER COMMAND — Tactical Hub V53.6</title>
+  <title>YOON MASTER COMMAND — Tactical Hub V53.7</title>
 
   <link
 
@@ -2999,22 +2999,14 @@
 
       
 
+      // Calculate cs_cost_total outside the if block so it's available for strike price calculations
+      const cs_cost_total = cs_custom + additional_gme_purchase;
+      
       // Update ST 3 Custom values (US fund manager standard - exact amounts, no rounding)
       // CS Cost with balance display (same as fixed columns)
       const csCostEl = document.getElementById('cs-cost-custom');
       if (csCostEl) {
-        const cs_cost_total = cs_custom + additional_gme_purchase;
         const cs_bal = st2_cash_remaining - cs_cost_total;
-        
-        // DEBUG: Log CS calculation
-        console.log('DEBUG: CS Calculation:');
-        console.log('  cs_custom:', cs_custom);
-        console.log('  additional_gme_purchase:', additional_gme_purchase);
-        console.log('  cs_cost_total:', cs_cost_total);
-        console.log('  st2_cash_remaining:', st2_cash_remaining);
-        console.log('  cs_bal:', cs_bal);
-        console.log('  fmtDisplay(-cs_cost_total):', fmtDisplay(-cs_cost_total));
-        
         csCostEl.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost_total}" style="cursor:pointer;">${fmtDisplay(-cs_cost_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(cs_bal)}</span>`;
       }
       
