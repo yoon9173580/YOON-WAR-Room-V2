@@ -4095,16 +4095,22 @@
     // Real-time Net Worth calculation
     function updateRealTimeNetWorth() {
       if (netWorthMode === 'realtime') {
-        // Actual GME shares owned: 355 (from user's portfolio)
-        const actual_gme_shares = 355;
-        const gme_value = actual_gme_shares * V_GME_P;
+        // BBBYQ Legacy shares: 41,454 shares @ $0.80 cost basis, now worthless
+        const bbbyq_shares = 41454;
+        const bbbyq_cost_basis = bbbyq_shares * 0.80; // $33,163
+        const bbbyq_current_value = 0; // Delisted
         
-        // Cost basis for 355 shares at average purchase price
-        const avg_purchase_price = 30.00; // From screenshot: $30.00
-        const cost_basis = actual_gme_shares * avg_purchase_price;
+        // GME shares: 355 shares @ $30.00 cost basis
+        const gme_shares = 355;
+        const gme_cost_basis = gme_shares * 30.00; // $10,650
+        const gme_current_value = gme_shares * V_GME_P;
         
-        // Net worth = current value - cost basis (will be negative due to loss)
-        const real_time_net_worth = gme_value - cost_basis;
+        // Total calculations
+        const total_cost_basis = bbbyq_cost_basis + gme_cost_basis; // $43,813
+        const total_current_value = bbbyq_current_value + gme_current_value;
+        
+        // Net worth (will be negative due to losses)
+        const real_time_net_worth = total_current_value - total_cost_basis;
         
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
