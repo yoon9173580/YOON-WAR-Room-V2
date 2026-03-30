@@ -4583,12 +4583,16 @@
         // Net worth (will be negative due to losses)
         const real_time_net_worth = total_current_value - total_cost_basis;
         
+        // Calculate HNWI title based on absolute net worth value
+        const absNetWorth = Math.abs(real_time_net_worth);
+        const hnwiTitle = absNetWorth >= 30000000 ? 'UHNWI' : absNetWorth >= 5000000 ? 'VHNWI' : absNetWorth >= 1000000 ? 'HNWI' : '';
+        
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
           if (real_time_net_worth < 0) {
-            netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}`;
+            netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
           } else {
-            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}`;
+            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
           }
         }
       }
