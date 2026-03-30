@@ -589,19 +589,19 @@
     .port-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 40px;
-      padding: 10px 0;
+      gap: 12px;
+      margin-bottom: 30px;
+      padding: 8px 0;
     }
 
     .pstat {
       background: linear-gradient(145deg, rgba(13,17,23,0.9), rgba(22,27,34,0.9));
       border: 2px solid rgba(61,80,104,0.3);
-      border-radius: 20px;
-      padding: 25px 20px;
-      min-width: 160px;
+      border-radius: 16px;
+      padding: 18px 15px;
+      min-width: 140px;
       position: relative;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -611,25 +611,25 @@
 
     .pstat:hover {
       border-color: var(--accent);
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 212, 170, 0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 212, 170, 0.15), inset 0 1px 0 rgba(255,255,255,0.1);
     }
 
     .pstat-lbl {
-      font-size: 9px;
+      font-size: 8px;
       color: var(--textM);
       text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
       font-weight: 700;
       opacity: 0.8;
     }
 
     .pstat-val {
       font-family: var(--disp);
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 900;
-      letter-spacing: -1px;
+      letter-spacing: -0.8px;
       line-height: 1.2;
     }
 
