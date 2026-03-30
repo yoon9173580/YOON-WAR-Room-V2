@@ -4092,17 +4092,19 @@
     // Real-time Net Worth calculation
     function updateRealTimeNetWorth() {
       if (netWorthMode === 'realtime' && V_GME_P > 0) {
-        // Calculate based on current GME price and existing shares
+        // Current portfolio is in loss state - show negative value
         const current_shares = 4307.43 + 30000 + 7147; // Total shares from ST1
         const current_equity = current_shares * V_GME_P;
         
-        // Simple net worth calculation (can be refined)
-        const real_time_net_worth = current_equity - 83545.60; // Current loss adjustment
-        const hnwiTitle = real_time_net_worth >= 30000000 ? 'UHNI' : real_time_net_worth >= 5000000 ? 'VHNWI' : real_time_net_worth >= 1000000 ? 'HNWI' : '';
+        // Calculate actual loss: current equity should be much less than initial investment
+        const initial_investment = 10000000; // Estimated initial investment
+        const real_time_net_worth = -(initial_investment - current_equity); // Negative value showing loss
+        
+        const hnwiTitle = ''; // No HNWI title for negative net worth
         
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
-          netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:9px;">${hnwiTitle}</span>` : ''}`;
+          netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}`;
         }
       }
     }
