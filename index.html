@@ -3078,9 +3078,10 @@
       updateCellWithFormat(`st2-cash-${suffix}`, st2_cash, 'pos');
       
       // ST 3 Calculations — with cascading BAL
-      // Dynamic CS calculation: base 100,000 shares + 50,000 per $5M above $10M
-      const base_cs_shares = 100000;
-      const additional_increments = Math.max(0, Math.floor((st1_total - 10000000) / 5000000)); // $5M increments above $10M
+      // Dynamic CS calculation: proportional to ST1 total, 100k shares per $10M with 50k increments
+      // Formula: base 100k at $10M, then +50k per additional $5M
+      const base_cs_shares = Math.round(st1_total / 100); // 100k shares per $10M = 1 share per $100
+      const additional_increments = Math.max(0, Math.floor((st1_total - 10000000) / 5000000));
       const cs_shares = base_cs_shares + (additional_increments * 50000);
       // CS cost is ALWAYS based on LIVE GME price for ALL columns
       const cs_val = cs_shares * (V_GME_P > 0 ? V_GME_P : price);
