@@ -72,26 +72,58 @@ async function fetchYahooNative(sym) {
         const change = price - prev;
         const pct = prev > 0 ? (change / prev) * 100 : 0;
 
-        let preMarketPrice = null;
-        let postMarketPrice = null;
-
+        // Check for extended hours data from meta first (more reliable)
+        let preMarketPrice = meta.preMarketPrice || null;
+        let postMarketPrice = meta.postMarketPrice || null;
+        
+        // If not in meta, try to calculate from timestamps
         let regStart = 0; let regEnd = 0;
         if (meta.currentTradingPeriod && meta.currentTradingPeriod.regular) {
           regStart = meta.currentTradingPeriod.regular.start;
           regEnd = meta.currentTradingPeriod.regular.end;
         }
 
+        // Only calculate from timestamps if we don't have meta values
+        if (!preMarketPrice || !postMarketPrice) {
+          const lastTs = timestamps.length > 0 ? timestamps[timestamps.length - 1] : 0;
+          
+          // Find post-market price (after regEnd)
+          if (!postMarketPrice && regEnd > 0) {
+            for (let i = timestamps.length - 1; i >= 0; i--) {
+              if (timestamps[i] >= regEnd && closes[i] != null) { 
+                postMarketPrice = closes[i]; 
+                break; 
+              }
+            }
+          }
+          
+          // Find pre-market price (before regStart)
+          if (!preMarketPrice && regStart > 0) {
+            for (let i = timestamps.length - 1; i >= 0; i--) {
+              if (timestamps[i] < regStart && closes[i] != null) { 
+                preMarketPrice = closes[i]; 
+                break; 
+              }
+            }
+          }
+        }
+
+        // Determine market state
         let lastTs = timestamps.length > 0 ? timestamps[timestamps.length - 1] : 0;
         let ms = "CLOSED";
-        if (lastTs >= regEnd && regEnd > 0) ms = "POST";
-        else if (lastTs < regStart && regStart > 0) ms = "PRE";
-        else ms = "REGULAR";
-
-        for (let i = timestamps.length - 1; i >= 0; i--) {
-          if (timestamps[i] >= regEnd && closes[i] != null) { postMarketPrice = closes[i]; break; }
+        
+        // More robust market state detection
+        if (regEnd > 0 && lastTs >= regEnd) {
+          ms = "POST";
+        } else if (regStart > 0 && lastTs < regStart) {
+          ms = "PRE";
+        } else if (regStart > 0 && regEnd > 0 && lastTs >= regStart && lastTs <= regEnd) {
+          ms = "REGULAR";
         }
-        for (let i = timestamps.length - 1; i >= 0; i--) {
-          if (timestamps[i] < regStart && closes[i] != null) { preMarketPrice = closes[i]; break; }
+        
+        // Override with meta.marketState if available (more accurate)
+        if (meta.marketState) {
+          ms = meta.marketState;
         }
 
         const postChange = postMarketPrice ? postMarketPrice - price : 0;
@@ -109,13 +141,13 @@ async function fetchYahooNative(sym) {
           preMarketChange: preChange,
           preMarketChangePercent: prePct,
           postMarketPrice: postMarketPrice,
-          postMarketChange: postChange,
+          postChange: postChange,
           postMarketChangePercent: postPct,
           marketState: ms
         };
       }
     }
-  } catch (e) { }
+  } catch (e) { console.error('[fetchYahooNative Error]', e); }
   return null;
 }
 
