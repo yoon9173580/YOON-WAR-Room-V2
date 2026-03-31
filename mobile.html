@@ -724,6 +724,184 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
+
+    /* Samsung Galaxy Z Fold 6 Unfolded - Dashboard Layout */
+    @media (min-width: 700px) and (min-aspect-ratio: 5/6) {
+      .app {
+        display: grid;
+        grid-template-areas:
+          "header header header"
+          "hero hero hero"
+          "stats pipeline pipeline"
+          "simulator market market"
+          "bottom bottom bottom";
+        grid-template-columns: 320px 1fr 1fr;
+        grid-template-rows: auto auto 1fr 1fr auto;
+        gap: 16px;
+        padding: 0 24px 24px;
+        min-height: 100vh;
+      }
+
+      .header {
+        grid-area: header;
+        position: relative;
+        border-radius: 16px;
+        margin-top: 16px;
+        border: 1px solid var(--border);
+      }
+
+      .hero-card {
+        grid-area: hero;
+        margin: 0;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 32px;
+        padding: 24px 32px;
+      }
+
+      .hero-card .hero-label {
+        margin-bottom: 0;
+        font-size: 14px;
+      }
+
+      .hero-card .hero-value {
+        font-size: 48px;
+        margin-bottom: 0;
+        text-align: center;
+      }
+
+      .hero-card .hero-title {
+        justify-self: end;
+      }
+
+      .section {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      /* Portfolio Overview - Left Column */
+      .section:has(.stats-grid) {
+        grid-area: stats;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      /* Pipeline - Right Column Top */
+      .section:has(.pipeline-list) {
+        grid-area: pipeline;
+      }
+
+      .pipeline-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .pipeline-card {
+        height: fit-content;
+      }
+
+      .pipeline-body {
+        padding: 12px 16px;
+      }
+
+      .pipeline-row {
+        padding: 8px 0;
+      }
+
+      /* Price Simulator - Left Bottom */
+      .section:has(.input-card) {
+        grid-area: simulator;
+      }
+
+      .input-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .price-input {
+        text-align: center;
+      }
+
+      .result-card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Market Ticker - Right Bottom */
+      .section:has(.ticker-scroll) {
+        grid-area: market;
+      }
+
+      .ticker-scroll {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        overflow-x: visible;
+      }
+
+      .ticker-item {
+        min-width: auto;
+        padding: 20px;
+      }
+
+      .ticker-price {
+        font-size: 18px;
+      }
+
+      /* Bottom Bar */
+      .bottom-bar {
+        grid-area: bottom;
+        position: relative;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        padding-bottom: 12px;
+      }
+    }
+
+    /* Larger unfolded screens (tablets, large foldables) */
+    @media (min-width: 900px) and (min-aspect-ratio: 5/6) {
+      .app {
+        grid-template-columns: 360px 1fr 1fr;
+        gap: 20px;
+        padding: 0 32px 32px;
+      }
+
+      .hero-card .hero-value {
+        font-size: 56px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pipeline-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .ticker-scroll {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
