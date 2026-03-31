@@ -2104,8 +2104,6 @@
 
               </div>
 
-              <button id="lang-toggle" class="btn-out" onclick="toggleLanguage()" style="background:var(--blue); padding:6px 12px; font-size:11px; min-width:40px;">EN</button>
-
               <button id="format-toggle" class="btn-out" onclick="toggleAmountFormat()" style="background:var(--accent);">Show Actual Amounts</button>
 
               <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
@@ -3878,10 +3876,7 @@
 
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
-      // Fetch KOSPI independently (Finnhub API)
-      fetchKOSPI();
-
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targets = "SPY,QQQ,^VIX,^KS11,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
 
       const targetUrl = `/api/quote?symbols=${targets}`;
 
@@ -3991,6 +3986,15 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = qQQQ._extInfo || getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
+
+          // KOSPI from main API
+          const qKOSPI = extract('^KS11');
+          if (qKOSPI && qKOSPI.regularMarketPrice > 0) {
+            V_KOSPI_P = qKOSPI.regularMarketPrice;
+            V_KOSPI_PCT = qKOSPI.regularMarketChangePercent || 0;
+            console.log('[KOSPI] From main API:', { price: V_KOSPI_P, pct: V_KOSPI_PCT });
+            updateKOSPIDisplay();
+          }
 
           // Options (Real Yahoo Fetch with Zero Prediction)
 
