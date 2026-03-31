@@ -2698,6 +2698,34 @@
       }
     }
 
+    // Fetch KOSPI from Korea Exchange proxy or alternative source
+    async function fetchKOSPI() {
+      try {
+        // Use a reliable KOSPI data source
+        const res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/^KS11?interval=1d&range=1d');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.chart && data.chart.result && data.chart.result[0]) {
+            const result = data.chart.result[0];
+            const meta = result.meta;
+            const currentPrice = meta.regularMarketPrice || meta.previousClose || 0;
+            const previousClose = meta.previousClose || meta.chartPreviousClose || 0;
+            
+            if (currentPrice > 0) {
+              V_KOSPI_P = currentPrice;
+              V_KOSPI_C = currentPrice - previousClose;
+              V_KOSPI_PCT = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+              console.log('KOSPI fetched:', V_KOSPI_P.toFixed(2), 'Change:', V_KOSPI_PCT.toFixed(2) + '%');
+            }
+          }
+        }
+      } catch (e) {
+        console.log('KOSPI fetch failed:', e.message);
+        // Fallback: use default value for testing
+        V_KOSPI_P = 0; // Will show "--" if fetch fails
+      }
+    }
+
     async function fetchMaster() {
 
       const conn = document.getElementById('connStatus');
@@ -2782,7 +2810,8 @@
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
 
-          const qKOSPI = extract('^KS11'); if (qKOSPI) { V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; V_KOSPI_C = Number(qKOSPI.regularMarketChange) || 0; V_KOSPI_PCT = Number(qKOSPI.regularMarketChangePercent) || 0; }
+          // KOSPI - fetch from alternative source since Yahoo doesn't support ^KS11 well
+          await fetchKOSPI();
 
 
 
