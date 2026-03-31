@@ -2178,8 +2178,8 @@
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">KOSPI</div>
-                <div id="kospi-price-display" class="pstat-val">0.00</div>
-                <div id="kospi-pct-display" class="pstat-pct">0.00%</div>
+                <div id="kospi-price-display" class="pstat-val">--</div>
+                <div id="kospi-pct-display" class="pstat-pct">--</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
@@ -3803,11 +3803,57 @@
 
 
 
-    // Exchange rate for KRW conversion
     let currentKRWRate = 1380; // Default fallback rate
-    let V_KOSPI_P = 0; // KOSPI index price
-    let V_KOSPI_C = 0; // KOSPI change
-    let V_KOSPI_PCT = 0; // KOSPI change percent
+    
+    // KOSPI data variables
+    let V_KOSPI_P = 0;
+    let V_KOSPI_PCT = 0;
+    
+    // Fetch KOSPI directly from Finnhub API
+    async function fetchKOSPI() {
+      const FINNHUB_KEY = 'd75nmn9r01qk56kdec3gd75nmn9r01qk56kdec40';
+      try {
+        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=^KS11&token=${FINNHUB_KEY}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.c) {
+            V_KOSPI_P = data.c;
+            V_KOSPI_PCT = data.dp || 0;
+            console.log('[KOSPI] Data fetched:', { price: V_KOSPI_P, changePercent: V_KOSPI_PCT });
+            updateKOSPIDisplay();
+            return true;
+          }
+        }
+      } catch (e) {
+        console.error('[KOSPI] Fetch failed:', e);
+      }
+      return false;
+    }
+    
+    // Update KOSPI display
+    function updateKOSPIDisplay() {
+      const priceEl = document.getElementById('kospi-price-display');
+      const pctEl = document.getElementById('kospi-pct-display');
+      
+      if (priceEl) {
+        if (V_KOSPI_P > 0) {
+          priceEl.textContent = V_KOSPI_P.toFixed(2);
+        } else {
+          priceEl.textContent = '--';
+        }
+      }
+      
+      if (pctEl) {
+        if (V_KOSPI_P > 0) {
+          const pct = V_KOSPI_PCT || 0;
+          pctEl.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+          pctEl.className = 'pstat-pct ' + (pct >= 0 ? 'pct-up' : 'pct-down');
+        } else {
+          pctEl.textContent = '--';
+          pctEl.className = 'pstat-pct';
+        }
+      }
+    }
     
     // Fetch real-time exchange rate from API
     async function fetchExchangeRate() {
@@ -3833,9 +3879,10 @@
 
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
+      // Fetch KOSPI independently (Finnhub API)
+      fetchKOSPI();
 
-
-      const targets = "SPY,QQQ,^VIX,^KS11,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
 
       const targetUrl = `/api/quote?symbols=${targets}`;
 
@@ -3875,14 +3922,6 @@
           const extract = (sym) => {
 
             let found = dataList.find(x => x.symbol === sym);
-            
-            // Special handling for KOSPI - try alternative symbols
-            if (!found && (sym === '^KS11' || sym === 'KOSPI')) {
-              found = dataList.find(x => x.symbol === '^KS11' || x.symbol === 'KOSPI' || x.symbol === 'KS11');
-              if (found) {
-                console.log(`[DEBUG KOSPI] Found with alternative symbol:`, found.symbol);
-              }
-            }
 
             if (!found) return null;
 
@@ -3953,22 +3992,6 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = qQQQ._extInfo || getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
-
-          const qKOSPI = extract('^KS11'); 
-          if (qKOSPI) { 
-            V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; 
-            V_KOSPI_C = Number(qKOSPI.regularMarketChange) || 0;
-            V_KOSPI_PCT = Number(qKOSPI.regularMarketChangePercent) || 0;
-            console.log('[DEBUG] KOSPI data:', { symbol: qKOSPI.symbol, price: V_KOSPI_P, change: V_KOSPI_C, pct: V_KOSPI_PCT });
-          } else {
-            console.log('[DEBUG] KOSPI data not found in API response - using fallback');
-            // Fallback: use hardcoded recent KOSPI value if API fails
-            V_KOSPI_P = 2580.0; // Recent KOSPI value
-            V_KOSPI_C = 0;
-            V_KOSPI_PCT = 0;
-          }
-
-
 
           // Options (Real Yahoo Fetch with Zero Prediction)
 
@@ -4158,23 +4181,6 @@
 
     // Update port-bar display values
     function updatePortBarValues() {
-      // KOSPI with percentage - PRIORITY UPDATE
-      const kospiPriceEl = document.getElementById('kospi-price-display');
-      if (kospiPriceEl) {
-        if (V_KOSPI_P > 0) {
-          kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
-        } else {
-          kospiPriceEl.textContent = 'N/A';
-        }
-        console.log('[DEBUG] KOSPI display update:', { element: !!kospiPriceEl, value: V_KOSPI_P });
-      }
-      const kospiPctEl = document.getElementById('kospi-pct-display');
-      if (kospiPctEl && V_KOSPI_P > 0) {
-        const kospiPct = V_KOSPI_PCT || 0;
-        kospiPctEl.textContent = (kospiPct >= 0 ? '+' : '') + kospiPct.toFixed(2) + '%';
-        kospiPctEl.className = 'pstat-pct ' + (kospiPct >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
       // GME with percentage
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
