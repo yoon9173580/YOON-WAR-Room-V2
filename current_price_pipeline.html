@@ -3017,18 +3017,6 @@
       }
       // For smaller numbers, use 2 decimal places
       return num.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
-    };
-
-    const fmtOpt = (n, d = 3) => (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
-
-
-
-    // Global toggle for M/K format vs actual amounts
-
-    let showActualAmounts = false;
-
-    
-
     function toggleAmountFormat() {
 
       showActualAmounts = !showActualAmounts;
@@ -4014,96 +4002,6 @@
       }, 1000);
     }
 
-    // NEW: Global unified aftermarket display function
-    function displayAftermarketPrice(elementId, price, afterPrice, afterChange, afterPct, symbol) {
-      console.log(`DEBUG displayAftermarketPrice called:`, {elementId, price, afterPrice, afterChange, afterPct, symbol});
-      
-      const element = document.getElementById(elementId);
-      if (!element) {
-        console.log(`Element not found: ${elementId}`);
-        return;
-      }
-      if (price === 0) {
-        console.log(`Price is 0 for ${symbol}`);
-        return;
-      }
-      
-      const now = new Date();
-      const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-      const hour = estTime.getHours();
-      const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
-      const forceAfterMarket = true; // Remove after testing
-      
-      console.log(`AFTERMARKET ${symbol}:`, {price, afterPrice, afterChange, afterPct, isAfterMarketHours, estTime: estTime.toLocaleTimeString()});
-      
-      let html = `$${price.toFixed(2)}`;
-      
-      // Show aftermarket if data exists AND it's after market hours OR force testing
-      if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
-        const sign = afterChange >= 0 ? '+' : '';
-        const pctClass = afterPct >= 0 ? 'pos' : 'neg';
-        html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
-        console.log(`Aftermarket HTML added for ${symbol}:`, html);
-      } else {
-        console.log(`No aftermarket display for ${symbol}: afterPrice=${afterPrice}, isAfterMarketHours=${isAfterMarketHours}`);
-      }
-      
-      element.innerHTML = html;
-      console.log(`Updated element ${elementId} with:`, html);
-    }
-
-    // NEW: Update Asset Instrument table with aftermarket data
-    function updateAssetInstrumentTable() {
-      console.log('DEBUG updateAssetInstrumentTable called');
-      
-      // Direct variable mapping instead of eval()
-      const symbolData = {
-        'GME': { price: V_GME_P, afterPrice: V_GME_AFTER_P, afterChange: V_GME_AFTER_C, afterPct: V_GME_AFTER_PCT },
-        'AMC': { price: V_AMC_P, afterPrice: V_AMC_AFTER_P, afterChange: V_AMC_AFTER_C, afterPct: V_AMC_AFTER_PCT },
-        'AAPL': { price: V_AAPL_P, afterPrice: V_AAPL_AFTER_P, afterChange: V_AAPL_AFTER_C, afterPct: V_AAPL_AFTER_PCT },
-        'NVDA': { price: V_NVDA_P, afterPrice: V_NVDA_AFTER_P, afterChange: V_NVDA_AFTER_C, afterPct: V_NVDA_AFTER_PCT },
-        'MSFT': { price: V_MSFT_P, afterPrice: V_MSFT_AFTER_P, afterChange: V_MSFT_AFTER_C, afterPct: V_MSFT_AFTER_PCT },
-        'TSLA': { price: V_TSLA_P, afterPrice: V_TSLA_AFTER_P, afterChange: V_TSLA_AFTER_C, afterPct: V_TSLA_AFTER_PCT },
-        'GOOGL': { price: V_GOOGL_P, afterPrice: V_GOOGL_AFTER_P, afterChange: V_GOOGL_AFTER_C, afterPct: V_GOOGL_AFTER_PCT },
-        'AMZN': { price: V_AMZN_P, afterPrice: V_AMZN_AFTER_P, afterChange: V_AMZN_AFTER_C, afterPct: V_AMZN_AFTER_PCT },
-        'META': { price: V_META_P, afterPrice: V_META_AFTER_P, afterChange: V_META_AFTER_C, afterPct: V_META_AFTER_PCT },
-        'IEP': { price: V_IEP_P, afterPrice: V_IEP_AFTER_P, afterChange: V_IEP_AFTER_C, afterPct: V_IEP_AFTER_PCT },
-        'BB': { price: V_BB_P, afterPrice: V_BB_AFTER_P, afterChange: V_BB_AFTER_C, afterPct: V_BB_AFTER_PCT },
-        'NOK': { price: V_NOK_P, afterPrice: V_NOK_AFTER_P, afterChange: V_NOK_AFTER_C, afterPct: V_NOK_AFTER_PCT },
-        'BABA': { price: V_BABA_P, afterPrice: V_BABA_AFTER_P, afterChange: V_BABA_AFTER_C, afterPct: V_BABA_AFTER_PCT }
-      };
-      
-      Object.keys(symbolData).forEach(symbol => {
-        const { price, afterPrice, afterChange, afterPct } = symbolData[symbol];
-        console.log(`Processing ${symbol}:`, { price, afterPrice, afterChange, afterPct });
-        
-        // Find the row for this symbol in the portfolio table
-        const rows = document.querySelectorAll('#portfolio-table tr');
-        rows.forEach(row => {
-          const symbolCell = row.querySelector('td:first-child');
-          if (symbolCell && symbolCell.textContent.includes(symbol)) {
-            const priceCell = row.querySelector('td:nth-child(2)');
-            if (priceCell && price > 0) {
-              let html = `$${price.toFixed(2)}`;
-              
-              const now = new Date();
-              const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-              const hour = estTime.getHours();
-              const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
-              const forceAfterMarket = true;
-              
-              if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
-                const sign = afterChange >= 0 ? '+' : '';
-                const pctClass = afterPct >= 0 ? 'pos' : 'neg';
-                html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
-                console.log(`Asset Instrument aftermarket added for ${symbol}`);
-              }
-              
-              priceCell.innerHTML = html;
-            }
-          }
-        });
-      });
     }
 
     function renderTerminal() {
