@@ -1494,235 +1494,69 @@
       .lock-btn {
       }
 
-    /* ===== UNIVERSAL MOBILE OPTIMIZATIONS ===== */
-    /* All phones: iPhone, Galaxy, Fold series */
+    /* ===== MOBILE & FOLD 6 - EFFICIENT DESKTOP-LIKE UI ===== */
     @media screen and (max-width: 768px) {
-      /* Base mobile layout */
+      /* Base mobile layout - desktop-like efficiency */
       .wrap {
-        padding: 8px;
+        padding: 12px;
       }
       
       .main-content {
         width: 100%;
       }
       
-      /* Header compact */
-      header h1 {
-        font-size: 18px;
+      /* Header - compact but professional */
+      header {
+        padding: 16px 12px;
+        margin-bottom: 12px;
+      }
+      
+      .brand-name {
+        font-size: 20px;
+        letter-spacing: -0.5px;
+        margin-bottom: 8px;
+      }
+      
+      header > div:last-child {
+        flex-wrap: wrap;
+        gap: 6px;
       }
       
       .btn-out {
-        padding: 5px 10px;
+        padding: 6px 12px;
         font-size: 11px;
         min-width: auto;
       }
       
-      /* Port bar scrollable */
+      /* Port bar - desktop-like grid layout */
       .port-bar {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        gap: 8px;
-        padding-bottom: 6px;
-      }
-      
-      .port-bar-section {
-        flex: 0 0 auto;
-        min-width: 260px;
-        padding: 10px;
-      }
-      
-      /* Portfolio table scroll */
-      .port-table-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      
-      .port-table-wrap table {
-        min-width: 550px;
-      }
-      
-      /* Mobile scenario table - MODERN CARD DESIGN */
-      .scenario-wrap {
-        overflow-x: hidden !important;
-        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
         padding: 0;
       }
       
-      .scenario-wrap table,
-      .scenario-wrap thead,
-      .scenario-wrap tbody,
-      .scenario-wrap tr,
-      .scenario-wrap th,
-      .scenario-wrap td {
-        display: block !important;
-        width: 100% !important;
-        min-width: auto !important;
-      }
-      
-      /* Hide original table header */
-      .scenario-wrap thead {
-        display: none !important;
-      }
-      
-      /* Each row becomes a card */
-      .scenario-wrap tbody tr {
-        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
-        border: 1px solid rgba(51, 65, 85, 0.5) !important;
-        border-radius: 12px !important;
-        margin-bottom: 12px !important;
-        padding: 12px 14px !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
-        position: relative;
-        overflow: hidden;
-      }
-      
-      /* Main stage row styling */
-      .scenario-wrap tbody tr.st-main {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(30, 41, 59, 0.9) 100%) !important;
-        border-left: 4px solid var(--accent) !important;
-      }
-      
-      /* Cash row styling */
-      .scenario-wrap tbody tr.st-cash {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(30, 41, 59, 0.9) 100%) !important;
-        border-left: 4px solid var(--amber) !important;
-      }
-      
-      /* Sub row styling */
-      .scenario-wrap tbody tr.st-sub {
-        background: rgba(30, 41, 59, 0.6) !important;
-        border-left: 2px solid rgba(100, 116, 139, 0.5) !important;
-        margin-left: 12px !important;
-        width: calc(100% - 12px) !important;
-      }
-      
-      /* Cell styling */
-      .scenario-wrap td {
-        padding: 6px 0 !important;
-        font-size: 12px !important;
-        border-bottom: 1px solid rgba(51, 65, 85, 0.3) !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-      }
-      
-      .scenario-wrap td:last-child {
-        border-bottom: none !important;
-      }
-      
-      /* Label styling (first column as label) */
-      .scenario-wrap td:first-child {
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        color: var(--text) !important;
-        padding-bottom: 8px !important;
-        border-bottom: 2px solid rgba(51, 65, 85, 0.5) !important;
-        margin-bottom: 6px !important;
-      }
-      
-      /* Price display grid */
-      .scenario-wrap td:nth-child(n+3) {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 4px 0 !important;
-      }
-      
-      /* Price labels */
-      .scenario-wrap td::before {
-        content: attr(data-label);
-        font-size: 10px;
-        color: var(--textD);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      
-      /* Special styling for main values */
-      .scenario-wrap tr.st-main td:nth-child(3),
-      .scenario-wrap tr.st-cash td:nth-child(3) {
-        font-size: 14px !important;
-        font-weight: 700;
-        color: var(--accent);
-      }
-      
-      /* Positive/negative indicators */
-      .scenario-wrap td .pos {
-        color: var(--accent);
-        font-weight: 600;
-      }
-      
-      .scenario-wrap td .neg {
-        color: var(--bear);
-        font-weight: 600;
-      }
-      
-      /* Custom price highlight */
-      .scenario-wrap td:nth-child(7) {
-        background: rgba(16, 185, 129, 0.1);
-        border-radius: 6px;
-        padding: 8px !important;
-        margin-top: 4px;
-      }
-
-    /* ===== FOLD 6 UNFOLDED - PROFESSIONAL TABLE LAYOUT ===== */
-    @media screen and (min-width: 721px) and (max-width: 1200px) {
-      /* Full width layout */
-      .wrap {
-        padding: 16px;
-      }
-      
-      /* Hide sidebar for maximum space */
-      .market-sidebar {
-        display: none;
-      }
-      
-      .main-content {
-        width: 100%;
-        max-width: 100%;
-      }
-      
-      /* Professional header */
-      header {
-        padding: 20px;
-        margin-bottom: 16px;
-      }
-      
-      .brand-name {
-        font-size: 24px;
-        letter-spacing: -1px;
-      }
-      
-      /* Port bar - horizontal scroll with professional cards */
-      .port-bar {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 10px;
-        overflow-x: auto;
-        padding: 10px;
-        margin-bottom: 16px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
-      }
-      
       .port-bar-section {
-        flex: 0 0 auto;
-        min-width: 260px;
-        max-width: 280px;
+        min-width: auto;
+        max-width: none;
         background: rgba(30, 41, 59, 0.6);
         border: 1px solid var(--border);
         border-radius: 12px;
-        padding: 10px;
+        padding: 12px;
       }
       
       .port-bar-section-title {
-        font-size: 10px;
+        font-size: 11px;
         padding: 6px 10px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
       }
       
-      /* 3-column grid for cards */
+      /* 3-column grid for cards - desktop efficiency */
       .port-bar-section {
-        display: grid;
+        display: grid !important;
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
       }
@@ -1732,30 +1566,75 @@
       }
       
       .pstat {
-        padding: 8px 6px;
+        padding: 10px 8px;
         min-width: auto;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+      
+      .pstat:active {
+        transform: scale(0.98);
+        background: rgba(16, 185, 129, 0.1);
       }
       
       .pstat-lbl {
-        font-size: 9px;
+        font-size: 10px;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
       }
       
       .pstat-val {
-        font-size: 13px;
+        font-size: 14px;
+        font-weight: 700;
       }
       
-      /* Professional table layout - fit to screen perfectly */
-      .scenario-wrap {
-        overflow-x: hidden !important;
+      .pstat-pct {
+        font-size: 10px;
+        color: var(--textM);
+        margin-top: 2px;
+      }
+      
+      /* Portfolio table - desktop-like */
+      .port-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 16px;
         border-radius: 12px;
+      }
+      
+      .port-table-wrap table {
+        min-width: 700px;
         width: 100%;
+      }
+      
+      .port-table-wrap th {
+        padding: 12px 8px;
+        font-size: 11px;
+        background: rgba(51, 65, 85, 0.5);
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .port-table-wrap td {
+        padding: 12px 8px;
+        font-size: 12px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+      }
+      
+      /* Scenario table - DESKTOP-LIKE TABLE LAYOUT */
+      .scenario-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+        margin-bottom: 16px;
       }
       
       .scenario-wrap table {
         display: table !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
+        width: 100%;
+        min-width: 800px;
         border-collapse: collapse;
         table-layout: fixed;
       }
@@ -1779,8 +1658,8 @@
       
       .scenario-wrap th {
         display: table-cell !important;
-        font-size: 9px;
-        padding: 8px 4px;
+        font-size: 10px;
+        padding: 10px 6px;
         background: rgba(51, 65, 85, 0.5);
         border-bottom: 1px solid var(--border);
         text-transform: uppercase;
@@ -1794,8 +1673,8 @@
       .scenario-wrap td {
         display: table-cell !important;
         width: auto !important;
-        padding: 6px 4px !important;
-        font-size: 10px;
+        padding: 8px 6px !important;
+        font-size: 11px;
         border-bottom: 1px solid rgba(51, 65, 85, 0.3);
         vertical-align: middle;
         overflow: hidden;
@@ -1803,20 +1682,19 @@
         white-space: nowrap;
       }
       
-      /* Column width - fit to screen exactly */
+      /* Column width optimization */
       .scenario-wrap th:nth-child(1),
       .scenario-wrap td:nth-child(1) {
-        width: 100px !important;
-        min-width: 100px;
+        width: 120px !important;
+        min-width: 120px;
       }
       
       .scenario-wrap th:nth-child(2),
       .scenario-wrap td:nth-child(2) {
-        width: 140px !important;
-        min-width: 140px;
+        width: 180px !important;
+        min-width: 180px;
       }
       
-      /* Price columns - equal distribution */
       .scenario-wrap th:nth-child(3),
       .scenario-wrap th:nth-child(4),
       .scenario-wrap th:nth-child(5),
@@ -1827,10 +1705,8 @@
       .scenario-wrap td:nth-child(5),
       .scenario-wrap td:nth-child(6),
       .scenario-wrap td:nth-child(7) {
-        width: calc((100% - 240px) / 5) !important;
-        min-width: 60px;
-        padding: 6px 2px !important;
-        font-size: 9px !important;
+        width: calc((100% - 300px) / 5) !important;
+        min-width: 80px;
         text-align: center;
       }
       
@@ -1846,15 +1722,15 @@
         border-left: 1px solid rgba(16, 185, 129, 0.3);
       }
       
-      /* Row styling */
+      /* Row styling - desktop-like */
       .st-main td {
-        font-size: 11px !important;
+        font-size: 12px !important;
         font-weight: 700;
         background: rgba(16, 185, 129, 0.08) !important;
       }
       
       .st-sub td {
-        font-size: 10px !important;
+        font-size: 11px !important;
       }
       
       .st-cash td {
@@ -1862,35 +1738,301 @@
         font-weight: 600;
       }
       
-      /* Compact header buttons */
-      header > div:last-child {
-        flex-wrap: wrap;
-        gap: 6px;
+      /* Custom price input */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px !important;
       }
       
-      .btn-out {
-        padding: 6px 10px;
-        font-size: 10px;
+      #custom-price-input {
+        width: 100% !important;
+        padding: 10px !important;
+        font-size: 14px;
       }
       
-      /* Portfolio table */
+      .scenario-wrap button {
+        width: 100%;
+        padding: 10px;
+        font-size: 12px;
+      }
+      
+      /* Indent adjustments */
+      .pl-indent {
+        padding-left: 30px !important;
+      }
+      
+      .pl-indent-2 {
+        padding-left: 50px !important;
+      }
+    }
+    /* ===== FOLD 6 UNFOLDED - DESKTOP-LEVEL OPTIMIZATION ===== */
+    @media screen and (min-width: 721px) and (max-width: 1200px) {
+      /* Full width layout - maximum efficiency */
+      .wrap {
+        padding: 20px;
+      }
+      
+      /* Hide sidebar for maximum space */
+      .market-sidebar {
+        display: none;
+      }
+      
+      .main-content {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      /* Professional header - desktop-like */
+      header {
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      
+      .brand-name {
+        font-size: 28px;
+        letter-spacing: -1px;
+        font-weight: 900;
+      }
+      
+      /* Port bar - desktop-like grid layout */
+      .port-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+        padding: 0;
+      }
+      
+      .port-bar-section {
+        min-width: auto;
+        max-width: none;
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+      }
+      
+      .port-bar-section-title {
+        font-size: 12px;
+        padding: 8px 12px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      
+      /* 3-column grid for cards - desktop efficiency */
+      .port-bar-section {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      
+      .port-bar-section-title {
+        grid-column: 1 / -1;
+      }
+      
+      .pstat {
+        padding: 12px 10px;
+        min-width: auto;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+      
+      .pstat:active {
+        transform: scale(0.98);
+        background: rgba(16, 185, 129, 0.1);
+      }
+      
+      .pstat-lbl {
+        font-size: 11px;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
+      }
+      
+      .pstat-val {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      
+      .pstat-pct {
+        font-size: 11px;
+        color: var(--textM);
+        margin-top: 2px;
+      }
+      
+      /* Portfolio table - desktop-like */
       .port-table-wrap {
         overflow-x: auto;
-        margin-bottom: 16px;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+        border-radius: 12px;
       }
       
       .port-table-wrap table {
-        min-width: 750px;
+        min-width: 800px;
+        width: 100%;
       }
       
       .port-table-wrap th {
-        padding: 10px 8px;
-        font-size: 10px;
+        padding: 14px 10px;
+        font-size: 12px;
+        background: rgba(51, 65, 85, 0.5);
+        border-bottom: 1px solid var(--border);
       }
       
       .port-table-wrap td {
-        padding: 10px 8px;
+        padding: 14px 10px;
+        font-size: 13px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+      }
+      
+      /* Scenario table - DESKTOP-LEVEL TABLE LAYOUT */
+      .scenario-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+        margin-bottom: 20px;
+      }
+      
+      .scenario-wrap table {
+        display: table !important;
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      
+      .scenario-wrap thead {
+        display: table-header-group !important;
+      }
+      
+      .scenario-wrap tbody {
+        display: table-row-group !important;
+      }
+      
+      .scenario-wrap tr {
+        display: table-row !important;
+        margin-bottom: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      
+      .scenario-wrap th {
+        display: table-cell !important;
         font-size: 11px;
+        padding: 12px 8px;
+        background: rgba(51, 65, 85, 0.5);
+        border-bottom: 1px solid var(--border);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      .scenario-wrap td {
+        display: table-cell !important;
+        width: auto !important;
+        padding: 10px 8px !important;
+        font-size: 12px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      /* Column width optimization - desktop level */
+      .scenario-wrap th:nth-child(1),
+      .scenario-wrap td:nth-child(1) {
+        width: 140px !important;
+        min-width: 140px;
+      }
+      
+      .scenario-wrap th:nth-child(2),
+      .scenario-wrap td:nth-child(2) {
+        width: 200px !important;
+        min-width: 200px;
+      }
+      
+      .scenario-wrap th:nth-child(3),
+      .scenario-wrap th:nth-child(4),
+      .scenario-wrap th:nth-child(5),
+      .scenario-wrap th:nth-child(6),
+      .scenario-wrap th:nth-child(7),
+      .scenario-wrap td:nth-child(3),
+      .scenario-wrap td:nth-child(4),
+      .scenario-wrap td:nth-child(5),
+      .scenario-wrap td:nth-child(6),
+      .scenario-wrap td:nth-child(7) {
+        width: calc((100% - 340px) / 5) !important;
+        min-width: 90px;
+        text-align: center;
+      }
+      
+      /* Custom price column highlight */
+      .scenario-wrap th:nth-child(7) {
+        background: rgba(16, 185, 129, 0.15) !important;
+        border-left: 2px solid var(--accent);
+        font-weight: 700;
+      }
+      
+      .scenario-wrap td:nth-child(7) {
+        background: rgba(16, 185, 129, 0.05) !important;
+        border-left: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      
+      /* Row styling - desktop level */
+      .st-main td {
+        font-size: 13px !important;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.08) !important;
+      }
+      
+      .st-sub td {
+        font-size: 12px !important;
+      }
+      
+      .st-cash td {
+        background: rgba(16, 185, 129, 0.12) !important;
+        font-weight: 600;
+      }
+      
+      /* Custom price input */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-direction: row;
+        gap: 15px;
+        padding: 20px !important;
+      }
+      
+      #custom-price-input {
+        width: 300px !important;
+        padding: 12px !important;
+        font-size: 14px;
+      }
+      
+      .scenario-wrap button {
+        width: auto;
+        padding: 12px 20px;
+        font-size: 12px;
+      }
+      
+      /* Compact header buttons */
+      header > div:last-child {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      
+      .btn-out {
+        padding: 8px 16px;
+        font-size: 12px;
       }
     }
 
