@@ -1564,6 +1564,8 @@
 
               </div>
 
+              <button id="lang-toggle" class="btn-out" onclick="toggleLanguage()" style="background:var(--blue); padding:6px 12px; font-size:11px; min-width:40px;">EN</button>
+
               <button id="format-toggle" class="btn-out" onclick="toggleAmountFormat()" style="background:var(--accent);">Show Actual Amounts</button>
 
               <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
@@ -1861,9 +1863,9 @@
 
                 <tr>
 
-                  <th>분류 및 단계 (STAGE)</th>
+                  <th data-translate="stage">분류 및 단계 (STAGE)</th>
 
-                  <th>세부 항목 및 브로커 전술</th>
+                  <th data-translate="detail_item">세부 항목 및 브로커 전술</th>
 
                   <th class="r">Price $210</th>
 
@@ -1887,9 +1889,9 @@
 
                 <tr class="st-main">
 
-                  <td>ST 1. 확보 총액</td>
+                  <td data-translate="st1_total">ST 1. 확보 총액</td>
 
-                  <td style="color:var(--textD)">[SECTION TOTAL (Gross)]</td>
+                  <td style="color:var(--textD)" data-translate="st1_section">[SECTION TOTAL (Gross)]</td>
 
                   <td class="r pos" id="st1-total-1">$8.71M</td>
 
@@ -1906,8 +1908,8 @@
                 </tr>
 
                 <tr class="st-sub" style="white-space:nowrap;">
-                  <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">└ [한화 환산]</td>
-                  <td class="det-cash" id="exchange-rate-display" style="white-space:nowrap;">실제 가치 기준 (1달러=<span id="live-krw-rate">1,380</span>원)</td>
+                  <td class="pl-indent" style="color:var(--accent);white-space:nowrap;" data-translate="korean_won">└ [한화 환산]</td>
+                  <td class="det-cash" id="exchange-rate-display" style="white-space:nowrap;" data-translate="exchange_rate">실제 가치 기준 (1달러=<span id="live-krw-rate">1,380</span>원)</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">120억 1,161만원</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">138억 4,411만원</td>
                   <td class="r pos" style="color:var(--accent);white-space:nowrap;">228억 556만원</td>
@@ -1977,8 +1979,8 @@
                 </tr>
 
                 <tr class="st-cash" style="white-space:nowrap;">
-                  <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">💵 [현금 잔고]</td>
-                  <td class="det-cash" style="white-space:nowrap;">잔존 유동 현금 상태</td>
+                  <td class="pl-indent" style="color:var(--accent);white-space:nowrap;" data-translate="cash_remaining">💵 [현금 잔고]</td>
+                  <td class="det-cash" style="white-space:nowrap;" data-translate="cash_remaining_desc">잔존 유동 현금 상태</td>
                   <td class="r pos" style="white-space:nowrap;">$8.71M</td>
                   <td class="r pos" style="white-space:nowrap;">$10.03M</td>
                   <td class="r pos" style="white-space:nowrap;">$16.54M</td>
@@ -1993,9 +1995,9 @@
 
                 <tr class="st-main">
 
-                  <td>ST 2. 즉시 집행금</td>
+                  <td data-translate="st2_immediate">ST 2. 즉시 집행금</td>
 
-                  <td style="color:var(--textD)">[Dynamic Cash Reserve Matrix]</td>
+                  <td style="color:var(--textD)" data-translate="st2_matrix">[Dynamic Cash Reserve Matrix]</td>
 
                   <td class="r neg" id="st2-total-1">-$1.05M</td>
 
@@ -2473,9 +2475,9 @@
 
                 <tr class="st-main">
 
-                  <td>ST 4. 절세 제국 스케일업</td>
+                  <td data-translate="st4_tax">ST 4. 절세 제국 스케일업</td>
 
-                  <td style="color:var(--textD)">[SECTION TOTAL (BBBY + GME STCG Offset)]</td>
+                  <td style="color:var(--textD)" data-translate="st4_section">[SECTION TOTAL (BBBY + GME STCG Offset)]</td>
 
                   <td class="r neg" id="st4-total-1">-$13.06M</td>
 
@@ -2614,9 +2616,9 @@
                 </tr>
 
                 <tr class="st-main">
-                  <td>ST 5. 최종 완성</td>
+                  <td data-translate="st5_final">ST 5. 최종 완성</td>
 
-                  <td style="color:var(--textD)">[SECTION TOTAL (Post-180 Days)]</td>
+                  <td style="color:var(--textD)" data-translate="st5_section">[SECTION TOTAL (Post-180 Days)]</td>
 
                   <td class="r pos" style="color:var(--bull);">$68k</td>
 
@@ -2737,8 +2739,8 @@
 
                 <!-- Final Validation -->
                 <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
-                  <td style="color:#fff;">최종 검증</td>
-                  <td style="color:#fff;">Zero-Sum Check (현금흐름)</td>
+                  <td style="color:#fff;" data-translate="final_validation">최종 검증</td>
+                  <td style="color:#fff;" data-translate="zero_sum">Zero-Sum Check (현금흐름)</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
                   <td class="r pos" style="font-size:20px; font-weight:900;">$0</td>
@@ -2748,8 +2750,8 @@
                 </tr>
 
                 <tr class="st-main" style="background:rgba(0,200,83,0.08);">
-                  <td style="color:var(--bull); font-weight:900;">💰 내 현금 수중</td>
-                  <td style="color:var(--text);">실제 수중 현금 (Cash in Hand)</td>
+                  <td style="color:var(--bull); font-weight:900;" data-translate="cash_in_hand">💰 내 현금 수중</td>
+                  <td style="color:var(--text);" data-translate="cash_in_hand_desc">실제 수중 현금 (Cash in Hand)</td>
                   <td class="r pos" style="font-weight:900;" id="cash-hand-1">$7.66M</td>
                   <td class="r pos" style="font-weight:900;" id="cash-hand-2">$8.82M</td>
                   <td class="r pos" style="font-weight:900;" id="cash-hand-3">$14.55M</td>
@@ -2759,8 +2761,8 @@
                 </tr>
 
                 <tr class="st-main" style="background:rgba(0,212,170,0.15); border-top: 3px solid var(--accent);">
-                  <td style="color:var(--accent); font-weight:900; font-size:14px;">💎 NET WORTH</td>
-                  <td style="color:var(--text);">총 순자산 (Cash + Assets)</td>
+                  <td style="color:var(--accent); font-weight:900; font-size:14px;" data-translate="net_worth_total">💎 NET WORTH</td>
+                  <td style="color:var(--text);" data-translate="net_worth_desc">총 순자산 (Cash + Assets)</td>
                   <td class="r pos" style="font-weight:900; font-size:16px;" id="net-worth-1">$21.91M</td>
                   <td class="r pos" style="font-weight:900; font-size:16px;" id="net-worth-2">$25.27M</td>
                   <td class="r pos" style="font-weight:900; font-size:16px;" id="net-worth-3">$41.64M</td>
@@ -2846,6 +2848,330 @@
 
     let V_BABA_P = 0, V_BABA_PCT = 0, V_BABA_EXT = "";
 
+
+
+    // Language System - Korean (default) / English
+    let currentLanguage = localStorage.getItem('yoonwar_lang') || 'KO';
+    
+    const translations = {
+      'KO': {
+        'lock_logo': 'YOON WAR COMMAND CENTER',
+        'lock_sub': 'VERCEL API ULTIMATE SYNC V53.0',
+        'lock_err': 'AUTH ERROR: COMMAND DENIED',
+        'brand_name': 'YOON WAR COMMAND CENTER',
+        'conn_satellite': 'SATELLITE STANDBY',
+        'conn_uplinking': '[UPLINKING VIA VERCEL API...]',
+        'conn_stable': '[SATELLITE UPLINK: STABLE]',
+        'conn_error': '[API ERROR: DATA CORRUPT]',
+        'conn_failed': '[ERR: API CONNECT FAILED]',
+        'btn_format_show': 'Show Actual Amounts',
+        'btn_format_mk': 'Show M/K Format',
+        'btn_resync': '↻ FULL RE-SYNC',
+        'strategic_basket': 'STRATEGIC BASKET',
+        'market_indices': 'MARKET INDICES',
+        'portfolio_status': 'PORTFOLIO STATUS',
+        'net_worth': '💎 NET WORTH',
+        'equity': 'EQUITY',
+        'session': 'SESSION',
+        'unrealized': 'UNREALIZED',
+        'target': 'TARGET ($399)',
+        'custom_target': 'CUSTOM TARGET',
+        'waiting': 'WAITING...',
+        'bankrupt': 'BANKRUPT',
+        'asset_instrument': 'Asset Instrument',
+        'position': 'Position',
+        'avg_basis': 'Avg Basis',
+        'live_matrix': 'Live Matrix',
+        'terminal_value': 'Terminal Value',
+        'session_delta': 'Session Δ',
+        'total_delta': 'Total Δ',
+        'roi': 'ROI %',
+        'scenario_title': 'OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX',
+        'custom_price': 'Custom Price Input:',
+        'apply_price': 'Apply Price',
+        'reset_realtime': 'Reset to Real-time',
+        'stage': '분류 및 단계 (STAGE)',
+        'detail_item': '세부 항목 및 브로커 전술',
+        'korean_won': '└ [한화 환산]',
+        'exchange_rate': '실제 가치 기준 (1달러=',
+        'cash_remaining': '잔존 유동 현금 상태',
+        'st1_total': 'ST 1. 확보 총액',
+        'st1_section': '[SECTION TOTAL (Gross)]',
+        'st2_immediate': 'ST 2. 즉시 집행금',
+        'st2_matrix': '[Dynamic Cash Reserve Matrix]',
+        'minimum_guarantee': '└ 미니멈 보장',
+        'base_reserve': 'Base Cash Reserve',
+        'price_linked': '└ 주가 연동 추가금',
+        'price_linked_desc': 'Price-Linked Additional (GME × 1,000)',
+        'mobility_self': '└ 모빌리티 (본인)',
+        'mobility_self_desc': 'Aston Martin / MC20 / Ferrari F430',
+        'mobility_dad': '└ 모빌리티 (아빠)',
+        'mobility_dad_desc': 'BMW 740i',
+        'mobility_mom': '└ 모빌리티 (엄마)',
+        'mobility_mom_desc': 'TESLA Model Y Full Option',
+        'gift_dad': '└ 기프트 (아빠)',
+        'gift_dad_desc': 'Omega Seamaster Diver 300M',
+        'cash_gift_dad': '└ 현금 선물 (아빠)',
+        'cash_gift_desc': 'Cash Gift',
+        'gift_mom': '└ 기프트 (엄마)',
+        'gift_mom_desc': 'Cartier Tank Louis & LV M27335',
+        'cash_gift_mom': '└ 현금 선물 (엄마)',
+        'gift_jini': '└ 기프트 (진이)',
+        'gift_jini_desc': 'Omega Aqua Terra & Dior Bag',
+        'cash_gift_jini': '└ 현금 선물 (진이)',
+        'mobility_jini': '└ 모빌리티 (진이)',
+        'mobility_jini_desc': 'Porsche Macan',
+        'arun_m5': '└ Arun M5 CS Green',
+        'arun_m5_desc': '인생의 귀인의 선물',
+        'cash_after': '💵 [현금 잔고]',
+        'cash_after_desc': '즉시 집행 후 유동 현금',
+        'cs_shares': '└ [CS] 현물',
+        'cs_shares_desc': 'GME 100,000주 집중 확보 (Infinity)',
+        'fid_option': '└ [Fid] 옵션',
+        'fid_option_desc': "'27/'28 LEAPS (잔고 37% 매수, 나머지 현금)",
+        'moo_option': '└ [Moo] 옵션',
+        'moo_option_desc': "'27/'28 LEAPS (잔고 63% 매수, 나머지 현금)",
+        'st3_broker': 'ST 3. 브로커 파이프라인',
+        'st3_section': '[SECTION TOTAL (Execution)]',
+        'st4_tax': 'ST 4. 절세 제국 스케일업',
+        'st4_section': '[SECTION TOTAL (BBBY + GME STCG Offset)]',
+        'gme_partial': '└ GME Partial Sell',
+        'gme_partial_desc': '180일 내 LEAPS/현물 부분 청산',
+        'tax_calc': '└ 세금 계산',
+        'tax_calc_desc': 'Short-Term Capital Gains Tax (37%)',
+        'tax_shield': '└ 절세 플랜',
+        'tax_shield_desc': 'Tax Shield Applied (Net after deductions)',
+        'og_energy': '└ O&G (Energy)',
+        'og_energy_desc': 'IDC 100% 공제 (에너지 유정 WI)',
+        'qof_housing': '└ QOF Housing',
+        'qof_housing_desc': 'QOZ 다세대 주택 (10년 면세)',
+        'clat_trust': '└ CLAT (Trust)',
+        'clat_trust_desc': '자선 소득 신탁 (즉시 소득 공제)',
+        'st4_cash': '💵 [최종 현금 잔고]',
+        'st4_cash_desc': 'Tax Shield 방어 후 생존 잔고',
+        'st5_final': 'ST 5. 최종 완성',
+        'st5_section': '[SECTION TOTAL (Post-180 Days)]',
+        'tax_owed': '└ Tax Owed',
+        'tax_owed_desc': 'Remaining Tax Liability (Post-Defense)',
+        'tax_saved': '└ (세무 실익)',
+        'tax_saved_desc': 'Tax Saved (세후)',
+        'monthly_income': '└ (월 예상 수익)',
+        'monthly_income_desc': 'Monthly Passive Income (Net)',
+        'st1_summary': '└ ST1 확보',
+        'st1_summary_desc': 'Acquisition Gross',
+        'st2_summary': '└ ST2 집행',
+        'st2_summary_desc': 'Immediate Execution',
+        'st3_summary': '└ ST3 브로커',
+        'st3_summary_desc': 'Broker Pipeline',
+        'st4_summary': '└ ST4 절세',
+        'st4_summary_desc': 'Tax Shield + Reinvestment',
+        'final_validation': '최종 검증',
+        'zero_sum': 'Zero-Sum Check (현금흐름)',
+        'cash_in_hand': '💰 내 현금 수중',
+        'cash_in_hand_desc': '실제 수중 현금 (Cash in Hand)',
+        'net_worth_total': '💎 NET WORTH',
+        'net_worth_desc': '총 순자산 (Cash + Assets)',
+        'won_suffix': '원'
+      },
+      'EN': {
+        'lock_logo': 'YOON WAR COMMAND CENTER',
+        'lock_sub': 'VERCEL API ULTIMATE SYNC V53.0',
+        'lock_err': 'AUTH ERROR: COMMAND DENIED',
+        'brand_name': 'YOON WAR COMMAND CENTER',
+        'conn_satellite': 'SATELLITE STANDBY',
+        'conn_uplinking': '[UPLINKING VIA VERCEL API...]',
+        'conn_stable': '[SATELLITE UPLINK: STABLE]',
+        'conn_error': '[API ERROR: DATA CORRUPT]',
+        'conn_failed': '[ERR: API CONNECT FAILED]',
+        'btn_format_show': 'Show Actual Amounts',
+        'btn_format_mk': 'Show M/K Format',
+        'btn_resync': '↻ FULL RE-SYNC',
+        'strategic_basket': 'STRATEGIC BASKET',
+        'market_indices': 'MARKET INDICES',
+        'portfolio_status': 'PORTFOLIO STATUS',
+        'net_worth': '💎 NET WORTH',
+        'equity': 'EQUITY',
+        'session': 'SESSION',
+        'unrealized': 'UNREALIZED',
+        'target': 'TARGET ($399)',
+        'custom_target': 'CUSTOM TARGET',
+        'waiting': 'WAITING...',
+        'bankrupt': 'BANKRUPT',
+        'asset_instrument': 'Asset Instrument',
+        'position': 'Position',
+        'avg_basis': 'Avg Basis',
+        'live_matrix': 'Live Matrix',
+        'terminal_value': 'Terminal Value',
+        'session_delta': 'Session Δ',
+        'total_delta': 'Total Δ',
+        'roi': 'ROI %',
+        'scenario_title': 'OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX',
+        'custom_price': 'Custom Price Input:',
+        'apply_price': 'Apply Price',
+        'reset_realtime': 'Reset to Real-time',
+        'stage': 'STAGE & CATEGORY',
+        'detail_item': 'Detail & Broker Tactics',
+        'korean_won': '└ [KRW Conversion]',
+        'exchange_rate': 'Value basis (1 USD = ',
+        'cash_remaining': 'Remaining Liquid Cash',
+        'st1_total': 'ST 1. Total Acquisition',
+        'st1_section': '[SECTION TOTAL (Gross)]',
+        'st2_immediate': 'ST 2. Immediate Execution',
+        'st2_matrix': '[Dynamic Cash Reserve Matrix]',
+        'minimum_guarantee': '└ Minimum Guarantee',
+        'base_reserve': 'Base Cash Reserve',
+        'price_linked': '└ Price-Linked Additional',
+        'price_linked_desc': 'Price-Linked Additional (GME × 1,000)',
+        'mobility_self': '└ Mobility (Self)',
+        'mobility_self_desc': 'Aston Martin / MC20 / Ferrari F430',
+        'mobility_dad': '└ Mobility (Dad)',
+        'mobility_dad_desc': 'BMW 740i',
+        'mobility_mom': '└ Mobility (Mom)',
+        'mobility_mom_desc': 'TESLA Model Y Full Option',
+        'gift_dad': '└ Gift (Dad)',
+        'gift_dad_desc': 'Omega Seamaster Diver 300M',
+        'cash_gift_dad': '└ Cash Gift (Dad)',
+        'cash_gift_desc': 'Cash Gift',
+        'gift_mom': '└ Gift (Mom)',
+        'gift_mom_desc': 'Cartier Tank Louis & LV M27335',
+        'cash_gift_mom': '└ Cash Gift (Mom)',
+        'gift_jini': '└ Gift (Jini)',
+        'gift_jini_desc': 'Omega Aqua Terra & Dior Bag',
+        'cash_gift_jini': '└ Cash Gift (Jini)',
+        'mobility_jini': '└ Mobility (Jini)',
+        'mobility_jini_desc': 'Porsche Macan',
+        'arun_m5': '└ Arun M5 CS Green',
+        'arun_m5_desc': 'Gift from Life\'s Benefactor',
+        'cash_after': '💵 [Cash Balance]',
+        'cash_after_desc': 'Liquid Cash After Immediate Execution',
+        'cs_shares': '└ [CS] Physical',
+        'cs_shares_desc': 'GME 100,000 Shares Concentration (Infinity)',
+        'fid_option': '└ [Fid] Options',
+        'fid_option_desc': "'27/'28 LEAPS (37% of balance, rest cash)",
+        'moo_option': '└ [Moo] Options',
+        'moo_option_desc': "'27/'28 LEAPS (63% of balance, rest cash)",
+        'st3_broker': 'ST 3. Broker Pipeline',
+        'st3_section': '[SECTION TOTAL (Execution)]',
+        'st4_tax': 'ST 4. Tax-Efficient Empire Scale-up',
+        'st4_section': '[SECTION TOTAL (BBBY + GME STCG Offset)]',
+        'gme_partial': '└ GME Partial Sell',
+        'gme_partial_desc': 'LEAPS/Physical Partial Liquidation (180 days)',
+        'tax_calc': '└ Tax Calculation',
+        'tax_calc_desc': 'Short-Term Capital Gains Tax (37%)',
+        'tax_shield': '└ Tax Shield Plan',
+        'tax_shield_desc': 'Tax Shield Applied (Net after deductions)',
+        'og_energy': '└ O&G (Energy)',
+        'og_energy_desc': 'IDC 100% Deduction (Energy WI)',
+        'qof_housing': '└ QOF Housing',
+        'qof_housing_desc': 'QOZ Multi-Family Housing (10-yr Tax Exempt)',
+        'clat_trust': '└ CLAT (Trust)',
+        'clat_trust_desc': 'Charitable Income Trust (Immediate Deduction)',
+        'st4_cash': '💵 [Final Cash Balance]',
+        'st4_cash_desc': 'Surviving Balance After Tax Shield Defense',
+        'st5_final': 'ST 5. Final Completion',
+        'st5_section': '[SECTION TOTAL (Post-180 Days)]',
+        'tax_owed': '└ Tax Owed',
+        'tax_owed_desc': 'Remaining Tax Liability (Post-Defense)',
+        'tax_saved': '└ (Tax Benefit)',
+        'tax_saved_desc': 'Tax Saved (After-tax)',
+        'monthly_income': '└ (Monthly Est. Income)',
+        'monthly_income_desc': 'Monthly Passive Income (Net)',
+        'st1_summary': '└ ST1 Acquisition',
+        'st1_summary_desc': 'Acquisition Gross',
+        'st2_summary': '└ ST2 Execution',
+        'st2_summary_desc': 'Immediate Execution',
+        'st3_summary': '└ ST3 Broker',
+        'st3_summary_desc': 'Broker Pipeline',
+        'st4_summary': '└ ST4 Tax Shield',
+        'st4_summary_desc': 'Tax Shield + Reinvestment',
+        'final_validation': 'Final Validation',
+        'zero_sum': 'Zero-Sum Check (Cash Flow)',
+        'cash_in_hand': '💰 Cash in Hand',
+        'cash_in_hand_desc': 'Actual Cash in Hand',
+        'net_worth_total': '💎 NET WORTH',
+        'net_worth_desc': 'Total Net Worth (Cash + Assets)',
+        'won_suffix': ' KRW'
+      }
+    };
+    
+    // Toggle language function
+    function toggleLanguage() {
+      currentLanguage = currentLanguage === 'KO' ? 'EN' : 'KO';
+      localStorage.setItem('yoonwar_lang', currentLanguage);
+      
+      const btn = document.getElementById('lang-toggle');
+      if (btn) {
+        btn.textContent = currentLanguage === 'KO' ? 'EN' : 'KO';
+      }
+      
+      applyTranslations();
+    }
+    
+    // Apply translations to the page
+    function applyTranslations() {
+      const t = translations[currentLanguage];
+      
+      // Update button text
+      const formatBtn = document.getElementById('format-toggle');
+      if (formatBtn) {
+        formatBtn.textContent = showActualAmounts ? t['btn_format_mk'] : t['btn_format_show'];
+      }
+      
+      const resyncBtn = document.querySelector('button[onclick="refreshAll()"]');
+      if (resyncBtn) resyncBtn.textContent = t['btn_resync'];
+      
+      // Update port-bar section titles
+      const portBarTitles = document.querySelectorAll('.port-bar-section-title');
+      portBarTitles.forEach(title => {
+        const text = title.textContent.trim();
+        if (text === 'STRATEGIC BASKET') title.textContent = t['strategic_basket'];
+        else if (text === 'MARKET INDICES') title.textContent = t['market_indices'];
+        else if (text === 'PORTFOLIO STATUS') title.textContent = t['portfolio_status'];
+      });
+      
+      // Update table headers
+      const headers = document.querySelectorAll('thead th');
+      headers.forEach(th => {
+        const key = th.getAttribute('data-translate');
+        if (key && t[key]) th.textContent = t[key];
+      });
+      
+      // Update scenario title
+      const scenarioTitle = document.querySelector('.scenario-title');
+      if (scenarioTitle) scenarioTitle.textContent = t['scenario_title'];
+      
+      // Update table cells with data-translate attributes
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (t[key]) {
+          // Preserve any HTML inside but replace text
+          if (el.children.length === 0) {
+            el.textContent = t[key];
+          }
+        }
+      });
+      
+      // Update custom price section
+      const customPriceLabel = document.querySelector('#custom-price-input').previousElementSibling;
+      if (customPriceLabel && customPriceLabel.textContent.includes('Custom')) {
+        customPriceLabel.textContent = t['custom_price'];
+      }
+      
+      const applyBtn = document.getElementById('apply-custom-price');
+      if (applyBtn) applyBtn.textContent = t['apply_price'];
+      
+      const resetBtn = document.getElementById('reset-net-worth');
+      if (resetBtn) resetBtn.textContent = t['reset_realtime'];
+    }
+    
+    // Initialize language on page load
+    function initLanguage() {
+      const btn = document.getElementById('lang-toggle');
+      if (btn) {
+        btn.textContent = currentLanguage === 'KO' ? 'EN' : 'KO';
+      }
+      applyTranslations();
+    }
 
 
     function submitPin() {
@@ -4548,6 +4874,9 @@
 
       renderTerminal();
       
+      // Initialize language system
+      initLanguage();
+
       // Calculate all pipeline columns on startup
       calculateAllPipelineColumns();
 
