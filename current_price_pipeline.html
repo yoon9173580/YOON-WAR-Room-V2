@@ -4248,189 +4248,50 @@
       upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT);
       upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT);
 
-      // Calculate after market hours once for all stocks
-      const now = new Date();
-      const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-      const hour = estTime.getHours();
-      const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
-      console.log('TIME DEBUG:', {localTime: now.toLocaleTimeString(), estTime: estTime.toLocaleTimeString(), hour, isAfterMarketHours});
-      
-      // Force aftermarket display for testing (remove this line after testing)
-      const forceAfterMarket = true;
-
-      // Update GME price in port-bar with highlight and aftermarket
-      const gmePriceDisplayEl = document.getElementById('gme-price-display');
-      console.log('DEBUG GME render:', {V_GME_P, V_GME_AFTER_P, V_GME_AFTER_C, V_GME_AFTER_PCT, gmePriceDisplayEl, estTime: estTime.toLocaleTimeString(), isAfterMarketHours});
-      
-      if (gmePriceDisplayEl && V_GME_P > 0) {
-        const sign = V_GME_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_GME_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_GME_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_GME_AFTER_P.toFixed(2)} (${sign}${V_GME_AFTER_C.toFixed(2)} / ${sign}${V_GME_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_GME_P.toFixed(2) + afterHoursHtml;
-        const oldText = gmePriceDisplayEl.dataset.prevValue || '';
-        gmePriceDisplayEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_GME_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(gmePriceDisplayEl, isUp);
-        }
-        gmePriceDisplayEl.dataset.prevValue = newText;
-      }
-
-      // Update AMC price in port-bar with highlight and aftermarket
-      const amcPriceDisplayEl = document.getElementById('amc-price-display');
-      console.log('DEBUG AMC render:', {V_AMC_P, V_AMC_AFTER_P, V_AMC_AFTER_C, V_AMC_AFTER_PCT, amcPriceDisplayEl, isAfterMarketHours});
-      if (amcPriceDisplayEl && V_AMC_P > 0) {
-        const sign = V_AMC_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_AMC_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_AMC_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_AMC_AFTER_P.toFixed(2)} (${sign}${V_AMC_AFTER_C.toFixed(2)} / ${sign}${V_AMC_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_AMC_P.toFixed(2) + afterHoursHtml;
-        const oldText = amcPriceDisplayEl.dataset.prevValue || '';
-        amcPriceDisplayEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_AMC_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(amcPriceDisplayEl, isUp);
-        }
-        amcPriceDisplayEl.dataset.prevValue = newText;
-      }
-
-      // Update IEP price in port-bar with highlight and aftermarket
-      const iepPriceEl = document.getElementById('iep-price-display');
-      console.log('DEBUG IEP render:', {V_IEP_P, V_IEP_AFTER_P, V_IEP_AFTER_C, V_IEP_AFTER_PCT, iepPriceEl, isAfterMarketHours});
-      if (iepPriceEl && V_IEP_P > 0) {
-        const sign = V_IEP_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_IEP_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_IEP_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_IEP_AFTER_P.toFixed(2)} (${sign}${V_IEP_AFTER_C.toFixed(2)} / ${sign}${V_IEP_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_IEP_P.toFixed(2) + afterHoursHtml;
-        const oldText = iepPriceEl.dataset.prevValue || '';
-        iepPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_IEP_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(iepPriceEl, isUp);
-        }
-        iepPriceEl.dataset.prevValue = newText;
-      }
-
-      // Update BB price in port-bar with highlight and aftermarket
-      const bbPriceEl = document.getElementById('bb-price-display');
-      console.log('DEBUG BB render:', {V_BB_P, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT, bbPriceEl, estTime: estTime.toLocaleTimeString(), isAfterMarketHours});
-      
-      // Force display aftermarket data if available during after hours OR for testing
-      if (bbPriceEl && V_BB_P > 0) {
-        const sign = V_BB_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_BB_AFTER_PCT >= 0 ? 'pos' : 'neg';
+      // NEW: Unified aftermarket display function
+      function displayAftermarketPrice(elementId, price, afterPrice, afterChange, afterPct, symbol) {
+        const element = document.getElementById(elementId);
+        if (!element || price === 0) return;
+        
+        const now = new Date();
+        const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+        const hour = estTime.getHours();
+        const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
+        const forceAfterMarket = true; // Remove after testing
+        
+        console.log(`AFTERMARKET ${symbol}:`, {price, afterPrice, afterChange, afterPct, isAfterMarketHours});
+        
+        let html = `$${price.toFixed(2)}`;
+        
         // Show aftermarket if data exists AND it's after market hours OR force testing
-        const afterHoursHtml = (V_BB_AFTER_P > 0 && (isAfterMarketHours || forceAfterMarket)) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_BB_AFTER_P.toFixed(2)} (${sign}${V_BB_AFTER_C.toFixed(2)} / ${sign}${V_BB_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_BB_P.toFixed(2) + afterHoursHtml;
-        const oldText = bbPriceEl.dataset.prevValue || '';
-        bbPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_BB_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(bbPriceEl, isUp);
+        if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
+          const sign = afterChange >= 0 ? '+' : '';
+          const pctClass = afterPct >= 0 ? 'pos' : 'neg';
+          html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
         }
-        bbPriceEl.dataset.prevValue = newText;
+        
+        element.innerHTML = html;
       }
 
-      // Update NOK price in port-bar with highlight and aftermarket
-      const nokPriceEl = document.getElementById('nok-price-display');
-      console.log('DEBUG NOK render:', {V_NOK_P, V_NOK_AFTER_P, V_NOK_AFTER_C, V_NOK_AFTER_PCT, nokPriceEl, isAfterMarketHours});
-      if (nokPriceEl && V_NOK_P > 0) {
-        const sign = V_NOK_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_NOK_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_NOK_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_NOK_AFTER_P.toFixed(2)} (${sign}${V_NOK_AFTER_C.toFixed(2)} / ${sign}${V_NOK_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_NOK_P.toFixed(2) + afterHoursHtml;
-        const oldText = nokPriceEl.dataset.prevValue || '';
-        nokPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_NOK_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(nokPriceEl, isUp);
-        }
-        nokPriceEl.dataset.prevValue = newText;
+      // NEW: Update all port-bar prices with unified function
+      function updateAllPortBarPrices() {
+        // Strategic Basket
+        displayAftermarketPrice('gme-price-display', V_GME_P, V_GME_AFTER_P, V_GME_AFTER_C, V_GME_AFTER_PCT, 'GME');
+        displayAftermarketPrice('amc-price-display', V_AMC_P, V_AMC_AFTER_P, V_AMC_AFTER_C, V_AMC_AFTER_PCT, 'AMC');
+        displayAftermarketPrice('iep-price-display', V_IEP_P, V_IEP_AFTER_P, V_IEP_AFTER_C, V_IEP_AFTER_PCT, 'IEP');
+        displayAftermarketPrice('bb-price-display', V_BB_P, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT, 'BB');
+        displayAftermarketPrice('nok-price-display', V_NOK_P, V_NOK_AFTER_P, V_NOK_AFTER_C, V_NOK_AFTER_PCT, 'NOK');
+        displayAftermarketPrice('baba-price-display', V_BABA_P, V_BABA_AFTER_P, V_BABA_AFTER_C, V_BABA_AFTER_PCT, 'BABA');
+        
+        // Market Indices
+        displayAftermarketPrice('btc-price-display', V_BTC_P, V_BTC_AFTER_P, V_BTC_AFTER_C, V_BTC_AFTER_PCT, 'BTC');
+        displayAftermarketPrice('spy-price-display', V_SPY_P, V_SPY_AFTER_P, V_SPY_AFTER_C, V_SPY_AFTER_PCT, 'SPY');
+        displayAftermarketPrice('qqq-price-display', V_QQQ_P, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT, 'QQQ');
+        displayAftermarketPrice('vix-price-display', V_VIX_P, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT, 'VIX');
       }
 
-      // Update BABA price in port-bar with highlight and aftermarket
-      const babaPriceEl = document.getElementById('baba-price-display');
-      console.log('DEBUG BABA render:', {V_BABA_P, V_BABA_AFTER_P, V_BABA_AFTER_C, V_BABA_AFTER_PCT, babaPriceEl, isAfterMarketHours});
-      if (babaPriceEl && V_BABA_P > 0) {
-        const sign = V_BABA_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_BABA_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_BABA_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_BABA_AFTER_P.toFixed(2)} (${sign}${V_BABA_AFTER_C.toFixed(2)} / ${sign}${V_BABA_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_BABA_P.toFixed(2) + afterHoursHtml;
-        const oldText = babaPriceEl.dataset.prevValue || '';
-        babaPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_BABA_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(babaPriceEl, isUp);
-        }
-        babaPriceEl.dataset.prevValue = newText;
-      }
-
-      // Update BTC in port-bar with highlight and aftermarket
-      const btcPriceEl = document.getElementById('btc-price-display');
-      console.log('DEBUG BTC render:', {V_BTC_P, V_BTC_AFTER_P, V_BTC_AFTER_C, V_BTC_AFTER_PCT, btcPriceEl, isAfterMarketHours});
-      if (btcPriceEl && V_BTC_P > 0) {
-        const sign = V_BTC_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_BTC_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_BTC_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_BTC_AFTER_P.toFixed(2)} (${sign}${V_BTC_AFTER_C.toFixed(2)} / ${sign}${V_BTC_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + fmt(V_BTC_P) + afterHoursHtml;
-        const oldText = btcPriceEl.dataset.prevValue || '';
-        btcPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_BTC_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(btcPriceEl, isUp);
-        }
-        btcPriceEl.dataset.prevValue = newText;
-      }
-
-      // Update SPY in port-bar with highlight and aftermarket
-      const spyPriceEl = document.getElementById('spy-price-display');
-      console.log('DEBUG SPY render:', {V_SPY_P, V_SPY_AFTER_P, V_SPY_AFTER_C, V_SPY_AFTER_PCT, spyPriceEl, isAfterMarketHours});
-      if (spyPriceEl && V_SPY_P > 0) {
-        const sign = V_SPY_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_SPY_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_SPY_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_SPY_AFTER_P.toFixed(2)} (${sign}${V_SPY_AFTER_C.toFixed(2)} / ${sign}${V_SPY_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_SPY_P.toFixed(2) + afterHoursHtml;
-        const oldText = spyPriceEl.dataset.prevValue || '';
-        spyPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_SPY_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(spyPriceEl, isUp);
-        }
-        spyPriceEl.dataset.prevValue = newText;
-      }
-
-      // Update QQQ in port-bar with highlight and aftermarket
-      const qqqPriceEl = document.getElementById('qqq-price-display');
-      console.log('DEBUG QQQ render:', {V_QQQ_P, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT, qqqPriceEl, isAfterMarketHours});
-      if (qqqPriceEl && V_QQQ_P > 0) {
-        const sign = V_QQQ_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_QQQ_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_QQQ_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_QQQ_AFTER_P.toFixed(2)} (${sign}${V_QQQ_AFTER_C.toFixed(2)} / ${sign}${V_QQQ_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_QQQ_P.toFixed(2) + afterHoursHtml;
-        const oldText = qqqPriceEl.dataset.prevValue || '';
-        qqqPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_QQQ_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(qqqPriceEl, isUp);
-        }
-        qqqPriceEl.dataset.prevValue = newText;
-      }
-
-      // Update VIX in port-bar with highlight and aftermarket
-      const vixPriceEl = document.getElementById('vix-price-display');
-      console.log('DEBUG VIX render:', {V_VIX_P, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT, vixPriceEl, isAfterMarketHours});
-      if (vixPriceEl && V_VIX_P > 0) {
-        const sign = V_VIX_AFTER_C >= 0 ? '+' : '';
-        const pctClass = V_VIX_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        const afterHoursHtml = (V_VIX_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_VIX_AFTER_P.toFixed(2)} (${sign}${V_VIX_AFTER_C.toFixed(2)} / ${sign}${V_VIX_AFTER_PCT.toFixed(2)}%)</span>` : '';
-        const newText = '$' + V_VIX_P.toFixed(2) + afterHoursHtml;
-        const oldText = vixPriceEl.dataset.prevValue || '';
-        vixPriceEl.innerHTML = newText;
-        if (oldText && oldText !== newText) {
-          const isUp = V_VIX_P > parseFloat(oldText.replace(/[$,]/g, ''));
-          applyHighlight(vixPriceEl, isUp);
-        }
-        vixPriceEl.dataset.prevValue = newText;
-      }
+      // Call the new unified function
+      updateAllPortBarPrices();
 
       // Update KOSPI in port-bar with visual effect
       const kospiEl = document.getElementById('kospi-display');
