@@ -4667,7 +4667,14 @@
     function updateStrikePriceWithBalanceAndContracts(cellId, strikeValue, balValue, contracts, gmePrice, strikePrice) {
       const cell = document.getElementById(cellId);
       if (cell) {
-        const premium = gmePrice > 0 && strikePrice > 0 ? ((gmePrice - strikePrice) + gmePrice * 0.15) : 5; // Intrinsic + time value
+        // Fix premium calculation - ensure positive value
+        let premium = 5; // Default minimum premium
+        if (gmePrice > 0 && strikePrice > 0) {
+          const intrinsic = Math.max(0, gmePrice - strikePrice);
+          const timeValue = gmePrice * 0.15;
+          premium = Math.max(1, intrinsic + timeValue); // Ensure minimum $1 premium
+        }
+        
         const actualContracts = gmePrice > 0 ? Math.floor((strikeValue / 100) / premium) : contracts;
         const displayContracts = Math.max(0, actualContracts);
         cell.innerHTML = `<span class="clickable-amount" data-amount="${strikeValue}" style="cursor:pointer;">${fmtDisplay(-strikeValue)}</span><br><span class="bal" style="font-size:10px;">📜 ${displayContracts.toLocaleString()} contracts</span>`;
@@ -4680,7 +4687,12 @@
     function updateOptionWithContracts(cellId, optionValue, gmePrice, totalContracts) {
       const cell = document.getElementById(cellId);
       if (cell) {
-        const avgPremium = gmePrice > 0 ? gmePrice * 0.15 : 5; // Estimated avg premium
+        // Fix premium calculation - ensure positive value
+        let avgPremium = 5; // Default minimum premium
+        if (gmePrice > 0) {
+          avgPremium = Math.max(1, gmePrice * 0.15); // Ensure minimum $1 premium
+        }
+        
         const calculatedContracts = gmePrice > 0 ? Math.floor((optionValue / 100) / avgPremium) : totalContracts;
         const displayContracts = Math.max(0, calculatedContracts);
         cell.innerHTML = `<span class="clickable-amount" data-amount="${optionValue}" style="cursor:pointer;">${fmtDisplay(-optionValue)}</span><br><span class="bal" style="font-size:10px;">📜 ${displayContracts.toLocaleString()} contracts</span>`;
