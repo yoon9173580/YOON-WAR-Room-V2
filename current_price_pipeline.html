@@ -1311,61 +1311,104 @@
 
           <div class="port-bar">
 
-            <!-- BASKET STOCKS -->
-            <div class="port-bar-section">
-              <div class="port-bar-section-title">STRATEGIC BASKET</div>
-              <div class="pstat">
-                <div class="pstat-lbl">GME</div>
-                <div id="gme-price-display" class="pstat-val pos">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">AMC</div>
-                <div id="amc-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">IEP</div>
-                <div id="iep-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">BB</div>
-                <div id="bb-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">NOK</div>
-                <div id="nok-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">BABA</div>
-                <div id="baba-price-display" class="pstat-val">$0.00</div>
-              </div>
-            </div>
+            <!-- UNIFIED MARKET DASHBOARD - All Sections Combined -->
+            <div class="port-bar-section unified-dashboard" style="flex: 3; min-width: 900px;">
+              <div class="port-bar-section-title" style="font-size: 16px; letter-spacing: 1px;">📊 UNIFIED MARKET DASHBOARD</div>
+              
+              <!-- Internal Container for 3 Sections -->
+              <div style="display: flex; gap: 15px; margin-top: 10px;">
+                
+                <!-- STRATEGIC BASKET Sub-section -->
+                <div class="dashboard-subsection" style="flex: 1; background: rgba(0,200,83,0.08); border-radius: 12px; padding: 12px; border: 1px solid rgba(0,200,83,0.2);">
+                  <div style="font-size: 11px; color: var(--accent); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">🎯 Strategic Basket</div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">GME</div>
+                    <div id="gme-price-display" class="pstat-val pos" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">AMC</div>
+                    <div id="amc-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">IEP</div>
+                    <div id="iep-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">BB</div>
+                    <div id="bb-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">NOK</div>
+                    <div id="nok-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 0;">
+                    <div class="pstat-lbl" style="font-size: 10px;">BABA</div>
+                    <div id="baba-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                </div>
 
-            <!-- INDICES -->
-            <div class="port-bar-section">
-              <div class="port-bar-section-title">MARKET INDICES</div>
-              <div class="pstat">
-                <div class="pstat-lbl">BTC</div>
-                <div id="btc-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">SPY</div>
-                <div id="spy-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">QQQ</div>
-                <div id="qqq-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">VIX</div>
-                <div id="vix-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">KOSPI</div>
-                <div id="kospi-display" class="pstat-val">--</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">FEAR & GREED</div>
-                <div id="fear-val" class="pstat-val">--</div>
+                <!-- 💎 Magnificent 7 Sub-section -->
+                <div class="dashboard-subsection" style="flex: 1; background: rgba(0,150,255,0.08); border-radius: 12px; padding: 12px; border: 1px solid rgba(0,150,255,0.2);">
+                  <div style="font-size: 11px; color: #0096FF; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">💎 Magnificent 7</div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">AAPL</div>
+                    <div id="aapl-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">NVDA</div>
+                    <div id="nvda-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">MSFT</div>
+                    <div id="msft-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">TSLA</div>
+                    <div id="tsla-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">GOOGL</div>
+                    <div id="googl-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">AMZN</div>
+                    <div id="amzn-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 0;">
+                    <div class="pstat-lbl" style="font-size: 10px;">META</div>
+                    <div id="meta-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                </div>
+
+                <!-- MARKET INDICES Sub-section -->
+                <div class="dashboard-subsection" style="flex: 1; background: rgba(255,193,7,0.08); border-radius: 12px; padding: 12px; border: 1px solid rgba(255,193,7,0.2);">
+                  <div style="font-size: 11px; color: #FFC107; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">📈 Market Indices</div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">BTC</div>
+                    <div id="btc-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">SPY</div>
+                    <div id="spy-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">QQQ</div>
+                    <div id="qqq-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">VIX</div>
+                    <div id="vix-price-display" class="pstat-val" style="font-size: 13px;">$0.00</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 6px;">
+                    <div class="pstat-lbl" style="font-size: 10px;">KOSPI</div>
+                    <div id="kospi-display" class="pstat-val" style="font-size: 13px;">--</div>
+                  </div>
+                  <div class="pstat" style="margin-bottom: 0;">
+                    <div class="pstat-lbl" style="font-size: 9px;">FEAR & GREED</div>
+                    <div id="fear-val" class="pstat-val" style="font-size: 13px;">--</div>
+                  </div>
+                </div>
+                
               </div>
             </div>
 
@@ -4294,6 +4337,15 @@
         displayAftermarketPrice('bb-price-display', V_BB_P, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT, 'BB');
         displayAftermarketPrice('nok-price-display', V_NOK_P, V_NOK_AFTER_P, V_NOK_AFTER_C, V_NOK_AFTER_PCT, 'NOK');
         displayAftermarketPrice('baba-price-display', V_BABA_P, V_BABA_AFTER_P, V_BABA_AFTER_C, V_BABA_AFTER_PCT, 'BABA');
+        
+        // 💎 Magnificent 7
+        displayAftermarketPrice('aapl-price-display', V_AAPL_P, V_AAPL_AFTER_P, V_AAPL_AFTER_C, V_AAPL_AFTER_PCT, 'AAPL');
+        displayAftermarketPrice('nvda-price-display', V_NVDA_P, V_NVDA_AFTER_P, V_NVDA_AFTER_C, V_NVDA_AFTER_PCT, 'NVDA');
+        displayAftermarketPrice('msft-price-display', V_MSFT_P, V_MSFT_AFTER_P, V_MSFT_AFTER_C, V_MSFT_AFTER_PCT, 'MSFT');
+        displayAftermarketPrice('tsla-price-display', V_TSLA_P, V_TSLA_AFTER_P, V_TSLA_AFTER_C, V_TSLA_AFTER_PCT, 'TSLA');
+        displayAftermarketPrice('googl-price-display', V_GOOGL_P, V_GOOGL_AFTER_P, V_GOOGL_AFTER_C, V_GOOGL_AFTER_PCT, 'GOOGL');
+        displayAftermarketPrice('amzn-price-display', V_AMZN_P, V_AMZN_AFTER_P, V_AMZN_AFTER_C, V_AMZN_AFTER_PCT, 'AMZN');
+        displayAftermarketPrice('meta-price-display', V_META_P, V_META_AFTER_P, V_META_AFTER_C, V_META_AFTER_PCT, 'META');
         
         // Market Indices
         displayAftermarketPrice('btc-price-display', V_BTC_P, V_BTC_AFTER_P, V_BTC_AFTER_C, V_BTC_AFTER_PCT, 'BTC');
