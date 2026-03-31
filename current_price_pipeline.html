@@ -3854,6 +3854,18 @@
 
 
 
+    // Previous values for flash animation
+    let prevGME_P = 0;
+    let prevAMC_P = 0;
+    let prevIEP_P = 0;
+    let prevBB_P = 0;
+    let prevNOK_P = 0;
+    let prevBABA_P = 0;
+    let prevBTC_P = 0;
+    let prevSPY_P = 0;
+    let prevQQQ_P = 0;
+    let prevVIX_P = 0;
+
     function renderTerminal() {
 
       // 1. BBBYQ (Delisted - Bankruptcy)
@@ -3973,62 +3985,112 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      // Update GME price in port-bar
+      // Update GME price in port-bar with flash animation
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
-        gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+        const newPriceText = '$' + V_GME_P.toFixed(2);
+        if (gmePriceEl.textContent !== newPriceText && prevGME_P !== 0) {
+          animatePrice(gmePriceEl, V_GME_P > prevGME_P);
+        }
+        gmePriceEl.textContent = newPriceText;
+        prevGME_P = V_GME_P;
       }
 
-      // Update AMC price in port-bar
+      // Update AMC price in port-bar with flash animation
       const amcPriceEl = document.getElementById('amc-price-display');
       if (amcPriceEl && V_AMC_P > 0) {
-        amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+        const newPriceText = '$' + V_AMC_P.toFixed(2);
+        if (amcPriceEl.textContent !== newPriceText && prevAMC_P !== 0) {
+          animatePrice(amcPriceEl, V_AMC_P > prevAMC_P);
+        }
+        amcPriceEl.textContent = newPriceText;
+        prevAMC_P = V_AMC_P;
       }
 
-      // Update IEP price in port-bar
+      // Update IEP price in port-bar with flash animation
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) {
-        iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+        const newPriceText = '$' + V_IEP_P.toFixed(2);
+        if (iepPriceEl.textContent !== newPriceText && prevIEP_P !== 0) {
+          animatePrice(iepPriceEl, V_IEP_P > prevIEP_P);
+        }
+        iepPriceEl.textContent = newPriceText;
+        prevIEP_P = V_IEP_P;
       }
 
-      // Update BB price in port-bar
+      // Update BB price in port-bar with flash animation
       const bbPriceEl = document.getElementById('bb-price-display');
       if (bbPriceEl && V_BB_P > 0) {
-        bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+        const newPriceText = '$' + V_BB_P.toFixed(2);
+        if (bbPriceEl.textContent !== newPriceText && prevBB_P !== 0) {
+          animatePrice(bbPriceEl, V_BB_P > prevBB_P);
+        }
+        bbPriceEl.textContent = newPriceText;
+        prevBB_P = V_BB_P;
       }
 
-      // Update NOK price in port-bar
+      // Update NOK price in port-bar with flash animation
       const nokPriceEl = document.getElementById('nok-price-display');
       if (nokPriceEl && V_NOK_P > 0) {
-        nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+        const newPriceText = '$' + V_NOK_P.toFixed(2);
+        if (nokPriceEl.textContent !== newPriceText && prevNOK_P !== 0) {
+          animatePrice(nokPriceEl, V_NOK_P > prevNOK_P);
+        }
+        nokPriceEl.textContent = newPriceText;
+        prevNOK_P = V_NOK_P;
       }
 
-      // Update BABA price in port-bar
+      // Update BABA price in port-bar with flash animation
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) {
-        babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
+        const newPriceText = '$' + V_BABA_P.toFixed(2);
+        if (babaPriceEl.textContent !== newPriceText && prevBABA_P !== 0) {
+          animatePrice(babaPriceEl, V_BABA_P > prevBABA_P);
+        }
+        babaPriceEl.textContent = newPriceText;
+        prevBABA_P = V_BABA_P;
       }
 
-      // Update BTC in port-bar
+      // Update BTC in port-bar with flash animation
       const btcPriceEl = document.getElementById('btc-price-display');
       if (btcPriceEl && V_BTC_P > 0) {
-        btcPriceEl.textContent = '$' + fmt(V_BTC_P);
+        const newPriceText = '$' + fmt(V_BTC_P);
+        if (btcPriceEl.textContent !== newPriceText && prevBTC_P !== 0) {
+          animatePrice(btcPriceEl, V_BTC_P > prevBTC_P);
+        }
+        btcPriceEl.textContent = newPriceText;
+        prevBTC_P = V_BTC_P;
       }
 
-      // Update SPY, QQQ, VIX in port-bar
+      // Update SPY, QQQ, VIX in port-bar with flash animation
       const spyPriceEl = document.getElementById('spy-price-display');
       if (spyPriceEl && V_SPY_P > 0) {
-        spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+        const newPriceText = '$' + V_SPY_P.toFixed(2);
+        if (spyPriceEl.textContent !== newPriceText && prevSPY_P !== 0) {
+          animatePrice(spyPriceEl, V_SPY_P > prevSPY_P);
+        }
+        spyPriceEl.textContent = newPriceText;
+        prevSPY_P = V_SPY_P;
       }
 
       const qqqPriceEl = document.getElementById('qqq-price-display');
       if (qqqPriceEl && V_QQQ_P > 0) {
-        qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+        const newPriceText = '$' + V_QQQ_P.toFixed(2);
+        if (qqqPriceEl.textContent !== newPriceText && prevQQQ_P !== 0) {
+          animatePrice(qqqPriceEl, V_QQQ_P > prevQQQ_P);
+        }
+        qqqPriceEl.textContent = newPriceText;
+        prevQQQ_P = V_QQQ_P;
       }
 
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) {
-        vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+        const newPriceText = '$' + V_VIX_P.toFixed(2);
+        if (vixPriceEl.textContent !== newPriceText && prevVIX_P !== 0) {
+          animatePrice(vixPriceEl, V_VIX_P > prevVIX_P);
+        }
+        vixPriceEl.textContent = newPriceText;
+        prevVIX_P = V_VIX_P;
       }
 
     }
