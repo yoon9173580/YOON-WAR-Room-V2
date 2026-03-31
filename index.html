@@ -4570,7 +4570,8 @@
       const cell = document.getElementById(cellId);
       if (cell) {
         // FORCE $0 for Live Price column cells - BBBYQ not secured
-        if (cellId.includes('-live')) {
+        // EXCEPTION: cash-hand-live should show calculated value
+        if (cellId.includes('-live') && !cellId.includes('cash-hand')) {
           value = 0;
           type = 'pos';
         }
@@ -4761,11 +4762,13 @@
         st4MainEl.className = 'r pos';
       }
       
-      // Cash in Hand - $0
+      // Cash in Hand - show calculated value for Live column too
       const cashHandEl = document.getElementById('cash-hand-live');
       if (cashHandEl) {
-        cashHandEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
-        cashHandEl.className = 'r';
+        const st1_total_live = total_current_value;
+        const cashInHandLive = st1_total_live - (400000 + 120000 + 60000 + 22320 + 22548 + 13920 + 380000 + 380000 + 100000 + 80000 + 200000);
+        cashHandEl.innerHTML = `<span class="clickable-amount" data-amount="${cashInHandLive}" style="cursor:pointer;">$${fmt(cashInHandLive)}</span>`;
+        cashHandEl.className = 'r pos';
       }
     }
 
