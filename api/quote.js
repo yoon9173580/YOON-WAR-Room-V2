@@ -132,11 +132,33 @@ async function fetchYahooNative(sym) {
         const preChange = preMarketPrice ? preMarketPrice - prev : 0;
         const prePct = prev > 0 ? (preChange / prev) * 100 : 0;
 
+        // CLOSED state handling - use postMarketPrice if available (even when market is closed)
+        let finalPrice = price;
+        let finalChange = change;
+        let finalChangePercent = pct;
+        
+        if (ms === "CLOSED" || ms === "POST") {
+          // If we have post-market data, use it even when closed
+          if (postMarketPrice) {
+            finalPrice = postMarketPrice;
+            finalChange = postChange;
+            finalChangePercent = postPct;
+            console.log(`[API] Using post-market price for ${sym}: $${finalPrice}`);
+          } else {
+            console.log(`[API] No post-market price for ${sym}, using regular: $${finalPrice}`);
+          }
+        } else if (ms === "PRE" && preMarketPrice) {
+          finalPrice = preMarketPrice;
+          finalChange = preChange;
+          finalChangePercent = prePct;
+          console.log(`[API] Using pre-market price for ${sym}: $${finalPrice}`);
+        }
+
         return {
           symbol: sym,
-          regularMarketPrice: price,
-          regularMarketChange: change,
-          regularMarketChangePercent: pct,
+          regularMarketPrice: finalPrice,
+          regularMarketChange: finalChange,
+          regularMarketChangePercent: finalChangePercent,
           preMarketPrice: preMarketPrice,
           preMarketChange: preChange,
           preMarketChangePercent: prePct,
