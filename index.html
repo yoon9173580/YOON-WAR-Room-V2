@@ -835,44 +835,97 @@
         min-width: auto;
       }
       
-      /* Port bar - optimized horizontal grid layout */
+      /* Port bar - optimized grid layout for 3 columns */
       .port-bar {
         overflow-x: auto;
         overflow-y: hidden;
         padding: 12px;
         white-space: nowrap;
         gap: 12px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: var(--borderB) transparent;
+      }
+      
+      .port-bar::-webkit-scrollbar {
+        height: 4px;
+      }
+      
+      .port-bar::-webkit-scrollbar-thumb {
+        background: var(--borderB);
+        border-radius: 2px;
       }
       
       .port-bar-section {
         display: inline-block;
-        min-width: 280px;
+        min-width: 300px;
         max-width: 320px;
         vertical-align: top;
         white-space: normal;
+        background: rgba(30, 41, 59, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        margin-right: 8px;
+      }
+      
+      .port-bar-section:last-child {
+        margin-right: 0;
       }
       
       .port-bar-section-title {
-        font-size: 9px;
-        margin-bottom: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        background: rgba(16, 185, 129, 0.1);
+        border-radius: 6px;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        letter-spacing: 1px;
+      }
+      
+      /* All sections use grid layout */
+      .port-bar-section {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      
+      .port-bar-section-title {
+        grid-column: 1 / -1;
       }
       
       .pstat {
-        display: inline-block;
-        width: calc(33.333% - 6px);
-        margin-right: 6px;
-        margin-bottom: 6px;
-        padding: 6px 4px;
-        vertical-align: top;
-        min-width: 80px;
+        padding: 8px 6px;
+        min-width: auto;
+        margin: 0;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+      
+      .pstat:active {
+        transform: scale(0.98);
+        background: rgba(16, 185, 129, 0.1);
       }
       
       .pstat-lbl {
-        font-size: 8px;
+        font-size: 9px;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
       }
       
       .pstat-val {
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      
+      .pstat-pct {
+        font-size: 9px;
+        color: var(--textM);
+        margin-top: 2px;
       }
       
       /* Portfolio table - scrollable */
