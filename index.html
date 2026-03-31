@@ -3855,6 +3855,9 @@
 
           const dataList = json.quoteResponse.result;
 
+          // DEBUG: Log all symbols returned from API to find KOSPI
+          console.log('[DEBUG] All API symbols:', dataList.map(x => x.symbol));
+
           // Debug: Log GME data
           const qGME_Debug = dataList.find(x => x.symbol === 'GME');
           if (qGME_Debug) {
@@ -3872,6 +3875,14 @@
           const extract = (sym) => {
 
             let found = dataList.find(x => x.symbol === sym);
+            
+            // Special handling for KOSPI - try alternative symbols
+            if (!found && (sym === '^KS11' || sym === 'KOSPI')) {
+              found = dataList.find(x => x.symbol === '^KS11' || x.symbol === 'KOSPI' || x.symbol === 'KS11');
+              if (found) {
+                console.log(`[DEBUG KOSPI] Found with alternative symbol:`, found.symbol);
+              }
+            }
 
             if (!found) return null;
 
