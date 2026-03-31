@@ -2030,6 +2030,10 @@
                 <div id="vix-price-display" class="pstat-val">$0.00</div>
               </div>
               <div class="pstat">
+                <div class="pstat-lbl">KOSPI</div>
+                <div id="kospi-price-display" class="pstat-val">0.00</div>
+              </div>
+              <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
                 <div id="fear-val" class="pstat-val">--</div>
               </div>
@@ -3743,6 +3747,7 @@
 
     // Exchange rate for KRW conversion
     let currentKRWRate = 1380; // Default fallback rate
+    let V_KOSPI_P = 0; // KOSPI index price
     
     // Fetch real-time exchange rate from API
     async function fetchExchangeRate() {
@@ -3770,7 +3775,7 @@
 
 
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targets = "SPY,QQQ,^VIX,^KS11,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
 
       const targetUrl = `/api/quote?symbols=${targets}`;
 
@@ -3853,6 +3858,8 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = qQQQ._extInfo || getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
+
+          const qKOSPI = extract('^KS11'); if (qKOSPI) { V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; }
 
 
 
@@ -4075,6 +4082,9 @@
       
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+      
+      const kospiPriceEl = document.getElementById('kospi-price-display');
+      if (kospiPriceEl && V_KOSPI_P > 0) kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
     }
 
     // Update portfolio table values without full re-render
