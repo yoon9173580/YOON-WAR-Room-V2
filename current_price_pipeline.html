@@ -767,6 +767,30 @@
 
     }
 
+    /* Aftermarket badge styling - like the reference image */
+    .after-badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(147, 52, 230, 0.15);
+      color: var(--purple);
+      margin-top: 6px;
+      font-weight: 700;
+      border: 1px solid rgba(147, 52, 230, 0.4);
+      font-family: var(--mono);
+    }
+    .after-badge.pos {
+      background: rgba(0, 200, 83, 0.15);
+      color: var(--bull);
+      border: 1px solid rgba(0, 200, 83, 0.4);
+    }
+    .after-badge.neg {
+      background: rgba(234, 67, 53, 0.15);
+      color: var(--bear);
+      border: 1px solid rgba(234, 67, 53, 0.4);
+    }
+
 
 
     .btn-out {
@@ -2435,59 +2459,73 @@
        ========================================================= */
 
     let V_GME_P = 0, V_GME_C = 0, V_GME_PCT = 0, V_GME_EXT = "";
+    let V_GME_AFTER_P = 0, V_GME_AFTER_C = 0, V_GME_AFTER_PCT = 0; // Aftermarket prices
 
     let pipelineValuesInitialized = false; // Flag to prevent overwriting fixed values
     let netWorthMode = 'realtime'; // 'realtime' or 'custom'
 
     let V_AMC_P = 0, V_AMC_C = 0, V_AMC_PCT = 0, V_AMC_EXT = "";
+    let V_AMC_AFTER_P = 0, V_AMC_AFTER_C = 0, V_AMC_AFTER_PCT = 0; // Aftermarket prices
 
     let V_SPY_P = 0, V_SPY_C = 0, V_SPY_PCT = 0, V_SPY_EXT = "";
+    let V_SPY_AFTER_P = 0, V_SPY_AFTER_C = 0, V_SPY_AFTER_PCT = 0; // Aftermarket prices
 
     let V_QQQ_P = 0, V_QQQ_C = 0, V_QQQ_PCT = 0, V_QQQ_EXT = "";
+    let V_QQQ_AFTER_P = 0, V_QQQ_AFTER_C = 0, V_QQQ_AFTER_PCT = 0; // Aftermarket prices
 
     let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
+    let V_VIX_AFTER_P = 0, V_VIX_AFTER_C = 0, V_VIX_AFTER_PCT = 0; // Aftermarket prices
 
     let V_KOSPI_P = 0, V_KOSPI_PREV = 0; // KOSPI with previous value for change detection
 
 
 
     // Crypto
-
     let V_BTC_P = 0, V_BTC_PCT = 0;
-
+    let V_BTC_AFTER_P = 0, V_BTC_AFTER_C = 0, V_BTC_AFTER_PCT = 0; // Aftermarket prices
 
 
     // Options
-
     let V_GME_O_P = 0, V_GME_O_C = 0;
+    let V_GME_O_AFTER_P = 0, V_GME_O_AFTER_C = 0, V_GME_O_AFTER_PCT = 0; // Aftermarket prices
 
     let V_AMC_O_P = 0, V_AMC_O_C = 0;
-
+    let V_AMC_O_AFTER_P = 0, V_AMC_O_AFTER_C = 0, V_AMC_O_AFTER_PCT = 0; // Aftermarket prices
 
 
     // Others
-
     let V_AAPL_P = 0, V_AAPL_PCT = 0, V_AAPL_EXT = "";
+    let V_AAPL_AFTER_P = 0, V_AAPL_AFTER_C = 0, V_AAPL_AFTER_PCT = 0; // Aftermarket prices
 
     let V_NVDA_P = 0, V_NVDA_PCT = 0, V_NVDA_EXT = "";
+    let V_NVDA_AFTER_P = 0, V_NVDA_AFTER_C = 0, V_NVDA_AFTER_PCT = 0; // Aftermarket prices
 
     let V_MSFT_P = 0, V_MSFT_PCT = 0, V_MSFT_EXT = "";
+    let V_MSFT_AFTER_P = 0, V_MSFT_AFTER_C = 0, V_MSFT_AFTER_PCT = 0; // Aftermarket prices
 
     let V_TSLA_P = 0, V_TSLA_PCT = 0, V_TSLA_EXT = "";
+    let V_TSLA_AFTER_P = 0, V_TSLA_AFTER_C = 0, V_TSLA_AFTER_PCT = 0; // Aftermarket prices
 
     let V_GOOGL_P = 0, V_GOOGL_PCT = 0, V_GOOGL_EXT = "";
+    let V_GOOGL_AFTER_P = 0, V_GOOGL_AFTER_C = 0, V_GOOGL_AFTER_PCT = 0; // Aftermarket prices
 
     let V_AMZN_P = 0, V_AMZN_PCT = 0, V_AMZN_EXT = "";
+    let V_AMZN_AFTER_P = 0, V_AMZN_AFTER_C = 0, V_AMZN_AFTER_PCT = 0; // Aftermarket prices
 
     let V_META_P = 0, V_META_PCT = 0, V_META_EXT = "";
+    let V_META_AFTER_P = 0, V_META_AFTER_C = 0, V_META_AFTER_PCT = 0; // Aftermarket prices
 
     let V_IEP_P = 0, V_IEP_PCT = 0, V_IEP_EXT = "";
+    let V_IEP_AFTER_P = 0, V_IEP_AFTER_C = 0, V_IEP_AFTER_PCT = 0; // Aftermarket prices
 
     let V_BB_P = 0, V_BB_PCT = 0, V_BB_EXT = "";
+    let V_BB_AFTER_P = 0, V_BB_AFTER_C = 0, V_BB_AFTER_PCT = 0; // Aftermarket prices
 
     let V_NOK_P = 0, V_NOK_PCT = 0, V_NOK_EXT = "";
+    let V_NOK_AFTER_P = 0, V_NOK_AFTER_C = 0, V_NOK_AFTER_PCT = 0; // Aftermarket prices
 
     let V_BABA_P = 0, V_BABA_PCT = 0, V_BABA_EXT = "";
+    let V_BABA_AFTER_P = 0, V_BABA_AFTER_C = 0, V_BABA_AFTER_PCT = 0; // Aftermarket prices
 
 
 
@@ -2712,6 +2750,14 @@
 
             if (!q) return null;
 
+            // Store aftermarket data separately before modifying regular prices
+            q._postMarketPrice = q.postMarketPrice;
+            q._postMarketChange = q.postMarketChange;
+            q._postMarketChangePercent = q.postMarketChangePercent;
+            q._preMarketPrice = q.preMarketPrice;
+            q._preMarketChange = q.preMarketChange;
+            q._preMarketChangePercent = q.preMarketChangePercent;
+
             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
 
               q.regularMarketPrice = q.postMarketPrice;
@@ -2738,9 +2784,19 @@
 
           // Equities & Indices
 
-          const qGME = extract('GME'); if (qGME) { V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = getExt(qGME); }
+          const qGME = extract('GME'); if (qGME) { 
+            V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = getExt(qGME); 
+            V_GME_AFTER_P = Number(qGME._postMarketPrice) || 0;
+            V_GME_AFTER_C = Number(qGME._postMarketChange) || 0;
+            V_GME_AFTER_PCT = Number(qGME._postMarketChangePercent) || 0;
+          }
 
-          const qAMC = extract('AMC'); if (qAMC) { V_AMC_P = Number(qAMC.regularMarketPrice) || 0; V_AMC_C = Number(qAMC.regularMarketChange) || 0; V_AMC_PCT = Number(qAMC.regularMarketChangePercent) || 0; V_AMC_EXT = getExt(qAMC); }
+          const qAMC = extract('AMC'); if (qAMC) { 
+            V_AMC_P = Number(qAMC.regularMarketPrice) || 0; V_AMC_C = Number(qAMC.regularMarketChange) || 0; V_AMC_PCT = Number(qAMC.regularMarketChangePercent) || 0; V_AMC_EXT = getExt(qAMC); 
+            V_AMC_AFTER_P = Number(qAMC._postMarketPrice) || 0;
+            V_AMC_AFTER_C = Number(qAMC._postMarketChange) || 0;
+            V_AMC_AFTER_PCT = Number(qAMC._postMarketChangePercent) || 0;
+          }
 
           const qSPY = extract('SPY'); if (qSPY) { V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = getExt(qSPY); }
 
@@ -2757,6 +2813,9 @@
           if (qGMEO && qGMEO.regularMarketPrice) {
 
             V_GME_O_P = qGMEO.regularMarketPrice; V_GME_O_C = qGMEO.regularMarketChange || 0;
+            V_GME_O_AFTER_P = Number(qGMEO._postMarketPrice) || 0;
+            V_GME_O_AFTER_C = Number(qGMEO._postMarketChange) || 0;
+            V_GME_O_AFTER_PCT = Number(qGMEO._postMarketChangePercent) || 0;
 
           } else {
 
@@ -2773,6 +2832,9 @@
           if (qAMCO && qAMCO.regularMarketPrice) {
 
             V_AMC_O_P = qAMCO.regularMarketPrice; V_AMC_O_C = qAMCO.regularMarketChange || 0;
+            V_AMC_O_AFTER_P = Number(qAMCO._postMarketPrice) || 0;
+            V_AMC_O_AFTER_C = Number(qAMCO._postMarketChange) || 0;
+            V_AMC_O_AFTER_PCT = Number(qAMCO._postMarketChangePercent) || 0;
 
           } else {
 
@@ -3887,12 +3949,19 @@
 
       // 2. GME Equity (355 shares)
       const ge_val = 355 * V_GME_P; const ge_cost = 355 * 30.00;
-
       const ge_profit = ge_val - ge_cost;
-
+      
+      // Format aftermarket info for GME
+      let gmeAfterHoursHtml = '';
+      if (V_GME_AFTER_P > 0) {
+        const sign = V_GME_AFTER_C >= 0 ? '+' : '';
+        const pctClass = V_GME_AFTER_PCT >= 0 ? 'pos' : 'neg';
+        gmeAfterHoursHtml = `<br><span class="after-badge ${pctClass}">🌆 After: $${V_GME_AFTER_P.toFixed(2)} (${sign}${V_GME_AFTER_C.toFixed(2)} / ${sign}${V_GME_AFTER_PCT.toFixed(2)}%)</span>`;
+      }
+      
       const gmePriceEl = document.getElementById('cell_gme_e_p');
       const prevGME_P = gmePriceEl ? gmePriceEl.dataset.prevValue : '';
-      gmePriceEl.innerHTML = V_GME_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_GME_P) + (V_GME_EXT ? `<br><span class="ext-badge">${V_GME_EXT}</span>` : "");
+      gmePriceEl.innerHTML = V_GME_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_GME_P) + (V_GME_EXT ? `<br><span class="ext-badge">${V_GME_EXT}</span>` : "") + gmeAfterHoursHtml;
       if (prevGME_P) {
         const isUp = V_GME_P > parseFloat(prevGME_P.replace(/[$,]/g, ''));
         applyHighlight(gmePriceEl, isUp);
@@ -3926,9 +3995,18 @@
       const go_val = 26 * V_GME_O_P * 100;
       const go_cost = 26 * 0.36 * 100; // $936 total cost
       const go_profit = go_val - go_cost;
+      
+      // Format aftermarket info for GME Option
+      let gmeOptAfterHoursHtml = '';
+      if (V_GME_O_AFTER_P > 0) {
+        const sign = V_GME_O_AFTER_C >= 0 ? '+' : '';
+        const pctClass = V_GME_O_AFTER_PCT >= 0 ? 'pos' : 'neg';
+        gmeOptAfterHoursHtml = `<br><span class="after-badge ${pctClass}">🌆 After: $${V_GME_O_AFTER_P.toFixed(2)} (${sign}${V_GME_O_AFTER_C.toFixed(2)} / ${sign}${V_GME_O_AFTER_PCT.toFixed(2)}%)</span>`;
+      }
+      
       const gmeOptPriceEl = document.getElementById('cell_gme_o_p');
       const prevGME_O_P = gmeOptPriceEl ? gmeOptPriceEl.dataset.prevValue : '';
-      gmeOptPriceEl.innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
+      gmeOptPriceEl.innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P) + gmeOptAfterHoursHtml;
       if (prevGME_O_P) {
         const isUp = V_GME_O_P > parseFloat(prevGME_O_P.replace(/[$,]/g, ''));
         applyHighlight(gmeOptPriceEl, isUp);
@@ -3966,9 +4044,17 @@
       const ae_val = 1 * V_AMC_P; const ae_cost = 1 * 1.18;
       const ae_profit = ae_val - ae_cost;
       
+      // Format aftermarket info for AMC
+      let amcAfterHoursHtml = '';
+      if (V_AMC_AFTER_P > 0) {
+        const sign = V_AMC_AFTER_C >= 0 ? '+' : '';
+        const pctClass = V_AMC_AFTER_PCT >= 0 ? 'pos' : 'neg';
+        amcAfterHoursHtml = `<br><span class="after-badge ${pctClass}">🌆 After: $${V_AMC_AFTER_P.toFixed(2)} (${sign}${V_AMC_AFTER_C.toFixed(2)} / ${sign}${V_AMC_AFTER_PCT.toFixed(2)}%)</span>`;
+      }
+      
       const amcPriceEl = document.getElementById('cell_amc_e_p');
       const prevAMC_P = amcPriceEl ? amcPriceEl.dataset.prevValue : '';
-      amcPriceEl.innerHTML = V_AMC_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_AMC_P) + (V_AMC_EXT ? `<br><span class="ext-badge">${V_AMC_EXT}</span>` : "");
+      amcPriceEl.innerHTML = V_AMC_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_AMC_P) + (V_AMC_EXT ? `<br><span class="ext-badge">${V_AMC_EXT}</span>` : "") + amcAfterHoursHtml;
       if (prevAMC_P) {
         const isUp = V_AMC_P > parseFloat(prevAMC_P.replace(/[$,]/g, ''));
         applyHighlight(amcPriceEl, isUp);
@@ -4003,12 +4089,18 @@
 
 
       // 5. AMC Option
-
       const ao_val = 2 * V_AMC_O_P * 100;
-
       const ao_cost = 2 * 0.07 * 100; const ao_profit = ao_val - ao_cost;
-
-      document.getElementById('cell_amc_o_p').innerHTML = V_AMC_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_AMC_O_P);
+      
+      // Format aftermarket info for AMC Option
+      let amcOptAfterHoursHtml = '';
+      if (V_AMC_O_AFTER_P > 0) {
+        const sign = V_AMC_O_AFTER_C >= 0 ? '+' : '';
+        const pctClass = V_AMC_O_AFTER_PCT >= 0 ? 'pos' : 'neg';
+        amcOptAfterHoursHtml = `<br><span class="after-badge ${pctClass}">🌆 After: $${V_AMC_O_AFTER_P.toFixed(2)} (${sign}${V_AMC_O_AFTER_C.toFixed(2)} / ${sign}${V_AMC_O_AFTER_PCT.toFixed(2)}%)</span>`;
+      }
+      
+      document.getElementById('cell_amc_o_p').innerHTML = V_AMC_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_AMC_O_P) + amcOptAfterHoursHtml;
 
       document.getElementById('cell_amc_o_val').textContent = '$' + fmt(ao_val);
 
