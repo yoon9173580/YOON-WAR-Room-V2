@@ -21,557 +21,352 @@
 
     rel="stylesheet" />
 
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
 
     /* =========================================================
-
-       [1] CSS DESIGN SYSTEM - TITANIUM HARDENED
-
+       MODERN DESIGN SYSTEM 2024
        ========================================================= */
 
     :root {
-      --bg: #0a0c10;
-      --bg2: #111318;
-      --bg3: #1a1d24;
-      --bg4: #22262e;
-      --border: rgba(255, 255, 255, 0.12);
-      --borderB: rgba(255, 255, 255, 0.22);
-      --text: #f0f2f5;
-      --textM: #b0b5bd;
-      --textD: #7a8088;
-      --accent: #00d864;
-      --blue: #1a73e8;
-      --amber: #ffb020;
-      --bull: #00d864;
-      --bear: #ff5252;
-      --purple: #a855f7;
-      --cyan: #22d3ee;
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --bg3: #334155;
+      --bg4: #475569;
+      --border: #334155;
+      --borderB: #475569;
+      --text: #f1f5f9;
+      --textM: #94a3b8;
+      --textD: #64748b;
+      --accent: #10b981;
+      --blue: #3b82f6;
+      --amber: #f59e0b;
+      --bull: #10b981;
+      --bear: #ef4444;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
       --mono: 'JetBrains Mono', monospace;
       --disp: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
     }
 
-
-
     * {
-
       margin: 0;
-
       padding: 0;
-
       box-sizing: border-box;
-
-      outline: none;
-
     }
-
-
 
     body {
-
-      background: var(--bg);
-
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: var(--text);
-
-      font-family: var(--mono);
-
+      font-family: var(--disp);
       min-height: 100vh;
-
       overflow-x: hidden;
-
       font-size: 14px;
-
-      line-height: 1.7;
-
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
-
       -moz-osx-font-smoothing: grayscale;
-
-      text-rendering: optimizeLegibility;
-
     }
-
-
 
     body::before {
-
       content: '';
-
       position: fixed;
-
       inset: 0;
-
-      background-image: linear-gradient(rgba(0, 212, 170, 0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 170, 0.012) 1px, transparent 1px);
-
-      background-size: 60px 60px;
-
+      background: radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
       pointer-events: none;
-
-      z-index: 0;
-
+      z-index: 1;
     }
 
 
 
-    /* ── [LOCK SCREEN] ── */
-
+    /* ── MODERN LOCK SCREEN ── */
     #lockScreen {
-
       position: fixed;
-
       inset: 0;
-
       z-index: 9999;
-
-      background: #05070a;
-
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       flex-direction: column;
-
       transition: opacity 0.8s;
-
+      backdrop-filter: blur(20px);
     }
-
-
 
     .lock-box {
-
-      background: #0b0f15;
-
-      border: 1px solid rgba(0, 212, 170, 0.3);
-
-      border-radius: 30px;
-
-      padding: 80px 70px;
-
-      width: 560px;
-
-      box-shadow: 0 0 150px rgba(0, 212, 170, 0.2);
-
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 24px;
+      padding: 60px 50px;
+      width: 480px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                  0 0 0 1px rgba(16, 185, 129, 0.1),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
       text-align: center;
-
+      backdrop-filter: blur(10px);
     }
-
-
 
     .lock-logo {
-
       font-family: var(--disp);
-
-      font-size: 38px;
-
-      font-weight: 900;
-
+      font-size: 32px;
+      font-weight: 800;
       color: var(--accent);
-
-      margin-bottom: 15px;
-
+      margin-bottom: 12px;
       text-transform: uppercase;
-
-      letter-spacing: -2px;
-
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-
-
 
     .lock-sub {
-
       font-family: var(--mono);
-
-      font-size: 12px;
-
-      color: var(--textD);
-
+      font-size: 11px;
+      color: var(--textM);
       text-transform: uppercase;
-
-      letter-spacing: 8px;
-
-      margin-bottom: 50px;
-
+      letter-spacing: 6px;
+      margin-bottom: 40px;
     }
-
-
 
     .lock-input {
-
       width: 100%;
-
-      background: #000;
-
-      border: 1px solid var(--borderB);
-
-      border-radius: 15px;
-
-      padding: 25px;
-
-      font-size: 32px;
-
+      background: rgba(15, 23, 42, 0.6);
+      border: 2px solid rgba(51, 65, 85, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 28px;
       color: #fff;
-
       text-align: center;
-
       outline: none;
-
-      letter-spacing: 20px;
-
-      margin-bottom: 40px;
-
-      transition: 0.3s;
-
-      font-weight: 900;
-
+      letter-spacing: 16px;
+      margin-bottom: 32px;
+      transition: all 0.3s ease;
+      font-weight: 700;
+      font-family: var(--mono);
     }
-
-
 
     .lock-input:focus {
-
       border-color: var(--accent);
-
-      box-shadow: 0 0 40px rgba(0, 212, 170, 0.3);
-
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1),
+                  0 0 20px rgba(16, 185, 129, 0.2);
+      background: rgba(15, 23, 42, 0.8);
     }
-
-
 
     .lock-btn {
-
       width: 100%;
-
-      background: var(--accent);
-
+      background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
       color: #000;
-
       border: none;
-
-      border-radius: 15px;
-
-      padding: 25px;
-
-      font-weight: 900;
-
+      border-radius: 12px;
+      padding: 20px;
+      font-weight: 700;
       cursor: pointer;
-
       text-transform: uppercase;
-
-      letter-spacing: 4px;
-
-      font-size: 16px;
-
-      transition: 0.4s;
-
+      letter-spacing: 2px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: var(--disp);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .lock-btn:hover {
-
-      background: #00f0c0;
-
-      transform: translateY(-5px);
-
-      box-shadow: 0 15px 30px rgba(0, 212, 170, 0.3);
-
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3),
+                  0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .pin-dots {
-
       display: flex;
-
       justify-content: center;
-
-      gap: 24px;
-
-      margin-bottom: 45px;
-
+      gap: 16px;
+      margin-bottom: 32px;
     }
-
-
 
     .pin-dot {
-
-      width: 20px;
-
-      height: 20px;
-
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-
-      border: 3px solid var(--border);
-
-      transition: 0.3s;
-
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+      background: var(--bg2);
     }
-
-
 
     .pin-dot.filled {
-
       background: var(--accent);
-
       border-color: var(--accent);
-
-      box-shadow: 0 0 25px var(--accent);
-
-      transform: scale(1.4);
-
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+      transform: scale(1.2);
     }
 
 
 
-    /* ── [TERMINAL LAYOUT] ── */
-
+    /* ── MODERN MAIN LAYOUT ── */
     .wrap {
-
-      max-width: 1920px;
-
+      max-width: 1400px;
       margin: 0 auto;
-
-      padding: 40px;
-
+      padding: 32px;
       position: relative;
-
-      z-index: 1;
-
+      z-index: 2;
     }
-
-
 
     .app-layout {
-
-      display: flex;
-
-      gap: 50px;
-
-      align-items: flex-start;
-
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      align-items: start;
     }
-
-
 
     .market-sidebar {
-
-      width: 350px;
-
-      min-width: 350px;
-
-      flex-shrink: 0;
-
-      height: calc(100vh - 80px);
-
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      height: calc(100vh - 120px);
       position: sticky;
-
-      top: 40px;
-
+      top: 32px;
       overflow-y: auto;
-
-      padding-right: 25px;
-
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .market-sidebar::-webkit-scrollbar {
-
-      width: 3px;
-
+      width: 6px;
     }
-
-
 
     .market-sidebar::-webkit-scrollbar-thumb {
-
       background: var(--borderB);
-
-      border-radius: 10px;
-
+      border-radius: 3px;
     }
-
-
 
     .sidebar-title {
-
       font-family: var(--disp);
-
-      font-size: 11px;
-
+      font-size: 12px;
       font-weight: 600;
-
       color: var(--textM);
-
       text-transform: uppercase;
-
-      margin: 16px 0 12px 0;
-
-      padding-left: 4px;
-
+      letter-spacing: 1px;
+      margin: 0 0 16px 0;
+      padding: 8px 12px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
     }
-
-
 
     .sb-card {
-
-      background: var(--bg2);
-
+      background: rgba(15, 23, 42, 0.4);
       border: 1px solid var(--border);
-
-      border-radius: 8px;
-
-      padding: 12px 14px;
-
-      margin-bottom: 8px;
-
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
       cursor: pointer;
-
-      transition: all 0.2s ease;
-
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-
+    .sb-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
 
     .sb-card:hover {
-
-      border-color: var(--borderB);
-
-      background: var(--bg3);
-
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px -4px rgba(16, 185, 129, 0.2);
     }
 
-
+    .sb-card:hover::before {
+      transform: scaleX(1);
+    }
 
     .sb-card-top {
-
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
-      margin-bottom: 6px;
-
+      margin-bottom: 8px;
     }
-
-
 
     .sb-sym {
-
       font-family: var(--mono);
-
-      font-size: 13px;
-
-      font-weight: 600;
-
+      font-size: 14px;
+      font-weight: 700;
       color: var(--text);
-
       letter-spacing: 0.5px;
-
     }
-
-
 
     .sb-price {
-
       font-family: var(--mono);
-
-      font-size: 15px;
-
-      font-weight: 600;
-
+      font-size: 16px;
+      font-weight: 700;
       color: var(--text);
-
     }
-
-
 
     .sb-chg {
-
-      font-size: 11px;
-
-      font-weight: 500;
-
-      padding: 2px 6px;
-
-      border-radius: 4px;
-
-      background: var(--bg3);
-
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(51, 65, 85, 0.5);
+      border: 1px solid var(--border);
     }
-
-
 
     .pos {
-
       color: var(--bull) !important;
-
+      background: rgba(16, 185, 129, 0.1) !important;
+      border-color: rgba(16, 185, 129, 0.3) !important;
     }
-
-
 
     .neg {
-
       color: var(--bear) !important;
-
+      background: rgba(239, 68, 68, 0.1) !important;
+      border-color: rgba(239, 68, 68, 0.3) !important;
     }
 
 
 
+    /* ── MODERN HEADER & PORTFOLIO ── */
     .main-content {
-
-      flex: 1;
-
       min-width: 0;
-
     }
-
-
 
     header {
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      border-bottom: 4px solid var(--border);
-
-      padding-bottom: 30px;
-
-      margin-bottom: 40px;
-
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .brand-name {
-
       font-family: var(--disp);
-
-      font-size: 42px;
-
-      font-weight: 900;
-
-      color: var(--accent);
-
-      letter-spacing: -3px;
-
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -2px;
       text-transform: uppercase;
-
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
     }
-
-
 
     .port-bar {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding: 0;
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
     .port-bar-section {
@@ -583,583 +378,318 @@
 
     .port-bar-section-title {
       width: 100%;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--textM);
-      margin-bottom: 8px;
-      padding-left: 4px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: rgba(51, 65, 85, 0.3);
+      border-radius: 8px;
+      border: 1px solid var(--border);
     }
 
     .pstat {
-      background: var(--bg2);
+      background: rgba(15, 23, 42, 0.4);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      min-width: 100px;
+      border-radius: 12px;
+      padding: 16px;
+      min-width: 140px;
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pstat::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .pstat:hover {
-      border-color: var(--borderB);
-      background: var(--bg3);
+      border-color: var(--accent);
+      background: rgba(16, 185, 129, 0.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px -4px rgba(16, 185, 129, 0.2);
+    }
+
+    .pstat:hover::before {
+      opacity: 1;
     }
 
     .pstat-lbl {
-      font-size: 13px;
+      font-size: 11px;
       color: var(--textM);
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       font-weight: 600;
+      font-family: var(--mono);
     }
 
     .pstat-val {
       font-family: var(--mono);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: 0;
       line-height: 1.2;
       color: var(--text);
     }
 
-
-
-    .port-table-wrap {
-
-      background: var(--bg2);
-
-      border: 4px solid var(--border);
-
-      border-radius: 30px;
-
-      overflow: hidden;
-
-      margin-bottom: 50px;
-
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
-
-    }
-
-
-
-    table {
-
-      width: 100%;
-
-      border-collapse: collapse;
-
-    }
-
-
-
-    th {
-
-      font-size: 12px;
-
-      color: var(--textM);
-
-      padding: 30px 35px;
-
-      text-align: left;
-
-      background: rgba(255, 255, 255, 0.05);
-
-      text-transform: uppercase;
-
-      border-bottom: 4px solid var(--border);
-
-      font-weight: 900;
-
-    }
-
-
-
-    td {
-
-      padding: 30px 35px;
-
-      border-bottom: 2.5px solid var(--border);
-
-      font-size: 18px;
-
-      font-weight: 800;
-
-    }
-
-
-
-    .r {
-
-      text-align: right;
-
-    }
-
-
-
-    .pos {
-
-      color: var(--bull);
-
-    }
-
-
-
-    .neg {
-
-      color: var(--bear);
-
-    }
-
-
-
-    .sym-tag {
-
-      font-weight: 900;
-
-      font-family: var(--disp);
-
-      font-size: 24px;
-
-      color: #fff;
-
-      letter-spacing: -1px;
-
-    }
-
-
-
-    .sub-tag {
-
-      font-size: 13px;
-
-      color: var(--textM);
-
-      display: block;
-
-      margin-top: 6px;
-
-      font-family: var(--mono);
-
-      text-transform: uppercase;
-
-    }
-
-
-
-    .ext-badge {
-
-      display: inline-block;
-
-      font-size: 11px;
-
-      padding: 4px 8px;
-
-      border-radius: 6px;
-
-      background: rgba(245, 158, 11, 0.15);
-
-      color: var(--amber);
-
-      margin-top: 8px;
-
-      font-weight: 900;
-
-      border: 1px solid rgba(245, 158, 11, 0.4);
-
-    }
-
-
-
     .btn-out {
-
-      background: transparent;
-
-      color: var(--accent);
-
-      border: 3px solid var(--accent);
-
+      background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
+      color: #000;
+      border: none;
       border-radius: 12px;
-
-      padding: 18px 36px;
-
-      font-weight: 900;
-
+      padding: 12px 24px;
+      font-weight: 700;
       cursor: pointer;
-
       text-transform: uppercase;
-
-      transition: 0.4s;
-
-      font-size: 16px;
-
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-size: 12px;
+      font-family: var(--disp);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .btn-out:hover {
-
-      background: var(--accent);
-
-      color: #000;
-
-      box-shadow: 0 0 40px var(--accent);
-
-      transform: scale(1.05);
-
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3),
+                  0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
 
 
 
-    /* ── [SCENARIO MATRIX] ── */
+    /* ── MODERN TABLES ── */
+    .port-table-wrap {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
+    }
 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-size: 11px;
+      color: var(--textM);
+      padding: 16px 20px;
+      text-align: left;
+      background: rgba(51, 65, 85, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      font-family: var(--mono);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 20px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .r {
+      text-align: right;
+      font-family: var(--mono);
+    }
+
+    .pos {
+      color: var(--bull);
+      font-weight: 600;
+    }
+
+    .neg {
+      color: var(--bear);
+      font-weight: 600;
+    }
+
+    .sym-tag {
+      font-weight: 700;
+      font-family: var(--disp);
+      font-size: 18px;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    .sub-tag {
+      font-size: 11px;
+      color: var(--textM);
+      display: block;
+      margin-top: 4px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ext-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber);
+      margin-top: 6px;
+      font-weight: 600;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      font-family: var(--mono);
+    }
+
+    /* MODERN SCENARIO MATRIX */
     .scenario-wrap {
-
-      background: var(--bg2);
-
-      border: 4px solid var(--border);
-
-      border-radius: 30px;
-
-      overflow: visible;
-
-      margin-bottom: 50px;
-
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.6);
-
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
     }
-
-
 
     .scenario-title {
-
       font-family: var(--disp);
-
-      font-size: 16px;
-
-      font-weight: 900;
-
+      font-size: 14px;
+      font-weight: 700;
       color: var(--text);
-
-      padding: 30px 35px 25px;
-
-      letter-spacing: 4px;
-
+      padding: 24px 32px 20px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-
-      border-bottom: 2px solid var(--border);
-
-      background: rgba(0, 212, 170, 0.05);
-
+      border-bottom: 1px solid var(--border);
+      background: rgba(16, 185, 129, 0.05);
+      font-family: var(--mono);
     }
-
-
-
-    .st-main td {
-
-      color: var(--accent);
-
-      font-size: 15px;
-
-      font-weight: 900;
-
-      padding-top: 25px;
-
-      padding-bottom: 25px;
-
-      background: rgba(255, 255, 255, 0.02);
-
-      border-top: 2px solid var(--border);
-
-    }
-
-
-
-    .st-sub td {
-
-      padding-top: 12px;
-
-      padding-bottom: 12px;
-
-      font-size: 15px;
-
-      color: var(--text);
-
-    }
-
-
-
-    .pl-indent {
-
-      padding-left: 55px !important;
-
-      color: var(--textM);
-
-      font-weight: 600;
-
-      font-family: var(--disp);
-
-    }
-
-
-
-    .pl-indent-2 {
-
-      padding-left: 85px !important;
-
-      color: var(--textD);
-
-      font-weight: 600;
-
-      font-family: var(--disp);
-
-    }
-
-
-
-    .det {
-
-      color: var(--textM) !important;
-
-      font-size: 13px !important;
-
-      font-weight: 500;
-
-    }
-
-
 
     .scenario-wrap table {
-
       border-collapse: collapse;
-
       width: 100%;
-
     }
-
-
 
     .scenario-wrap th {
-
-      padding: 12px 8px;
-
-      background: rgba(0, 0, 0, 0.5);
-
+      padding: 12px 16px;
+      background: rgba(51, 65, 85, 0.3);
       text-align: left;
-
-      font-size: 11px;
-
-      font-weight: 900;
-
+      font-size: 10px;
+      font-weight: 600;
       letter-spacing: 1px;
-
       color: var(--textM);
-
-      border-bottom: 2px solid var(--border);
-
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      text-transform: uppercase;
     }
-
-
 
     .scenario-wrap th.r {
-
       text-align: right;
-
     }
-
-
 
     .scenario-wrap td {
-
-      padding: 8px 8px;
-
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.2);
       font-size: 12px;
-
-      font-weight: 600;
-
-      letter-spacing: 0.1px;
-
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      color: var(--text);
     }
 
+    .st-main td {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 16px;
+      background: rgba(16, 185, 129, 0.05);
+      border-top: 1px solid rgba(16, 185, 129, 0.2);
+      font-family: var(--mono);
+    }
 
+    .st-sub td {
+      padding: 10px 16px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .pl-indent {
+      padding-left: 40px !important;
+      color: var(--textM);
+      font-weight: 500;
+      font-family: var(--disp);
+    }
+
+    .pl-indent-2 {
+      padding-left: 60px !important;
+      color: var(--textD);
+      font-weight: 500;
+      font-family: var(--disp);
+    }
+
+    .det {
+      color: var(--textM) !important;
+      font-size: 11px !important;
+      font-weight: 400 !important;
+    }
 
     .st-main .pos {
-
       color: var(--accent);
-
+      font-weight: 700;
     }
-
-
 
     .st-main .neg {
-
       color: var(--bear);
-
+      font-weight: 700;
     }
-
-
 
     .st-sub .pos {
-
       color: var(--bull);
-
-      font-weight: 800;
-
+      font-weight: 600;
     }
-
-
 
     .st-sub .neg {
-
       color: var(--bear);
-
-      font-weight: 800;
-
+      font-weight: 600;
     }
-
-
 
     .st-cash td {
-
-      background: rgba(0, 212, 170, 0.08);
-
+      background: rgba(16, 185, 129, 0.08);
       color: var(--accent) !important;
-
-      font-weight: 900 !important;
-
-      border-top: 2px dashed rgba(0, 212, 170, 0.3);
-
-      border-bottom: 2px dashed rgba(0, 212, 170, 0.3);
-
-      font-size: 13px;
-
-      padding-top: 12px;
-
-      padding-bottom: 12px;
-
+      font-weight: 700 !important;
+      border-top: 1px dashed rgba(16, 185, 129, 0.3);
+      border-bottom: 1px dashed rgba(16, 185, 129, 0.3);
+      font-size: 12px;
+      padding: 12px 16px;
     }
-
-
 
     .st-cash .det-cash {
-
       font-family: var(--mono);
-
-      font-size: 12px;
-
-      color: rgba(0, 212, 170, 0.6) !important;
-
-      font-weight: 700 !important;
-
+      font-size: 11px;
+      color: rgba(16, 185, 129, 0.7) !important;
+      font-weight: 600 !important;
     }
-
-
 
     .bal {
-
       font-size: 9px;
-
       color: var(--accent);
-
       opacity: 0.8;
-
-      font-weight: 800;
-
+      font-weight: 600;
       font-family: var(--mono);
-
       margin-top: 2px;
-
       display: block;
-
-    }
-
-    /* Price Update Animation */
-
-    @keyframes priceFlash {
-
-      0% { background-color: rgba(0, 212, 170, 0.3); }
-
-      100% { background-color: transparent; }
-
-    }
-
-    @keyframes priceUp {
-
-      0% { color: var(--bull); transform: scale(1.1); text-shadow: 0 0 10px var(--bull); }
-
-      100% { color: var(--text); transform: scale(1); text-shadow: none; }
-
-    }
-
-    @keyframes priceDown {
-
-      0% { color: var(--bear); transform: scale(1.1); text-shadow: 0 0 10px var(--bear); }
-
-      100% { color: var(--text); transform: scale(1); text-shadow: none; }
-
-    }
-
-    @keyframes flashGreen {
-      0% { 
-        background-color: rgba(0, 255, 150, 0.8) !important; 
-        box-shadow: 0 0 30px rgba(0, 255, 150, 1), inset 0 0 20px rgba(0, 255, 150, 0.5) !important;
-        transform: scale(1.05);
-        color: #000 !important;
-        font-weight: 900 !important;
-      }
-      50% { 
-        background-color: rgba(0, 255, 150, 0.4) !important; 
-        box-shadow: 0 0 15px rgba(0, 255, 150, 0.6) !important;
-      }
-      100% { 
-        background-color: transparent !important; 
-        box-shadow: none !important;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes flashRed {
-      0% { 
-        background-color: rgba(255, 50, 50, 0.8) !important; 
-        box-shadow: 0 0 30px rgba(255, 50, 50, 1), inset 0 0 20px rgba(255, 50, 50, 0.5) !important;
-        transform: scale(1.05);
-        color: #fff !important;
-        font-weight: 900 !important;
-      }
-      50% { 
-        background-color: rgba(255, 50, 50, 0.4) !important; 
-        box-shadow: 0 0 15px rgba(255, 50, 50, 0.6) !important;
-      }
-      100% { 
-        background-color: transparent !important; 
-        box-shadow: none !important;
-        transform: scale(1);
-      }
-    }
-
-    .price-updated {
-
-      animation: priceFlash 0.5s ease-out;
-
-    }
-
-    .price-up {
-      animation: flashGreen 1s ease-out !important;
-      z-index: 100;
-    }
-
-    .price-down {
-      animation: flashRed 1s ease-out !important;
-      z-index: 100;
     }
 
     /* Mobile Responsive Styles - Enhanced for 2024 */
@@ -2150,25 +1680,25 @@
         <div class="main-content">
 
           <header>
-
-            <div class="brand-name">YOON WAR COMMAND CENTER</div>
-
-            <div style="display:flex; align-items:center; gap:40px;">
-
-              <div id="est-time-display" style="background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:6px 12px; font-size:12px; font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:600; display:flex; align-items:center; gap:6px;"><span style="color:var(--textM); font-size:10px;">EST</span>--:--:--</div>
-
-              <div class="live-indicator">
-
-                <div class="dot"></div><span id="connStatus" style="color:var(--accent);">SATELLITE STANDBY</span>
-
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+              <div>
+                <h1 class="brand-name mb-2">YOON WAR COMMAND CENTER</h1>
+                <div class="flex flex-wrap items-center gap-4">
+                  <div class="flex items-center gap-2 px-3 py-2 bg-slate-800/50 border border-slate-600 rounded-lg">
+                    <span class="text-slate-400 text-xs font-mono">EST</span>
+                    <span id="est-time-display" class="text-emerald-400 font-mono text-sm font-semibold">--:--:--</span>
+                  </div>
+                  <div class="live-indicator flex items-center gap-2">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span id="connStatus" class="text-emerald-400 text-sm font-medium">SATELLITE STANDBY</span>
+                  </div>
+                </div>
               </div>
-
-              <button id="format-toggle" class="btn-out" onclick="toggleAmountFormat()" style="background:var(--accent);">Show Actual Amounts</button>
-
-              <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
-
+              <div class="flex flex-wrap items-center gap-3">
+                <button id="format-toggle" class="btn-out" onclick="toggleAmountFormat()">Show Actual Amounts</button>
+                <button class="btn-out" onclick="refreshAll()">↻ FULL RE-SYNC</button>
+              </div>
             </div>
-
           </header>
 
 
