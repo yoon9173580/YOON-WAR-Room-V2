@@ -1622,10 +1622,9 @@
         font-size: 13px;
       }
       
-      /* Professional table layout - fit to screen */
+      /* Professional table layout - fit to screen perfectly */
       .scenario-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden !important;
         border-radius: 12px;
         width: 100%;
       }
@@ -1658,37 +1657,44 @@
       
       .scenario-wrap th {
         display: table-cell !important;
-        font-size: 10px;
-        padding: 10px 8px;
+        font-size: 9px;
+        padding: 8px 4px;
         background: rgba(51, 65, 85, 0.5);
         border-bottom: 1px solid var(--border);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
         font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       
       .scenario-wrap td {
         display: table-cell !important;
         width: auto !important;
-        padding: 8px !important;
-        font-size: 11px;
+        padding: 6px 4px !important;
+        font-size: 10px;
         border-bottom: 1px solid rgba(51, 65, 85, 0.3);
         vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       
-      /* Column width - fit to screen */
+      /* Column width - fit to screen exactly */
       .scenario-wrap th:nth-child(1),
       .scenario-wrap td:nth-child(1) {
-        width: 110px !important;
-        min-width: 110px;
+        width: 100px !important;
+        min-width: 100px;
       }
       
       .scenario-wrap th:nth-child(2),
       .scenario-wrap td:nth-child(2) {
-        width: 160px !important;
-        min-width: 160px;
+        width: 140px !important;
+        min-width: 140px;
       }
       
+      /* Price columns - equal distribution */
       .scenario-wrap th:nth-child(3),
       .scenario-wrap th:nth-child(4),
       .scenario-wrap th:nth-child(5),
@@ -1699,10 +1705,11 @@
       .scenario-wrap td:nth-child(5),
       .scenario-wrap td:nth-child(6),
       .scenario-wrap td:nth-child(7) {
-        width: calc((100% - 270px) / 5) !important;
-        min-width: 80px;
-        padding: 6px 4px !important;
-        font-size: 10px !important;
+        width: calc((100% - 240px) / 5) !important;
+        min-width: 60px;
+        padding: 6px 2px !important;
+        font-size: 9px !important;
+        text-align: center;
       }
       
       /* Custom price column highlight */
