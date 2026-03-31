@@ -1492,74 +1492,117 @@
       }
       
       .lock-btn {
-        /* Lock button styles can be added here if needed */
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
       }
 
-    /* ===== MOBILE & FOLD 6 - EFFICIENT DESKTOP-LIKE UI ===== */
+    /* ===== CREATIVE MOBILE UI - FOLD 6 OPTIMIZED ===== */
     @media screen and (max-width: 768px) {
-      /* Base mobile layout - desktop-like efficiency */
+      /* Base layout - creative fluid design */
       .wrap {
-        padding: 12px;
+        padding: 0;
+        background: linear-gradient(135deg, var(--bg) 0%, #0f172a 100%);
+        min-height: 100vh;
       }
       
       .main-content {
         width: 100%;
+        padding: 20px 16px;
       }
       
-      /* Header - compact but professional */
+      /* Creative header - floating glassmorphism */
       header {
-        padding: 16px 12px;
-        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 20px;
+        margin: 0 0 24px 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--purple), var(--amber));
+        animation: shimmer 3s linear infinite;
+      }
+      
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
       }
       
       .brand-name {
-        font-size: 20px;
-        letter-spacing: -0.5px;
-        margin-bottom: 8px;
-      }
-      
-      header > div:last-child {
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      
-      .btn-out {
-        padding: 6px 12px;
-        font-size: 11px;
-        min-width: auto;
-      }
-      
-      /* Port bar - desktop-like grid layout */
-      .port-bar {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 12px;
+        font-size: 24px;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), var(--purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
         margin-bottom: 16px;
-        padding: 0;
+        letter-spacing: -1px;
+      }
+      
+      /* Creative port bar - orbital layout */
+      .port-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 32px;
       }
       
       .port-bar-section {
-        min-width: auto;
-        max-width: none;
-        background: rgba(30, 41, 59, 0.6);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .port-bar-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+      }
+      
+      @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
       
       .port-bar-section-title {
-        font-size: 11px;
-        padding: 6px 10px;
-        margin-bottom: 12px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 16px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
       }
       
-      /* 3-column grid for cards - desktop efficiency */
+      /* Creative card layout - hexagonal grid */
       .port-bar-section {
         display: grid !important;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
       
       .port-bar-section-title {
@@ -1567,266 +1610,419 @@
       }
       
       .pstat {
-        padding: 10px 8px;
-        min-width: auto;
-        background: rgba(15, 23, 42, 0.5);
-        border: 1px solid var(--border);
-        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 16px 12px;
         text-align: center;
-        transition: all 0.2s ease;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+      
+      .pstat:hover {
+        transform: translateY(-4px) scale(1.02);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        box-shadow: 0 12px 24px rgba(16, 185, 129, 0.2);
       }
       
       .pstat:active {
-        transform: scale(0.98);
-        background: rgba(16, 185, 129, 0.1);
+        transform: translateY(-2px) scale(0.98);
       }
       
       .pstat-lbl {
-        font-size: 10px;
-        margin-bottom: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--textM);
+        margin-bottom: 6px;
         letter-spacing: 0.5px;
       }
       
       .pstat-val {
-        font-size: 14px;
-        font-weight: 700;
+        font-size: 18px;
+        font-weight: 900;
+        margin-bottom: 4px;
+        background: linear-gradient(135deg, var(--text), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       
       .pstat-pct {
         font-size: 10px;
-        color: var(--textM);
-        margin-top: 2px;
+        color: var(--textD);
+        font-weight: 500;
       }
       
-      /* Portfolio table - desktop-like */
+      /* Special NET WORTH card */
+      .pstat[style*="border: 2px solid var(--accent)"] {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+        border: 2px solid var(--accent) !important;
+        grid-column: 1 / -1;
+        transform: scale(1.02);
+      }
+      
+      /* Creative portfolio table - cards */
       .port-table-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 16px;
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 32px;
+        overflow: hidden;
       }
       
       .port-table-wrap table {
-        min-width: 700px;
         width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
       }
       
       .port-table-wrap th {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--accent);
         padding: 12px 8px;
-        font-size: 11px;
-        background: rgba(51, 65, 85, 0.5);
-        border-bottom: 1px solid var(--border);
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+      }
+      
+      .port-table-wrap th:first-child {
+        border-radius: 12px 0 0 0;
+      }
+      
+      .port-table-wrap th:last-child {
+        border-radius: 0 12px 0 0;
       }
       
       .port-table-wrap td {
-        padding: 12px 8px;
-        font-size: 12px;
-        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
-      }
-      
-      /* Scenario table - DESKTOP-LIKE TABLE LAYOUT */
-      .scenario-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: 12px;
-        margin-bottom: 16px;
-      }
-      
-      .scenario-wrap table {
-        display: table !important;
-        width: 100%;
-        min-width: 800px;
-        border-collapse: collapse;
-        table-layout: fixed;
-      }
-      
-      .scenario-wrap thead {
-        display: table-header-group !important;
-      }
-      
-      .scenario-wrap tbody {
-        display: table-row-group !important;
-      }
-      
-      .scenario-wrap tr {
-        display: table-row !important;
-        margin-bottom: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        background: transparent !important;
-        box-shadow: none !important;
-      }
-      
-      .scenario-wrap th {
-        display: table-cell !important;
-        font-size: 10px;
-        padding: 10px 6px;
-        background: rgba(51, 65, 85, 0.5);
-        border-bottom: 1px solid var(--border);
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        font-weight: 600;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      
-      .scenario-wrap td {
-        display: table-cell !important;
-        width: auto !important;
-        padding: 8px 6px !important;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 16px 8px;
         font-size: 11px;
-        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
-        vertical-align: middle;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.2s ease;
+      }
+      
+      .port-table-wrap tr:hover td {
+        background: rgba(255, 255, 255, 0.05);
+      }
+      
+      /* Creative scenario table - dashboard cards */
+      .scenario-wrap {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 32px;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
       
-      /* Column width optimization */
-      .scenario-wrap th:nth-child(1),
-      .scenario-wrap td:nth-child(1) {
-        width: 120px !important;
-        min-width: 120px;
+      .scenario-title {
+        font-size: 16px;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
       }
       
-      .scenario-wrap th:nth-child(2),
-      .scenario-wrap td:nth-child(2) {
-        width: 180px !important;
-        min-width: 180px;
+      /* Convert table to creative card layout */
+      .scenario-wrap table,
+      .scenario-wrap thead,
+      .scenario-wrap tbody,
+      .scenario-wrap tr,
+      .scenario-wrap th,
+      .scenario-wrap td {
+        display: block !important;
+        width: 100% !important;
+        min-width: auto !important;
       }
       
-      .scenario-wrap th:nth-child(3),
-      .scenario-wrap th:nth-child(4),
-      .scenario-wrap th:nth-child(5),
-      .scenario-wrap th:nth-child(6),
-      .scenario-wrap th:nth-child(7),
-      .scenario-wrap td:nth-child(3),
-      .scenario-wrap td:nth-child(4),
-      .scenario-wrap td:nth-child(5),
-      .scenario-wrap td:nth-child(6),
-      .scenario-wrap td:nth-child(7) {
-        width: calc((100% - 300px) / 5) !important;
-        min-width: 80px;
+      /* Hide table header */
+      .scenario-wrap thead {
+        display: none !important;
+      }
+      
+      /* Creative card design for each row */
+      .scenario-wrap tbody tr {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        margin-bottom: 16px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .scenario-wrap tbody tr:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      }
+      
+      /* Special styling for different row types */
+      .scenario-wrap tbody tr.st-main {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+        border: 2px solid var(--accent);
+        transform: scale(1.02);
+      }
+      
+      .scenario-wrap tbody tr.st-cash {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+        border: 2px solid var(--amber);
+      }
+      
+      .scenario-wrap tbody tr.st-sub {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        margin-left: 20px;
+      }
+      
+      /* Creative cell layout */
+      .scenario-wrap td {
+        padding: 8px 0 !important;
+        font-size: 11px !important;
+        border: none !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+      }
+      
+      .scenario-wrap td:last-child {
+        border-bottom: none !important;
+      }
+      
+      /* First cell as title */
+      .scenario-wrap td:first-child {
+        font-weight: 700;
+        font-size: 14px !important;
+        color: var(--text);
+        padding-bottom: 12px !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+        margin-bottom: 8px !important;
+      }
+      
+      /* Price cells as badges */
+      .scenario-wrap td:nth-child(n+3) {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 8px 12px !important;
+        margin: 4px 0 !important;
+        font-weight: 600;
         text-align: center;
       }
       
-      /* Custom price column highlight */
-      .scenario-wrap th:nth-child(7) {
-        background: rgba(16, 185, 129, 0.15) !important;
-        border-left: 2px solid var(--accent);
-        font-weight: 700;
-      }
-      
+      /* Custom price highlight */
       .scenario-wrap td:nth-child(7) {
-        background: rgba(16, 185, 129, 0.05) !important;
-        border-left: 1px solid rgba(16, 185, 129, 0.3);
-      }
-      
-      /* Row styling - desktop-like */
-      .st-main td {
-        font-size: 12px !important;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+        border: 1px solid var(--accent);
         font-weight: 700;
-        background: rgba(16, 185, 129, 0.08) !important;
       }
       
-      .st-sub td {
-        font-size: 11px !important;
-      }
-      
-      .st-cash td {
-        background: rgba(16, 185, 129, 0.12) !important;
-        font-weight: 600;
-      }
-      
-      /* Custom price input */
+      /* Creative custom price input */
       .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+        border: 2px solid var(--accent);
+        border-radius: 20px;
+        padding: 24px !important;
         flex-direction: column;
-        gap: 12px;
-        padding: 15px !important;
+        gap: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"]::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+        animation: rotate 15s linear infinite reverse;
       }
       
       #custom-price-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 16px !important;
+        font-size: 16px;
+        color: var(--text);
         width: 100% !important;
-        padding: 10px !important;
-        font-size: 14px;
+        position: relative;
+        z-index: 1;
       }
       
       .scenario-wrap button {
-        width: 100%;
-        padding: 10px;
-        font-size: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--purple));
+        border: none;
+        border-radius: 12px;
+        padding: 16px 24px !important;
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
       }
       
-      /* Indent adjustments */
-      .pl-indent {
-        padding-left: 30px !important;
+      .scenario-wrap button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
       }
       
-      .pl-indent-2 {
-        padding-left: 50px !important;
+      /* Creative buttons */
+      .btn-out {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text);
+        transition: all 0.3s ease;
+      }
+      
+      .btn-out:hover {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      
+      /* Hide sidebar completely */
+      .market-sidebar {
+        display: none !important;
       }
     }
-    /* ===== FOLD 6 UNFOLDED - DESKTOP-LEVEL OPTIMIZATION ===== */
+    /* ===== CREATIVE FOLD 6 UNFOLDED - ULTRA MODERN UI ===== */
     @media screen and (min-width: 721px) and (max-width: 1200px) {
-      /* Full width layout - maximum efficiency */
+      /* Full width creative layout */
       .wrap {
-        padding: 20px;
-      }
-      
-      /* Hide sidebar for maximum space */
-      .market-sidebar {
-        display: none;
+        padding: 0;
+        background: linear-gradient(135deg, var(--bg) 0%, #0f172a 50%, #1e293b 100%);
+        min-height: 100vh;
       }
       
       .main-content {
         width: 100%;
-        max-width: 100%;
+        padding: 32px 24px;
       }
       
-      /* Professional header - desktop-like */
+      /* Ultra creative header - floating orb design */
       header {
-        padding: 24px;
-        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(30px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 32px;
+        padding: 32px;
+        margin: 0 0 40px 0;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--purple), var(--amber), var(--accent));
+        animation: shimmer 2s linear infinite;
+      }
+      
+      header::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%);
+        animation: rotate 25s linear infinite;
       }
       
       .brand-name {
-        font-size: 28px;
-        letter-spacing: -1px;
+        font-size: 36px;
         font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), var(--purple), var(--amber));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 24px;
+        letter-spacing: -2px;
+        position: relative;
+        z-index: 1;
       }
       
-      /* Port bar - desktop-like grid layout */
+      /* Creative port bar - floating cards */
       .port-bar {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 16px;
-        margin-bottom: 20px;
-        padding: 0;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
       }
       
       .port-bar-section {
-        min-width: auto;
-        max-width: none;
-        background: rgba(30, 41, 59, 0.6);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .port-bar-section:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        border-color: var(--accent);
+      }
+      
+      .port-bar-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+        animation: rotate 30s linear infinite;
       }
       
       .port-bar-section-title {
-        font-size: 12px;
-        padding: 8px 12px;
-        margin-bottom: 12px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, var(--accent), var(--purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
       }
       
-      /* 3-column grid for cards - desktop efficiency */
+      /* Creative card layout - 3x2 grid */
       .port-bar-section {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 16px;
       }
       
       .port-bar-section-title {
@@ -1834,206 +2030,339 @@
       }
       
       .pstat {
-        padding: 12px 10px;
-        min-width: auto;
-        background: rgba(15, 23, 42, 0.5);
-        border: 1px solid var(--border);
-        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 20px 16px;
         text-align: center;
-        transition: all 0.2s ease;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+      
+      .pstat:hover {
+        transform: translateY(-6px) scale(1.05);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+        border-color: var(--accent);
       }
       
       .pstat:active {
-        transform: scale(0.98);
-        background: rgba(16, 185, 129, 0.1);
+        transform: translateY(-3px) scale(0.98);
       }
       
       .pstat-lbl {
-        font-size: 11px;
-        margin-bottom: 4px;
-        letter-spacing: 0.5px;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--textM);
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
       
       .pstat-val {
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 22px;
+        font-weight: 900;
+        margin-bottom: 6px;
+        background: linear-gradient(135deg, var(--text), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       
       .pstat-pct {
         font-size: 11px;
-        color: var(--textM);
-        margin-top: 2px;
+        color: var(--textD);
+        font-weight: 600;
       }
       
-      /* Portfolio table - desktop-like */
+      /* Special NET WORTH card - ultra premium */
+      .pstat[style*="border: 2px solid var(--accent)"] {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
+        border: 3px solid var(--accent) !important;
+        grid-column: 1 / -1;
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+      }
+      
+      .pstat[style*="border: 2px solid var(--accent)"]:hover {
+        transform: scale(1.08) translateY(-4px);
+        box-shadow: 0 25px 50px rgba(16, 185, 129, 0.5);
+      }
+      
+      /* Creative portfolio table - glass cards */
       .port-table-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 20px;
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 24px;
+        margin-bottom: 40px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       }
       
       .port-table-wrap table {
-        min-width: 800px;
         width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
       }
       
       .port-table-wrap th {
-        padding: 14px 10px;
-        font-size: 12px;
-        background: rgba(51, 65, 85, 0.5);
-        border-bottom: 1px solid var(--border);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%);
+        color: var(--accent);
+        padding: 16px 12px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none;
+      }
+      
+      .port-table-wrap th:first-child {
+        border-radius: 16px 0 0 0;
+      }
+      
+      .port-table-wrap th:last-child {
+        border-radius: 0 16px 0 0;
       }
       
       .port-table-wrap td {
-        padding: 14px 10px;
-        font-size: 13px;
-        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
-      }
-      
-      /* Scenario table - DESKTOP-LEVEL TABLE LAYOUT */
-      .scenario-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        border-radius: 12px;
-        margin-bottom: 20px;
-      }
-      
-      .scenario-wrap table {
-        display: table !important;
-        width: 100%;
-        min-width: 900px;
-        border-collapse: collapse;
-        table-layout: fixed;
-      }
-      
-      .scenario-wrap thead {
-        display: table-header-group !important;
-      }
-      
-      .scenario-wrap tbody {
-        display: table-row-group !important;
-      }
-      
-      .scenario-wrap tr {
-        display: table-row !important;
-        margin-bottom: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        background: transparent !important;
-        box-shadow: none !important;
-      }
-      
-      .scenario-wrap th {
-        display: table-cell !important;
-        font-size: 11px;
-        padding: 12px 8px;
-        background: rgba(51, 65, 85, 0.5);
-        border-bottom: 1px solid var(--border);
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        font-weight: 600;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      
-      .scenario-wrap td {
-        display: table-cell !important;
-        width: auto !important;
-        padding: 10px 8px !important;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 20px 12px;
         font-size: 12px;
-        border-bottom: 1px solid rgba(51, 65, 85, 0.3);
-        vertical-align: middle;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+      }
+      
+      .port-table-wrap tr:hover td {
+        background: rgba(255, 255, 255, 0.08);
+        transform: scale(1.01);
+      }
+      
+      /* Creative scenario table - dashboard cards */
+      .scenario-wrap {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 24px;
+        margin-bottom: 40px;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       }
       
-      /* Column width optimization - desktop level */
-      .scenario-wrap th:nth-child(1),
-      .scenario-wrap td:nth-child(1) {
-        width: 140px !important;
-        min-width: 140px;
-      }
-      
-      .scenario-wrap th:nth-child(2),
-      .scenario-wrap td:nth-child(2) {
-        width: 200px !important;
-        min-width: 200px;
-      }
-      
-      .scenario-wrap th:nth-child(3),
-      .scenario-wrap th:nth-child(4),
-      .scenario-wrap th:nth-child(5),
-      .scenario-wrap th:nth-child(6),
-      .scenario-wrap th:nth-child(7),
-      .scenario-wrap td:nth-child(3),
-      .scenario-wrap td:nth-child(4),
-      .scenario-wrap td:nth-child(5),
-      .scenario-wrap td:nth-child(6),
-      .scenario-wrap td:nth-child(7) {
-        width: calc((100% - 340px) / 5) !important;
-        min-width: 90px;
+      .scenario-title {
+        font-size: 20px;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), var(--purple), var(--amber));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
+        margin-bottom: 32px;
+        letter-spacing: 1px;
       }
       
-      /* Custom price column highlight */
-      .scenario-wrap th:nth-child(7) {
-        background: rgba(16, 185, 129, 0.15) !important;
-        border-left: 2px solid var(--accent);
-        font-weight: 700;
+      /* Convert table to creative card layout */
+      .scenario-wrap table,
+      .scenario-wrap thead,
+      .scenario-wrap tbody,
+      .scenario-wrap tr,
+      .scenario-wrap th,
+      .scenario-wrap td {
+        display: block !important;
+        width: 100% !important;
+        min-width: auto !important;
       }
       
-      .scenario-wrap td:nth-child(7) {
-        background: rgba(16, 185, 129, 0.05) !important;
-        border-left: 1px solid rgba(16, 185, 129, 0.3);
+      /* Hide table header */
+      .scenario-wrap thead {
+        display: none !important;
       }
       
-      /* Row styling - desktop level */
-      .st-main td {
-        font-size: 13px !important;
-        font-weight: 700;
-        background: rgba(16, 185, 129, 0.08) !important;
+      /* Ultra creative card design for each row */
+      .scenario-wrap tbody tr {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        margin-bottom: 20px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
-      .st-sub td {
+      .scenario-wrap tbody tr:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        border-color: var(--accent);
+      }
+      
+      /* Special styling for different row types */
+      .scenario-wrap tbody tr.st-main {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
+        border: 3px solid var(--accent);
+        transform: scale(1.03);
+        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+      }
+      
+      .scenario-wrap tbody tr.st-main:hover {
+        transform: scale(1.05) translateY(-4px);
+        box-shadow: 0 25px 50px rgba(16, 185, 129, 0.4);
+      }
+      
+      .scenario-wrap tbody tr.st-cash {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.08) 100%);
+        border: 3px solid var(--amber);
+        box-shadow: 0 15px 30px rgba(245, 158, 11, 0.2);
+      }
+      
+      .scenario-wrap tbody tr.st-sub {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-left: 24px;
+      }
+      
+      /* Creative cell layout */
+      .scenario-wrap td {
+        padding: 10px 0 !important;
         font-size: 12px !important;
+        border: none !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
       }
       
-      .st-cash td {
-        background: rgba(16, 185, 129, 0.12) !important;
-        font-weight: 600;
+      .scenario-wrap td:last-child {
+        border-bottom: none !important;
       }
       
-      /* Custom price input */
+      /* First cell as title */
+      .scenario-wrap td:first-child {
+        font-weight: 800;
+        font-size: 16px !important;
+        color: var(--text);
+        padding-bottom: 16px !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
+        margin-bottom: 12px !important;
+      }
+      
+      /* Price cells as badges */
+      .scenario-wrap td:nth-child(n+3) {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 12px 16px !important;
+        margin: 6px 0 !important;
+        font-weight: 700;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      
+      .scenario-wrap td:nth-child(n+3):hover {
+        background: rgba(16, 185, 129, 0.15);
+        transform: scale(1.05);
+      }
+      
+      /* Custom price highlight */
+      .scenario-wrap td:nth-child(7) {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+        border: 2px solid var(--accent);
+        font-weight: 800;
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+      }
+      
+      /* Creative custom price input */
       .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
+        border: 3px solid var(--accent);
+        border-radius: 24px;
+        padding: 32px !important;
         flex-direction: row;
-        gap: 15px;
-        padding: 20px !important;
+        gap: 20px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+      }
+      
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"]::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
+        animation: rotate 20s linear infinite reverse;
       }
       
       #custom-price-input {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        padding: 20px !important;
+        font-size: 18px;
+        color: var(--text);
         width: 300px !important;
-        padding: 12px !important;
-        font-size: 14px;
+        position: relative;
+        z-index: 1;
+        font-weight: 600;
+      }
+      
+      #custom-price-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
       }
       
       .scenario-wrap button {
-        width: auto;
+        background: linear-gradient(135deg, var(--accent), var(--purple));
+        border: none;
+        border-radius: 16px;
+        padding: 20px 32px !important;
+        font-size: 16px;
+        font-weight: 800;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      }
+      
+      .scenario-wrap button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+      }
+      
+      /* Creative buttons */
+      .btn-out {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
         padding: 12px 20px;
         font-size: 12px;
+        font-weight: 700;
+        color: var(--text);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
       
-      /* Compact header buttons */
-      header > div:last-child {
-        flex-wrap: wrap;
-        gap: 8px;
+      .btn-out:hover {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+        border-color: var(--accent);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
       }
       
-      .btn-out {
-        padding: 8px 16px;
-        font-size: 12px;
+      /* Hide sidebar completely */
+      .market-sidebar {
+        display: none !important;
       }
     }
 
