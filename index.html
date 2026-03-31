@@ -1162,101 +1162,154 @@
       z-index: 100;
     }
 
-    /* Mobile Responsive Styles */
+    /* Mobile Responsive Styles - Enhanced for 2024 */
     @media screen and (max-width: 768px) {
       /* Lock screen mobile */
       #lockScreen .lock-box {
-        width: 90%;
-        max-width: 340px;
-        padding: 30px 20px;
+        width: 95%;
+        max-width: 380px;
+        padding: 40px 30px;
       }
       
       .lock-logo {
-        font-size: 20px;
+        font-size: 24px;
+        margin-bottom: 20px;
       }
       
       .lock-sub {
-        font-size: 9px;
+        font-size: 10px;
+        letter-spacing: 6px;
+        margin-bottom: 40px;
       }
       
       /* Layout - Stack vertically */
       .app-layout {
         flex-direction: column;
+        gap: 20px;
       }
       
+      /* Market sidebar - horizontal scroll */
       .market-sidebar {
         width: 100%;
         height: auto;
         border-right: none;
-        border-bottom: 1px solid var(--borderB);
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        padding: 10px;
+        border-bottom: 2px solid var(--borderB);
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 15px;
+        white-space: nowrap;
       }
       
       .sidebar-title {
-        grid-column: 1 / -1;
-        font-size: 11px;
-        padding: 8px 0;
+        display: block;
+        width: 100%;
+        font-size: 12px;
+        margin-bottom: 15px;
+        text-align: center;
       }
       
       .sb-card {
-        padding: 10px;
+        display: inline-block;
+        min-width: 140px;
+        margin-right: 10px;
+        padding: 12px;
+        vertical-align: top;
       }
       
       .sb-sym {
-        font-size: 12px;
+        font-size: 13px;
       }
       
       .sb-price {
-        font-size: 14px;
+        font-size: 15px;
       }
       
       /* Main content */
       .main-content {
-        padding: 10px;
+        padding: 5px;
       }
       
-      /* Header */
+      /* Header - compact */
       header {
         flex-direction: column;
         gap: 15px;
-        padding: 15px 10px;
+        padding: 20px 15px;
       }
       
       .brand-name {
-        font-size: 16px;
+        font-size: 24px;
+        text-align: center;
       }
       
       .brand-name span {
         display: none;
       }
       
-      /* Port bar - stack */
+      header > div:last-child {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      .btn-out {
+        padding: 8px 16px;
+        font-size: 12px;
+        min-width: auto;
+      }
+      
+      /* Port bar - scrollable horizontally */
       .port-bar {
-        flex-direction: column;
-        gap: 15px;
+        overflow-x: auto;
+        overflow-y: hidden;
         padding: 15px;
+        white-space: nowrap;
+        gap: 15px;
       }
       
       .port-bar-section {
-        width: 100%;
+        display: inline-block;
+        min-width: 280px;
+        vertical-align: top;
+        white-space: normal;
+      }
+      
+      .port-bar-section-title {
+        font-size: 11px;
+        margin-bottom: 10px;
+      }
+      
+      .pstat {
+        display: inline-block;
+        width: calc(50% - 5px);
+        margin-right: 5px;
+        margin-bottom: 8px;
+        padding: 10px;
+        vertical-align: top;
+      }
+      
+      .pstat-lbl {
+        font-size: 11px;
+      }
+      
+      .pstat-val {
+        font-size: 16px;
       }
       
       /* Portfolio table - scrollable */
       .port-table-wrap {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        border-radius: 15px;
       }
       
       .port-table-wrap table {
-        min-width: 700px;
+        min-width: 800px;
       }
       
       /* Scenario table - improved mobile card layout */
       .scenario-wrap {
         overflow-x: hidden;
+        border-radius: 20px;
       }
       
       .scenario-wrap table {
@@ -1275,31 +1328,32 @@
       }
       
       .scenario-wrap table tr {
-        margin-bottom: 12px;
-        border: 1px solid var(--borderB);
-        border-radius: 12px;
-        background: linear-gradient(145deg, var(--bg2) 0%, rgba(255,255,255,0.02) 100%);
+        margin-bottom: 15px;
+        border: 2px solid var(--borderB);
+        border-radius: 15px;
+        background: linear-gradient(145deg, var(--bg2) 0%, rgba(255,255,255,0.03) 100%);
         padding: 0;
         overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       }
       
       /* Main section rows (ST 1, ST 2, etc.) */
       .scenario-wrap table tr.st-main {
-        background: linear-gradient(145deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 212, 170, 0.05) 100%);
-        border: 1px solid rgba(0, 212, 170, 0.3);
+        background: linear-gradient(145deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 212, 170, 0.08) 100%);
+        border: 2px solid rgba(0, 212, 170, 0.4);
       }
       
       .scenario-wrap table tr.st-main td {
         color: var(--accent);
         font-weight: 700;
-        font-size: 12px;
-        padding: 8px 10px;
+        font-size: 13px;
+        padding: 12px 15px;
       }
       
       /* Sub-section rows */
       .scenario-wrap table tr.st-sub td {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 8px 15px;
+        font-size: 12px;
       }
       
       /* Data cells */
@@ -1307,11 +1361,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 6px 10px;
+        padding: 8px 15px;
         border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        font-size: 11px;
-        min-height: 36px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        min-height: 40px;
       }
       
       .scenario-wrap table td:last-child {
@@ -1325,7 +1379,8 @@
         color: var(--textM);
         font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
+        margin-right: 10px;
       }
       
       /* Right-aligned values */
@@ -1341,46 +1396,50 @@
       }
       
       .scenario-wrap table td .neg {
-        color: var(--neg);
+        color: var(--bear);
         font-weight: 600;
       }
       
       /* First column (item names) styling */
       .scenario-wrap table td:first-child {
-        background: rgba(255, 255, 255, 0.02);
-        font-weight: 500;
+        background: rgba(255, 255, 255, 0.03);
+        font-weight: 600;
       }
       
       /* Indent levels for hierarchy */
       .scenario-wrap table td.pl-indent {
-        padding-left: 25px !important;
+        padding-left: 30px !important;
       }
       
       .scenario-wrap table td.pl-indent-2 {
-        padding-left: 40px !important;
+        padding-left: 50px !important;
       }
       
       /* Custom price input section */
       .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
+        padding: 20px !important;
       }
       
       #custom-price-input {
         width: 100% !important;
+        padding: 12px !important;
       }
       
       /* BBBYQ notice */
       div[style*="background:rgba(245,158,11,0.12)"] {
-        padding: 20px !important;
-        font-size: 14px !important;
+        padding: 25px !important;
+        font-size: 16px !important;
+        border-radius: 20px !important;
       }
       
       div[style*="background:rgba(245,158,11,0.12)"] span[style*="font-size:38px"] {
-        font-size: 28px !important;
+        font-size: 32px !important;
         float: none !important;
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        text-align: center;
       }
     }
 
@@ -3313,328 +3372,6 @@
 
 
 
-    // Language System - Korean (default) / English
-    let currentLanguage = localStorage.getItem('yoonwar_lang') || 'KO';
-    
-    const translations = {
-      'KO': {
-        'lock_logo': 'YOON WAR COMMAND CENTER',
-        'lock_sub': 'VERCEL API ULTIMATE SYNC V53.0',
-        'lock_err': 'AUTH ERROR: COMMAND DENIED',
-        'brand_name': 'YOON WAR COMMAND CENTER',
-        'conn_satellite': 'SATELLITE STANDBY',
-        'conn_uplinking': '[UPLINKING VIA VERCEL API...]',
-        'conn_stable': '[SATELLITE UPLINK: STABLE]',
-        'conn_error': '[API ERROR: DATA CORRUPT]',
-        'conn_failed': '[ERR: API CONNECT FAILED]',
-        'btn_format_show': 'Show Actual Amounts',
-        'btn_format_mk': 'Show M/K Format',
-        'btn_resync': '↻ FULL RE-SYNC',
-        'strategic_basket': 'STRATEGIC BASKET',
-        'market_indices': 'MARKET INDICES',
-        'portfolio_status': 'PORTFOLIO STATUS',
-        'net_worth': '💎 NET WORTH',
-        'equity': 'EQUITY',
-        'session': 'SESSION',
-        'unrealized': 'UNREALIZED',
-        'target': 'TARGET ($399)',
-        'custom_target': 'CUSTOM TARGET',
-        'waiting': 'WAITING...',
-        'bankrupt': 'BANKRUPT',
-        'asset_instrument': 'Asset Instrument',
-        'position': 'Position',
-        'avg_basis': 'Avg Basis',
-        'live_matrix': 'Live Matrix',
-        'terminal_value': 'Terminal Value',
-        'session_delta': 'Session Δ',
-        'total_delta': 'Total Δ',
-        'roi': 'ROI %',
-        'scenario_title': 'OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX',
-        'custom_price': 'Custom Price Input:',
-        'apply_price': 'Apply Price',
-        'reset_realtime': 'Reset to Real-time',
-        'stage': '분류 및 단계 (STAGE)',
-        'detail_item': '세부 항목 및 브로커 전술',
-        'korean_won': '└ [한화 환산]',
-        'exchange_rate': '실제 가치 기준 (1달러=',
-        'cash_remaining': '잔존 유동 현금 상태',
-        'st1_total': 'ST 1. 확보 총액',
-        'st1_section': '[SECTION TOTAL (Gross)]',
-        'st2_immediate': 'ST 2. 즉시 집행금',
-        'st2_matrix': '[Dynamic Cash Reserve Matrix]',
-        'minimum_guarantee': '└ 미니멈 보장',
-        'base_reserve': 'Base Cash Reserve',
-        'price_linked': '└ 주가 연동 추가금',
-        'price_linked_desc': 'Price-Linked Additional (GME × 1,000)',
-        'mobility_self': '└ 모빌리티 (본인)',
-        'mobility_self_desc': 'Aston Martin / MC20 / Ferrari F430',
-        'mobility_dad': '└ 모빌리티 (아빠)',
-        'mobility_dad_desc': 'BMW 740i',
-        'mobility_mom': '└ 모빌리티 (엄마)',
-        'mobility_mom_desc': 'TESLA Model Y Full Option',
-        'gift_dad': '└ 기프트 (아빠)',
-        'gift_dad_desc': 'Omega Seamaster Diver 300M',
-        'cash_gift_dad': '└ 현금 선물 (아빠)',
-        'cash_gift_desc': 'Cash Gift',
-        'gift_mom': '└ 기프트 (엄마)',
-        'gift_mom_desc': 'Cartier Tank Louis & LV M27335',
-        'cash_gift_mom': '└ 현금 선물 (엄마)',
-        'gift_jini': '└ 기프트 (진이)',
-        'gift_jini_desc': 'Omega Aqua Terra & Dior Bag',
-        'cash_gift_jini': '└ 현금 선물 (진이)',
-        'mobility_jini': '└ 모빌리티 (진이)',
-        'mobility_jini_desc': 'Porsche Macan',
-        'arun_m5': '└ Arun M5 CS Green',
-        'arun_m5_desc': '인생의 귀인의 선물',
-        'cash_after': '💵 [현금 잔고]',
-        'cash_after_desc': '즉시 집행 후 유동 현금',
-        'cs_shares': '└ [CS] 현물',
-        'cs_shares_desc': 'GME 100,000주 집중 확보 (Infinity)',
-        'fid_option': '└ [Fid] 옵션',
-        'fid_option_desc': "'27/'28 LEAPS (잔고 37% 매수, 나머지 현금)",
-        'moo_option': '└ [Moo] 옵션',
-        'moo_option_desc': "'27/'28 LEAPS (잔고 63% 매수, 나머지 현금)",
-        'st3_broker': 'ST 3. 브로커 파이프라인',
-        'st3_section': '[SECTION TOTAL (Execution)]',
-        'st4_tax': 'ST 4. 절세 제국 스케일업',
-        'st4_section': '[SECTION TOTAL (BBBY + GME STCG Offset)]',
-        'gme_partial': '└ GME Partial Sell',
-        'gme_partial_desc': '180일 내 LEAPS/현물 부분 청산',
-        'tax_calc': '└ 세금 계산',
-        'tax_calc_desc': 'Short-Term Capital Gains Tax (37%)',
-        'tax_shield': '└ 절세 플랜',
-        'tax_shield_desc': 'Tax Shield Applied (Net after deductions)',
-        'og_energy': '└ O&G (Energy)',
-        'og_energy_desc': 'IDC 100% 공제 (에너지 유정 WI)',
-        'qof_housing': '└ QOF Housing',
-        'qof_housing_desc': 'QOZ 다세대 주택 (10년 면세)',
-        'clat_trust': '└ CLAT (Trust)',
-        'clat_trust_desc': '자선 소득 신탁 (즉시 소득 공제)',
-        'st4_cash': '💵 [최종 현금 잔고]',
-        'st4_cash_desc': 'Tax Shield 방어 후 생존 잔고',
-        'st5_final': 'ST 5. 최종 완성',
-        'st5_section': '[SECTION TOTAL (Post-180 Days)]',
-        'tax_owed': '└ Tax Owed',
-        'tax_owed_desc': 'Remaining Tax Liability (Post-Defense)',
-        'tax_saved': '└ (세무 실익)',
-        'tax_saved_desc': 'Tax Saved (세후)',
-        'monthly_income': '└ (월 예상 수익)',
-        'monthly_income_desc': 'Monthly Passive Income (Net)',
-        'st1_summary': '└ ST1 확보',
-        'st1_summary_desc': 'Acquisition Gross',
-        'st2_summary': '└ ST2 집행',
-        'st2_summary_desc': 'Immediate Execution',
-        'st3_summary': '└ ST3 브로커',
-        'st3_summary_desc': 'Broker Pipeline',
-        'st4_summary': '└ ST4 절세',
-        'st4_summary_desc': 'Tax Shield + Reinvestment',
-        'final_validation': '최종 검증',
-        'zero_sum': 'Zero-Sum Check (현금흐름)',
-        'cash_in_hand': '💰 내 현금 수중',
-        'cash_in_hand_desc': '실제 수중 현금 (Cash in Hand)',
-        'net_worth_total': '💎 NET WORTH',
-        'net_worth_desc': '총 순자산 (Cash + Assets)',
-        'won_suffix': '원'
-      },
-      'EN': {
-        'lock_logo': 'YOON WAR COMMAND CENTER',
-        'lock_sub': 'VERCEL API ULTIMATE SYNC V53.0',
-        'lock_err': 'AUTH ERROR: COMMAND DENIED',
-        'brand_name': 'YOON WAR COMMAND CENTER',
-        'conn_satellite': 'SATELLITE STANDBY',
-        'conn_uplinking': '[UPLINKING VIA VERCEL API...]',
-        'conn_stable': '[SATELLITE UPLINK: STABLE]',
-        'conn_error': '[API ERROR: DATA CORRUPT]',
-        'conn_failed': '[ERR: API CONNECT FAILED]',
-        'btn_format_show': 'Show Actual Amounts',
-        'btn_format_mk': 'Show M/K Format',
-        'btn_resync': '↻ FULL RE-SYNC',
-        'strategic_basket': 'STRATEGIC BASKET',
-        'market_indices': 'MARKET INDICES',
-        'portfolio_status': 'PORTFOLIO STATUS',
-        'net_worth': '💎 NET WORTH',
-        'equity': 'EQUITY',
-        'session': 'SESSION',
-        'unrealized': 'UNREALIZED',
-        'target': 'TARGET ($399)',
-        'custom_target': 'CUSTOM TARGET',
-        'waiting': 'WAITING...',
-        'bankrupt': 'BANKRUPT',
-        'asset_instrument': 'Asset Instrument',
-        'position': 'Position',
-        'avg_basis': 'Avg Basis',
-        'live_matrix': 'Live Matrix',
-        'terminal_value': 'Terminal Value',
-        'session_delta': 'Session Δ',
-        'total_delta': 'Total Δ',
-        'roi': 'ROI %',
-        'scenario_title': 'OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX',
-        'custom_price': 'Custom Price Input:',
-        'apply_price': 'Apply Price',
-        'reset_realtime': 'Reset to Real-time',
-        'stage': 'STAGE & CATEGORY',
-        'detail_item': 'Detail & Broker Tactics',
-        'korean_won': '└ [KRW Conversion]',
-        'exchange_rate': 'Value basis (1 USD = ',
-        'cash_remaining': 'Remaining Liquid Cash',
-        'st1_total': 'ST 1. Total Acquisition',
-        'st1_section': '[SECTION TOTAL (Gross)]',
-        'st2_immediate': 'ST 2. Immediate Execution',
-        'st2_matrix': '[Dynamic Cash Reserve Matrix]',
-        'minimum_guarantee': '└ Minimum Guarantee',
-        'base_reserve': 'Base Cash Reserve',
-        'price_linked': '└ Price-Linked Additional',
-        'price_linked_desc': 'Price-Linked Additional (GME × 1,000)',
-        'mobility_self': '└ Mobility (Self)',
-        'mobility_self_desc': 'Aston Martin / MC20 / Ferrari F430',
-        'mobility_dad': '└ Mobility (Dad)',
-        'mobility_dad_desc': 'BMW 740i',
-        'mobility_mom': '└ Mobility (Mom)',
-        'mobility_mom_desc': 'TESLA Model Y Full Option',
-        'gift_dad': '└ Gift (Dad)',
-        'gift_dad_desc': 'Omega Seamaster Diver 300M',
-        'cash_gift_dad': '└ Cash Gift (Dad)',
-        'cash_gift_desc': 'Cash Gift',
-        'gift_mom': '└ Gift (Mom)',
-        'gift_mom_desc': 'Cartier Tank Louis & LV M27335',
-        'cash_gift_mom': '└ Cash Gift (Mom)',
-        'gift_jini': '└ Gift (Jini)',
-        'gift_jini_desc': 'Omega Aqua Terra & Dior Bag',
-        'cash_gift_jini': '└ Cash Gift (Jini)',
-        'mobility_jini': '└ Mobility (Jini)',
-        'mobility_jini_desc': 'Porsche Macan',
-        'arun_m5': '└ Arun M5 CS Green',
-        'arun_m5_desc': 'Gift from Life\'s Benefactor',
-        'cash_after': '💵 [Cash Balance]',
-        'cash_after_desc': 'Liquid Cash After Immediate Execution',
-        'cs_shares': '└ [CS] Physical',
-        'cs_shares_desc': 'GME 100,000 Shares Concentration (Infinity)',
-        'fid_option': '└ [Fid] Options',
-        'fid_option_desc': "'27/'28 LEAPS (37% of balance, rest cash)",
-        'moo_option': '└ [Moo] Options',
-        'moo_option_desc': "'27/'28 LEAPS (63% of balance, rest cash)",
-        'st3_broker': 'ST 3. Broker Pipeline',
-        'st3_section': '[SECTION TOTAL (Execution)]',
-        'st4_tax': 'ST 4. Tax-Efficient Empire Scale-up',
-        'st4_section': '[SECTION TOTAL (BBBY + GME STCG Offset)]',
-        'gme_partial': '└ GME Partial Sell',
-        'gme_partial_desc': 'LEAPS/Physical Partial Liquidation (180 days)',
-        'tax_calc': '└ Tax Calculation',
-        'tax_calc_desc': 'Short-Term Capital Gains Tax (37%)',
-        'tax_shield': '└ Tax Shield Plan',
-        'tax_shield_desc': 'Tax Shield Applied (Net after deductions)',
-        'og_energy': '└ O&G (Energy)',
-        'og_energy_desc': 'IDC 100% Deduction (Energy WI)',
-        'qof_housing': '└ QOF Housing',
-        'qof_housing_desc': 'QOZ Multi-Family Housing (10-yr Tax Exempt)',
-        'clat_trust': '└ CLAT (Trust)',
-        'clat_trust_desc': 'Charitable Income Trust (Immediate Deduction)',
-        'st4_cash': '💵 [Final Cash Balance]',
-        'st4_cash_desc': 'Surviving Balance After Tax Shield Defense',
-        'st5_final': 'ST 5. Final Completion',
-        'st5_section': '[SECTION TOTAL (Post-180 Days)]',
-        'tax_owed': '└ Tax Owed',
-        'tax_owed_desc': 'Remaining Tax Liability (Post-Defense)',
-        'tax_saved': '└ (Tax Benefit)',
-        'tax_saved_desc': 'Tax Saved (After-tax)',
-        'monthly_income': '└ (Monthly Est. Income)',
-        'monthly_income_desc': 'Monthly Passive Income (Net)',
-        'st1_summary': '└ ST1 Acquisition',
-        'st1_summary_desc': 'Acquisition Gross',
-        'st2_summary': '└ ST2 Execution',
-        'st2_summary_desc': 'Immediate Execution',
-        'st3_summary': '└ ST3 Broker',
-        'st3_summary_desc': 'Broker Pipeline',
-        'st4_summary': '└ ST4 Tax Shield',
-        'st4_summary_desc': 'Tax Shield + Reinvestment',
-        'final_validation': 'Final Validation',
-        'zero_sum': 'Zero-Sum Check (Cash Flow)',
-        'cash_in_hand': '💰 Cash in Hand',
-        'cash_in_hand_desc': 'Actual Cash in Hand',
-        'net_worth_total': '💎 NET WORTH',
-        'net_worth_desc': 'Total Net Worth (Cash + Assets)',
-        'won_suffix': ' KRW'
-      }
-    };
-    
-    // Toggle language function
-    function toggleLanguage() {
-      currentLanguage = currentLanguage === 'KO' ? 'EN' : 'KO';
-      localStorage.setItem('yoonwar_lang', currentLanguage);
-      
-      const btn = document.getElementById('lang-toggle');
-      if (btn) {
-        btn.textContent = currentLanguage === 'KO' ? 'EN' : 'KO';
-      }
-      
-      applyTranslations();
-    }
-    
-    // Apply translations to the page
-    function applyTranslations() {
-      const t = translations[currentLanguage];
-      
-      // Update button text
-      const formatBtn = document.getElementById('format-toggle');
-      if (formatBtn) {
-        formatBtn.textContent = showActualAmounts ? t['btn_format_mk'] : t['btn_format_show'];
-      }
-      
-      const resyncBtn = document.querySelector('button[onclick="refreshAll()"]');
-      if (resyncBtn) resyncBtn.textContent = t['btn_resync'];
-      
-      // Update port-bar section titles
-      const portBarTitles = document.querySelectorAll('.port-bar-section-title');
-      portBarTitles.forEach(title => {
-        const text = title.textContent.trim();
-        if (text === 'STRATEGIC BASKET') title.textContent = t['strategic_basket'];
-        else if (text === 'MARKET INDICES') title.textContent = t['market_indices'];
-        else if (text === 'PORTFOLIO STATUS') title.textContent = t['portfolio_status'];
-      });
-      
-      // Update table headers
-      const headers = document.querySelectorAll('thead th');
-      headers.forEach(th => {
-        const key = th.getAttribute('data-translate');
-        if (key && t[key]) th.textContent = t[key];
-      });
-      
-      // Update scenario title
-      const scenarioTitle = document.querySelector('.scenario-title');
-      if (scenarioTitle) scenarioTitle.textContent = t['scenario_title'];
-      
-      // Update table cells with data-translate attributes
-      document.querySelectorAll('[data-translate]').forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (t[key]) {
-          // Preserve any HTML inside but replace text
-          if (el.children.length === 0) {
-            el.textContent = t[key];
-          }
-        }
-      });
-      
-      // Update custom price section
-      const customPriceLabel = document.querySelector('#custom-price-input').previousElementSibling;
-      if (customPriceLabel && customPriceLabel.textContent.includes('Custom')) {
-        customPriceLabel.textContent = t['custom_price'];
-      }
-      
-      const applyBtn = document.getElementById('apply-custom-price');
-      if (applyBtn) applyBtn.textContent = t['apply_price'];
-      
-      const resetBtn = document.getElementById('reset-net-worth');
-      if (resetBtn) resetBtn.textContent = t['reset_realtime'];
-    }
-    
-    // Initialize language on page load
-    function initLanguage() {
-      const btn = document.getElementById('lang-toggle');
-      if (btn) {
-        btn.textContent = currentLanguage === 'KO' ? 'EN' : 'KO';
-      }
-      applyTranslations();
-    }
 
 
     function submitPin() {
@@ -5566,8 +5303,6 @@
 
       renderTerminal();
       
-      // Initialize language system
-      initLanguage();
 
       // Calculate all pipeline columns on startup
       calculateAllPipelineColumns();
