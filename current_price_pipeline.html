@@ -2923,6 +2923,7 @@
             V_BB_AFTER_P = Number(qBB._postMarketPrice) || 0;
             V_BB_AFTER_C = Number(qBB._postMarketChange) || 0;
             V_BB_AFTER_PCT = Number(qBB._postMarketChangePercent) || 0;
+            console.log('DEBUG BB:', {price: V_BB_P, afterP: V_BB_AFTER_P, afterC: V_BB_AFTER_C, afterPct: V_BB_AFTER_PCT, raw: qBB});
           }
 
           const qNOK = extract('NOK'); if (qNOK) { 
