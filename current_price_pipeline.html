@@ -1069,47 +1069,91 @@
 
     }
 
-    /* Price Update Animation */
+    /* Price Update Animation - Enhanced */
 
-    @keyframes priceFlash {
+    @keyframes priceFlashUp {
 
-      0% { background-color: rgba(0, 212, 170, 0.3); }
+      0% { 
+        background-color: rgba(0, 212, 170, 0.8); 
+        box-shadow: 0 0 30px 10px rgba(0, 212, 170, 0.6);
+        transform: scale(1.05);
+      }
 
-      100% { background-color: transparent; }
+      50% { 
+        background-color: rgba(0, 212, 170, 0.4); 
+        box-shadow: 0 0 20px 5px rgba(0, 212, 170, 0.4);
+      }
+
+      100% { 
+        background-color: transparent; 
+        box-shadow: 0 0 0 0 rgba(0, 212, 170, 0);
+        transform: scale(1);
+      }
+
+    }
+
+    @keyframes priceFlashDown {
+
+      0% { 
+        background-color: rgba(239, 68, 68, 0.8); 
+        box-shadow: 0 0 30px 10px rgba(239, 68, 68, 0.6);
+        transform: scale(1.05);
+      }
+
+      50% { 
+        background-color: rgba(239, 68, 68, 0.4); 
+        box-shadow: 0 0 20px 5px rgba(239, 68, 68, 0.4);
+      }
+
+      100% { 
+        background-color: transparent; 
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        transform: scale(1);
+      }
 
     }
 
     @keyframes priceUp {
 
-      0% { color: var(--bull); transform: scale(1.1); }
+      0% { color: var(--bull); transform: scale(1.15); text-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
 
-      100% { color: var(--text); transform: scale(1); }
+      50% { color: var(--bull); transform: scale(1.08); text-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+
+      100% { color: var(--text); transform: scale(1); text-shadow: none; }
 
     }
 
     @keyframes priceDown {
 
-      0% { color: var(--bear); transform: scale(1.1); }
+      0% { color: var(--bear); transform: scale(1.15); text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
 
-      100% { color: var(--text); transform: scale(1); }
+      50% { color: var(--bear); transform: scale(1.08); text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+
+      100% { color: var(--text); transform: scale(1); text-shadow: none; }
 
     }
 
     .price-updated {
 
-      animation: priceFlash 0.5s ease-out;
+      animation: priceFlashUp 0.6s ease-out;
+
+    }
+
+    .price-updated-down {
+
+      animation: priceFlashDown 0.6s ease-out;
 
     }
 
     .price-up {
 
-      animation: priceUp 0.5s ease-out;
+      animation: priceUp 0.6s ease-out;
 
     }
 
     .price-down {
 
-      animation: priceDown 0.5s ease-out;
+      animation: priceDown 0.6s ease-out;
 
     }
 
@@ -3838,17 +3882,20 @@
 
 
 
-    // Animation helper
-
+    // Animation helper - Enhanced
     const animatePrice = (element, isUp) => {
 
-      element.classList.remove('price-up', 'price-down', 'price-updated');
+      element.classList.remove('price-up', 'price-down', 'price-updated', 'price-updated-down');
 
       void element.offsetWidth; // Trigger reflow
 
-      element.classList.add('price-updated', isUp ? 'price-up' : 'price-down');
+      if (isUp) {
+        element.classList.add('price-updated', 'price-up');
+      } else {
+        element.classList.add('price-updated-down', 'price-down');
+      }
 
-      setTimeout(() => element.classList.remove('price-updated', 'price-up', 'price-down'), 500);
+      setTimeout(() => element.classList.remove('price-updated', 'price-updated-down', 'price-up', 'price-down'), 600);
 
     };
 
@@ -4126,7 +4173,7 @@
 
       fetchMaster();
 
-      setInterval(fetchMaster, 12000);
+      setInterval(fetchMaster, 5000);
 
       
 
