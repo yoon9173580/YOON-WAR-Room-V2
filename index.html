@@ -2062,26 +2062,32 @@
               <div class="pstat">
                 <div class="pstat-lbl">GME</div>
                 <div id="gme-price-display" class="pstat-val pos">$0.00</div>
+                <div id="gme-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">AMC</div>
                 <div id="amc-price-display" class="pstat-val">$0.00</div>
+                <div id="amc-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">IEP</div>
                 <div id="iep-price-display" class="pstat-val">$0.00</div>
+                <div id="iep-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">BB</div>
                 <div id="bb-price-display" class="pstat-val">$0.00</div>
+                <div id="bb-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">NOK</div>
                 <div id="nok-price-display" class="pstat-val">$0.00</div>
+                <div id="nok-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">BABA</div>
                 <div id="baba-price-display" class="pstat-val">$0.00</div>
+                <div id="baba-pct-display" class="pstat-pct">0.00%</div>
               </div>
             </div>
 
@@ -4068,23 +4074,59 @@
 
     // Update port-bar display values
     function updatePortBarValues() {
+      // GME with percentage
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      const gmePctEl = document.getElementById('gme-pct-display');
+      if (gmePctEl) {
+        gmePctEl.textContent = (V_GME_PCT >= 0 ? '+' : '') + V_GME_PCT.toFixed(2) + '%';
+        gmePctEl.className = 'pstat-pct ' + (V_GME_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // AMC with percentage
       const amcPriceEl = document.getElementById('amc-price-display');
       if (amcPriceEl && V_AMC_P > 0) amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+      const amcPctEl = document.getElementById('amc-pct-display');
+      if (amcPctEl) {
+        amcPctEl.textContent = (V_AMC_PCT >= 0 ? '+' : '') + V_AMC_PCT.toFixed(2) + '%';
+        amcPctEl.className = 'pstat-pct ' + (V_AMC_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // IEP with percentage
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+      const iepPctEl = document.getElementById('iep-pct-display');
+      if (iepPctEl) {
+        iepPctEl.textContent = (V_IEP_PCT >= 0 ? '+' : '') + V_IEP_PCT.toFixed(2) + '%';
+        iepPctEl.className = 'pstat-pct ' + (V_IEP_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // BB with percentage
       const bbPriceEl = document.getElementById('bb-price-display');
       if (bbPriceEl && V_BB_P > 0) bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+      const bbPctEl = document.getElementById('bb-pct-display');
+      if (bbPctEl) {
+        bbPctEl.textContent = (V_BB_PCT >= 0 ? '+' : '') + V_BB_PCT.toFixed(2) + '%';
+        bbPctEl.className = 'pstat-pct ' + (V_BB_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // NOK with percentage
       const nokPriceEl = document.getElementById('nok-price-display');
       if (nokPriceEl && V_NOK_P > 0) nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+      const nokPctEl = document.getElementById('nok-pct-display');
+      if (nokPctEl) {
+        nokPctEl.textContent = (V_NOK_PCT >= 0 ? '+' : '') + V_NOK_PCT.toFixed(2) + '%';
+        nokPctEl.className = 'pstat-pct ' + (V_NOK_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // BABA with percentage
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
+      const babaPctEl = document.getElementById('baba-pct-display');
+      if (babaPctEl) {
+        babaPctEl.textContent = (V_BABA_PCT >= 0 ? '+' : '') + V_BABA_PCT.toFixed(2) + '%';
+        babaPctEl.className = 'pstat-pct ' + (V_BABA_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
       // BTC with percentage
       const btcPriceEl = document.getElementById('btc-price-display');
