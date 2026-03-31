@@ -2091,22 +2091,27 @@
               <div class="pstat">
                 <div class="pstat-lbl">BTC</div>
                 <div id="btc-price-display" class="pstat-val">$0.00</div>
+                <div id="btc-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">SPY</div>
                 <div id="spy-price-display" class="pstat-val">$0.00</div>
+                <div id="spy-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">QQQ</div>
                 <div id="qqq-price-display" class="pstat-val">$0.00</div>
+                <div id="qqq-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">VIX</div>
                 <div id="vix-price-display" class="pstat-val">$0.00</div>
+                <div id="vix-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">KOSPI</div>
                 <div id="kospi-price-display" class="pstat-val">0.00</div>
+                <div id="kospi-pct-display" class="pstat-pct">0.00%</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
@@ -4081,18 +4086,43 @@
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
       
+      // BTC with percentage
       const btcPriceEl = document.getElementById('btc-price-display');
       if (btcPriceEl && V_BTC_P > 0) btcPriceEl.textContent = '$' + fmt(V_BTC_P);
+      const btcPctEl = document.getElementById('btc-pct-display');
+      if (btcPctEl) {
+        btcPctEl.textContent = (V_BTC_PCT >= 0 ? '+' : '') + V_BTC_PCT.toFixed(2) + '%';
+        btcPctEl.className = 'pstat-pct ' + (V_BTC_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // SPY with percentage
       const spyPriceEl = document.getElementById('spy-price-display');
       if (spyPriceEl && V_SPY_P > 0) spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+      const spyPctEl = document.getElementById('spy-pct-display');
+      if (spyPctEl) {
+        spyPctEl.textContent = (V_SPY_PCT >= 0 ? '+' : '') + V_SPY_PCT.toFixed(2) + '%';
+        spyPctEl.className = 'pstat-pct ' + (V_SPY_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // QQQ with percentage
       const qqqPriceEl = document.getElementById('qqq-price-display');
       if (qqqPriceEl && V_QQQ_P > 0) qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+      const qqqPctEl = document.getElementById('qqq-pct-display');
+      if (qqqPctEl) {
+        qqqPctEl.textContent = (V_QQQ_PCT >= 0 ? '+' : '') + V_QQQ_PCT.toFixed(2) + '%';
+        qqqPctEl.className = 'pstat-pct ' + (V_QQQ_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // VIX with percentage
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+      const vixPctEl = document.getElementById('vix-pct-display');
+      if (vixPctEl) {
+        vixPctEl.textContent = (V_VIX_PCT >= 0 ? '+' : '') + V_VIX_PCT.toFixed(2) + '%';
+        vixPctEl.className = 'pstat-pct ' + (V_VIX_PCT >= 0 ? 'pct-up' : 'pct-down');
+      }
       
+      // KOSPI with percentage
       const kospiPriceEl = document.getElementById('kospi-price-display');
       if (kospiPriceEl) {
         if (V_KOSPI_P > 0) {
@@ -4101,6 +4131,15 @@
           kospiPriceEl.textContent = 'N/A';
         }
         console.log('[DEBUG] KOSPI display update:', { element: !!kospiPriceEl, value: V_KOSPI_P });
+      }
+      const kospiPctEl = document.getElementById('kospi-pct-display');
+      if (kospiPctEl && V_KOSPI_P > 0) {
+        // Calculate KOSPI change % from raw data if available
+        const kospiChange = V_KOSPI_C || 0;
+        const kospiPrev = V_KOSPI_P - kospiChange;
+        const kospiPct = kospiPrev > 0 ? (kospiChange / kospiPrev) * 100 : 0;
+        kospiPctEl.textContent = (kospiPct >= 0 ? '+' : '') + kospiPct.toFixed(2) + '%';
+        kospiPctEl.className = 'pstat-pct ' + (kospiPct >= 0 ? 'pct-up' : 'pct-down');
       }
     }
 
