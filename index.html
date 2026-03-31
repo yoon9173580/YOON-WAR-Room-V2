@@ -3755,16 +3755,13 @@
         return `🌆 Aftermarket: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
-      // PRE (Premarket) state - show as Overnight if before 9:30 AM
+      // PRE (Premarket) state - always show as Premarket when API reports PRE
       if (state === "PRE" && q.preMarketPrice) {
-        if (isOvernightHours) {
-          const c = Number(q.preMarketChange) || 0;
-          const pct = Number(q.preMarketChangePercent) || 0;
-          console.log(`[DEBUG] ${symbol}: Showing Overnight (PRE)`);
-          return `🌜 Overnight: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-        }
+        // When API explicitly says PRE, show Premarket (not Overnight)
+        // This is more accurate than time-based calculation
         const c = Number(q.preMarketChange) || 0;
         const pct = Number(q.preMarketChangePercent) || 0;
+        console.log(`[DEBUG] ${symbol}: Showing Premarket (state=PRE)`);
         return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
