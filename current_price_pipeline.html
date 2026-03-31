@@ -1069,94 +1069,6 @@
 
     }
 
-    /* Price Update Animation - Enhanced */
-
-    @keyframes priceFlashUp {
-
-      0% { 
-        background-color: rgba(0, 212, 170, 0.8); 
-        box-shadow: 0 0 30px 10px rgba(0, 212, 170, 0.6);
-        transform: scale(1.05);
-      }
-
-      50% { 
-        background-color: rgba(0, 212, 170, 0.4); 
-        box-shadow: 0 0 20px 5px rgba(0, 212, 170, 0.4);
-      }
-
-      100% { 
-        background-color: transparent; 
-        box-shadow: 0 0 0 0 rgba(0, 212, 170, 0);
-        transform: scale(1);
-      }
-
-    }
-
-    @keyframes priceFlashDown {
-
-      0% { 
-        background-color: rgba(239, 68, 68, 0.8); 
-        box-shadow: 0 0 30px 10px rgba(239, 68, 68, 0.6);
-        transform: scale(1.05);
-      }
-
-      50% { 
-        background-color: rgba(239, 68, 68, 0.4); 
-        box-shadow: 0 0 20px 5px rgba(239, 68, 68, 0.4);
-      }
-
-      100% { 
-        background-color: transparent; 
-        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-        transform: scale(1);
-      }
-
-    }
-
-    @keyframes priceUp {
-
-      0% { color: var(--bull); transform: scale(1.15); text-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
-
-      50% { color: var(--bull); transform: scale(1.08); text-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
-
-      100% { color: var(--text); transform: scale(1); text-shadow: none; }
-
-    }
-
-    @keyframes priceDown {
-
-      0% { color: var(--bear); transform: scale(1.15); text-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
-
-      50% { color: var(--bear); transform: scale(1.08); text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
-
-      100% { color: var(--text); transform: scale(1); text-shadow: none; }
-
-    }
-
-    .price-updated {
-
-      animation: priceFlashUp 0.6s ease-out;
-
-    }
-
-    .price-updated-down {
-
-      animation: priceFlashDown 0.6s ease-out;
-
-    }
-
-    .price-up {
-
-      animation: priceUp 0.6s ease-out;
-
-    }
-
-    .price-down {
-
-      animation: priceDown 0.6s ease-out;
-
-    }
-
   </style>
 
 </head>
@@ -1392,10 +1304,6 @@
               <div class="pstat">
                 <div class="pstat-lbl">VIX</div>
                 <div id="vix-price-display" class="pstat-val">$0.00</div>
-              </div>
-              <div class="pstat">
-                <div class="pstat-lbl">KOSPI</div>
-                <div id="kospi-display" class="pstat-val">--</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
@@ -2505,8 +2413,6 @@
 
     let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
 
-    let V_KOSPI_P = 0, V_KOSPI_C = 0, V_KOSPI_PCT = 0;
-
 
 
     // Crypto
@@ -2698,34 +2604,6 @@
       }
     }
 
-    // Fetch KOSPI from Korea Exchange proxy or alternative source
-    async function fetchKOSPI() {
-      try {
-        // Use a reliable KOSPI data source
-        const res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/^KS11?interval=1d&range=1d');
-        if (res.ok) {
-          const data = await res.json();
-          if (data.chart && data.chart.result && data.chart.result[0]) {
-            const result = data.chart.result[0];
-            const meta = result.meta;
-            const currentPrice = meta.regularMarketPrice || meta.previousClose || 0;
-            const previousClose = meta.previousClose || meta.chartPreviousClose || 0;
-            
-            if (currentPrice > 0) {
-              V_KOSPI_P = currentPrice;
-              V_KOSPI_C = currentPrice - previousClose;
-              V_KOSPI_PCT = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
-              console.log('KOSPI fetched:', V_KOSPI_P.toFixed(2), 'Change:', V_KOSPI_PCT.toFixed(2) + '%');
-            }
-          }
-        }
-      } catch (e) {
-        console.log('KOSPI fetch failed:', e.message);
-        // Fallback: use default value for testing
-        V_KOSPI_P = 0; // Will show "--" if fetch fails
-      }
-    }
-
     async function fetchMaster() {
 
       const conn = document.getElementById('connStatus');
@@ -2809,9 +2687,6 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
-
-          // KOSPI - fetch from alternative source since Yahoo doesn't support ^KS11 well
-          await fetchKOSPI();
 
 
 
@@ -3919,38 +3794,6 @@
 
 
 
-    // Animation helper - Enhanced
-    const animatePrice = (element, isUp) => {
-
-      element.classList.remove('price-up', 'price-down', 'price-updated', 'price-updated-down');
-
-      void element.offsetWidth; // Trigger reflow
-
-      if (isUp) {
-        element.classList.add('price-updated', 'price-up');
-      } else {
-        element.classList.add('price-updated-down', 'price-down');
-      }
-
-      setTimeout(() => element.classList.remove('price-updated', 'price-updated-down', 'price-up', 'price-down'), 600);
-
-    };
-
-
-
-    // Previous values for flash animation
-    let prevGME_P = 0;
-    let prevAMC_P = 0;
-    let prevIEP_P = 0;
-    let prevBB_P = 0;
-    let prevNOK_P = 0;
-    let prevBABA_P = 0;
-    let prevBTC_P = 0;
-    let prevSPY_P = 0;
-    let prevQQQ_P = 0;
-    let prevVIX_P = 0;
-    let prevKOSPI_P = 0;
-
     function renderTerminal() {
 
       // 1. BBBYQ (Delisted - Bankruptcy)
@@ -4070,123 +3913,62 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      // Update GME price in port-bar with flash animation
+      // Update GME price in port-bar
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
-        const newPriceText = '$' + V_GME_P.toFixed(2);
-        if (gmePriceEl.textContent !== newPriceText && prevGME_P !== 0) {
-          animatePrice(gmePriceEl, V_GME_P > prevGME_P);
-        }
-        gmePriceEl.textContent = newPriceText;
-        prevGME_P = V_GME_P;
+        gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
       }
 
-      // Update AMC price in port-bar with flash animation
+      // Update AMC price in port-bar
       const amcPriceEl = document.getElementById('amc-price-display');
       if (amcPriceEl && V_AMC_P > 0) {
-        const newPriceText = '$' + V_AMC_P.toFixed(2);
-        if (amcPriceEl.textContent !== newPriceText && prevAMC_P !== 0) {
-          animatePrice(amcPriceEl, V_AMC_P > prevAMC_P);
-        }
-        amcPriceEl.textContent = newPriceText;
-        prevAMC_P = V_AMC_P;
+        amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
       }
 
-      // Update IEP price in port-bar with flash animation
+      // Update IEP price in port-bar
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) {
-        const newPriceText = '$' + V_IEP_P.toFixed(2);
-        if (iepPriceEl.textContent !== newPriceText && prevIEP_P !== 0) {
-          animatePrice(iepPriceEl, V_IEP_P > prevIEP_P);
-        }
-        iepPriceEl.textContent = newPriceText;
-        prevIEP_P = V_IEP_P;
+        iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
       }
 
-      // Update BB price in port-bar with flash animation
+      // Update BB price in port-bar
       const bbPriceEl = document.getElementById('bb-price-display');
       if (bbPriceEl && V_BB_P > 0) {
-        const newPriceText = '$' + V_BB_P.toFixed(2);
-        if (bbPriceEl.textContent !== newPriceText && prevBB_P !== 0) {
-          animatePrice(bbPriceEl, V_BB_P > prevBB_P);
-        }
-        bbPriceEl.textContent = newPriceText;
-        prevBB_P = V_BB_P;
+        bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
       }
 
-      // Update NOK price in port-bar with flash animation
+      // Update NOK price in port-bar
       const nokPriceEl = document.getElementById('nok-price-display');
       if (nokPriceEl && V_NOK_P > 0) {
-        const newPriceText = '$' + V_NOK_P.toFixed(2);
-        if (nokPriceEl.textContent !== newPriceText && prevNOK_P !== 0) {
-          animatePrice(nokPriceEl, V_NOK_P > prevNOK_P);
-        }
-        nokPriceEl.textContent = newPriceText;
-        prevNOK_P = V_NOK_P;
+        nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
       }
 
-      // Update BABA price in port-bar with flash animation
+      // Update BABA price in port-bar
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) {
-        const newPriceText = '$' + V_BABA_P.toFixed(2);
-        if (babaPriceEl.textContent !== newPriceText && prevBABA_P !== 0) {
-          animatePrice(babaPriceEl, V_BABA_P > prevBABA_P);
-        }
-        babaPriceEl.textContent = newPriceText;
-        prevBABA_P = V_BABA_P;
+        babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
       }
 
-      // Update BTC in port-bar with flash animation
+      // Update BTC in port-bar
       const btcPriceEl = document.getElementById('btc-price-display');
       if (btcPriceEl && V_BTC_P > 0) {
-        const newPriceText = '$' + fmt(V_BTC_P);
-        if (btcPriceEl.textContent !== newPriceText && prevBTC_P !== 0) {
-          animatePrice(btcPriceEl, V_BTC_P > prevBTC_P);
-        }
-        btcPriceEl.textContent = newPriceText;
-        prevBTC_P = V_BTC_P;
+        btcPriceEl.textContent = '$' + fmt(V_BTC_P);
       }
 
-      // Update SPY, QQQ, VIX in port-bar with flash animation
+      // Update SPY, QQQ, VIX in port-bar
       const spyPriceEl = document.getElementById('spy-price-display');
       if (spyPriceEl && V_SPY_P > 0) {
-        const newPriceText = '$' + V_SPY_P.toFixed(2);
-        if (spyPriceEl.textContent !== newPriceText && prevSPY_P !== 0) {
-          animatePrice(spyPriceEl, V_SPY_P > prevSPY_P);
-        }
-        spyPriceEl.textContent = newPriceText;
-        prevSPY_P = V_SPY_P;
+        spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
       }
 
       const qqqPriceEl = document.getElementById('qqq-price-display');
       if (qqqPriceEl && V_QQQ_P > 0) {
-        const newPriceText = '$' + V_QQQ_P.toFixed(2);
-        if (qqqPriceEl.textContent !== newPriceText && prevQQQ_P !== 0) {
-          animatePrice(qqqPriceEl, V_QQQ_P > prevQQQ_P);
-        }
-        qqqPriceEl.textContent = newPriceText;
-        prevQQQ_P = V_QQQ_P;
+        qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
       }
 
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) {
-        const newPriceText = '$' + V_VIX_P.toFixed(2);
-        if (vixPriceEl.textContent !== newPriceText && prevVIX_P !== 0) {
-          animatePrice(vixPriceEl, V_VIX_P > prevVIX_P);
-        }
-        vixPriceEl.textContent = newPriceText;
-        prevVIX_P = V_VIX_P;
-      }
-
-      // Update KOSPI with flash animation
-      const kospiEl = document.getElementById('kospi-display');
-      if (kospiEl && V_KOSPI_P > 0) {
-        const newKospiText = V_KOSPI_P.toFixed(2);
-        if (kospiEl.textContent !== newKospiText && prevKOSPI_P !== 0) {
-          animatePrice(kospiEl, V_KOSPI_P > prevKOSPI_P);
-        }
-        kospiEl.textContent = newKospiText;
-        prevKOSPI_P = V_KOSPI_P;
+        vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
       }
 
     }
