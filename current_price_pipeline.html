@@ -4005,6 +4005,75 @@
       }, 1000);
     }
 
+    // NEW: Global unified aftermarket display function
+      function displayAftermarketPrice(elementId, price, afterPrice, afterChange, afterPct, symbol) {
+        const element = document.getElementById(elementId);
+        if (!element || price === 0) return;
+        
+        const now = new Date();
+        const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+        const hour = estTime.getHours();
+        const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
+        const forceAfterMarket = true; // Remove after testing
+        
+        console.log(`AFTERMARKET ${symbol}:`, {price, afterPrice, afterChange, afterPct, isAfterMarketHours});
+        
+        let html = `$${price.toFixed(2)}`;
+        
+        // Show aftermarket if data exists AND it's after market hours OR force testing
+        if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
+          const sign = afterChange >= 0 ? '+' : '';
+          const pctClass = afterPct >= 0 ? 'pos' : 'neg';
+          html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
+        }
+        
+        element.innerHTML = html;
+      }
+
+      // NEW: Update Asset Instrument table with aftermarket data
+      function updateAssetInstrumentTable() {
+        // Update portfolio table rows with aftermarket data
+        const symbols = ['GME', 'AMC', 'AAPL', 'NVDA', 'MSFT', 'TSLA', 'GOOGL', 'AMZN', 'META', 'IEP', 'BB', 'NOK', 'BABA'];
+        
+        symbols.forEach(symbol => {
+          const priceVar = `V_${symbol}_P`;
+          const afterPriceVar = `V_${symbol}_AFTER_P`;
+          const afterChangeVar = `V_${symbol}_AFTER_C`;
+          const afterPctVar = `V_${symbol}_AFTER_PCT`;
+          
+          const price = eval(priceVar) || 0;
+          const afterPrice = eval(afterPriceVar) || 0;
+          const afterChange = eval(afterChangeVar) || 0;
+          const afterPct = eval(afterPctVar) || 0;
+          
+          // Find the row for this symbol in the portfolio table
+          const rows = document.querySelectorAll('#portfolio-table tr');
+          rows.forEach(row => {
+            const symbolCell = row.querySelector('td:first-child');
+            if (symbolCell && symbolCell.textContent.includes(symbol)) {
+              const priceCell = row.querySelector('td:nth-child(2)');
+              if (priceCell && price > 0) {
+                let html = `$${price.toFixed(2)}`;
+                
+                const now = new Date();
+                const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+                const hour = estTime.getHours();
+                const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
+                const forceAfterMarket = true;
+                
+                if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
+                  const sign = afterChange >= 0 ? '+' : '';
+                  const pctClass = afterPct >= 0 ? 'pos' : 'neg';
+                  html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
+                }
+                
+                priceCell.innerHTML = html;
+              }
+            }
+          });
+        });
+      }
+
     function renderTerminal() {
 
       // 1. BBBYQ (Delisted - Bankruptcy)
@@ -4248,31 +4317,6 @@
       upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT);
       upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT);
 
-      // NEW: Unified aftermarket display function
-      function displayAftermarketPrice(elementId, price, afterPrice, afterChange, afterPct, symbol) {
-        const element = document.getElementById(elementId);
-        if (!element || price === 0) return;
-        
-        const now = new Date();
-        const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-        const hour = estTime.getHours();
-        const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
-        const forceAfterMarket = true; // Remove after testing
-        
-        console.log(`AFTERMARKET ${symbol}:`, {price, afterPrice, afterChange, afterPct, isAfterMarketHours});
-        
-        let html = `$${price.toFixed(2)}`;
-        
-        // Show aftermarket if data exists AND it's after market hours OR force testing
-        if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
-          const sign = afterChange >= 0 ? '+' : '';
-          const pctClass = afterPct >= 0 ? 'pos' : 'neg';
-          html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
-        }
-        
-        element.innerHTML = html;
-      }
-
       // NEW: Update all port-bar prices with unified function
       function updateAllPortBarPrices() {
         // Strategic Basket
@@ -4290,8 +4334,9 @@
         displayAftermarketPrice('vix-price-display', V_VIX_P, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT, 'VIX');
       }
 
-      // Call the new unified function
+      // Call the new unified functions
       updateAllPortBarPrices();
+      updateAssetInstrumentTable();
 
       // Update KOSPI in port-bar with visual effect
       const kospiEl = document.getElementById('kospi-display');
