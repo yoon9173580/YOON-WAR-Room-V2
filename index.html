@@ -1961,6 +1961,8 @@
 
             <div style="display:flex; align-items:center; gap:40px;">
 
+              <div id="est-time-display" style="color:var(--textM); font-size:12px; font-family:monospace;">EST: --:--</div>
+
               <div class="live-indicator">
 
                 <div class="dot"></div><span id="connStatus" style="color:var(--accent);">SATELLITE STANDBY</span>
@@ -3648,11 +3650,17 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Check current time to determine if we're in overnight hours (8 PM - 4 AM ET)
+      // Check current EST time to determine if we're in overnight hours (8 PM - 9:30 AM ET)
       const now = new Date();
-      const hour = now.getHours();
-      const minute = now.getMinutes();
-      const isOvernightHours = (hour >= 20) || (hour < 4) || (hour === 4 && minute < 30);
+      const estTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
+      const estHour = parseInt(estTimeStr.split(':')[0]);
+      const estMinute = parseInt(estTimeStr.split(':')[1]);
+      
+      // Overnight hours: 8 PM (20:00) to 9:30 AM (9:30)
+      const isOvernightHours = (estHour >= 20) || (estHour < 9) || (estHour === 9 && estMinute < 30);
+      
+      // Debug logging
+      console.log(`[DEBUG] getExt for ${symbol}: state=${state}, estTime=${estTimeStr}, isOvernightHours=${isOvernightHours}, postMarketPrice=${q.postMarketPrice}, preMarketPrice=${q.preMarketPrice}`);
 
       // CLOSED state - show last market price or after hours data
       if (state === "CLOSED") {
@@ -3661,6 +3669,7 @@
           const price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
           const c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
           const pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
+          console.log(`[DEBUG] ${symbol}: Showing Overnight (CLOSED)`);
           return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
         if (q.postMarketPrice) {
@@ -3674,11 +3683,12 @@
         }
       }
 
-      // POST (Aftermarket) state - show as Overnight if after 8 PM
+      // POST (Aftermarket) state - show as Overnight if in overnight hours
       if (state === "POST" && q.postMarketPrice) {
         if (isOvernightHours) {
           const c = Number(q.postMarketChange) || 0;
           const pct = Number(q.postMarketChangePercent) || 0;
+          console.log(`[DEBUG] ${symbol}: Showing Overnight (POST)`);
           return `🌜 Overnight: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
         const c = Number(q.postMarketChange) || 0;
@@ -3691,6 +3701,7 @@
         if (isOvernightHours) {
           const c = Number(q.preMarketChange) || 0;
           const pct = Number(q.preMarketChangePercent) || 0;
+          console.log(`[DEBUG] ${symbol}: Showing Overnight (PRE)`);
           return `🌜 Overnight: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
         const c = Number(q.preMarketChange) || 0;
@@ -3703,6 +3714,7 @@
         const price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
         const c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
         const pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
+        console.log(`[DEBUG] ${symbol}: Showing Overnight (Asian stock)`);
         return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
@@ -5316,6 +5328,17 @@
       fetchMaster();
 
       setInterval(fetchMaster, 5000);
+
+      // Update EST time display every second
+      function updateESTTime() {
+        const now = new Date();
+        const estOptions = { timeZone: 'America/New_York', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const estTime = now.toLocaleTimeString('en-US', estOptions);
+        const estEl = document.getElementById('est-time-display');
+        if (estEl) estEl.textContent = 'EST: ' + estTime;
+      }
+      updateESTTime();
+      setInterval(updateESTTime, 1000);
 
       
 
