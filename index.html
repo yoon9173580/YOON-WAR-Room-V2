@@ -1540,6 +1540,52 @@
       .port-table-wrap table {
         min-width: 550px;
       }
+      
+      /* Mobile scenario table - fit to screen */
+      .scenario-wrap {
+        overflow-x: hidden !important;
+        width: 100%;
+      }
+      
+      .scenario-wrap table {
+        width: 100% !important;
+        min-width: 100% !important;
+        table-layout: fixed;
+        border-collapse: collapse;
+      }
+      
+      .scenario-wrap th,
+      .scenario-wrap td {
+        padding: 6px 3px !important;
+        font-size: 9px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      .scenario-wrap th:nth-child(1),
+      .scenario-wrap td:nth-child(1) {
+        width: 90px !important;
+      }
+      
+      .scenario-wrap th:nth-child(2),
+      .scenario-wrap td:nth-child(2) {
+        width: 110px !important;
+      }
+      
+      .scenario-wrap th:nth-child(3),
+      .scenario-wrap th:nth-child(4),
+      .scenario-wrap th:nth-child(5),
+      .scenario-wrap th:nth-child(6),
+      .scenario-wrap th:nth-child(7),
+      .scenario-wrap td:nth-child(3),
+      .scenario-wrap td:nth-child(4),
+      .scenario-wrap td:nth-child(5),
+      .scenario-wrap td:nth-child(6),
+      .scenario-wrap td:nth-child(7) {
+        width: calc((100% - 200px) / 5) !important;
+        text-align: center;
+      }
     }
 
     /* ===== FOLD 6 UNFOLDED - PROFESSIONAL TABLE LAYOUT ===== */
