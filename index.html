@@ -485,6 +485,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
 
     th {
@@ -500,12 +501,60 @@
       border-bottom: 1px solid var(--border);
     }
 
+    /* Scenario table specific column widths */
+    .scenario-wrap table th:nth-child(1) {
+      width: 25%; /* Description column */
+    }
+    
+    .scenario-wrap table th:nth-child(2) {
+      width: 20%; /* Details column */
+    }
+    
+    .scenario-wrap table th:nth-child(3),
+    .scenario-wrap table th:nth-child(4),
+    .scenario-wrap table th:nth-child(5),
+    .scenario-wrap table th:nth-child(6) {
+      width: 11%; /* Price columns */
+    }
+    
+    .scenario-wrap table th:nth-child(7) {
+      width: 12%; /* Custom Price column - slightly wider */
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-left: 2px solid var(--accent) !important;
+      font-weight: 700 !important;
+      color: var(--accent) !important;
+      position: sticky;
+      right: 0;
+      z-index: 10;
+    }
+    
+    /* Custom Price column cells */
+    .scenario-wrap table td:nth-child(7) {
+      background: rgba(16, 185, 129, 0.05) !important;
+      border-left: 1px solid rgba(16, 185, 129, 0.3) !important;
+      font-weight: 600 !important;
+      position: sticky;
+      right: 0;
+      z-index: 5;
+    }
+    
+    .scenario-wrap table td:nth-child(7).pos {
+      color: var(--accent) !important;
+    }
+    
+    .scenario-wrap table td:nth-child(7).neg {
+      color: var(--bear) !important;
+    }
+
     td {
       padding: 14px 16px;
       border-bottom: 1px solid rgba(51, 65, 85, 0.3);
       font-size: 13px;
       font-weight: 500;
       color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .r {
@@ -718,7 +767,7 @@
         gap: 16px;
       }
       
-      /* Market sidebar - horizontal scroll */
+      /* Market sidebar - horizontal scroll with better card layout */
       .market-sidebar {
         width: 100%;
         height: auto;
@@ -740,9 +789,9 @@
       
       .sb-card {
         display: inline-block;
-        min-width: 120px;
+        min-width: 110px;
         margin-right: 8px;
-        padding: 10px;
+        padding: 8px;
         vertical-align: top;
       }
       
@@ -751,7 +800,7 @@
       }
       
       .sb-price {
-        font-size: 13px;
+        font-size: 12px;
       }
       
       /* Main content */
@@ -786,7 +835,7 @@
         min-width: auto;
       }
       
-      /* Port bar - scrollable horizontally */
+      /* Port bar - optimized horizontal grid layout */
       .port-bar {
         overflow-x: auto;
         overflow-y: hidden;
@@ -797,7 +846,8 @@
       
       .port-bar-section {
         display: inline-block;
-        min-width: 240px;
+        min-width: 280px;
+        max-width: 320px;
         vertical-align: top;
         white-space: normal;
       }
@@ -809,12 +859,12 @@
       
       .pstat {
         display: inline-block;
-        width: calc(50% - 4px);
-        margin-right: 4px;
+        width: calc(33.333% - 6px);
+        margin-right: 6px;
         margin-bottom: 6px;
-        padding: 8px;
+        padding: 6px 4px;
         vertical-align: top;
-        min-width: 100px;
+        min-width: 80px;
       }
       
       .pstat-lbl {
@@ -822,7 +872,7 @@
       }
       
       .pstat-val {
-        font-size: 14px;
+        font-size: 12px;
       }
       
       /* Portfolio table - scrollable */
