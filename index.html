@@ -1869,6 +1869,7 @@
       }
     }
 
+  </style>
 </head>
 
 
@@ -3687,28 +3688,24 @@
 
 
 
-    document.getElementById('pinInput').addEventListener('input', function () {
+    // Wait for DOM to be fully loaded before accessing elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize PIN input listeners
+      const pinInput = document.getElementById('pinInput');
+      if (pinInput) {
+        pinInput.addEventListener('input', function () {
+          const L = this.value.length;
+          for (let i = 0; i < 7; i++) {
+            if (i < L) document.getElementById('dot' + i).classList.add('filled');
+            else document.getElementById('dot' + i).classList.remove('filled');
+          }
+          if (L === 7) setTimeout(submitPin, 150);
+        });
 
-      const L = this.value.length;
-
-      for (let i = 0; i < 7; i++) {
-
-        if (i < L) document.getElementById('dot' + i).classList.add('filled');
-
-        else document.getElementById('dot' + i).classList.remove('filled');
-
+        pinInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') submitPin();
+        });
       }
-
-      if (L === 7) setTimeout(submitPin, 150);
-
-    });
-
-
-
-    document.getElementById('pinInput').addEventListener('keydown', function (e) {
-
-      if (e.key === 'Enter') submitPin();
-
     });
 
 
