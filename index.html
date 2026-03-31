@@ -3809,16 +3809,15 @@
     let V_KOSPI_P = 0;
     let V_KOSPI_PCT = 0;
     
-    // Fetch KOSPI directly from Finnhub API
+    // Fetch KOSPI via Vercel API endpoint (avoids CORS)
     async function fetchKOSPI() {
-      const FINNHUB_KEY = 'd75nmn9r01qk56kdec3gd75nmn9r01qk56kdec40';
       try {
-        const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=^KS11&token=${FINNHUB_KEY}`);
+        const res = await fetch('/api/kospi-quote');
         if (res.ok) {
           const data = await res.json();
-          if (data && data.c) {
-            V_KOSPI_P = data.c;
-            V_KOSPI_PCT = data.dp || 0;
+          if (data && data.regularMarketPrice) {
+            V_KOSPI_P = data.regularMarketPrice;
+            V_KOSPI_PCT = data.regularMarketChangePercent || 0;
             console.log('[KOSPI] Data fetched:', { price: V_KOSPI_P, changePercent: V_KOSPI_PCT });
             updateKOSPIDisplay();
             return true;
