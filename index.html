@@ -4581,13 +4581,26 @@
       
       // ST 4 Live column - $0 since BBBYQ not secured
       updateCellWithFormat('st4-total-live', 0, 'pos');
-      updateCellWithFormat('st4-cash-live', 0, 'pos');
       updateCellWithFormat('gme-partial-live', 0, 'pos');
       updateCellWithFormat('tax-calculation-live', 0, 'pos');
       updateCellWithFormat('tax-shield-live', 0, 'pos');
       updateCellWithFormat('og-energy-live', 0, 'pos');
       updateCellWithFormat('qof-housing-live', 0, 'pos');
       updateCellWithFormat('clat-trust-live', 0, 'pos');
+      
+      // ST 4 cash remaining - must override completely to remove BAL
+      const st4CashEl = document.getElementById('st4-cash-live');
+      if (st4CashEl) {
+        st4CashEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+        st4CashEl.className = 'r';
+      }
+      
+      // ST 4 main total - must override completely
+      const st4MainEl = document.getElementById('st4-live-main');
+      if (st4MainEl) {
+        st4MainEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+        st4MainEl.className = 'r';
+      }
       
       // Cash in Hand - $0
       const cashHandEl = document.getElementById('cash-hand-live');
