@@ -241,8 +241,9 @@ module.exports = async function handler(req, res) {
           if (sym === '^KS11' || sym === 'KOSPI') {
             console.log(`[API] KOSPI detected, trying multiple sources...`);
             
-            // Try different KOSPI symbol formats
-            const kospiSymbols = ['^KS11', '^KQ11', '069500.KS', 'EWY'];
+            // Try different KOSPI symbol formats - Korean ETFs
+            // 069500.KS = KODEX 200 (KOSPI 200 ETF), 122630.KS = KODEX 레버리지
+            const kospiSymbols = ['069500.KS', '^KS11', '122630.KS', 'EWY'];
             
             for (const kospiSym of kospiSymbols) {
               console.log(`[API] Trying symbol: ${kospiSym}`);
