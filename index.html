@@ -1744,179 +1744,259 @@
     }
 
     /* ===== GALAXY Z FOLD 6 SPECIFIC OPTIMIZATIONS ===== */
-    /* Fold 6 Cover Screen (Folded): ~720px */
+    /* Fold 6 Cover Screen (Folded): ~720px - Ultra compact */
     @media screen and (max-width: 720px) {
-      /* Compact layout for narrow cover screen */
       .wrap {
-        padding: 10px;
+        padding: 6px;
       }
 
-      /* Hide sidebar on cover screen - focus on main content */
+      /* Hide sidebar on cover screen */
       .market-sidebar {
         display: none;
       }
 
       .main-content {
         width: 100%;
-        max-width: 100%;
       }
 
-      /* Header buttons - more compact */
+      /* Header - ultra compact */
       header > div:last-child {
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 4px;
         justify-content: flex-end;
       }
 
       .btn-out {
-        padding: 6px 10px;
-        font-size: 11px;
+        padding: 4px 8px;
+        font-size: 10px;
         min-width: auto;
       }
 
-      /* Port bar - single row scrollable */
+      /* Port bar - horizontal scroll */
       .port-bar {
         overflow-x: auto;
         flex-wrap: nowrap;
-        gap: 8px;
-        padding-bottom: 8px;
-        -webkit-overflow-scrolling: touch;
+        gap: 6px;
+        padding-bottom: 6px;
       }
 
       .port-bar-section {
         flex: 0 0 auto;
-        min-width: 280px;
+        min-width: 260px;
+        padding: 8px;
       }
 
-      /* BBBYQ notice - smaller */
+      .pstat {
+        padding: 6px;
+        min-width: 70px;
+      }
+
+      .pstat-lbl {
+        font-size: 9px;
+      }
+
+      .pstat-val {
+        font-size: 12px;
+      }
+
+      /* BBBYQ notice - compact */
       div[style*="background:rgba(245,158,11,0.12)"] {
-        padding: 20px !important;
-        font-size: 13px !important;
+        padding: 12px !important;
+        font-size: 11px !important;
+        margin-bottom: 20px !important;
       }
 
-      div[style*="background:rgba(245,158,11,0.12)"] span[style*="font-size:38px"] {
-        font-size: 24px !important;
-        margin-right: 15px;
+      /* Scenario section - ultra compact cards */
+      .scenario-wrap {
+        padding: 0 4px;
+      }
+
+      .scenario-title {
+        font-size: 10px;
+        padding: 8px 4px;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+
+      /* Convert table to ultra-compact cards */
+      .scenario-wrap table {
+        display: block;
+      }
+
+      .scenario-wrap thead {
+        display: none;
+      }
+
+      .scenario-wrap tbody {
+        display: block;
+      }
+
+      .scenario-wrap tr {
+        display: block;
+        margin-bottom: 3px;
+        background: var(--bg3);
+        border-radius: 6px;
+        border-left: 3px solid var(--accent);
+        overflow: hidden;
+      }
+
+      .scenario-wrap .st-main {
+        border-left-color: var(--bull);
+      }
+
+      .scenario-wrap .st-cash {
+        border-left-color: var(--amber);
+      }
+
+      /* All cells as blocks */
+      .scenario-wrap td {
+        display: block;
+        padding: 4px 8px;
+        border: none;
+        font-size: 10px;
+        line-height: 1.3;
+      }
+
+      /* First cell - stage name */
+      .scenario-wrap td:first-child {
+        font-weight: 700;
+        font-size: 11px;
+        color: var(--accent);
+        padding: 6px 8px;
+        background: rgba(0,212,170,0.05);
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* Second cell - description */
+      .scenario-wrap td:nth-child(2) {
+        font-size: 9px;
+        color: var(--textM);
+        padding: 3px 8px;
+        font-style: italic;
+      }
+
+      /* Price columns as horizontal flex */
+      .scenario-wrap td:nth-child(n+3) {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 2px;
+        font-size: 9px;
+        width: calc(100% / 6);
+        border-right: 1px solid var(--borderB);
+        text-align: center;
+      }
+
+      .scenario-wrap td:nth-child(8) {
+        border-right: none;
+      }
+
+      /* Price labels */
+      .scenario-wrap td:nth-child(n+3)::before {
+        content: attr(data-label);
+        font-size: 8px;
+        color: var(--textD);
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      /* Indent - compact */
+      .scenario-wrap .pl-indent td:first-child {
+        padding-left: 16px;
+      }
+
+      .scenario-wrap .pl-indent-2 td:first-child {
+        padding-left: 24px;
+      }
+
+      /* BAL text - smaller */
+      .scenario-wrap .bal {
+        font-size: 8px;
+        display: block;
+        margin-top: 1px;
+      }
+
+      /* Custom price input - compact */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-direction: column;
+        padding: 10px !important;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      #custom-price-input {
+        width: 100% !important;
+        font-size: 12px;
+      }
+
+      .scenario-wrap button {
+        width: 100%;
+        padding: 6px;
+        font-size: 11px;
       }
 
       /* Portfolio table - horizontal scroll */
       .port-table-wrap {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
 
       .port-table-wrap table {
-        min-width: 600px;
-      }
-
-      /* Scenario section - full width cards */
-      .scenario-wrap {
-        padding: 0 6px;
-      }
-
-      .scenario-title {
-        font-size: 11px;
-        padding: 10px 6px;
-        letter-spacing: 1px;
-      }
-
-      /* Card layout for Fold 6 cover screen */
-      .scenario-wrap tr {
-        margin-bottom: 6px;
-        border-radius: 8px;
-        border-left-width: 3px;
-      }
-
-      .scenario-wrap td {
-        padding: 6px 10px;
-        font-size: 11px;
-      }
-
-      .scenario-wrap td:first-child {
-        font-size: 12px;
-        padding: 10px;
-      }
-
-      .scenario-wrap td:nth-child(2) {
-        font-size: 10px;
-        padding: 6px 10px;
-      }
-
-      .scenario-wrap td:nth-child(n+3) {
-        padding: 5px 10px;
-        font-size: 10px;
-      }
-
-      /* Custom price input - stacked */
-      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
-        flex-direction: column;
-        padding: 12px !important;
-        gap: 10px;
-      }
-
-      #custom-price-input {
-        width: 100% !important;
-      }
-
-      .scenario-wrap button {
-        width: 100%;
+        min-width: 500px;
       }
     }
 
-    /* Fold 6 Unfolded State: ~1812px - uses desktop layout naturally */
-    /* But we can optimize the tablet range: 721px - 1200px */
+    /* Fold 6 Unfolded: 721px - 1200px */
     @media screen and (min-width: 721px) and (max-width: 1200px) {
-      /* Tablet/Fold unfolded optimization */
       .app-layout {
         flex-direction: row;
       }
 
       .market-sidebar {
-        width: 220px;
-        min-width: 220px;
+        width: 200px;
+        min-width: 200px;
       }
 
       .main-content {
         flex: 1;
       }
 
-      /* Port bar - 2 sections per row */
       .port-bar {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px;
       }
 
-      .port-bar-section {
-        min-width: auto;
-      }
-
-      /* Tables - readable but compact */
       .scenario-wrap table {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .scenario-wrap th,
       .scenario-wrap td {
-        padding: 10px 8px;
+        padding: 8px 6px;
       }
     }
 
-    /* Extra small devices (smaller than Fold 6 cover) */
+    /* Extra small - below 360px */
     @media screen and (max-width: 360px) {
       .scenario-wrap tr {
-        margin-bottom: 4px;
-        border-radius: 6px;
+        margin-bottom: 2px;
+        border-radius: 4px;
+      }
+
+      .scenario-wrap td {
+        padding: 3px 6px;
+        font-size: 9px;
       }
 
       .scenario-wrap td:first-child {
-        font-size: 11px;
-        padding: 8px;
+        font-size: 10px;
+        padding: 5px 6px;
       }
 
       .scenario-title {
-        font-size: 10px;
-        padding: 8px 4px;
+        font-size: 9px;
+        padding: 6px 4px;
       }
     }
   </style>
