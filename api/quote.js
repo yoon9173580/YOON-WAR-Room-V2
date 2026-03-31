@@ -235,8 +235,16 @@ module.exports = async function handler(req, res) {
       const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
       if (symbolArray.length > 0) {
         const fetchPromises = symbolArray.map(async (sym) => {
-          // Special handling for KOSPI - use Finnhub first
+          // Special handling for KOSPI - use Yahoo Finance first, fallback to Finnhub
           if (sym === '^KS11' || sym === 'KOSPI') {
+            // Try Yahoo Finance first
+            let yahooKospi = await fetchYahooNative('^KS11');
+            if (yahooKospi && yahooKospi.regularMarketPrice > 0) {
+              console.log(`[Yahoo] KOSPI data:`, { price: yahooKospi.regularMarketPrice });
+              return yahooKospi;
+            }
+            
+            // Fallback to Finnhub if Yahoo fails
             const kospiData = await fetchKOSPIFromFinnhub();
             if (kospiData) return kospiData;
           }
