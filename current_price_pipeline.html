@@ -2452,6 +2452,44 @@
 
   <script>
 
+    // NEW: Global unified aftermarket display function - moved to very beginning
+    function displayAftermarketPrice(elementId, price, afterPrice, afterChange, afterPct, symbol) {
+      console.log(`DEBUG displayAftermarketPrice called:`, {elementId, price, afterPrice, afterChange, afterPct, symbol});
+      
+      const element = document.getElementById(elementId);
+      if (!element) {
+        console.log(`Element not found: ${elementId}`);
+        return;
+      }
+      if (price === 0) {
+        console.log(`Price is 0 for ${symbol}`);
+        return;
+      }
+      
+      const now = new Date();
+      const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+      const hour = estTime.getHours();
+      const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
+      const forceAfterMarket = true; // Remove after testing
+      
+      console.log(`AFTERMARKET ${symbol}:`, {price, afterPrice, afterChange, afterPct, isAfterMarketHours, estTime: estTime.toLocaleTimeString()});
+      
+      let html = `$${price.toFixed(2)}`;
+      
+      // Show aftermarket if data exists AND it's after market hours OR force testing
+      if (afterPrice > 0 && (isAfterMarketHours || forceAfterMarket)) {
+        const sign = afterChange >= 0 ? '+' : '';
+        const pctClass = afterPct >= 0 ? 'pos' : 'neg';
+        html += `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${afterPrice.toFixed(2)} (${sign}${afterChange.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
+        console.log(`Aftermarket HTML added for ${symbol}:`, html);
+      } else {
+        console.log(`No aftermarket display for ${symbol}: afterPrice=${afterPrice}, isAfterMarketHours=${isAfterMarketHours}`);
+      }
+      
+      element.innerHTML = html;
+      console.log(`Updated element ${elementId} with:`, html);
+    }
+
     /* =========================================================
 
        [GLOBAL DATA REPOSITORY]
