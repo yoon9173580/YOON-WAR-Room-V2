@@ -1388,6 +1388,409 @@
         min-height: 44px;
       }
     }
+
+    /* ===== ENHANCED RESPONSIVE DESIGN ===== */
+    
+    /* Large screens - ensure tables don't overflow */
+    @media screen and (max-width: 1400px) {
+      .wrap {
+        padding: 30px;
+      }
+      
+      .app-layout {
+        gap: 30px;
+      }
+      
+      .market-sidebar {
+        width: 300px;
+        min-width: 300px;
+      }
+      
+      /* Make tables horizontally scrollable */
+      .port-table-wrap,
+      .scenario-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .port-table-wrap table,
+      .scenario-wrap table {
+        min-width: 1000px;
+      }
+      
+      /* Reduce padding on tables */
+      th, td {
+        padding: 20px 15px;
+        font-size: 14px;
+      }
+      
+      .scenario-wrap th,
+      .scenario-wrap td {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+      
+      /* Adjust port-bar */
+      .port-bar-section {
+        gap: 8px;
+      }
+      
+      .pstat {
+        padding: 8px 10px;
+        min-width: 80px;
+      }
+      
+      .pstat-val {
+        font-size: 16px;
+      }
+    }
+
+    /* Medium screens - sidebar becomes top bar */
+    @media screen and (max-width: 1200px) {
+      .wrap {
+        padding: 20px;
+      }
+      
+      .app-layout {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .market-sidebar {
+        width: 100%;
+        min-width: auto;
+        height: auto;
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        padding-right: 0;
+        order: -1;
+      }
+      
+      .market-sidebar > div:first-child {
+        grid-column: 1 / -1;
+      }
+      
+      .sidebar-title {
+        grid-column: 1 / -1;
+        margin: 10px 0 5px 0;
+      }
+      
+      .sb-card {
+        margin-bottom: 0;
+        padding: 10px;
+      }
+      
+      .sb-sym {
+        font-size: 12px;
+      }
+      
+      .sb-price {
+        font-size: 14px;
+      }
+    }
+
+    /* Tablets */
+    @media screen and (max-width: 992px) {
+      .market-sidebar {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .brand-name {
+        font-size: 28px;
+      }
+      
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding-bottom: 20px;
+      }
+      
+      header > div:last-child {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+      
+      .btn-out {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+      
+      /* Port bar adjustments */
+      .port-bar-section {
+        flex-wrap: wrap;
+      }
+      
+      .pstat {
+        flex: 1 1 calc(16.666% - 8px);
+        min-width: 100px;
+      }
+      
+      /* Custom price input */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-wrap: wrap;
+      }
+      
+      #custom-price-input {
+        width: 200px !important;
+      }
+    }
+
+    /* Small tablets / large phones */
+    @media screen and (max-width: 768px) {
+      .market-sidebar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .brand-name {
+        font-size: 22px;
+        letter-spacing: -1px;
+      }
+      
+      .brand-name span {
+        display: none;
+      }
+      
+      /* Port bar - 3 per row */
+      .pstat {
+        flex: 1 1 calc(33.333% - 8px);
+      }
+      
+      .pstat-lbl {
+        font-size: 11px;
+      }
+      
+      .pstat-val {
+        font-size: 15px;
+      }
+      
+      /* Tables - more compact */
+      .port-table-wrap table,
+      .scenario-wrap table {
+        min-width: 800px;
+      }
+      
+      th, td {
+        padding: 15px 10px;
+        font-size: 13px;
+      }
+      
+      .sym-tag {
+        font-size: 18px;
+      }
+      
+      .sub-tag {
+        font-size: 10px;
+      }
+      
+      /* BBBYQ notice */
+      div[style*="background:rgba(245,158,11,0.12)"] {
+        padding: 25px !important;
+        font-size: 15px !important;
+      }
+      
+      div[style*="background:rgba(245,158,11,0.12)"] span[style*="font-size:38px"] {
+        font-size: 28px !important;
+      }
+    }
+
+    /* Mobile phones */
+    @media screen and (max-width: 480px) {
+      .wrap {
+        padding: 15px;
+      }
+      
+      .market-sidebar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      
+      .brand-name {
+        font-size: 18px;
+      }
+      
+      header > div:last-child {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn-out {
+        width: 100%;
+        padding: 10px;
+        font-size: 13px;
+      }
+      
+      /* Port bar - 2 per row */
+      .port-bar-section {
+        gap: 6px;
+      }
+      
+      .pstat {
+        flex: 1 1 calc(50% - 6px);
+        min-width: auto;
+        padding: 8px;
+      }
+      
+      .port-bar-section-title {
+        font-size: 10px;
+      }
+      
+      .pstat-lbl {
+        font-size: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .pstat-val {
+        font-size: 14px;
+      }
+      
+      /* Tables - minimum width */
+      .port-table-wrap table,
+      .scenario-wrap table {
+        min-width: 650px;
+      }
+      
+      th, td {
+        padding: 12px 8px;
+        font-size: 12px;
+      }
+      
+      .scenario-wrap th,
+      .scenario-wrap td {
+        padding: 8px 6px;
+        font-size: 11px;
+      }
+      
+      .sym-tag {
+        font-size: 16px;
+      }
+      
+      .sub-tag {
+        font-size: 9px;
+      }
+      
+      /* Scenario title */
+      .scenario-title {
+        font-size: 14px;
+        padding: 20px;
+        letter-spacing: 2px;
+      }
+      
+      /* Custom price input */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-direction: column;
+        padding: 12px !important;
+      }
+      
+      #custom-price-input {
+        width: 100% !important;
+      }
+      
+      .scenario-wrap button {
+        width: 100%;
+      }
+      
+      /* Indent adjustments */
+      .pl-indent {
+        padding-left: 30px !important;
+      }
+      
+      .pl-indent-2 {
+        padding-left: 50px !important;
+      }
+      
+      /* BBBYQ notice */
+      div[style*="background:rgba(245,158,11,0.12)"] {
+        padding: 20px !important;
+        font-size: 14px !important;
+        text-align: center;
+      }
+      
+      div[style*="background:rgba(245,158,11,0.12)"] span[style*="font-size:38px"] {
+        float: none !important;
+        display: block;
+        margin: 0 auto 15px;
+        font-size: 32px !important;
+      }
+      
+      /* Lock screen */
+      .lock-box {
+        width: 90% !important;
+        max-width: 320px !important;
+        padding: 40px 25px !important;
+      }
+      
+      .lock-logo {
+        font-size: 24px !important;
+      }
+      
+      .lock-sub {
+        font-size: 10px !important;
+        letter-spacing: 4px !important;
+      }
+      
+      .lock-input {
+        font-size: 24px !important;
+        padding: 15px !important;
+        letter-spacing: 15px !important;
+      }
+      
+      .lock-btn {
+        padding: 15px !important;
+        font-size: 14px !important;
+      }
+    }
+
+    /* Extra small devices */
+    @media screen and (max-width: 360px) {
+      .market-sidebar {
+        grid-template-columns: 1fr;
+      }
+      
+      .brand-name {
+        font-size: 16px;
+      }
+      
+      .pstat {
+        flex: 1 1 100%;
+      }
+      
+      .port-table-wrap table,
+      .scenario-wrap table {
+        min-width: 580px;
+      }
+    }
+
+    /* Ensure horizontal scroll is always available for tables */
+    .port-table-wrap,
+    .scenario-wrap {
+      max-width: 100%;
+    }
+    
+    /* Better table cell wrapping */
+    .scenario-wrap td {
+      white-space: nowrap;
+    }
+    
+    .scenario-wrap td:first-child,
+    .scenario-wrap td:nth-child(2) {
+      white-space: normal;
+    }
+    
+    /* Smooth transitions for all responsive changes */
+    .app-layout,
+    .market-sidebar,
+    .main-content,
+    header,
+    .port-bar-section,
+    .pstat,
+    .btn-out,
+    th,
+    td {
+      transition: all 0.3s ease;
+    }
   </style>
 
 </head>
