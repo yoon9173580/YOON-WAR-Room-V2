@@ -3774,8 +3774,15 @@
 
             if (!found) return null;
 
+            // Create a copy to avoid modifying original data
             let q = {...found};
 
+            // IMPORTANT: Get extended hours info BEFORE modifying price data
+            // This ensures getExt can compare pre/post market with regular market
+            let extInfo = getExt(q);
+            q._extInfo = extInfo; // Store for later use
+
+            // Now update price to reflect current market state (pre/after hours)
             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
 
               q.regularMarketPrice = q.postMarketPrice;
@@ -3801,16 +3808,15 @@
 
 
           // Equities & Indices
+          const qGME = extract('GME'); if (qGME) { V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = qGME._extInfo || getExt(qGME); }
 
-          const qGME = extract('GME'); if (qGME) { V_GME_P = Number(qGME.regularMarketPrice) || 0; V_GME_C = Number(qGME.regularMarketChange) || 0; V_GME_PCT = Number(qGME.regularMarketChangePercent) || 0; V_GME_EXT = getExt(qGME); }
+          const qAMC = extract('AMC'); if (qAMC) { V_AMC_P = Number(qAMC.regularMarketPrice) || 0; V_AMC_C = Number(qAMC.regularMarketChange) || 0; V_AMC_PCT = Number(qAMC.regularMarketChangePercent) || 0; V_AMC_EXT = qAMC._extInfo || getExt(qAMC); }
 
-          const qAMC = extract('AMC'); if (qAMC) { V_AMC_P = Number(qAMC.regularMarketPrice) || 0; V_AMC_C = Number(qAMC.regularMarketChange) || 0; V_AMC_PCT = Number(qAMC.regularMarketChangePercent) || 0; V_AMC_EXT = getExt(qAMC); }
+          const qSPY = extract('SPY'); if (qSPY) { V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = qSPY._extInfo || getExt(qSPY); }
 
-          const qSPY = extract('SPY'); if (qSPY) { V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = getExt(qSPY); }
+          const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = qQQQ._extInfo || getExt(qQQQ); }
 
-          const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); }
-
-          const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
+          const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
 
 
 
@@ -3849,20 +3855,19 @@
 
 
           // Other Stocks
+          const qAAPL = extract('AAPL'); if (qAAPL) { V_AAPL_P = Number(qAAPL.regularMarketPrice) || 0; V_AAPL_PCT = Number(qAAPL.regularMarketChangePercent) || 0; V_AAPL_EXT = qAAPL._extInfo || getExt(qAAPL); }
 
-          const qAAPL = extract('AAPL'); if (qAAPL) { V_AAPL_P = Number(qAAPL.regularMarketPrice) || 0; V_AAPL_PCT = Number(qAAPL.regularMarketChangePercent) || 0; V_AAPL_EXT = getExt(qAAPL); }
+          const qNVDA = extract('NVDA'); if (qNVDA) { V_NVDA_P = Number(qNVDA.regularMarketPrice) || 0; V_NVDA_PCT = Number(qNVDA.regularMarketChangePercent) || 0; V_NVDA_EXT = qNVDA._extInfo || getExt(qNVDA); }
 
-          const qNVDA = extract('NVDA'); if (qNVDA) { V_NVDA_P = Number(qNVDA.regularMarketPrice) || 0; V_NVDA_PCT = Number(qNVDA.regularMarketChangePercent) || 0; V_NVDA_EXT = getExt(qNVDA); }
+          const qMSFT = extract('MSFT'); if (qMSFT) { V_MSFT_P = Number(qMSFT.regularMarketPrice) || 0; V_MSFT_PCT = Number(qMSFT.regularMarketChangePercent) || 0; V_MSFT_EXT = qMSFT._extInfo || getExt(qMSFT); }
 
-          const qMSFT = extract('MSFT'); if (qMSFT) { V_MSFT_P = Number(qMSFT.regularMarketPrice) || 0; V_MSFT_PCT = Number(qMSFT.regularMarketChangePercent) || 0; V_MSFT_EXT = getExt(qMSFT); }
+          const qTSLA = extract('TSLA'); if (qTSLA) { V_TSLA_P = Number(qTSLA.regularMarketPrice) || 0; V_TSLA_PCT = Number(qTSLA.regularMarketChangePercent) || 0; V_TSLA_EXT = qTSLA._extInfo || getExt(qTSLA); }
 
-          const qTSLA = extract('TSLA'); if (qTSLA) { V_TSLA_P = Number(qTSLA.regularMarketPrice) || 0; V_TSLA_PCT = Number(qTSLA.regularMarketChangePercent) || 0; V_TSLA_EXT = getExt(qTSLA); }
+          const qGOOGL = extract('GOOGL'); if (qGOOGL) { V_GOOGL_P = Number(qGOOGL.regularMarketPrice) || 0; V_GOOGL_PCT = Number(qGOOGL.regularMarketChangePercent) || 0; V_GOOGL_EXT = qGOOGL._extInfo || getExt(qGOOGL); }
 
-          const qGOOGL = extract('GOOGL'); if (qGOOGL) { V_GOOGL_P = Number(qGOOGL.regularMarketPrice) || 0; V_GOOGL_PCT = Number(qGOOGL.regularMarketChangePercent) || 0; V_GOOGL_EXT = getExt(qGOOGL); }
+          const qAMZN = extract('AMZN'); if (qAMZN) { V_AMZN_P = Number(qAMZN.regularMarketPrice) || 0; V_AMZN_PCT = Number(qAMZN.regularMarketChangePercent) || 0; V_AMZN_EXT = qAMZN._extInfo || getExt(qAMZN); }
 
-          const qAMZN = extract('AMZN'); if (qAMZN) { V_AMZN_P = Number(qAMZN.regularMarketPrice) || 0; V_AMZN_PCT = Number(qAMZN.regularMarketChangePercent) || 0; V_AMZN_EXT = getExt(qAMZN); }
-
-          const qMETA = extract('META'); if (qMETA) { V_META_P = Number(qMETA.regularMarketPrice) || 0; V_META_PCT = Number(qMETA.regularMarketChangePercent) || 0; V_META_EXT = getExt(qMETA); }
+          const qMETA = extract('META'); if (qMETA) { V_META_P = Number(qMETA.regularMarketPrice) || 0; V_META_PCT = Number(qMETA.regularMarketChangePercent) || 0; V_META_EXT = qMETA._extInfo || getExt(qMETA); }
 
           const qIEP = extract('IEP'); if (qIEP) { V_IEP_P = Number(qIEP.regularMarketPrice) || 0; V_IEP_PCT = Number(qIEP.regularMarketChangePercent) || 0; V_IEP_EXT = getExt(qIEP); }
 
