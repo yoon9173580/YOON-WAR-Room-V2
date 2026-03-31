@@ -1492,6 +1492,7 @@
       }
       
       .lock-btn {
+        /* Lock button styles can be added here if needed */
       }
 
     /* ===== MOBILE & FOLD 6 - EFFICIENT DESKTOP-LIKE UI ===== */
@@ -2067,6 +2068,20 @@
       }
     }
     
+    /* Legacy animation classes for compatibility */
+    .price-up {
+      animation: flash-update 0.6s ease-out;
+    }
+    
+    .price-down {
+      animation: flash-update-neg 0.6s ease-out;
+    }
+    
+    .price-updated {
+      position: relative;
+    }
+    
+    /* New animation classes */
     .flash-update {
       animation: flash-update 0.6s ease-out;
     }
@@ -2077,8 +2092,18 @@
     
     /* Apply to pstat cards */
     .pstat.flash-update,
-    .pstat.flash-update-neg {
+    .pstat.flash-update-neg,
+    .pstat.price-up,
+    .pstat.price-down {
       border-radius: 8px;
+    }
+    
+    /* Apply to table cells */
+    td.flash-update,
+    td.flash-update-neg,
+    td.price-up,
+    td.price-down {
+      border-radius: 4px;
     }
 
   </style>
@@ -5276,14 +5301,48 @@
 
       // GLOBAL SUMMARY with BBBYQ bankruptcy loss included
       const g_total_val = bb_val + ge_val + go_val + ae_val + ao_val;
-      document.getElementById('p-total').textContent = '$' + fmt(g_total_val);
+      
+      // Update EQUITY with flash animation
+      const pTotalEl = document.getElementById('p-total');
+      if (pTotalEl) {
+        const oldValue = previousValues['p-total'];
+        const newValue = '$' + fmt(g_total_val);
+        if (oldValue !== newValue) {
+          pTotalEl.textContent = newValue;
+          flashUpdate('p-total', g_total_val >= 0);
+          previousValues['p-total'] = newValue;
+        }
+      }
+      
       const total_day_delta = (355 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
-      document.getElementById('p-daypnl').textContent = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
-      document.getElementById('p-daypnl').className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
+      
+      // Update SESSION with flash animation
+      const pDaypnlEl = document.getElementById('p-daypnl');
+      if (pDaypnlEl) {
+        const oldValue = previousValues['p-daypnl'];
+        const newValue = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
+        if (oldValue !== newValue) {
+          pDaypnlEl.textContent = newValue;
+          pDaypnlEl.className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
+          flashUpdate('p-daypnl', total_day_delta >= 0);
+          previousValues['p-daypnl'] = newValue;
+        }
+      }
+      
       const total_profit = bb_profit + ge_profit + go_profit + ae_profit + ao_profit;
-      document.getElementById('p-totpnl').textContent = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
-
-      document.getElementById('p-totpnl').className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
+      
+      // Update UNREALIZED with flash animation
+      const pTotpnlEl = document.getElementById('p-totpnl');
+      if (pTotpnlEl) {
+        const oldValue = previousValues['p-totpnl'];
+        const newValue = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
+        if (oldValue !== newValue) {
+          pTotpnlEl.textContent = newValue;
+          pTotpnlEl.className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
+          flashUpdate('p-totpnl', total_profit >= 0);
+          previousValues['p-totpnl'] = newValue;
+        }
+      }
 
 
 
@@ -5293,62 +5352,122 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      // Update GME price in port-bar
+      // Update GME price in port-bar with flash animation
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) {
-        gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+        const oldValue = previousValues['gme-price-display'];
+        const newValue = '$' + V_GME_P.toFixed(2);
+        if (oldValue !== newValue) {
+          gmePriceEl.textContent = newValue;
+          flashUpdate('gme-price-display', V_GME_P >= 0);
+          previousValues['gme-price-display'] = newValue;
+        }
       }
 
-      // Update AMC price in port-bar
+      // Update AMC price in port-bar with flash animation
       const amcPriceEl = document.getElementById('amc-price-display');
       if (amcPriceEl && V_AMC_P > 0) {
-        amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+        const oldValue = previousValues['amc-price-display'];
+        const newValue = '$' + V_AMC_P.toFixed(2);
+        if (oldValue !== newValue) {
+          amcPriceEl.textContent = newValue;
+          flashUpdate('amc-price-display', V_AMC_P >= 0);
+          previousValues['amc-price-display'] = newValue;
+        }
       }
 
-      // Update IEP price in port-bar
+      // Update IEP price in port-bar with flash animation
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) {
-        iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+        const oldValue = previousValues['iep-price-display'];
+        const newValue = '$' + V_IEP_P.toFixed(2);
+        if (oldValue !== newValue) {
+          iepPriceEl.textContent = newValue;
+          flashUpdate('iep-price-display', V_IEP_P >= 0);
+          previousValues['iep-price-display'] = newValue;
+        }
       }
 
-      // Update BB price in port-bar
+      // Update BB price in port-bar with flash animation
       const bbPriceEl = document.getElementById('bb-price-display');
       if (bbPriceEl && V_BB_P > 0) {
-        bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+        const oldValue = previousValues['bb-price-display'];
+        const newValue = '$' + V_BB_P.toFixed(2);
+        if (oldValue !== newValue) {
+          bbPriceEl.textContent = newValue;
+          flashUpdate('bb-price-display', V_BB_P >= 0);
+          previousValues['bb-price-display'] = newValue;
+        }
       }
 
-      // Update NOK price in port-bar
+      // Update NOK price in port-bar with flash animation
       const nokPriceEl = document.getElementById('nok-price-display');
       if (nokPriceEl && V_NOK_P > 0) {
-        nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+        const oldValue = previousValues['nok-price-display'];
+        const newValue = '$' + V_NOK_P.toFixed(2);
+        if (oldValue !== newValue) {
+          nokPriceEl.textContent = newValue;
+          flashUpdate('nok-price-display', V_NOK_P >= 0);
+          previousValues['nok-price-display'] = newValue;
+        }
       }
 
-      // Update BABA price in port-bar
+      // Update BABA price in port-bar with flash animation
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) {
-        babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
+        const oldValue = previousValues['baba-price-display'];
+        const newValue = '$' + V_BABA_P.toFixed(2);
+        if (oldValue !== newValue) {
+          babaPriceEl.textContent = newValue;
+          flashUpdate('baba-price-display', V_BABA_P >= 0);
+          previousValues['baba-price-display'] = newValue;
+        }
       }
 
-      // Update BTC in port-bar
+      // Update BTC in port-bar with flash animation
       const btcPriceEl = document.getElementById('btc-price-display');
       if (btcPriceEl && V_BTC_P > 0) {
-        btcPriceEl.textContent = '$' + fmt(V_BTC_P);
+        const oldValue = previousValues['btc-price-display'];
+        const newValue = '$' + fmt(V_BTC_P);
+        if (oldValue !== newValue) {
+          btcPriceEl.textContent = newValue;
+          flashUpdate('btc-price-display', V_BTC_P >= 0);
+          previousValues['btc-price-display'] = newValue;
+        }
       }
 
-      // Update SPY, QQQ, VIX in port-bar
+      // Update SPY, QQQ, VIX in port-bar with flash animation
       const spyPriceEl = document.getElementById('spy-price-display');
       if (spyPriceEl && V_SPY_P > 0) {
-        spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+        const oldValue = previousValues['spy-price-display'];
+        const newValue = '$' + V_SPY_P.toFixed(2);
+        if (oldValue !== newValue) {
+          spyPriceEl.textContent = newValue;
+          flashUpdate('spy-price-display', V_SPY_P >= 0);
+          previousValues['spy-price-display'] = newValue;
+        }
       }
 
       const qqqPriceEl = document.getElementById('qqq-price-display');
       if (qqqPriceEl && V_QQQ_P > 0) {
-        qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+        const oldValue = previousValues['qqq-price-display'];
+        const newValue = '$' + V_QQQ_P.toFixed(2);
+        if (oldValue !== newValue) {
+          qqqPriceEl.textContent = newValue;
+          flashUpdate('qqq-price-display', V_QQQ_P >= 0);
+          previousValues['qqq-price-display'] = newValue;
+        }
       }
 
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) {
-        vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+        const oldValue = previousValues['vix-price-display'];
+        const newValue = '$' + V_VIX_P.toFixed(2);
+        if (oldValue !== newValue) {
+          vixPriceEl.textContent = newValue;
+          flashUpdate('vix-price-display', V_VIX_P >= 0);
+          previousValues['vix-price-display'] = newValue;
+        }
       }
 
     }
@@ -6699,4 +6818,3 @@
 
 
 </html>
-
