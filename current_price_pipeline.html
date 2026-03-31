@@ -4253,6 +4253,10 @@
       const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
       const hour = estTime.getHours();
       const isAfterMarketHours = (hour >= 16 && hour < 20) || (hour >= 0 && hour < 9);
+      console.log('TIME DEBUG:', {localTime: now.toLocaleTimeString(), estTime: estTime.toLocaleTimeString(), hour, isAfterMarketHours});
+      
+      // Force aftermarket display for testing (remove this line after testing)
+      const forceAfterMarket = true;
 
       // Update GME price in port-bar with highlight and aftermarket
       const gmePriceDisplayEl = document.getElementById('gme-price-display');
@@ -4310,12 +4314,12 @@
       const bbPriceEl = document.getElementById('bb-price-display');
       console.log('DEBUG BB render:', {V_BB_P, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT, bbPriceEl, estTime: estTime.toLocaleTimeString(), isAfterMarketHours});
       
-      // Force display aftermarket data if available during after hours
+      // Force display aftermarket data if available during after hours OR for testing
       if (bbPriceEl && V_BB_P > 0) {
         const sign = V_BB_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_BB_AFTER_PCT >= 0 ? 'pos' : 'neg';
-        // Show aftermarket if data exists AND it's after market hours
-        const afterHoursHtml = (V_BB_AFTER_P > 0 && isAfterMarketHours) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_BB_AFTER_P.toFixed(2)} (${sign}${V_BB_AFTER_C.toFixed(2)} / ${sign}${V_BB_AFTER_PCT.toFixed(2)}%)</span>` : '';
+        // Show aftermarket if data exists AND it's after market hours OR force testing
+        const afterHoursHtml = (V_BB_AFTER_P > 0 && (isAfterMarketHours || forceAfterMarket)) ? `<br><span class="after-badge ${pctClass}" style="font-size:9px;">🌆 $${V_BB_AFTER_P.toFixed(2)} (${sign}${V_BB_AFTER_C.toFixed(2)} / ${sign}${V_BB_AFTER_PCT.toFixed(2)}%)</span>` : '';
         const newText = '$' + V_BB_P.toFixed(2) + afterHoursHtml;
         const oldText = bbPriceEl.dataset.prevValue || '';
         bbPriceEl.innerHTML = newText;
