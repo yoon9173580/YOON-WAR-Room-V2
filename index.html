@@ -1738,7 +1738,7 @@
       }
       
       .lock-btn {
-    }
+      }
 
     /* ===== UNIVERSAL MOBILE OPTIMIZATIONS ===== */
     /* All phones: iPhone, Galaxy, Fold series */
@@ -1785,6 +1785,87 @@
       
       .port-table-wrap table {
         min-width: 550px;
+      }
+    }
+
+    /* ===== FOLD 6 UNFOLDED - TABLE LAYOUT ===== */
+    @media screen and (min-width: 721px) and (max-width: 1200px) {
+      /* Hide sidebar for more space */
+      .market-sidebar {
+        display: none;
+      }
+      
+      .main-content {
+        width: 100%;
+      }
+      
+      /* Restore table layout */
+      .scenario-wrap table {
+        display: table !important;
+        width: 100%;
+        min-width: 900px;
+      }
+      
+      .scenario-wrap tbody {
+        display: table-row-group !important;
+      }
+      
+      .scenario-wrap tr {
+        display: table-row !important;
+        margin-bottom: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      
+      .scenario-wrap td {
+        display: table-cell !important;
+        width: auto !important;
+        padding: 10px 8px !important;
+        font-size: 12px;
+        border-bottom: 1px solid var(--borderB);
+      }
+      
+      .scenario-wrap th {
+        display: table-cell !important;
+        font-size: 11px;
+        padding: 12px 8px;
+      }
+      
+      /* First two columns */
+      .scenario-wrap td:first-child,
+      .scenario-wrap th:first-child {
+        width: 140px !important;
+        min-width: 140px;
+      }
+      
+      .scenario-wrap td:nth-child(2),
+      .scenario-wrap th:nth-child(2) {
+        width: 200px !important;
+        min-width: 200px;
+      }
+      
+      /* Row labels */
+      .scenario-wrap tr::before {
+        display: none;
+      }
+      
+      /* Scrollable table container */
+      .scenario-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      /* Compact header */
+      header > div:last-child {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      
+      .btn-out {
+        padding: 6px 10px;
+        font-size: 11px;
       }
     }
 
@@ -3816,7 +3897,23 @@
             let extInfo = getExt(q);
             q._extInfo = extInfo; // Store for later use
 
+            // DEBUG: Log raw data for major symbols for overnight investigation
+            const debugSymbols = ['GME', 'AMC', 'SPY', 'QQQ', 'VIX', 'AAPL', 'NVDA', 'TSLA'];
+            if (debugSymbols.includes(sym)) {
+              console.log(`[DEBUG ${sym}] Raw data:`, {
+                marketState: q.marketState,
+                regularMarketPrice: q.regularMarketPrice,
+                postMarketPrice: q.postMarketPrice,
+                preMarketPrice: q.preMarketPrice,
+                regularMarketTime: q.regularMarketTime,
+                postMarketTime: q.postMarketTime,
+                preMarketTime: q.preMarketTime
+              });
+            }
+
             // Now update price to reflect current market state (pre/after hours)
+            // For OVERNIGHT hours: if market is CLOSED and no pre-market yet, 
+            // prefer the most recent traded price
             if ((q.marketState === "POST" || q.marketState === "CLOSED") && q.postMarketPrice) {
 
               q.regularMarketPrice = q.postMarketPrice;
@@ -3833,6 +3930,15 @@
 
               q.regularMarketChangePercent = q.preMarketChangePercent;
 
+            }
+
+            // DEBUG: Log after processing
+            if (sym === 'GME') {
+              console.log('[DEBUG GME] After processing:', {
+                marketState: q.marketState,
+                finalPrice: q.regularMarketPrice,
+                finalChange: q.regularMarketChange
+              });
             }
 
             return q;
@@ -3852,7 +3958,13 @@
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
 
-          const qKOSPI = extract('^KS11'); if (qKOSPI) { V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; }
+          const qKOSPI = extract('^KS11'); 
+          if (qKOSPI) { 
+            V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; 
+            console.log('[DEBUG] KOSPI data:', { symbol: qKOSPI.symbol, price: V_KOSPI_P, raw: qKOSPI.regularMarketPrice });
+          } else {
+            console.log('[DEBUG] KOSPI data not found in API response');
+          }
 
 
 
@@ -4080,7 +4192,14 @@
       if (vixPriceEl && V_VIX_P > 0) vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
       
       const kospiPriceEl = document.getElementById('kospi-price-display');
-      if (kospiPriceEl && V_KOSPI_P > 0) kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
+      if (kospiPriceEl) {
+        if (V_KOSPI_P > 0) {
+          kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
+        } else {
+          kospiPriceEl.textContent = 'N/A';
+        }
+        console.log('[DEBUG] KOSPI display update:', { element: !!kospiPriceEl, value: V_KOSPI_P });
+      }
     }
 
     // Update portfolio table values without full re-render
