@@ -4570,8 +4570,9 @@
       const cell = document.getElementById(cellId);
       if (cell) {
         // FORCE $0 for Live Price column cells - BBBYQ not secured
-        // EXCEPTION: cash-hand-live should show calculated value
-        if (cellId.includes('-live') && !cellId.includes('cash-hand')) {
+        // EXCEPTION: cash-hand-live, st1-live-total, and related cells should show calculated values
+        const liveExceptions = ['cash-hand-live', 'st1-live-total', 'fid-live-total', 'drs-live-total', 'moomoo-live-total', 'cash-live-total', 'st1-won-live'];
+        if (cellId.includes('-live') && !liveExceptions.some(exc => cellId.includes(exc))) {
           value = 0;
           type = 'pos';
         }
