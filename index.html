@@ -1791,6 +1791,236 @@
     td {
       transition: all 0.3s ease;
     }
+
+    /* ===== OPERATION OVERSEER MOBILE REDESIGN ===== */
+    @media screen and (max-width: 768px) {
+      /* Convert scenario table to card layout */
+      .scenario-wrap table {
+        display: block;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      .scenario-wrap thead {
+        display: none;
+      }
+
+      .scenario-wrap tbody {
+        display: block;
+        width: 100%;
+      }
+
+      .scenario-wrap tr {
+        display: block;
+        margin-bottom: 12px;
+        background: var(--bg3);
+        border-radius: 12px;
+        border: 1px solid var(--borderB);
+        overflow: hidden;
+      }
+
+      .scenario-wrap td {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px;
+        white-space: normal;
+      }
+
+      .scenario-wrap td:last-child {
+        border-bottom: none;
+      }
+
+      /* Label styling for data columns */
+      .scenario-wrap td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--textM);
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+
+      /* Stage column styling - no label */
+      .scenario-wrap td:first-child {
+        background: rgba(0, 212, 170, 0.05);
+        font-weight: 700;
+        color: var(--accent);
+        border-bottom: 2px solid var(--borderB);
+      }
+
+      .scenario-wrap td:first-child::before {
+        content: none;
+      }
+
+      /* Detail column */
+      .scenario-wrap td:nth-child(2) {
+        font-size: 12px;
+        color: var(--textM);
+      }
+
+      /* Price columns - horizontal scroll container */
+      .scenario-wrap .price-row {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding: 10px;
+        background: var(--bg2);
+        border-top: 1px solid var(--borderB);
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .scenario-wrap .price-row .price-card {
+        flex-shrink: 0;
+        min-width: 80px;
+        background: var(--bg3);
+        border-radius: 8px;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid var(--border);
+      }
+
+      .scenario-wrap .price-row .price-card .price-label {
+        font-size: 10px;
+        color: var(--textM);
+        margin-bottom: 4px;
+      }
+
+      .scenario-wrap .price-row .price-card .price-value {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      /* Stage main rows */
+      .scenario-wrap .st-main td {
+        background: rgba(0, 212, 170, 0.1);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      /* Cash rows */
+      .scenario-wrap .st-cash td {
+        background: rgba(0, 212, 170, 0.15);
+        font-weight: 800;
+      }
+
+      /* Indent adjustments for mobile */
+      .scenario-wrap .pl-indent {
+        padding-left: 20px !important;
+      }
+
+      .scenario-wrap .pl-indent::before {
+        content: "└ ";
+        color: var(--accent);
+      }
+
+      .scenario-wrap .pl-indent-2 {
+        padding-left: 35px !important;
+      }
+
+      .scenario-wrap .pl-indent-2::before {
+        content: "├ ";
+        color: var(--textM);
+      }
+
+      /* BAL info on mobile */
+      .scenario-wrap .bal {
+        display: block;
+        font-size: 10px;
+        margin-top: 2px;
+      }
+
+      /* Custom price section mobile */
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px !important;
+        gap: 10px;
+      }
+
+      #custom-price-input {
+        width: 100% !important;
+      }
+
+      .scenario-wrap button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Hide some columns on mobile - keep only essential ones */
+      .scenario-wrap td:nth-child(3), /* Price $210 */
+      .scenario-wrap td:nth-child(4), /* Price $242 */
+      .scenario-wrap td:nth-child(6)  /* Price $741 */ {
+        display: none;
+      }
+
+      /* Show only Glitch ($399) and Custom columns */
+      .scenario-wrap td:nth-child(5), /* Price $399 */
+      .scenario-wrap td:nth-child(7), /* Custom */
+      .scenario-wrap td:nth-child(8)  /* Live */ {
+        display: grid;
+      }
+
+      /* Make sure stage and detail columns are visible */
+      .scenario-wrap td:first-child,
+      .scenario-wrap td:nth-child(2) {
+        display: block;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .scenario-wrap tr {
+        margin-bottom: 8px;
+        border-radius: 8px;
+      }
+
+      .scenario-wrap td {
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+
+      .scenario-wrap td:first-child {
+        font-size: 13px;
+      }
+
+      .scenario-wrap .pl-indent {
+        padding-left: 15px !important;
+      }
+
+      .scenario-wrap .pl-indent-2 {
+        padding-left: 25px !important;
+      }
+
+      /* Even more compact on small screens */
+      .scenario-wrap .st-main td {
+        padding: 12px;
+      }
+
+      .scenario-wrap .st-cash td {
+        padding: 12px;
+      }
+
+      /* Scenario title */
+      .scenario-title {
+        font-size: 12px;
+        padding: 15px;
+        letter-spacing: 2px;
+      }
+    }
+
+    /* Extra small - show only 2 price columns */
+    @media screen and (max-width: 360px) {
+      .scenario-wrap td:nth-child(5) /* Price $399 */ {
+        display: none;
+      }
+
+      /* Show only Custom and Live columns */
+      .scenario-wrap td:nth-child(7),
+      .scenario-wrap td:nth-child(8) {
+        display: grid;
+      }
+    }
   </style>
 
 </head>
@@ -4532,10 +4762,10 @@
       // 미니멈 보장 (Minimum Guarantee) - fixed at 1M
       updateCellWithFormat('st2-minimum-live', -1000000, 'neg');
       
-      // ST 2 Live column values should be $0 since BBBYQ is not secured
-      // (Immediate execution not possible without BBBYQ recovery)
+      // ST 2 Live column values - BBBYQ not secured so most are $0
+      // But price-linked additional should still calculate based on GME price
       updateCellWithFormat('st2-total-live', 0, 'pos');
-      updateCellWithFormat('st2-additional-live', 0, 'pos');
+      updateCellWithFormat('st2-additional-live', V_GME_P * 1000, 'neg');
       updateCellWithFormat('st2-cash-live', 0, 'pos');
       
       // ST 2 M.K items - $0 or remain as fixed expenses without BAL
