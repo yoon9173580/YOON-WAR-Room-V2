@@ -4599,18 +4599,18 @@
       updateCellWithFormat('qof-housing-live', 0, 'pos');
       updateCellWithFormat('clat-trust-live', 0, 'pos');
       
-      // ST 4 cash remaining - must override completely to remove BAL
+      // ST 4 cash remaining - keep BAL span
       const st4CashEl = document.getElementById('st4-cash-live');
       if (st4CashEl) {
-        st4CashEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
-        st4CashEl.className = 'r';
+        st4CashEl.innerHTML = `<span style="color:var(--textD)">$0</span><br><span class="bal">BAL $0</span>`;
+        st4CashEl.className = 'r pos';
       }
       
-      // ST 4 main total - must override completely
+      // ST 4 main total - keep BAL span
       const st4MainEl = document.getElementById('st4-live-main');
       if (st4MainEl) {
-        st4MainEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
-        st4MainEl.className = 'r';
+        st4MainEl.innerHTML = `<span style="color:var(--textD)">$0</span><br><span class="bal">BAL $0</span>`;
+        st4MainEl.className = 'r pos';
       }
       
       // Cash in Hand - $0
