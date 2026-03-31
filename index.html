@@ -3721,13 +3721,30 @@
       // Debug logging
       console.log(`[DEBUG] getExt for ${symbol}: state=${state}, estHour=${estHour}, estMinute=${estMinute}, isOvernightHours=${isOvernightHours}`);
 
+      // PRE (Premarket) state - MUST check BEFORE CLOSED state to show Premarket correctly
+      if (state === "PRE" && q.preMarketPrice) {
+        // When API explicitly says PRE, show Premarket (not Overnight)
+        // This is more accurate than time-based calculation
+        const c = Number(q.preMarketChange) || 0;
+        const pct = Number(q.preMarketChangePercent) || 0;
+        console.log(`[DEBUG] ${symbol}: Showing Premarket (state=PRE)`);
+        return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+      }
+
       // CLOSED state - show last market price or after hours data
       if (state === "CLOSED") {
-        // If we have post/pre market data and it's overnight hours, show as Overnight
-        if (isOvernightHours && (q.postMarketPrice || q.preMarketPrice)) {
-          const price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
-          const c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
-          const pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
+        // If we have pre-market data during overnight hours, show as Premarket (not Overnight)
+        if (isOvernightHours && q.preMarketPrice) {
+          const c = Number(q.preMarketChange) || 0;
+          const pct = Number(q.preMarketChangePercent) || 0;
+          console.log(`[DEBUG] ${symbol}: Showing Premarket (CLOSED with preMarketPrice)`);
+          return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        }
+        // If we have post-market data and it's overnight hours, show as Overnight
+        if (isOvernightHours && q.postMarketPrice) {
+          const price = q.postMarketPrice || q.regularMarketPrice || 0;
+          const c = Number(q.postMarketChange || q.regularMarketChange) || 0;
+          const pct = Number(q.postMarketChangePercent || q.regularMarketChangePercent) || 0;
           console.log(`[DEBUG] ${symbol}: Showing Overnight (CLOSED)`);
           return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
         }
@@ -3753,16 +3770,6 @@
         const c = Number(q.postMarketChange) || 0;
         const pct = Number(q.postMarketChangePercent) || 0;
         return `🌆 Aftermarket: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
-      }
-
-      // PRE (Premarket) state - always show as Premarket when API reports PRE
-      if (state === "PRE" && q.preMarketPrice) {
-        // When API explicitly says PRE, show Premarket (not Overnight)
-        // This is more accurate than time-based calculation
-        const c = Number(q.preMarketChange) || 0;
-        const pct = Number(q.preMarketChangePercent) || 0;
-        console.log(`[DEBUG] ${symbol}: Showing Premarket (state=PRE)`);
-        return `🌟 Premarket: $${q.preMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
       }
 
       // Overnight pricing for Asian stocks during extended hours
