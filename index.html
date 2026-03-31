@@ -4405,6 +4405,12 @@
 
     // Unified calculation and update function for any price column
     function calculateAndUpdateColumn(price, suffix) {
+      // SKIP 'live' column - Live Price column is handled separately by calculateLivePriceColumn()
+      // BBBYQ is not secured, so pipeline calculations don't apply to Live column
+      if (suffix === 'live') {
+        return;
+      }
+      
       // BBBYQ position: 41,454 shares split across brokers
       const bbbyq_total_shares = 41454;
       const fid_shares = 4307;
