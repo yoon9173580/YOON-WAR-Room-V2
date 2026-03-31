@@ -4433,15 +4433,15 @@
       const fid_option_val = fid_val; // Fidelity BBBYQ position value
       const moo_option_val = moomoo_val; // Moomoo BBBYQ position value
       
-      // Fidelity strike distribution (1/3 each)
-      const fid_strike40 = Math.round(fid_option_val / 3);
-      const fid_strike45 = Math.round(fid_option_val / 3);
-      const fid_strike50 = fid_option_val - fid_strike40 - fid_strike45;
+      // Fidelity strike distribution ($50-50%, $45-30%, $40-20%)
+      const fid_strike50 = Math.round(fid_option_val * 0.50);
+      const fid_strike45 = Math.round(fid_option_val * 0.30);
+      const fid_strike40 = fid_option_val - fid_strike50 - fid_strike45;
       
-      // Moomoo strike distribution (1/3 each)
-      const moo_strike40 = Math.round(moo_option_val / 3);
-      const moo_strike45 = Math.round(moo_option_val / 3);
-      const moo_strike50 = moo_option_val - moo_strike40 - moo_strike45;
+      // Moomoo strike distribution ($50-50%, $45-30%, $40-20%)
+      const moo_strike50 = Math.round(moo_option_val * 0.50);
+      const moo_strike45 = Math.round(moo_option_val * 0.30);
+      const moo_strike40 = moo_option_val - moo_strike50 - moo_strike45;
       
       // Update ST 3 cells — CS Cost with shares count based on live GME price
       const liveGMEPrice = V_GME_P > 0 ? V_GME_P : price;
@@ -4541,7 +4541,22 @@
       updateCellWithFormat(`net-worth-${suffix}`, netWorth, 'pos');
       updateCellWithFormat(`st1-summary-${suffix}`, st1_total, 'pos');
       updateCellWithFormat(`st2-summary-${suffix}`, -fixedExpenses, 'neg');
-      updateCellWithFormat(`st3-summary-${suffix}`, -(cs_val + fid_option_val + moo_option_val), 'neg');
+      
+      // Calculate total option contracts and exerciseable shares for ST 3
+      const totalFidContracts = fid_strike40_contracts + fid_strike45_contracts + fid_strike50_contracts;
+      const totalMooContracts = moo_strike40_contracts + moo_strike45_contracts + moo_strike50_contracts;
+      const totalOptionContracts = totalFidContracts + totalMooContracts;
+      const exerciseableShares = totalOptionContracts * 100;
+      
+      // Update ST 3 summary with contract count and exerciseable shares
+      const st3SummaryEl = document.getElementById(`st3-summary-${suffix}`);
+      if (st3SummaryEl) {
+        const st3Total = cs_val + fid_option_val + moo_option_val;
+        st3SummaryEl.innerHTML = `<span class="clickable-amount" data-amount="${st3Total}" style="cursor:pointer;">${fmtDisplay(-st3Total)}</span><br><span class="bal" style="font-size:9px;">📜 ${totalOptionContracts.toLocaleString()} contracts<br>🎯 ${exerciseableShares.toLocaleString()} shares</span>`;
+        st3SummaryEl.className = 'r neg';
+        flashCell(`st3-summary-${suffix}`, false);
+      }
+      
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
       
       // Monthly Passive Income (Net) — estimated yields from reinvested assets
