@@ -4457,10 +4457,12 @@
         
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
+          const absNetWorth = Math.abs(real_time_net_worth);
+          const hnwiTitle = absNetWorth >= 30000000 ? 'UHNI' : absNetWorth >= 5000000 ? 'VHNWI' : absNetWorth >= 1000000 ? 'HNWI' : '';
           if (real_time_net_worth < 0) {
-            netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}`;
+            netWorthDisplayEl.innerHTML = `-$${fmt(absNetWorth)}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
           } else {
-            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}`;
+            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
           }
         }
       }
