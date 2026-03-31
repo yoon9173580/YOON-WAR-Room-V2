@@ -4563,6 +4563,11 @@
     function updateCellWithBalancePositive(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          value = 0;
+          balValue = 0;
+        }
         cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">+${fmtDisplay(value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r pos';
         flashCell(cellId, true);
@@ -4573,6 +4578,11 @@
     function updateCellWithBalanceNeg(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          value = 0;
+          balValue = 0;
+        }
         cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${fmtDisplay(-value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
@@ -4702,13 +4712,12 @@
       }
       
       // Override fixed values that should display regardless
-      // 미니멈 보장 (Minimum Guarantee) - fixed at 1M
-      updateCellWithFormat('st2-minimum-live', -1000000, 'neg');
+      // 미니멈 보장 (Minimum Guarantee) - $0 since BBBYQ is bankrupt (not secured)
+      updateCellWithFormat('st2-minimum-live', 0, 'pos');
       
-      // ST 2 Live column values - BBBYQ not secured so most are $0
-      // But price-linked additional should still calculate based on GME price
+      // ST 2 Live column values - ALL $0 since BBBYQ is bankrupt
       updateCellWithFormat('st2-total-live', 0, 'pos');
-      updateCellWithFormat('st2-additional-live', V_GME_P * 1000, 'neg');
+      updateCellWithFormat('st2-additional-live', 0, 'pos');
       updateCellWithFormat('st2-cash-live', 0, 'pos');
       
       // ST 2 M.K items - $0 or remain as fixed expenses without BAL
