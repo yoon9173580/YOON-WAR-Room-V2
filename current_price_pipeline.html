@@ -1069,6 +1069,26 @@
 
     }
 
+    /* Price change highlight effects */
+    .price-up {
+      color: var(--bull) !important;
+      text-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+      transition: all 0.3s ease;
+    }
+    .price-down {
+      color: var(--bear) !important;
+      text-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+      transition: all 0.3s ease;
+    }
+    .price-changed {
+      animation: highlightChange 0.5s ease;
+    }
+    @keyframes highlightChange {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
   </style>
 
 </head>
@@ -1304,6 +1324,10 @@
               <div class="pstat">
                 <div class="pstat-lbl">VIX</div>
                 <div id="vix-price-display" class="pstat-val">$0.00</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-lbl">KOSPI</div>
+                <div id="kospi-display" class="pstat-val">--</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
@@ -2413,6 +2437,8 @@
 
     let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
 
+    let V_KOSPI_P = 0, V_KOSPI_PREV = 0; // KOSPI with previous value for change detection
+
 
 
     // Crypto
@@ -2585,6 +2611,32 @@
 
     // Exchange rate for KRW conversion
     let currentKRWRate = 1380; // Default fallback rate
+    
+    // KOSPI data
+    let V_KOSPI_P = 0, V_KOSPI_PREV = 0;
+    
+    // Fetch KOSPI data
+    async function fetchKOSPI() {
+      try {
+        const res = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/^KS11?interval=1d&range=1d');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.chart && data.chart.result && data.chart.result[0]) {
+            const result = data.chart.result[0];
+            const meta = result.meta;
+            const currentPrice = meta.regularMarketPrice || meta.previousClose || 0;
+            
+            if (currentPrice > 0) {
+              V_KOSPI_PREV = V_KOSPI_P;
+              V_KOSPI_P = currentPrice;
+              console.log('[KOSPI] Fetched:', V_KOSPI_P.toFixed(2));
+            }
+          }
+        }
+      } catch (e) {
+        console.log('[KOSPI] Fetch failed:', e.message);
+      }
+    }
     
     // Fetch real-time exchange rate from API
     async function fetchExchangeRate() {
@@ -2773,6 +2825,9 @@
             document.getElementById('fear-val').textContent = json.fear_greed;
 
           }
+
+          // Fetch KOSPI data
+          await fetchKOSPI();
 
 
 
@@ -3969,6 +4024,28 @@
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) {
         vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+      }
+
+      // Update KOSPI in port-bar with visual effect
+      const kospiEl = document.getElementById('kospi-display');
+      if (kospiEl && V_KOSPI_P > 0) {
+        const newValue = V_KOSPI_P.toFixed(2);
+        const oldValue = kospiEl.textContent;
+        
+        kospiEl.textContent = newValue;
+        
+        // Apply visual effect if value changed
+        if (oldValue !== '--' && oldValue !== newValue) {
+          const isUp = V_KOSPI_P > V_KOSPI_PREV;
+          kospiEl.classList.remove('price-up', 'price-down');
+          void kospiEl.offsetWidth; // Trigger reflow
+          kospiEl.classList.add(isUp ? 'price-up' : 'price-down');
+          
+          // Remove effect after 1 second
+          setTimeout(() => {
+            kospiEl.classList.remove('price-up', 'price-down');
+          }, 1000);
+        }
       }
 
     }
