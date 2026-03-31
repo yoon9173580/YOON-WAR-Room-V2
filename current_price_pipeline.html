@@ -4248,8 +4248,9 @@
       upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT);
       upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT);
 
-    // Update GME price in port-bar with highlight and aftermarket
+      // Update GME price in port-bar with highlight and aftermarket
       const gmePriceDisplayEl = document.getElementById('gme-price-display');
+      console.log('DEBUG GME render:', {V_GME_P, V_GME_AFTER_P, V_GME_AFTER_C, V_GME_AFTER_PCT, gmePriceDisplayEl});
       if (gmePriceDisplayEl && V_GME_P > 0) {
         const sign = V_GME_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_GME_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4266,6 +4267,7 @@
 
       // Update AMC price in port-bar with highlight and aftermarket
       const amcPriceDisplayEl = document.getElementById('amc-price-display');
+      console.log('DEBUG AMC render:', {V_AMC_P, V_AMC_AFTER_P, V_AMC_AFTER_C, V_AMC_AFTER_PCT, amcPriceDisplayEl});
       if (amcPriceDisplayEl && V_AMC_P > 0) {
         const sign = V_AMC_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_AMC_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4282,6 +4284,7 @@
 
       // Update IEP price in port-bar with highlight and aftermarket
       const iepPriceEl = document.getElementById('iep-price-display');
+      console.log('DEBUG IEP render:', {V_IEP_P, V_IEP_AFTER_P, V_IEP_AFTER_C, V_IEP_AFTER_PCT, iepPriceEl});
       if (iepPriceEl && V_IEP_P > 0) {
         const sign = V_IEP_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_IEP_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4298,6 +4301,7 @@
 
       // Update BB price in port-bar with highlight and aftermarket
       const bbPriceEl = document.getElementById('bb-price-display');
+      console.log('DEBUG BB render:', {V_BB_P, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT, bbPriceEl});
       if (bbPriceEl && V_BB_P > 0) {
         const sign = V_BB_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_BB_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4314,6 +4318,7 @@
 
       // Update NOK price in port-bar with highlight and aftermarket
       const nokPriceEl = document.getElementById('nok-price-display');
+      console.log('DEBUG NOK render:', {V_NOK_P, V_NOK_AFTER_P, V_NOK_AFTER_C, V_NOK_AFTER_PCT, nokPriceEl});
       if (nokPriceEl && V_NOK_P > 0) {
         const sign = V_NOK_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_NOK_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4330,6 +4335,7 @@
 
       // Update BABA price in port-bar with highlight and aftermarket
       const babaPriceEl = document.getElementById('baba-price-display');
+      console.log('DEBUG BABA render:', {V_BABA_P, V_BABA_AFTER_P, V_BABA_AFTER_C, V_BABA_AFTER_PCT, babaPriceEl});
       if (babaPriceEl && V_BABA_P > 0) {
         const sign = V_BABA_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_BABA_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4346,6 +4352,7 @@
 
       // Update BTC in port-bar with highlight and aftermarket
       const btcPriceEl = document.getElementById('btc-price-display');
+      console.log('DEBUG BTC render:', {V_BTC_P, V_BTC_AFTER_P, V_BTC_AFTER_C, V_BTC_AFTER_PCT, btcPriceEl});
       if (btcPriceEl && V_BTC_P > 0) {
         const sign = V_BTC_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_BTC_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4362,6 +4369,7 @@
 
       // Update SPY in port-bar with highlight and aftermarket
       const spyPriceEl = document.getElementById('spy-price-display');
+      console.log('DEBUG SPY render:', {V_SPY_P, V_SPY_AFTER_P, V_SPY_AFTER_C, V_SPY_AFTER_PCT, spyPriceEl});
       if (spyPriceEl && V_SPY_P > 0) {
         const sign = V_SPY_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_SPY_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4378,6 +4386,7 @@
 
       // Update QQQ in port-bar with highlight and aftermarket
       const qqqPriceEl = document.getElementById('qqq-price-display');
+      console.log('DEBUG QQQ render:', {V_QQQ_P, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT, qqqPriceEl});
       if (qqqPriceEl && V_QQQ_P > 0) {
         const sign = V_QQQ_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_QQQ_AFTER_PCT >= 0 ? 'pos' : 'neg';
@@ -4394,6 +4403,7 @@
 
       // Update VIX in port-bar with highlight and aftermarket
       const vixPriceEl = document.getElementById('vix-price-display');
+      console.log('DEBUG VIX render:', {V_VIX_P, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT, vixPriceEl});
       if (vixPriceEl && V_VIX_P > 0) {
         const sign = V_VIX_AFTER_C >= 0 ? '+' : '';
         const pctClass = V_VIX_AFTER_PCT >= 0 ? 'pos' : 'neg';
