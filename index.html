@@ -4633,21 +4633,19 @@
       const st1_live_total = total_current_value;
       updateCellWithFormat('st1-live-total', st1_live_total, st1_live_total >= 0 ? 'pos' : 'neg');
       
-      // Update Fidelity, DRS, Moomoo live totals (based on GME position split)
-      // GME shares split: Fid 4307.43, DRS 30000, Moomoo 7147 (from BBBYQ logic applied to GME)
-      const fid_shares = 4307;
-      const drs_shares = 30000;
-      const moomoo_shares = 7147;
-      const total_split_shares = fid_shares + drs_shares + moomoo_shares; // 41454
+      // Update Fidelity, DRS, Moomoo live totals
+      // NOTE: These are BBBYQ cash brokers - no GME shares, show $0 until BBBYQ liquidation
+      updateCellWithFormat('fid-live-total', 0, 'pos');
+      updateCellWithFormat('drs-live-total', 0, 'pos');
+      updateCellWithFormat('moomoo-live-total', 0, 'pos');
       
-      // Scale GME current value to match the split proportions
-      const fid_live_val = (fid_shares / total_split_shares) * gme_current_value;
-      const drs_live_val = (drs_shares / total_split_shares) * gme_current_value;
-      const moomoo_live_val = (moomoo_shares / total_split_shares) * gme_current_value;
+      // ST 1 Live Total = actual GME/AMC portfolio value (355 GME shares + 1 AMC share + options)
+      const gme_equity_value = 355 * V_GME_P;
+      const gme_option_value = 26 * V_GME_O_P * 100;
+      const amc_equity_value = 1 * V_AMC_P;
+      const amc_option_value = 2 * V_AMC_O_P * 100;
+      st1_live_total = gme_equity_value + gme_option_value + amc_equity_value + amc_option_value;
       
-      updateCellWithFormat('fid-live-total', fid_live_val, 'pos');
-      updateCellWithFormat('drs-live-total', drs_live_val, 'pos');
-      updateCellWithFormat('moomoo-live-total', moomoo_live_val, 'pos');
       updateCellWithFormat('cash-live-total', st1_live_total, 'pos');
       
       // Update Korean Won total for Live Price
