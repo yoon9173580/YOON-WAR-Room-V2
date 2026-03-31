@@ -2798,11 +2798,26 @@
             V_AMC_AFTER_PCT = Number(qAMC._postMarketChangePercent) || 0;
           }
 
-          const qSPY = extract('SPY'); if (qSPY) { V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = getExt(qSPY); }
+          const qSPY = extract('SPY'); if (qSPY) { 
+            V_SPY_P = Number(qSPY.regularMarketPrice) || 0; V_SPY_C = Number(qSPY.regularMarketChange) || 0; V_SPY_PCT = Number(qSPY.regularMarketChangePercent) || 0; V_SPY_EXT = getExt(qSPY); 
+            V_SPY_AFTER_P = Number(qSPY._postMarketPrice) || 0;
+            V_SPY_AFTER_C = Number(qSPY._postMarketChange) || 0;
+            V_SPY_AFTER_PCT = Number(qSPY._postMarketChangePercent) || 0;
+          }
 
-          const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); }
+          const qQQQ = extract('QQQ'); if (qQQQ) { 
+            V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); 
+            V_QQQ_AFTER_P = Number(qQQQ._postMarketPrice) || 0;
+            V_QQQ_AFTER_C = Number(qQQQ._postMarketChange) || 0;
+            V_QQQ_AFTER_PCT = Number(qQQQ._postMarketChangePercent) || 0;
+          }
 
-          const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
+          const qVIX = extract('^VIX'); if (qVIX) { 
+            V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); 
+            V_VIX_AFTER_P = Number(qVIX._postMarketPrice) || 0;
+            V_VIX_AFTER_C = Number(qVIX._postMarketChange) || 0;
+            V_VIX_AFTER_PCT = Number(qVIX._postMarketChangePercent) || 0;
+          }
 
 
 
@@ -2846,34 +2861,87 @@
 
 
 
-          // Other Stocks
+          // Other Stocks with aftermarket data
+          const qAAPL = extract('AAPL'); if (qAAPL) { 
+            V_AAPL_P = Number(qAAPL.regularMarketPrice) || 0; V_AAPL_PCT = Number(qAAPL.regularMarketChangePercent) || 0; V_AAPL_EXT = getExt(qAAPL); 
+            V_AAPL_AFTER_P = Number(qAAPL._postMarketPrice) || 0;
+            V_AAPL_AFTER_C = Number(qAAPL._postMarketChange) || 0;
+            V_AAPL_AFTER_PCT = Number(qAAPL._postMarketChangePercent) || 0;
+          }
 
-          const qAAPL = extract('AAPL'); if (qAAPL) { V_AAPL_P = Number(qAAPL.regularMarketPrice) || 0; V_AAPL_PCT = Number(qAAPL.regularMarketChangePercent) || 0; V_AAPL_EXT = getExt(qAAPL); }
+          const qNVDA = extract('NVDA'); if (qNVDA) { 
+            V_NVDA_P = Number(qNVDA.regularMarketPrice) || 0; V_NVDA_PCT = Number(qNVDA.regularMarketChangePercent) || 0; V_NVDA_EXT = getExt(qNVDA); 
+            V_NVDA_AFTER_P = Number(qNVDA._postMarketPrice) || 0;
+            V_NVDA_AFTER_C = Number(qNVDA._postMarketChange) || 0;
+            V_NVDA_AFTER_PCT = Number(qNVDA._postMarketChangePercent) || 0;
+          }
 
-          const qNVDA = extract('NVDA'); if (qNVDA) { V_NVDA_P = Number(qNVDA.regularMarketPrice) || 0; V_NVDA_PCT = Number(qNVDA.regularMarketChangePercent) || 0; V_NVDA_EXT = getExt(qNVDA); }
+          const qMSFT = extract('MSFT'); if (qMSFT) { 
+            V_MSFT_P = Number(qMSFT.regularMarketPrice) || 0; V_MSFT_PCT = Number(qMSFT.regularMarketChangePercent) || 0; V_MSFT_EXT = getExt(qMSFT); 
+            V_MSFT_AFTER_P = Number(qMSFT._postMarketPrice) || 0;
+            V_MSFT_AFTER_C = Number(qMSFT._postMarketChange) || 0;
+            V_MSFT_AFTER_PCT = Number(qMSFT._postMarketChangePercent) || 0;
+          }
 
-          const qMSFT = extract('MSFT'); if (qMSFT) { V_MSFT_P = Number(qMSFT.regularMarketPrice) || 0; V_MSFT_PCT = Number(qMSFT.regularMarketChangePercent) || 0; V_MSFT_EXT = getExt(qMSFT); }
+          const qTSLA = extract('TSLA'); if (qTSLA) { 
+            V_TSLA_P = Number(qTSLA.regularMarketPrice) || 0; V_TSLA_PCT = Number(qTSLA.regularMarketChangePercent) || 0; V_TSLA_EXT = getExt(qTSLA); 
+            V_TSLA_AFTER_P = Number(qTSLA._postMarketPrice) || 0;
+            V_TSLA_AFTER_C = Number(qTSLA._postMarketChange) || 0;
+            V_TSLA_AFTER_PCT = Number(qTSLA._postMarketChangePercent) || 0;
+          }
 
-          const qTSLA = extract('TSLA'); if (qTSLA) { V_TSLA_P = Number(qTSLA.regularMarketPrice) || 0; V_TSLA_PCT = Number(qTSLA.regularMarketChangePercent) || 0; V_TSLA_EXT = getExt(qTSLA); }
+          const qGOOGL = extract('GOOGL'); if (qGOOGL) { 
+            V_GOOGL_P = Number(qGOOGL.regularMarketPrice) || 0; V_GOOGL_PCT = Number(qGOOGL.regularMarketChangePercent) || 0; V_GOOGL_EXT = getExt(qGOOGL); 
+            V_GOOGL_AFTER_P = Number(qGOOGL._postMarketPrice) || 0;
+            V_GOOGL_AFTER_C = Number(qGOOGL._postMarketChange) || 0;
+            V_GOOGL_AFTER_PCT = Number(qGOOGL._postMarketChangePercent) || 0;
+          }
 
-          const qGOOGL = extract('GOOGL'); if (qGOOGL) { V_GOOGL_P = Number(qGOOGL.regularMarketPrice) || 0; V_GOOGL_PCT = Number(qGOOGL.regularMarketChangePercent) || 0; V_GOOGL_EXT = getExt(qGOOGL); }
+          const qAMZN = extract('AMZN'); if (qAMZN) { 
+            V_AMZN_P = Number(qAMZN.regularMarketPrice) || 0; V_AMZN_PCT = Number(qAMZN.regularMarketChangePercent) || 0; V_AMZN_EXT = getExt(qAMZN); 
+            V_AMZN_AFTER_P = Number(qAMZN._postMarketPrice) || 0;
+            V_AMZN_AFTER_C = Number(qAMZN._postMarketChange) || 0;
+            V_AMZN_AFTER_PCT = Number(qAMZN._postMarketChangePercent) || 0;
+          }
 
-          const qAMZN = extract('AMZN'); if (qAMZN) { V_AMZN_P = Number(qAMZN.regularMarketPrice) || 0; V_AMZN_PCT = Number(qAMZN.regularMarketChangePercent) || 0; V_AMZN_EXT = getExt(qAMZN); }
+          const qMETA = extract('META'); if (qMETA) { 
+            V_META_P = Number(qMETA.regularMarketPrice) || 0; V_META_PCT = Number(qMETA.regularMarketChangePercent) || 0; V_META_EXT = getExt(qMETA); 
+            V_META_AFTER_P = Number(qMETA._postMarketPrice) || 0;
+            V_META_AFTER_C = Number(qMETA._postMarketChange) || 0;
+            V_META_AFTER_PCT = Number(qMETA._postMarketChangePercent) || 0;
+          }
 
-          const qMETA = extract('META'); if (qMETA) { V_META_P = Number(qMETA.regularMarketPrice) || 0; V_META_PCT = Number(qMETA.regularMarketChangePercent) || 0; V_META_EXT = getExt(qMETA); }
+          const qIEP = extract('IEP'); if (qIEP) { 
+            V_IEP_P = Number(qIEP.regularMarketPrice) || 0; V_IEP_PCT = Number(qIEP.regularMarketChangePercent) || 0; V_IEP_EXT = getExt(qIEP); 
+            V_IEP_AFTER_P = Number(qIEP._postMarketPrice) || 0;
+            V_IEP_AFTER_C = Number(qIEP._postMarketChange) || 0;
+            V_IEP_AFTER_PCT = Number(qIEP._postMarketChangePercent) || 0;
+          }
 
-          const qIEP = extract('IEP'); if (qIEP) { V_IEP_P = Number(qIEP.regularMarketPrice) || 0; V_IEP_PCT = Number(qIEP.regularMarketChangePercent) || 0; V_IEP_EXT = getExt(qIEP); }
+          const qBB = extract('BB'); if (qBB) { 
+            V_BB_P = Number(qBB.regularMarketPrice) || 0; V_BB_PCT = Number(qBB.regularMarketChangePercent) || 0; V_BB_EXT = getExt(qBB); 
+            V_BB_AFTER_P = Number(qBB._postMarketPrice) || 0;
+            V_BB_AFTER_C = Number(qBB._postMarketChange) || 0;
+            V_BB_AFTER_PCT = Number(qBB._postMarketChangePercent) || 0;
+          }
 
-          const qBB = extract('BB'); if (qBB) { V_BB_P = Number(qBB.regularMarketPrice) || 0; V_BB_PCT = Number(qBB.regularMarketChangePercent) || 0; V_BB_EXT = getExt(qBB); }
+          const qNOK = extract('NOK'); if (qNOK) { 
+            V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); 
+            V_NOK_AFTER_P = Number(qNOK._postMarketPrice) || 0;
+            V_NOK_AFTER_C = Number(qNOK._postMarketChange) || 0;
+            V_NOK_AFTER_PCT = Number(qNOK._postMarketChangePercent) || 0;
+          }
 
-          const qNOK = extract('NOK'); if (qNOK) { V_NOK_P = Number(qNOK.regularMarketPrice) || 0; V_NOK_PCT = Number(qNOK.regularMarketChangePercent) || 0; V_NOK_EXT = getExt(qNOK); }
+          const qBABA = extract('BABA'); if (qBABA) { 
+            V_BABA_P = Number(qBABA.regularMarketPrice) || 0; V_BABA_PCT = Number(qBABA.regularMarketChangePercent) || 0; V_BABA_EXT = getExt(qBABA); 
+            V_BABA_AFTER_P = Number(qBABA._postMarketPrice) || 0;
+            V_BABA_AFTER_C = Number(qBABA._postMarketChange) || 0;
+            V_BABA_AFTER_PCT = Number(qBABA._postMarketChangePercent) || 0;
+          }
 
-          const qBABA = extract('BABA'); if (qBABA) { V_BABA_P = Number(qBABA.regularMarketPrice) || 0; V_BABA_PCT = Number(qBABA.regularMarketChangePercent) || 0; V_BABA_EXT = getExt(qBABA); }
 
 
-
-          // Unified Backend Feed Parsing
-
+          // Unified Backend Feed Parsing with aftermarket data for BTC
           const qBTC = extract('BTC-USD');
 
           if (qBTC) {
@@ -2881,6 +2949,9 @@
             V_BTC_P = qBTC.regularMarketPrice || 0;
 
             V_BTC_PCT = qBTC.regularMarketChangePercent || 0;
+            V_BTC_AFTER_P = Number(qBTC._postMarketPrice) || 0;
+            V_BTC_AFTER_C = Number(qBTC._postMarketChange) || 0;
+            V_BTC_AFTER_PCT = Number(qBTC._postMarketChangePercent) || 0;
 
           } else if (json.crypto) {
 
@@ -2980,19 +3051,19 @@
 
     // Function to update portfolio values without destroying custom columns
     function updatePortfolioValues() {
-      // Update sidebar values
-      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT);
-      upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
-      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
-      upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
-      upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
-      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT);
-      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, NVDA_EXT);
-      upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
-      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT);
-      upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT);
-      upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT);
-      upSB('META', V_META_P, V_META_PCT, V_META_EXT);
+      // Update sidebar values with aftermarket data
+      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT, V_GME_AFTER_P, V_GME_AFTER_C, V_GME_AFTER_PCT);
+      upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT, V_AMC_AFTER_P, V_AMC_AFTER_C, V_AMC_AFTER_PCT);
+      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT, V_SPY_AFTER_P, V_SPY_AFTER_C, V_SPY_AFTER_PCT);
+      upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT);
+      upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT);
+      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT, V_AAPL_AFTER_P, V_AAPL_AFTER_C, V_AAPL_AFTER_PCT);
+      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT, V_NVDA_AFTER_P, V_NVDA_AFTER_C, V_NVDA_AFTER_PCT);
+      upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT, V_MSFT_AFTER_P, V_MSFT_AFTER_C, V_MSFT_AFTER_PCT);
+      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT, V_TSLA_AFTER_P, V_TSLA_AFTER_C, V_TSLA_AFTER_PCT);
+      upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT, V_GOOGL_AFTER_P, V_GOOGL_AFTER_C, V_GOOGL_AFTER_PCT);
+      upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT, V_AMZN_AFTER_P, V_AMZN_AFTER_C, V_AMZN_AFTER_PCT);
+      upSB('META', V_META_P, V_META_PCT, V_META_EXT, V_META_AFTER_P, V_META_AFTER_C, V_META_AFTER_PCT);
       
       // Update port-bar values
       updatePortBarValues();
