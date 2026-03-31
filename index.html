@@ -4558,6 +4558,43 @@
         arunEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
         arunEl.className = 'r';
       }
+      
+      // ST 3 Live column - $0 since BBBYQ not secured
+      updateCellWithFormat('st3-total-live', 0, 'pos');
+      updateCellWithFormat('st3-cash-live', 0, 'pos');
+      updateCellWithFormat('cs-cost-live', 0, 'pos');
+      updateCellWithFormat('fid-option-live', 0, 'pos');
+      updateCellWithFormat('moo-option-live', 0, 'pos');
+      
+      // ST 3 Strike prices - $0
+      const zeroStrikeItems = [
+        'fid-strike40-live', 'fid-strike45-live', 'fid-strike50-live',
+        'moo-strike40-live', 'moo-strike45-live', 'moo-strike50-live'
+      ];
+      zeroStrikeItems.forEach(itemId => {
+        const el = document.getElementById(itemId);
+        if (el) {
+          el.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+          el.className = 'r';
+        }
+      });
+      
+      // ST 4 Live column - $0 since BBBYQ not secured
+      updateCellWithFormat('st4-total-live', 0, 'pos');
+      updateCellWithFormat('st4-cash-live', 0, 'pos');
+      updateCellWithFormat('gme-partial-live', 0, 'pos');
+      updateCellWithFormat('tax-calculation-live', 0, 'pos');
+      updateCellWithFormat('tax-shield-live', 0, 'pos');
+      updateCellWithFormat('og-energy-live', 0, 'pos');
+      updateCellWithFormat('qof-housing-live', 0, 'pos');
+      updateCellWithFormat('clat-trust-live', 0, 'pos');
+      
+      // Cash in Hand - $0
+      const cashHandEl = document.getElementById('cash-hand-live');
+      if (cashHandEl) {
+        cashHandEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+        cashHandEl.className = 'r';
+      }
     }
 
     // Custom Price Input System
