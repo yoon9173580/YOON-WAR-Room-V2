@@ -3648,8 +3648,21 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
+      // Check current time to determine if we're in overnight hours (8 PM - 4 AM ET)
+      const now = new Date();
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      const isOvernightHours = (hour >= 20) || (hour < 4) || (hour === 4 && minute < 30);
+
       // CLOSED state - show last market price or after hours data
       if (state === "CLOSED") {
+        // If we have post/pre market data and it's overnight hours, show as Overnight
+        if (isOvernightHours && (q.postMarketPrice || q.preMarketPrice)) {
+          const price = q.postMarketPrice || q.preMarketPrice || q.regularMarketPrice || 0;
+          const c = Number(q.postMarketChange || q.preMarketChange || q.regularMarketChange) || 0;
+          const pct = Number(q.postMarketChangePercent || q.preMarketChangePercent || q.regularMarketChangePercent) || 0;
+          return `🌜 Overnight: $${price.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        }
         if (q.postMarketPrice) {
           const c = Number(q.postMarketChange) || 0;
           const pct = Number(q.postMarketChangePercent) || 0;
@@ -3661,8 +3674,13 @@
         }
       }
 
-      // POST (Aftermarket) state
+      // POST (Aftermarket) state - show as Overnight if after 8 PM
       if (state === "POST" && q.postMarketPrice) {
+        if (isOvernightHours) {
+          const c = Number(q.postMarketChange) || 0;
+          const pct = Number(q.postMarketChangePercent) || 0;
+          return `🌜 Overnight: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
+        }
         const c = Number(q.postMarketChange) || 0;
         const pct = Number(q.postMarketChangePercent) || 0;
         return `🌆 Aftermarket: $${q.postMarketPrice.toFixed(2)} (${c >= 0 ? '+' : ''}${c.toFixed(2)} / ${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%)`;
