@@ -1574,9 +1574,9 @@
       .port-bar {
         display: flex;
         flex-wrap: nowrap;
-        gap: 12px;
+        gap: 10px;
         overflow-x: auto;
-        padding: 12px;
+        padding: 10px;
         margin-bottom: 16px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
@@ -1584,12 +1584,12 @@
       
       .port-bar-section {
         flex: 0 0 auto;
-        min-width: 280px;
-        max-width: 300px;
+        min-width: 260px;
+        max-width: 280px;
         background: rgba(30, 41, 59, 0.6);
         border: 1px solid var(--border);
         border-radius: 12px;
-        padding: 12px;
+        padding: 10px;
       }
       
       .port-bar-section-title {
@@ -1622,18 +1622,21 @@
         font-size: 13px;
       }
       
-      /* Professional table layout */
+      /* Professional table layout - fit to screen */
       .scenario-wrap {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         border-radius: 12px;
+        width: 100%;
       }
       
       .scenario-wrap table {
         display: table !important;
-        width: 100%;
-        min-width: 950px;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
         border-collapse: collapse;
+        table-layout: fixed;
       }
       
       .scenario-wrap thead {
@@ -1673,26 +1676,33 @@
         vertical-align: middle;
       }
       
-      /* Column width optimization */
+      /* Column width - fit to screen */
       .scenario-wrap th:nth-child(1),
       .scenario-wrap td:nth-child(1) {
-        width: 130px !important;
-        min-width: 130px;
+        width: 110px !important;
+        min-width: 110px;
       }
       
       .scenario-wrap th:nth-child(2),
       .scenario-wrap td:nth-child(2) {
-        width: 220px !important;
-        min-width: 220px;
+        width: 160px !important;
+        min-width: 160px;
       }
       
       .scenario-wrap th:nth-child(3),
       .scenario-wrap th:nth-child(4),
       .scenario-wrap th:nth-child(5),
       .scenario-wrap th:nth-child(6),
-      .scenario-wrap th:nth-child(7) {
-        width: 12% !important;
-        min-width: 100px;
+      .scenario-wrap th:nth-child(7),
+      .scenario-wrap td:nth-child(3),
+      .scenario-wrap td:nth-child(4),
+      .scenario-wrap td:nth-child(5),
+      .scenario-wrap td:nth-child(6),
+      .scenario-wrap td:nth-child(7) {
+        width: calc((100% - 270px) / 5) !important;
+        min-width: 80px;
+        padding: 6px 4px !important;
+        font-size: 10px !important;
       }
       
       /* Custom price column highlight */
@@ -1947,6 +1957,16 @@
                 <div class="pstat-lbl">GME</div>
                 <div id="gme-price-display" class="pstat-val pos">$0.00</div>
                 <div id="gme-pct-display" class="pstat-pct">0.00%</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-lbl">AMC</div>
+                <div id="amc-price-display" class="pstat-val">$0.00</div>
+                <div id="amc-pct-display" class="pstat-pct">0.00%</div>
+              </div>
+              <div class="pstat">
+                <div class="pstat-lbl">IEP</div>
+                <div id="iep-price-display" class="pstat-val">$0.00</div>
+                <div id="iep-pct-display" class="pstat-pct">0.00%</div>
               </div>
             </div>
 
