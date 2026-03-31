@@ -1894,6 +1894,51 @@
       }
     }
 
+    /* ===== FLASH ANIMATION FOR DATA UPDATES ===== */
+    @keyframes flash-update {
+      0% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+      50% {
+        background-color: rgba(16, 185, 129, 0.3);
+        box-shadow: 0 0 20px 4px rgba(16, 185, 129, 0.4);
+      }
+      100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+    
+    @keyframes flash-update-neg {
+      0% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+      50% {
+        background-color: rgba(239, 68, 68, 0.3);
+        box-shadow: 0 0 20px 4px rgba(239, 68, 68, 0.4);
+      }
+      100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+      }
+    }
+    
+    .flash-update {
+      animation: flash-update 0.6s ease-out;
+    }
+    
+    .flash-update-neg {
+      animation: flash-update-neg 0.6s ease-out;
+    }
+    
+    /* Apply to pstat cards */
+    .pstat.flash-update,
+    .pstat.flash-update-neg {
+      border-radius: 8px;
+    }
+
   </style>
 </head>
 
@@ -6451,6 +6496,58 @@
       // Mark values as initialized after first run
       pipelineValuesInitialized = true;
 
+    }
+
+    // ===== FLASH ANIMATION FOR DATA UPDATES =====
+    // Store previous values to detect changes
+    const previousValues = {};
+    
+    // Function to trigger flash animation on element
+    function flashUpdate(elementId, isNegative = false) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      // Find the parent pstat card
+      const pstatCard = element.closest('.pstat');
+      if (!pstatCard) return;
+      
+      // Remove any existing animation classes
+      pstatCard.classList.remove('flash-update', 'flash-update-neg');
+      
+      // Force reflow to restart animation
+      void pstatCard.offsetWidth;
+      
+      // Add appropriate animation class
+      if (isNegative) {
+        pstatCard.classList.add('flash-update-neg');
+      } else {
+        pstatCard.classList.add('flash-update');
+      }
+      
+      // Remove animation class after animation completes
+      setTimeout(() => {
+        pstatCard.classList.remove('flash-update', 'flash-update-neg');
+      }, 600);
+    }
+    
+    // Function to check if value changed and trigger flash
+    function updateWithFlash(elementId, newValue, isNegative = false) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const oldValue = previousValues[elementId];
+      const currentValue = element.textContent;
+      
+      // Update the value
+      element.textContent = newValue;
+      
+      // Trigger flash if value changed and it's not the initial load
+      if (oldValue !== undefined && oldValue !== newValue && oldValue !== currentValue) {
+        flashUpdate(elementId, isNegative);
+      }
+      
+      // Store the new value
+      previousValues[elementId] = newValue;
     }
 
   </script>
