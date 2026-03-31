@@ -3799,6 +3799,8 @@
     // Exchange rate for KRW conversion
     let currentKRWRate = 1380; // Default fallback rate
     let V_KOSPI_P = 0; // KOSPI index price
+    let V_KOSPI_C = 0; // KOSPI change
+    let V_KOSPI_PCT = 0; // KOSPI change percent
     
     // Fetch real-time exchange rate from API
     async function fetchExchangeRate() {
@@ -3937,7 +3939,9 @@
           const qKOSPI = extract('^KS11'); 
           if (qKOSPI) { 
             V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; 
-            console.log('[DEBUG] KOSPI data:', { symbol: qKOSPI.symbol, price: V_KOSPI_P, raw: qKOSPI.regularMarketPrice });
+            V_KOSPI_C = Number(qKOSPI.regularMarketChange) || 0;
+            V_KOSPI_PCT = Number(qKOSPI.regularMarketChangePercent) || 0;
+            console.log('[DEBUG] KOSPI data:', { symbol: qKOSPI.symbol, price: V_KOSPI_P, change: V_KOSPI_C, pct: V_KOSPI_PCT });
           } else {
             console.log('[DEBUG] KOSPI data not found in API response');
           }
@@ -4234,10 +4238,8 @@
       }
       const kospiPctEl = document.getElementById('kospi-pct-display');
       if (kospiPctEl && V_KOSPI_P > 0) {
-        // Calculate KOSPI change % from raw data if available
-        const kospiChange = V_KOSPI_C || 0;
-        const kospiPrev = V_KOSPI_P - kospiChange;
-        const kospiPct = kospiPrev > 0 ? (kospiChange / kospiPrev) * 100 : 0;
+        // Use API-provided percent change directly
+        const kospiPct = V_KOSPI_PCT || 0;
         kospiPctEl.textContent = (kospiPct >= 0 ? '+' : '') + kospiPct.toFixed(2) + '%';
         kospiPctEl.className = 'pstat-pct ' + (kospiPct >= 0 ? 'pct-up' : 'pct-down');
       }
