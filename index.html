@@ -4593,6 +4593,11 @@
     function updateCSCostWithBalance(cellId, csCost, st2Remaining) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          csCost = 0;
+          st2Remaining = 0;
+        }
         const bal = st2Remaining - csCost;
         cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal)}</span>`;
         cell.className = 'r neg';
@@ -4661,6 +4666,11 @@
     function updateCellWithFormat(cellId, value, type) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          value = 0;
+          type = 'pos';
+        }
         const absValue = Math.abs(value);
         const displayValue = fmtDisplay(value);
         const isPositive = value >= 0;
@@ -4878,6 +4888,11 @@
     function updateStrikePriceWithBalance(cellId, strikeValue, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          strikeValue = 0;
+          balValue = 0;
+        }
         cell.innerHTML = `<span class="clickable-amount" data-amount="${strikeValue}" style="cursor:pointer;">${fmtDisplay(-strikeValue)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
@@ -4888,6 +4903,11 @@
     function updateMKItemWithBalance(cellId, itemValue, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
+        // FORCE $0 for Live Price column cells - BBBYQ not secured
+        if (cellId.includes('-live')) {
+          itemValue = 0;
+          balValue = 0;
+        }
         cell.innerHTML = `${fmtDisplay(itemValue)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
