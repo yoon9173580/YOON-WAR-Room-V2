@@ -3878,16 +3878,15 @@
             q._extInfo = extInfo; // Store for later use
 
             // DEBUG: Log raw data for major symbols for overnight investigation
-            const debugSymbols = ['GME', 'AMC', 'SPY', 'QQQ', 'VIX', 'AAPL', 'NVDA', 'TSLA'];
+            const debugSymbols = ['GME', 'AMC', 'SPY', 'QQQ', 'VIX', 'AAPL', 'NVDA', 'TSLA', '^KS11'];
             if (debugSymbols.includes(sym)) {
               console.log(`[DEBUG ${sym}] Raw data:`, {
                 marketState: q.marketState,
                 regularMarketPrice: q.regularMarketPrice,
+                regularMarketChange: q.regularMarketChange,
+                regularMarketChangePercent: q.regularMarketChangePercent,
                 postMarketPrice: q.postMarketPrice,
-                preMarketPrice: q.preMarketPrice,
-                regularMarketTime: q.regularMarketTime,
-                postMarketTime: q.postMarketTime,
-                preMarketTime: q.preMarketTime
+                preMarketPrice: q.preMarketPrice
               });
             }
 
