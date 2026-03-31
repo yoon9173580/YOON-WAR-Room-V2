@@ -2923,6 +2923,15 @@
             V_BB_AFTER_P = Number(qBB._postMarketPrice) || 0;
             V_BB_AFTER_C = Number(qBB._postMarketChange) || 0;
             V_BB_AFTER_PCT = Number(qBB._postMarketChangePercent) || 0;
+            
+            // TEMP: Force aftermarket data for testing if not available
+            if (V_BB_AFTER_P === 0 && V_BB_P > 0) {
+              V_BB_AFTER_P = V_BB_P + 0.05; // Add 5 cents for testing
+              V_BB_AFTER_C = 0.05;
+              V_BB_AFTER_PCT = (V_BB_AFTER_C / V_BB_P) * 100;
+              console.log('TEMP: Added fake aftermarket data for BB');
+            }
+            
             console.log('DEBUG BB:', {price: V_BB_P, afterP: V_BB_AFTER_P, afterC: V_BB_AFTER_C, afterPct: V_BB_AFTER_PCT, raw: qBB});
           }
 
