@@ -4153,11 +4153,28 @@
 
 
 
-      // SIDEBAR UNROLLED SYNC
-
-      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT); upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT); upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
-
-      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
+      // SIDEBAR UNROLLED SYNC with aftermarket data
+      upSB('AAPL', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT, V_AAPL_AFTER_P, V_AAPL_AFTER_C, V_AAPL_AFTER_PCT);
+      upSB('NVDA', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT, V_NVDA_AFTER_P, V_NVDA_AFTER_C, V_NVDA_AFTER_PCT);
+      upSB('MSFT', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT, V_MSFT_AFTER_P, V_MSFT_AFTER_C, V_MSFT_AFTER_PCT);
+      upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT, V_TSLA_AFTER_P, V_TSLA_AFTER_C, V_TSLA_AFTER_PCT);
+      upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT, V_GOOGL_AFTER_P, V_GOOGL_AFTER_C, V_GOOGL_AFTER_PCT);
+      upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT, V_AMZN_AFTER_P, V_AMZN_AFTER_C, V_AMZN_AFTER_PCT);
+      upSB('META', V_META_P, V_META_PCT, V_META_EXT, V_META_AFTER_P, V_META_AFTER_C, V_META_AFTER_PCT);
+      
+      // Strategic basket stocks with aftermarket data
+      upSB('GME', V_GME_P, V_GME_PCT, V_GME_EXT, V_GME_AFTER_P, V_GME_AFTER_C, V_GME_AFTER_PCT);
+      upSB('AMC', V_AMC_P, V_AMC_PCT, V_AMC_EXT, V_AMC_AFTER_P, V_AMC_AFTER_C, V_AMC_AFTER_PCT);
+      upSB('IEP', V_IEP_P, V_IEP_PCT, V_IEP_EXT, V_IEP_AFTER_P, V_IEP_AFTER_C, V_IEP_AFTER_PCT);
+      upSB('BB', V_BB_P, V_BB_PCT, V_BB_EXT, V_BB_AFTER_P, V_BB_AFTER_C, V_BB_AFTER_PCT);
+      upSB('NOK', V_NOK_P, V_NOK_PCT, V_NOK_EXT, V_NOK_AFTER_P, V_NOK_AFTER_C, V_NOK_AFTER_PCT);
+      upSB('BABA', V_BABA_P, V_BABA_PCT, V_BABA_EXT, V_BABA_AFTER_P, V_BABA_AFTER_C, V_BABA_AFTER_PCT);
+      
+      // Market indices with aftermarket data
+      upSB('BTC', V_BTC_P, V_BTC_PCT, '', V_BTC_AFTER_P, V_BTC_AFTER_C, V_BTC_AFTER_PCT);
+      upSB('SPY', V_SPY_P, V_SPY_PCT, V_SPY_EXT, V_SPY_AFTER_P, V_SPY_AFTER_C, V_SPY_AFTER_PCT);
+      upSB('QQQ', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT, V_QQQ_AFTER_P, V_QQQ_AFTER_C, V_QQQ_AFTER_PCT);
+      upSB('VIX', V_VIX_P, V_VIX_PCT, V_VIX_EXT, V_VIX_AFTER_P, V_VIX_AFTER_C, V_VIX_AFTER_PCT);
 
     // Update GME price in port-bar with highlight
       const gmePriceDisplayEl = document.getElementById('gme-price-display');
@@ -4318,14 +4335,22 @@
 
 
 
-    function upSB(id, p, pt, ext = "") {
+    function upSB(id, p, pt, ext = "", afterP = 0, afterC = 0, afterPct = 0) {
       const pe = document.getElementById(`sb-${id}-price`);
       const ce = document.getElementById(`sb-${id}-chg`);
       const extEl = document.getElementById(`sb-${id}-ext`);
       
+      // Format aftermarket info for sidebar
+      let afterHoursHtml = '';
+      if (afterP > 0) {
+        const sign = afterC >= 0 ? '+' : '';
+        const pctClass = afterPct >= 0 ? 'pos' : 'neg';
+        afterHoursHtml = `<br><span class="after-badge ${pctClass}" style="font-size:9px; margin-top:4px;">🌆 $${afterP.toFixed(2)} (${sign}${afterC.toFixed(2)} / ${sign}${afterPct.toFixed(2)}%)</span>`;
+      }
+      
       if (pe) {
         const oldPrice = pe.dataset.prevValue || '';
-        const newPrice = p === 0 ? '<span style="color:var(--textM); font-size:14px;">WAITING...</span>' : '$' + fmt(p);
+        const newPrice = p === 0 ? '<span style="color:var(--textM); font-size:14px;">WAITING...</span>' : '$' + fmt(p) + afterHoursHtml;
         pe.innerHTML = newPrice;
         if (p !== 0 && oldPrice && oldPrice !== newPrice) {
           const isUp = p > parseFloat(oldPrice.replace(/[$,]/g, ''));
