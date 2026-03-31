@@ -235,18 +235,26 @@ module.exports = async function handler(req, res) {
       const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
       if (symbolArray.length > 0) {
         const fetchPromises = symbolArray.map(async (sym) => {
+          console.log(`[API] Processing symbol: ${sym}`);
+          
           // Special handling for KOSPI - use Yahoo Finance first, fallback to Finnhub
           if (sym === '^KS11' || sym === 'KOSPI') {
+            console.log(`[API] KOSPI detected, trying Yahoo Finance...`);
             // Try Yahoo Finance first
             let yahooKospi = await fetchYahooNative('^KS11');
             if (yahooKospi && yahooKospi.regularMarketPrice > 0) {
-              console.log(`[Yahoo] KOSPI data:`, { price: yahooKospi.regularMarketPrice });
+              console.log(`[Yahoo] KOSPI data SUCCESS:`, { price: yahooKospi.regularMarketPrice });
               return yahooKospi;
             }
+            console.log(`[API] Yahoo KOSPI failed, trying Finnhub...`);
             
             // Fallback to Finnhub if Yahoo fails
             const kospiData = await fetchKOSPIFromFinnhub();
-            if (kospiData) return kospiData;
+            if (kospiData) {
+              console.log(`[Finnhub] KOSPI data SUCCESS:`, { price: kospiData.regularMarketPrice });
+              return kospiData;
+            }
+            console.log(`[API] Both Yahoo and Finnhub KOSPI failed`);
           }
           
           // 1. Core Native Fetch (Yahoo Finance)
