@@ -4531,6 +4531,33 @@
       // Override fixed values that should display regardless
       // 미니멈 보장 (Minimum Guarantee) - fixed at 1M
       updateCellWithFormat('st2-minimum-live', -1000000, 'neg');
+      
+      // ST 2 Live column values should be $0 since BBBYQ is not secured
+      // (Immediate execution not possible without BBBYQ recovery)
+      updateCellWithFormat('st2-total-live', 0, 'pos');
+      updateCellWithFormat('st2-additional-live', 0, 'pos');
+      updateCellWithFormat('st2-cash-live', 0, 'pos');
+      
+      // ST 2 M.K items - $0 or remain as fixed expenses without BAL
+      const zeroMKItems = [
+        'mobility-self-live', 'mobility-dad-live', 'mobility-mom-live',
+        'gift-dad-live', 'cash-gift-dad-live', 'gift-mom-live', 'cash-gift-mom-live',
+        'gift-jini-live', 'cash-gift-jini-live', 'mobility-jini-live'
+      ];
+      zeroMKItems.forEach(itemId => {
+        const el = document.getElementById(itemId);
+        if (el) {
+          el.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+          el.className = 'r';
+        }
+      });
+      
+      // Arun M5 - $0
+      const arunEl = document.getElementById('arun-m5-live');
+      if (arunEl) {
+        arunEl.innerHTML = `<span style="color:var(--textD)">$0</span>`;
+        arunEl.className = 'r';
+      }
     }
 
     // Custom Price Input System
