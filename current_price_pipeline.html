@@ -1069,23 +1069,33 @@
 
     }
 
-    /* Price change highlight effects */
+    /* Price change highlight effects - BRIGHT */
     .price-up {
-      color: var(--bull) !important;
-      text-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+      color: #00ff00 !important;
+      background: rgba(0, 255, 0, 0.3) !important;
+      box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.6) !important;
+      text-shadow: 0 0 15px rgba(0, 255, 0, 0.9) !important;
+      font-size: 120% !important;
       transition: all 0.3s ease;
+      border-radius: 4px;
+      padding: 2px 6px;
     }
     .price-down {
-      color: var(--bear) !important;
-      text-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+      color: #ff0000 !important;
+      background: rgba(255, 0, 0, 0.3) !important;
+      box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.6) !important;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.9) !important;
+      font-size: 120% !important;
       transition: all 0.3s ease;
+      border-radius: 4px;
+      padding: 2px 6px;
     }
     .price-changed {
-      animation: highlightChange 0.5s ease;
+      animation: highlightPulse 0.6s ease;
     }
-    @keyframes highlightChange {
+    @keyframes highlightPulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.08); }
       100% { transform: scale(1); }
     }
 
@@ -2610,10 +2620,8 @@
 
 
     // Exchange rate for KRW conversion
-    let currentKRWRate = 1380; // Default fallback rate
-    
-    // KOSPI data
-    let V_KOSPI_P = 0, V_KOSPI_PREV = 0;
+
+    currentKRWRate = 1380; // Default fallback rate
     
     // Fetch KOSPI data
     async function fetchKOSPI() {
@@ -3851,6 +3859,29 @@
 
     function renderTerminal() {
 
+      // Helper function to apply highlight effect
+      function applyHighlight(element, currentValue, previousValue, isUp) {
+        if (!element || previousValue === 0) return;
+        const newText = element.textContent;
+        const oldText = element.dataset.prevValue || '';
+        
+        if (oldText && oldText !== newText && oldText !== '--' && oldText !== 'WAITING...') {
+          element.classList.remove('price-up', 'price-down');
+          void element.offsetWidth; // Trigger reflow
+          element.classList.add(isUp ? 'price-up' : 'price-down');
+          
+          // Store current value for next comparison
+          element.dataset.prevValue = newText;
+          
+          // Remove effect after 1 second
+          setTimeout(() => {
+            element.classList.remove('price-up', 'price-down');
+          }, 1000);
+        } else {
+          element.dataset.prevValue = newText;
+        }
+      }
+
       // 1. BBBYQ (Delisted - Bankruptcy)
       const bb_val = 41454 * 0; // 41,454 shares @ $0 (delisted)
       const bb_cost = 41454 * 0.80; // Cost basis $0.80 per share = $33,163
@@ -3868,9 +3899,15 @@
 
       const ge_profit = ge_val - ge_cost;
 
-      document.getElementById('cell_gme_e_p').innerHTML = V_GME_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_GME_P) + (V_GME_EXT ? `<br><span class="ext-badge">${V_GME_EXT}</span>` : "");
+      const gmePriceEl = document.getElementById('cell_gme_e_p');
+      const prevGME_P = gmePriceEl ? gmePriceEl.dataset.prevValue : '';
+      gmePriceEl.innerHTML = V_GME_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_GME_P) + (V_GME_EXT ? `<br><span class="ext-badge">${V_GME_EXT}</span>` : "");
+      applyHighlight(gmePriceEl, V_GME_P, prevGME_P ? parseFloat(prevGME_P.replace(/[$,]/g, '')) : 0, V_GME_P > (prevGME_P ? parseFloat(prevGME_P.replace(/[$,]/g, '')) : 0));
 
-      document.getElementById('cell_gme_e_val').textContent = '$' + fmt(ge_val);
+      const gmeValEl = document.getElementById('cell_gme_e_val');
+      const prevGME_Val = gmeValEl ? gmeValEl.dataset.prevValue : '';
+      gmeValEl.textContent = '$' + fmt(ge_val);
+      applyHighlight(gmeValEl, ge_val, prevGME_Val ? parseFloat(prevGME_Val.replace(/[$,]/g, '')) : 0, ge_val > (prevGME_Val ? parseFloat(prevGME_Val.replace(/[$,]/g, '')) : 0));
 
       document.getElementById('cell_gme_e_day').textContent = (V_GME_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(355 * V_GME_C));
 
@@ -3890,37 +3927,54 @@
       const go_val = 26 * V_GME_O_P * 100;
       const go_cost = 26 * 0.36 * 100; // $936 total cost
       const go_profit = go_val - go_cost;
-      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
-      document.getElementById('cell_gme_o_val').textContent = '$' + fmt(go_val);
+      const gmeOptPriceEl = document.getElementById('cell_gme_o_p');
+      const prevGME_O_P = gmeOptPriceEl ? gmeOptPriceEl.dataset.prevValue : '';
+      gmeOptPriceEl.innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
+      applyHighlight(gmeOptPriceEl, V_GME_O_P, prevGME_O_P ? parseFloat(prevGME_O_P.replace(/[$,]/g, '')) : 0, V_GME_O_P > (prevGME_O_P ? parseFloat(prevGME_O_P.replace(/[$,]/g, '')) : 0));
+      
+      const gmeOptValEl = document.getElementById('cell_gme_o_val');
+      const prevGME_O_Val = gmeOptValEl ? gmeOptValEl.dataset.prevValue : '';
+      gmeOptValEl.textContent = '$' + fmt(go_val);
+      applyHighlight(gmeOptValEl, go_val, prevGME_O_Val ? parseFloat(prevGME_O_Val.replace(/[$,]/g, '')) : 0, go_val > (prevGME_O_Val ? parseFloat(prevGME_O_Val.replace(/[$,]/g, '')) : 0));
+      
       document.getElementById('cell_gme_o_day').textContent = (V_GME_O_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(26 * V_GME_O_C * 100));
       document.getElementById('cell_gme_o_day').className = 'r ' + (V_GME_O_C >= 0 ? 'pos' : 'neg');
-      document.getElementById('cell_gme_o_tot').textContent = '$' + fmt(Math.abs(go_profit));
-      document.getElementById('cell_gme_o_tot').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
+      
+      const gmeOptTotEl = document.getElementById('cell_gme_o_tot');
+      const prevGME_O_Tot = gmeOptTotEl ? gmeOptTotEl.dataset.prevValue : '';
+      gmeOptTotEl.textContent = '$' + fmt(Math.abs(go_profit));
+      gmeOptTotEl.className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
+      applyHighlight(gmeOptTotEl, go_profit, prevGME_O_Tot ? parseFloat(prevGME_O_Tot.replace(/[$,]/g, '')) : 0, go_profit > (prevGME_O_Tot ? parseFloat(prevGME_O_Tot.replace(/[$,]/g, '')) : 0));
+      
       document.getElementById('cell_gme_o_roi').textContent = (go_cost > 0 ? (go_profit / go_cost * 100) : 0).toFixed(2) + '%';
       document.getElementById('cell_gme_o_roi').className = 'r ' + (go_profit >= 0 ? 'pos' : 'neg');
 
 
 
       // 4. AMC Equity
-
       const ae_val = 1 * V_AMC_P; const ae_cost = 1 * 1.18;
-
       const ae_profit = ae_val - ae_cost;
-
-      document.getElementById('cell_amc_e_p').innerHTML = V_AMC_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_AMC_P) + (V_AMC_EXT ? `<br><span class="ext-badge">${V_AMC_EXT}</span>` : "");
-
-      document.getElementById('cell_amc_e_val').textContent = '$' + fmt(ae_val);
-
+      
+      const amcPriceEl = document.getElementById('cell_amc_e_p');
+      const prevAMC_P = amcPriceEl ? amcPriceEl.dataset.prevValue : '';
+      amcPriceEl.innerHTML = V_AMC_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmt(V_AMC_P) + (V_AMC_EXT ? `<br><span class="ext-badge">${V_AMC_EXT}</span>` : "");
+      applyHighlight(amcPriceEl, V_AMC_P, prevAMC_P ? parseFloat(prevAMC_P.replace(/[$,]/g, '')) : 0, V_AMC_P > (prevAMC_P ? parseFloat(prevAMC_P.replace(/[$,]/g, '')) : 0));
+      
+      const amcValEl = document.getElementById('cell_amc_e_val');
+      const prevAMC_Val = amcValEl ? amcValEl.dataset.prevValue : '';
+      amcValEl.textContent = '$' + fmt(ae_val);
+      applyHighlight(amcValEl, ae_val, prevAMC_Val ? parseFloat(prevAMC_Val.replace(/[$,]/g, '')) : 0, ae_val > (prevAMC_Val ? parseFloat(prevAMC_Val.replace(/[$,]/g, '')) : 0));
+      
       document.getElementById('cell_amc_e_day').textContent = (V_AMC_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(1 * V_AMC_C));
-
       document.getElementById('cell_amc_e_day').className = 'r ' + (V_AMC_C >= 0 ? 'pos' : 'neg');
-
-      document.getElementById('cell_amc_e_tot').textContent = '$' + fmt(Math.abs(ae_profit));
-
-      document.getElementById('cell_amc_e_tot').className = 'r ' + (ae_profit >= 0 ? 'pos' : 'neg');
-
+      
+      const amcTotEl = document.getElementById('cell_amc_e_tot');
+      const prevAMC_Tot = amcTotEl ? amcTotEl.dataset.prevValue : '';
+      amcTotEl.textContent = '$' + fmt(Math.abs(ae_profit));
+      amcTotEl.className = 'r ' + (ae_profit >= 0 ? 'pos' : 'neg');
+      applyHighlight(amcTotEl, ae_profit, prevAMC_Tot ? parseFloat(prevAMC_Tot.replace(/[$,]/g, '')) : 0, ae_profit > (prevAMC_Tot ? parseFloat(prevAMC_Tot.replace(/[$,]/g, '')) : 0));
+      
       document.getElementById('cell_amc_e_roi').textContent = (ae_cost > 0 ? (ae_profit / ae_cost * 100) : 0).toFixed(2) + '%';
-
       document.getElementById('cell_amc_e_roi').className = 'r ' + (ae_profit >= 0 ? 'pos' : 'neg');
 
 
@@ -3969,15 +4023,15 @@
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
       // Update GME price in port-bar
-      const gmePriceEl = document.getElementById('gme-price-display');
-      if (gmePriceEl && V_GME_P > 0) {
-        gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
+      const gmePriceDisplayEl = document.getElementById('gme-price-display');
+      if (gmePriceDisplayEl && V_GME_P > 0) {
+        gmePriceDisplayEl.textContent = '$' + V_GME_P.toFixed(2);
       }
 
       // Update AMC price in port-bar
-      const amcPriceEl = document.getElementById('amc-price-display');
-      if (amcPriceEl && V_AMC_P > 0) {
-        amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
+      const amcPriceDisplayEl = document.getElementById('amc-price-display');
+      if (amcPriceDisplayEl && V_AMC_P > 0) {
+        amcPriceDisplayEl.textContent = '$' + V_AMC_P.toFixed(2);
       }
 
       // Update IEP price in port-bar
