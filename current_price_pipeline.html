@@ -3857,30 +3857,30 @@
 
 
 
-    function renderTerminal() {
-
-      // Helper function to apply highlight effect
-      function applyHighlight(element, currentValue, previousValue, isUp) {
-        if (!element || previousValue === 0) return;
-        const newText = element.textContent;
-        const oldText = element.dataset.prevValue || '';
+    // Helper function to apply highlight effect
+    function applyHighlight(element, currentValue, previousValue, isUp) {
+      if (!element || previousValue === 0) return;
+      const newText = element.textContent;
+      const oldText = element.dataset.prevValue || '';
+      
+      if (oldText && oldText !== newText && oldText !== '--' && oldText !== 'WAITING...') {
+        element.classList.remove('price-up', 'price-down');
+        void element.offsetWidth; // Trigger reflow
+        element.classList.add(isUp ? 'price-up' : 'price-down');
         
-        if (oldText && oldText !== newText && oldText !== '--' && oldText !== 'WAITING...') {
+        // Store current value for next comparison
+        element.dataset.prevValue = newText;
+        
+        // Remove effect after 1 second
+        setTimeout(() => {
           element.classList.remove('price-up', 'price-down');
-          void element.offsetWidth; // Trigger reflow
-          element.classList.add(isUp ? 'price-up' : 'price-down');
-          
-          // Store current value for next comparison
-          element.dataset.prevValue = newText;
-          
-          // Remove effect after 1 second
-          setTimeout(() => {
-            element.classList.remove('price-up', 'price-down');
-          }, 1000);
-        } else {
-          element.dataset.prevValue = newText;
-        }
+        }, 1000);
+      } else {
+        element.dataset.prevValue = newText;
       }
+    }
+
+    function renderTerminal() {
 
       // 1. BBBYQ (Delisted - Bankruptcy)
       const bb_val = 41454 * 0; // 41,454 shares @ $0 (delisted)
@@ -4005,14 +4005,27 @@
 
       // GLOBAL SUMMARY with BBBYQ bankruptcy loss included
       const g_total_val = bb_val + ge_val + go_val + ae_val + ao_val;
-      document.getElementById('p-total').textContent = '$' + fmt(g_total_val);
+      const pTotalEl = document.getElementById('p-total');
+      const prevPTotal = pTotalEl ? pTotalEl.dataset.prevValue : '';
+      pTotalEl.textContent = '$' + fmt(g_total_val);
+      applyHighlight(pTotalEl, g_total_val, prevPTotal ? parseFloat(prevPTotal.replace(/[$,]/g, '')) : 0, g_total_val > (prevPTotal ? parseFloat(prevPTotal.replace(/[$,]/g, '')) : 0));
+      pTotalEl.dataset.prevValue = '$' + fmt(g_total_val);
+      
       const total_day_delta = (355 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
-      document.getElementById('p-daypnl').textContent = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
-      document.getElementById('p-daypnl').className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
+      const pDayPnlEl = document.getElementById('p-daypnl');
+      const prevPDayPnl = pDayPnlEl ? pDayPnlEl.dataset.prevValue : '';
+      pDayPnlEl.textContent = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
+      pDayPnlEl.className = 'pstat-val ' + (total_day_delta >= 0 ? 'pos' : 'neg');
+      applyHighlight(pDayPnlEl, total_day_delta, prevPDayPnl ? parseFloat(prevPDayPnl.replace(/[+$]/g, '')) : 0, total_day_delta > (prevPDayPnl ? parseFloat(prevPDayPnl.replace(/[+$]/g, '')) : 0));
+      pDayPnlEl.dataset.prevValue = (total_day_delta >= 0 ? '+$' : '-$') + fmt(Math.abs(total_day_delta));
+      
       const total_profit = bb_profit + ge_profit + go_profit + ae_profit + ao_profit;
-      document.getElementById('p-totpnl').textContent = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
-
-      document.getElementById('p-totpnl').className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
+      const pTotPnlEl = document.getElementById('p-totpnl');
+      const prevPTotPnl = pTotPnlEl ? pTotPnlEl.dataset.prevValue : '';
+      pTotPnlEl.textContent = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
+      pTotPnlEl.className = 'pstat-val ' + (total_profit >= 0 ? 'pos' : 'neg');
+      applyHighlight(pTotPnlEl, total_profit, prevPTotPnl ? parseFloat(prevPTotPnl.replace(/[+$]/g, '')) : 0, total_profit > (prevPTotPnl ? parseFloat(prevPTotPnl.replace(/[+$]/g, '')) : 0));
+      pTotPnlEl.dataset.prevValue = (total_profit >= 0 ? '+$' : '-$') + fmt(Math.abs(total_profit));
 
 
 
@@ -4022,62 +4035,134 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      // Update GME price in port-bar
+      // Update GME price in port-bar with highlight
       const gmePriceDisplayEl = document.getElementById('gme-price-display');
       if (gmePriceDisplayEl && V_GME_P > 0) {
-        gmePriceDisplayEl.textContent = '$' + V_GME_P.toFixed(2);
+        const newText = '$' + V_GME_P.toFixed(2);
+        const oldText = gmePriceDisplayEl.dataset.prevValue || '';
+        gmePriceDisplayEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_GME_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(gmePriceDisplayEl, V_GME_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        gmePriceDisplayEl.dataset.prevValue = newText;
       }
 
-      // Update AMC price in port-bar
+      // Update AMC price in port-bar with highlight
       const amcPriceDisplayEl = document.getElementById('amc-price-display');
       if (amcPriceDisplayEl && V_AMC_P > 0) {
-        amcPriceDisplayEl.textContent = '$' + V_AMC_P.toFixed(2);
+        const newText = '$' + V_AMC_P.toFixed(2);
+        const oldText = amcPriceDisplayEl.dataset.prevValue || '';
+        amcPriceDisplayEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_AMC_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(amcPriceDisplayEl, V_AMC_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        amcPriceDisplayEl.dataset.prevValue = newText;
       }
 
-      // Update IEP price in port-bar
+      // Update IEP price in port-bar with highlight
       const iepPriceEl = document.getElementById('iep-price-display');
       if (iepPriceEl && V_IEP_P > 0) {
-        iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
+        const newText = '$' + V_IEP_P.toFixed(2);
+        const oldText = iepPriceEl.dataset.prevValue || '';
+        iepPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_IEP_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(iepPriceEl, V_IEP_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        iepPriceEl.dataset.prevValue = newText;
       }
 
-      // Update BB price in port-bar
+      // Update BB price in port-bar with highlight
       const bbPriceEl = document.getElementById('bb-price-display');
       if (bbPriceEl && V_BB_P > 0) {
-        bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
+        const newText = '$' + V_BB_P.toFixed(2);
+        const oldText = bbPriceEl.dataset.prevValue || '';
+        bbPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_BB_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(bbPriceEl, V_BB_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        bbPriceEl.dataset.prevValue = newText;
       }
 
-      // Update NOK price in port-bar
+      // Update NOK price in port-bar with highlight
       const nokPriceEl = document.getElementById('nok-price-display');
       if (nokPriceEl && V_NOK_P > 0) {
-        nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
+        const newText = '$' + V_NOK_P.toFixed(2);
+        const oldText = nokPriceEl.dataset.prevValue || '';
+        nokPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_NOK_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(nokPriceEl, V_NOK_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        nokPriceEl.dataset.prevValue = newText;
       }
 
-      // Update BABA price in port-bar
+      // Update BABA price in port-bar with highlight
       const babaPriceEl = document.getElementById('baba-price-display');
       if (babaPriceEl && V_BABA_P > 0) {
-        babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
+        const newText = '$' + V_BABA_P.toFixed(2);
+        const oldText = babaPriceEl.dataset.prevValue || '';
+        babaPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_BABA_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(babaPriceEl, V_BABA_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        babaPriceEl.dataset.prevValue = newText;
       }
 
-      // Update BTC in port-bar
+      // Update BTC in port-bar with highlight
       const btcPriceEl = document.getElementById('btc-price-display');
       if (btcPriceEl && V_BTC_P > 0) {
-        btcPriceEl.textContent = '$' + fmt(V_BTC_P);
+        const newText = '$' + fmt(V_BTC_P);
+        const oldText = btcPriceEl.dataset.prevValue || '';
+        btcPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_BTC_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(btcPriceEl, V_BTC_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        btcPriceEl.dataset.prevValue = newText;
       }
 
-      // Update SPY, QQQ, VIX in port-bar
+      // Update SPY in port-bar with highlight
       const spyPriceEl = document.getElementById('spy-price-display');
       if (spyPriceEl && V_SPY_P > 0) {
-        spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
+        const newText = '$' + V_SPY_P.toFixed(2);
+        const oldText = spyPriceEl.dataset.prevValue || '';
+        spyPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_SPY_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(spyPriceEl, V_SPY_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        spyPriceEl.dataset.prevValue = newText;
       }
 
+      // Update QQQ in port-bar with highlight
       const qqqPriceEl = document.getElementById('qqq-price-display');
       if (qqqPriceEl && V_QQQ_P > 0) {
-        qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
+        const newText = '$' + V_QQQ_P.toFixed(2);
+        const oldText = qqqPriceEl.dataset.prevValue || '';
+        qqqPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_QQQ_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(qqqPriceEl, V_QQQ_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        qqqPriceEl.dataset.prevValue = newText;
       }
 
+      // Update VIX in port-bar with highlight
       const vixPriceEl = document.getElementById('vix-price-display');
       if (vixPriceEl && V_VIX_P > 0) {
-        vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
+        const newText = '$' + V_VIX_P.toFixed(2);
+        const oldText = vixPriceEl.dataset.prevValue || '';
+        vixPriceEl.textContent = newText;
+        if (oldText && oldText !== newText) {
+          const isUp = V_VIX_P > parseFloat(oldText.replace(/[$,]/g, ''));
+          applyHighlight(vixPriceEl, V_VIX_P, parseFloat(oldText.replace(/[$,]/g, '')), isUp);
+        }
+        vixPriceEl.dataset.prevValue = newText;
       }
 
       // Update KOSPI in port-bar with visual effect
@@ -4107,19 +4192,34 @@
 
 
     function upSB(id, p, pt, ext = "") {
-
       const pe = document.getElementById(`sb-${id}-price`);
-
       const ce = document.getElementById(`sb-${id}-chg`);
-
       const extEl = document.getElementById(`sb-${id}-ext`);
-
-      if (pe) pe.innerHTML = p === 0 ? '<span style="color:var(--textM); font-size:14px;">WAITING...</span>' : '$' + fmt(p);
-
-      if (ce && p !== 0) { ce.textContent = (pt >= 0 ? '+' : '') + fmt(pt) + '%'; ce.className = 'sb-chg ' + (pt >= 0 ? 'pos' : 'neg'); }
-
+      
+      if (pe) {
+        const oldPrice = pe.dataset.prevValue || '';
+        const newPrice = p === 0 ? '<span style="color:var(--textM); font-size:14px;">WAITING...</span>' : '$' + fmt(p);
+        pe.innerHTML = newPrice;
+        if (p !== 0 && oldPrice && oldPrice !== newPrice) {
+          const isUp = p > parseFloat(oldPrice.replace(/[$,]/g, ''));
+          applyHighlight(pe, p, parseFloat(oldPrice.replace(/[$,]/g, '')), isUp);
+        }
+        pe.dataset.prevValue = newPrice;
+      }
+      
+      if (ce && p !== 0) { 
+        const oldChg = ce.dataset.prevValue || '';
+        const newChg = (pt >= 0 ? '+' : '') + fmt(pt) + '%';
+        ce.textContent = newChg; 
+        ce.className = 'sb-chg ' + (pt >= 0 ? 'pos' : 'neg'); 
+        if (oldChg && oldChg !== newChg) {
+          const isUp = pt > parseFloat(oldChg.replace(/[+%]/g, ''));
+          applyHighlight(ce, pt, parseFloat(oldChg.replace(/[+%]/g, '')), isUp);
+        }
+        ce.dataset.prevValue = newChg;
+      }
+      
       if (extEl) extEl.textContent = ext;
-
     }
 
 
