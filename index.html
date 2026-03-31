@@ -4734,6 +4734,15 @@
       // ST 2 Live column values - ALL $0 since BBBYQ is bankrupt
       updateCellWithFormat('st2-total-live', 0, 'pos');
       updateCellWithFormat('st2-additional-live', 0, 'pos');
+      
+      // FORCE st2-cash-live to $0 - directly set innerHTML to prevent any calculation
+      const st2CashLiveEl = document.getElementById('st2-cash-live');
+      if (st2CashLiveEl) {
+        st2CashLiveEl.innerHTML = '<span class="clickable-amount" data-amount="0" style="cursor:pointer;">$0</span><br><span class="bal" style="font-size:10px;">BAL $0</span>';
+        st2CashLiveEl.className = 'r pos';
+      }
+      
+      // Also try updateCellWithFormat as backup
       updateCellWithFormat('st2-cash-live', 0, 'pos');
       
       // ST 2 M.K items - $0 or remain as fixed expenses without BAL
