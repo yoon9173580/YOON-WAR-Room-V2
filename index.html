@@ -946,21 +946,21 @@
 
     .scenario-wrap th {
 
-      padding: 22px 15px;
+      padding: 12px 8px;
 
       background: rgba(0, 0, 0, 0.5);
 
       text-align: left;
 
-      font-size: 12px;
+      font-size: 11px;
 
       font-weight: 900;
 
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
 
       color: var(--textM);
 
-      border-bottom: 3px solid var(--border);
+      border-bottom: 2px solid var(--border);
 
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 
@@ -978,15 +978,15 @@
 
     .scenario-wrap td {
 
-      padding: 12px 15px;
+      padding: 8px 8px;
 
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-      font-size: 14px;
+      font-size: 12px;
 
       font-weight: 600;
 
-      letter-spacing: 0.2px;
+      letter-spacing: 0.1px;
 
     }
 
@@ -1040,11 +1040,11 @@
 
       border-bottom: 2px dashed rgba(0, 212, 170, 0.3);
 
-      font-size: 15px;
+      font-size: 13px;
 
-      padding-top: 18px;
+      padding-top: 12px;
 
-      padding-bottom: 18px;
+      padding-bottom: 12px;
 
     }
 
@@ -1066,7 +1066,7 @@
 
     .bal {
 
-      font-size: 11px;
+      font-size: 9px;
 
       color: var(--accent);
 
@@ -1076,7 +1076,7 @@
 
       font-family: var(--mono);
 
-      margin-top: 4px;
+      margin-top: 2px;
 
       display: block;
 
@@ -1292,14 +1292,14 @@
       .scenario-wrap table tr.st-main td {
         color: var(--accent);
         font-weight: 700;
-        font-size: 14px;
-        padding: 12px 15px;
+        font-size: 12px;
+        padding: 8px 10px;
       }
       
       /* Sub-section rows */
       .scenario-wrap table tr.st-sub td {
-        padding: 10px 15px;
-        font-size: 13px;
+        padding: 6px 10px;
+        font-size: 11px;
       }
       
       /* Data cells */
@@ -1307,11 +1307,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 15px;
+        padding: 6px 10px;
         border: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        font-size: 13px;
-        min-height: 44px;
+        font-size: 11px;
+        min-height: 36px;
       }
       
       .scenario-wrap table td:last-child {
@@ -1323,9 +1323,9 @@
         content: attr(data-label);
         font-weight: 600;
         color: var(--textM);
-        font-size: 12px;
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
       }
       
       /* Right-aligned values */
@@ -4143,6 +4143,23 @@
 
     // Update port-bar display values
     function updatePortBarValues() {
+      // KOSPI with percentage - PRIORITY UPDATE
+      const kospiPriceEl = document.getElementById('kospi-price-display');
+      if (kospiPriceEl) {
+        if (V_KOSPI_P > 0) {
+          kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
+        } else {
+          kospiPriceEl.textContent = 'N/A';
+        }
+        console.log('[DEBUG] KOSPI display update:', { element: !!kospiPriceEl, value: V_KOSPI_P });
+      }
+      const kospiPctEl = document.getElementById('kospi-pct-display');
+      if (kospiPctEl && V_KOSPI_P > 0) {
+        const kospiPct = V_KOSPI_PCT || 0;
+        kospiPctEl.textContent = (kospiPct >= 0 ? '+' : '') + kospiPct.toFixed(2) + '%';
+        kospiPctEl.className = 'pstat-pct ' + (kospiPct >= 0 ? 'pct-up' : 'pct-down');
+      }
+      
       // GME with percentage
       const gmePriceEl = document.getElementById('gme-price-display');
       if (gmePriceEl && V_GME_P > 0) gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
@@ -4231,24 +4248,6 @@
       if (vixPctEl) {
         vixPctEl.textContent = (V_VIX_PCT >= 0 ? '+' : '') + V_VIX_PCT.toFixed(2) + '%';
         vixPctEl.className = 'pstat-pct ' + (V_VIX_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // KOSPI with percentage
-      const kospiPriceEl = document.getElementById('kospi-price-display');
-      if (kospiPriceEl) {
-        if (V_KOSPI_P > 0) {
-          kospiPriceEl.textContent = V_KOSPI_P.toFixed(2);
-        } else {
-          kospiPriceEl.textContent = 'N/A';
-        }
-        console.log('[DEBUG] KOSPI display update:', { element: !!kospiPriceEl, value: V_KOSPI_P });
-      }
-      const kospiPctEl = document.getElementById('kospi-pct-display');
-      if (kospiPctEl && V_KOSPI_P > 0) {
-        // Use API-provided percent change directly
-        const kospiPct = V_KOSPI_PCT || 0;
-        kospiPctEl.textContent = (kospiPct >= 0 ? '+' : '') + kospiPct.toFixed(2) + '%';
-        kospiPctEl.className = 'pstat-pct ' + (kospiPct >= 0 ? 'pct-up' : 'pct-down');
       }
     }
 
