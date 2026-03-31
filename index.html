@@ -3650,17 +3650,20 @@
       const nightMarketSymbols = ['BABA', 'JD', 'PDD', 'NIO', 'XPEV', 'LI', 'TCEHY', 'BIDU', 'NTES', 'TME', 'BEKE', 'ZTO', 'DIDI', 'YUMC'];
       const isAsianStock = nightMarketSymbols.includes(symbol);
 
-      // Check current EST time to determine if we're in overnight hours (8 PM - 9:30 AM ET)
+      // Get current EST time (UTC-4 during DST, UTC-5 during standard time)
       const now = new Date();
-      const estTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false });
-      const estHour = parseInt(estTimeStr.split(':')[0]);
-      const estMinute = parseInt(estTimeStr.split(':')[1]);
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      // EDT (Eastern Daylight Time) = UTC-4, effective from March to November
+      const estOffset = 4 * 60 * 60000; // 4 hours in milliseconds
+      const estDate = new Date(utc - estOffset);
+      const estHour = estDate.getHours();
+      const estMinute = estDate.getMinutes();
       
       // Overnight hours: 8 PM (20:00) to 9:30 AM (9:30)
       const isOvernightHours = (estHour >= 20) || (estHour < 9) || (estHour === 9 && estMinute < 30);
       
       // Debug logging
-      console.log(`[DEBUG] getExt for ${symbol}: state=${state}, estTime=${estTimeStr}, isOvernightHours=${isOvernightHours}, postMarketPrice=${q.postMarketPrice}, preMarketPrice=${q.preMarketPrice}`);
+      console.log(`[DEBUG] getExt for ${symbol}: state=${state}, estHour=${estHour}, estMinute=${estMinute}, isOvernightHours=${isOvernightHours}`);
 
       // CLOSED state - show last market price or after hours data
       if (state === "CLOSED") {
