@@ -4848,6 +4848,9 @@
         st4CashEl.className = 'r pos';
       }
       
+      // FORCE st4-cash-live to $0 again to prevent overwriting
+      updateCellWithBalancePositive('st4-cash-live', 0, 0);
+      
       // ST 4 main total - keep BAL span
       const st4MainEl = document.getElementById('st4-live-main');
       if (st4MainEl) {
