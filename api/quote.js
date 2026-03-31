@@ -1,4 +1,47 @@
-const FINNHUB_KEY = process.env.FINNHUB_TOKEN || '';
+const FINNHUB_KEY = process.env.FINNHUB_TOKEN || 'd75nmn9r01qk56kdec3gd75nmn9r01qk56kdec40';
+
+// KOSPI symbol mapping
+const KOSPI_SYMBOL = '^KS11';
+
+/**
+ * Fetch KOSPI from Finnhub
+ * @returns {Promise<Object>} KOSPI data
+ */
+async function fetchKOSPIFromFinnhub() {
+  if (!FINNHUB_KEY) {
+    console.log('[Finnhub] No API key available');
+    return null;
+  }
+  
+  try {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${KOSPI_SYMBOL}&token=${FINNHUB_KEY}`;
+    const res = await fetchWithTimeout(url, {
+      headers: { 'Content-Type': 'application/json' }
+    }, 3000);
+    
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && data.c) {
+        console.log(`[Finnhub] KOSPI data:`, { price: data.c, change: data.d, changePercent: data.dp });
+        return {
+          symbol: KOSPI_SYMBOL,
+          regularMarketPrice: data.c,
+          regularMarketChange: data.d || 0,
+          regularMarketChangePercent: data.dp || 0,
+          high: data.h,
+          low: data.l,
+          open: data.o,
+          previousClose: data.pc,
+          marketState: 'REGULAR',
+          source: 'finnhub'
+        };
+      }
+    }
+  } catch (e) {
+    console.error('[Finnhub] Error fetching KOSPI:', e);
+  }
+  return null;
+}
 
 async function fetchWithTimeout(url, options = {}, limitMs = 3000) {
   return Promise.race([
@@ -192,11 +235,17 @@ module.exports = async function handler(req, res) {
       const symbolArray = symbols.split(',').map(s => s.trim()).filter(Boolean);
       if (symbolArray.length > 0) {
         const fetchPromises = symbolArray.map(async (sym) => {
-          // 1. Core Native Fetch
+          // Special handling for KOSPI - use Finnhub first
+          if (sym === '^KS11' || sym === 'KOSPI') {
+            const kospiData = await fetchKOSPIFromFinnhub();
+            if (kospiData) return kospiData;
+          }
+          
+          // 1. Core Native Fetch (Yahoo Finance)
           let q = await fetchYahooNative(sym);
           if (q) return q;
 
-          // 2. Finnhub Redundancy
+          // 2. Finnhub Redundancy for other symbols
           if (FINNHUB_KEY && !sym.includes('C000')) {
             try {
               const fh = await fetchWithTimeout(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${FINNHUB_KEY}`, {}, 3000);
