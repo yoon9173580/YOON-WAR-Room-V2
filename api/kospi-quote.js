@@ -1,10 +1,36 @@
 // Vercel Serverless Function for KOSPI data
-// This avoids CORS issues by proxying Finnhub API
+// Uses Yahoo Finance API (same as other stocks)
 
-const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY || 'd75nmn9r01qk56kdec3gd75nmn9r01qk56kdec40';
+async function fetchYahooNative(sym) {
+  try {
+    const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`, {
+      headers: { 'User-Agent': 'Mozilla/5.0' }
+    });
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && data.chart && data.chart.result && data.chart.result.length > 0) {
+        const result = data.chart.result[0];
+        const meta = result.meta;
+        const price = meta.regularMarketPrice;
+        const prev = meta.previousClose || meta.chartPreviousClose || price;
+        const change = price - prev;
+        const pct = prev > 0 ? (change / prev) * 100 : 0;
+        return {
+          symbol: sym,
+          regularMarketPrice: price,
+          regularMarketChange: change,
+          regularMarketChangePercent: pct,
+          marketState: meta.marketState || 'REGULAR'
+        };
+      }
+    }
+  } catch (e) {
+    console.error('[Yahoo Error]', e);
+  }
+  return null;
+}
 
 module.exports = async function handler(req, res) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -14,41 +40,33 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(
-      `https://finnhub.io/api/v1/quote?symbol=^KS11&token=${FINNHUB_API_KEY}`,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    // Try different KOSPI symbols
+    const symbols = ['^KS11', '^KOSPI', 'KS11.KS'];
+    let data = null;
+    
+    for (const sym of symbols) {
+      data = await fetchYahooNative(sym);
+      if (data && data.regularMarketPrice > 0) {
+        console.log(`[KOSPI] Found data with symbol: ${sym}`);
+        data.symbol = '^KS11'; // Normalize symbol
+        break;
       }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Finnhub API error: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    // Check if we got valid data
-    if (!data || !data.c) {
+    if (!data || data.regularMarketPrice <= 0) {
       return res.status(500).json({ 
-        error: 'Invalid data from Finnhub',
+        error: 'Could not fetch KOSPI data from Yahoo Finance',
         symbol: '^KS11'
       });
     }
 
-    // Return formatted response matching Yahoo Finance format
     return res.status(200).json({
       symbol: '^KS11',
-      regularMarketPrice: data.c,
-      regularMarketChange: data.d || 0,
-      regularMarketChangePercent: data.dp || 0,
-      high: data.h,
-      low: data.l,
-      open: data.o,
-      previousClose: data.pc,
-      marketState: 'REGULAR',
-      source: 'finnhub',
+      regularMarketPrice: data.regularMarketPrice,
+      regularMarketChange: data.regularMarketChange,
+      regularMarketChangePercent: data.regularMarketChangePercent,
+      marketState: data.marketState,
+      source: 'yahoo',
       timestamp: Date.now()
     });
 
