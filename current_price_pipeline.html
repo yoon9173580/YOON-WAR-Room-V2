@@ -1394,6 +1394,10 @@
                 <div id="vix-price-display" class="pstat-val">$0.00</div>
               </div>
               <div class="pstat">
+                <div class="pstat-lbl">KOSPI</div>
+                <div id="kospi-display" class="pstat-val">--</div>
+              </div>
+              <div class="pstat">
                 <div class="pstat-lbl">FEAR & GREED</div>
                 <div id="fear-val" class="pstat-val">--</div>
               </div>
@@ -2501,6 +2505,8 @@
 
     let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
 
+    let V_KOSPI_P = 0, V_KOSPI_C = 0, V_KOSPI_PCT = 0;
+
 
 
     // Crypto
@@ -2775,6 +2781,8 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = getExt(qVIX); }
+
+          const qKOSPI = extract('^KS11'); if (qKOSPI) { V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; V_KOSPI_C = Number(qKOSPI.regularMarketChange) || 0; V_KOSPI_PCT = Number(qKOSPI.regularMarketChangePercent) || 0; }
 
 
 
@@ -3912,6 +3920,7 @@
     let prevSPY_P = 0;
     let prevQQQ_P = 0;
     let prevVIX_P = 0;
+    let prevKOSPI_P = 0;
 
     function renderTerminal() {
 
@@ -4138,6 +4147,17 @@
         }
         vixPriceEl.textContent = newPriceText;
         prevVIX_P = V_VIX_P;
+      }
+
+      // Update KOSPI with flash animation
+      const kospiEl = document.getElementById('kospi-display');
+      if (kospiEl && V_KOSPI_P > 0) {
+        const newKospiText = V_KOSPI_P.toFixed(2);
+        if (kospiEl.textContent !== newKospiText && prevKOSPI_P !== 0) {
+          animatePrice(kospiEl, V_KOSPI_P > prevKOSPI_P);
+        }
+        kospiEl.textContent = newKospiText;
+        prevKOSPI_P = V_KOSPI_P;
       }
 
     }
