@@ -4563,8 +4563,19 @@
       updateCellWithFormat('st3-total-live', 0, 'pos');
       updateCellWithFormat('st3-cash-live', 0, 'pos');
       updateCellWithFormat('cs-cost-live', 0, 'pos');
-      updateCellWithFormat('fid-option-live', 0, 'pos');
-      updateCellWithFormat('moo-option-live', 0, 'pos');
+      // Fidelity option total - override completely to remove BAL and set green color
+      const fidOptionEl = document.getElementById('fid-option-live');
+      if (fidOptionEl) {
+        fidOptionEl.innerHTML = `<span class="pos">$0</span>`;
+        fidOptionEl.className = 'r pos';
+      }
+      
+      // Moomoo option total - override completely to remove BAL and set green color
+      const mooOptionEl = document.getElementById('moo-option-live');
+      if (mooOptionEl) {
+        mooOptionEl.innerHTML = `<span class="pos">$0</span>`;
+        mooOptionEl.className = 'r pos';
+      }
       
       // ST 3 Strike prices - $0
       const zeroStrikeItems = [
