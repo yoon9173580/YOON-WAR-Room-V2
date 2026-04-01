@@ -2606,6 +2606,29 @@
 
             </div>
 
+            <!-- 180-Day Rule Countdown -->
+            <div id="countdown-180" style="margin-bottom:20px; padding:12px 15px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:10px; display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
+              <span style="font-weight:700; color:var(--amber);">180-Day Rule:</span>
+              <button id="start-180-btn" class="btn-out" style="background:var(--amber); color:#000; padding:6px 14px; font-weight:700; font-size:12px;">START T-180</button>
+              <button id="reset-180-btn" class="btn-out" style="background:rgba(255,255,255,0.1); padding:6px 14px; font-size:12px;">Reset</button>
+              <div id="countdown-display" style="display:none; flex:1; min-width:200px;">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                  <span id="countdown-start-date" style="color:var(--textM); font-size:11px;"></span>
+                  <span id="countdown-end-date" style="color:var(--amber); font-size:11px; font-weight:600;"></span>
+                </div>
+                <div style="margin-top:6px; display:flex; align-items:center; gap:12px;">
+                  <div style="flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                    <div id="countdown-bar" style="height:100%; background:var(--amber); border-radius:3px; width:0%; transition:width 0.5s;"></div>
+                  </div>
+                  <span id="countdown-days" style="color:var(--amber); font-weight:900; font-size:18px; white-space:nowrap;">T-180</span>
+                </div>
+                <div style="margin-top:4px; display:flex; gap:8px; font-size:10px; color:var(--textM);">
+                  <span id="countdown-hours"></span>
+                  <span id="countdown-status" style="color:var(--bull); font-weight:600;"></span>
+                </div>
+              </div>
+            </div>
+
             <table>
 
               <thead>
@@ -2648,9 +2671,17 @@
 
                   <td class="pl-indent" style="color:var(--amber); font-weight:900;">└ BBBYQ</td>
 
-                  <td class="det">Bed Bath & Beyond - 41,454 shares @ $0.80 est.</td>
+                  <td class="det">41,454 shares @ $0.80 est.</td>
 
-                  <td class="r pos" colspan="5" style="text-align:center; color:var(--amber);">BANKRUPT / SETTLEMENT PENDING</td>
+                  <td class="r" style="color:var(--amber); font-weight:900;">BANKRUPT</td>
+
+                  <td class="r" id="cell_bbbyq_val">$0.00</td>
+
+                  <td class="r">—</td>
+
+                  <td class="r neg" id="cell_bbbyq_tot">$0.00</td>
+
+                  <td class="r neg" id="cell_bbbyq_roi">-100.00%</td>
 
                 </tr>
 
@@ -5589,6 +5620,9 @@
         resetBtn.addEventListener('click', resetNetWorthToRealtime);
       }
 
+      // 180-Day Countdown Timer
+      init180DayCountdown();
+
       
 
       if (input) {
@@ -5605,6 +5639,82 @@
 
       }
 
+    }
+
+    // ── 180-Day Rule Countdown Timer ──
+    let countdownInterval = null;
+    function init180DayCountdown() {
+      const startBtn = document.getElementById('start-180-btn');
+      const resetBtn180 = document.getElementById('reset-180-btn');
+      if (startBtn) startBtn.addEventListener('click', start180Day);
+      if (resetBtn180) resetBtn180.addEventListener('click', reset180Day);
+      // Restore from localStorage
+      const saved = localStorage.getItem('countdown180_start');
+      if (saved) {
+        render180Day(new Date(saved));
+      }
+    }
+    function start180Day() {
+      const now = new Date();
+      localStorage.setItem('countdown180_start', now.toISOString());
+      render180Day(now);
+    }
+    function reset180Day() {
+      localStorage.removeItem('countdown180_start');
+      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+      const display = document.getElementById('countdown-display');
+      if (display) display.style.display = 'none';
+    }
+    function render180Day(startDate) {
+      const display = document.getElementById('countdown-display');
+      const daysEl = document.getElementById('countdown-days');
+      const barEl = document.getElementById('countdown-bar');
+      const hoursEl = document.getElementById('countdown-hours');
+      const statusEl = document.getElementById('countdown-status');
+      const startDateEl = document.getElementById('countdown-start-date');
+      const endDateEl = document.getElementById('countdown-end-date');
+      if (!display) return;
+      display.style.display = 'block';
+      const endDate = new Date(startDate.getTime() + 180 * 24 * 60 * 60 * 1000);
+      const fmtDate = (d) => d.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+      if (startDateEl) startDateEl.textContent = 'Start: ' + fmtDate(startDate);
+      if (endDateEl) endDateEl.textContent = 'Deadline: ' + fmtDate(endDate);
+      function tick() {
+        const now = new Date();
+        const totalMs = 180 * 24 * 60 * 60 * 1000;
+        const elapsed = now - startDate;
+        const remaining = endDate - now;
+        if (remaining <= 0) {
+          if (daysEl) daysEl.textContent = 'EXPIRED';
+          if (daysEl) daysEl.style.color = 'var(--bear)';
+          if (barEl) { barEl.style.width = '100%'; barEl.style.background = 'var(--bear)'; }
+          if (hoursEl) hoursEl.textContent = '';
+          if (statusEl) { statusEl.textContent = 'STCG WINDOW CLOSED'; statusEl.style.color = 'var(--bear)'; }
+          if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+          return;
+        }
+        const daysLeft = Math.floor(remaining / (24*60*60*1000));
+        const hoursLeft = Math.floor((remaining % (24*60*60*1000)) / (3600*1000));
+        const minsLeft = Math.floor((remaining % (3600*1000)) / (60*1000));
+        const pct = Math.min(100, (elapsed / totalMs) * 100);
+        if (daysEl) {
+          daysEl.textContent = 'T-' + daysLeft;
+          daysEl.style.color = daysLeft <= 30 ? 'var(--bear)' : daysLeft <= 90 ? 'var(--amber)' : 'var(--bull)';
+        }
+        if (barEl) {
+          barEl.style.width = pct.toFixed(1) + '%';
+          barEl.style.background = daysLeft <= 30 ? 'var(--bear)' : daysLeft <= 90 ? 'var(--amber)' : 'var(--bull)';
+        }
+        if (hoursEl) hoursEl.textContent = hoursLeft + 'h ' + minsLeft + 'm remaining';
+        if (statusEl) {
+          if (daysLeft <= 30) { statusEl.textContent = 'URGENT: EXECUTE SELL'; statusEl.style.color = 'var(--bear)'; }
+          else if (daysLeft <= 90) { statusEl.textContent = 'STCG WINDOW ACTIVE'; statusEl.style.color = 'var(--amber)'; }
+          else { statusEl.textContent = 'HOLDING PERIOD RUNNING'; statusEl.style.color = 'var(--bull)'; }
+        }
+      }
+      tick();
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(tick, 60000);
     }
 
     function refreshAll() { fetchMaster(); }
