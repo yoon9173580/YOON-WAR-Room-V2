@@ -1824,6 +1824,75 @@
         border: 1px solid rgba(16, 185, 129, 0.3);
         font-weight: 700;
       }
+
+      /* Compact grouped rows — 3 across on mobile */
+      .scenario-wrap tbody tr.st-compact {
+        display: inline-block !important;
+        width: calc(33.333% - 4px) !important;
+        vertical-align: top;
+        margin: 0 2px 4px 0 !important;
+        padding: 6px 8px !important;
+        border-radius: 8px;
+        font-size: 10px !important;
+      }
+      .scenario-wrap tbody tr.st-compact td {
+        display: none !important;
+      }
+      .scenario-wrap tbody tr.st-compact td:first-child {
+        display: block !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        padding: 0 0 3px 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        margin-bottom: 3px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .scenario-wrap tbody tr.st-compact td:last-child {
+        display: block !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        padding: 2px 0 0 0 !important;
+        background: none !important;
+        border: none !important;
+        margin: 0 !important;
+        text-align: center;
+      }
+      /* 2-across variant */
+      .scenario-wrap tbody tr.st-compact-2 {
+        display: inline-block !important;
+        width: calc(50% - 3px) !important;
+        vertical-align: top;
+        margin: 0 2px 4px 0 !important;
+        padding: 6px 8px !important;
+        border-radius: 8px;
+        font-size: 10px !important;
+      }
+      .scenario-wrap tbody tr.st-compact-2 td {
+        display: none !important;
+      }
+      .scenario-wrap tbody tr.st-compact-2 td:first-child {
+        display: block !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        padding: 0 0 3px 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+        margin-bottom: 3px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .scenario-wrap tbody tr.st-compact-2 td:last-child {
+        display: block !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        padding: 2px 0 0 0 !important;
+        background: none !important;
+        border: none !important;
+        margin: 0 !important;
+        text-align: center;
+      }
       
       /* Custom price input */
       .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
@@ -2916,7 +2985,7 @@
                   <td class="r pos" id="st1-won-total" style="color:var(--accent);white-space:nowrap;">0원</td>
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ Fidelity (Indiv)</td>
 
@@ -2934,7 +3003,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ DRS (CS)</td>
 
@@ -2952,7 +3021,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ Moomoo</td>
 
@@ -3039,7 +3108,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 모빌리티 (본인)</td>
 
@@ -3057,7 +3126,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 모빌리티 (아빠)</td>
 
@@ -3075,7 +3144,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 모빌리티 (엄마)</td>
 
@@ -3093,7 +3162,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 기프트 (아빠)</td>
 
@@ -3111,9 +3180,9 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
-                  <td class="pl-indent">└ 현금 선물 (아빠)</td>
+                  <td class="pl-indent">└ 현금선물 (아빠)</td>
 
                   <td class="det">Cash Gift $380k</td>
 
@@ -3129,7 +3198,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 기프트 (엄마)</td>
 
@@ -3147,9 +3216,9 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
-                  <td class="pl-indent">└ 현금 선물 (엄마)</td>
+                  <td class="pl-indent">└ 현금선물 (엄마)</td>
 
                   <td class="det">Cash Gift $380k</td>
 
@@ -3165,7 +3234,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent">└ 기프트 (진이)</td>
 
@@ -3183,9 +3252,9 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
-                  <td class="pl-indent">└ 현금 선물 (진이)</td>
+                  <td class="pl-indent">└ 현금선물 (진이)</td>
 
                   <td class="det">Cash Gift $100k</td>
 
@@ -3281,7 +3350,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >├ Strike $40</td>
 
@@ -3299,7 +3368,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >├ Strike $45</td>
 
@@ -3317,7 +3386,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >└ Strike $50</td>
 
@@ -3353,7 +3422,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >├ Strike $40</td>
 
@@ -3371,7 +3440,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >├ Strike $45</td>
 
@@ -3389,7 +3458,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="pl-indent-2" >└ Strike $50</td>
 
@@ -3492,7 +3561,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="" >└ O&G (Energy)</td>
 
@@ -3507,7 +3576,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="" >└ QOF Housing</td>
 
@@ -3522,7 +3591,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact">
 
                   <td class="" >└ CLAT (Trust)</td>
 
