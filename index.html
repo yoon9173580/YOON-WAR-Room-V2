@@ -2146,16 +2146,16 @@
       /* HNWI tier badges - tablet */
       .hnwi-tier { font-size: 10px; padding: 3px 12px; border-radius: 6px; margin-top: 8px; }
       
-      /* Creative portfolio table - glass cards */
+      /* Portfolio table - contained scroll */
       .port-table-wrap {
         background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(20px);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 24px;
-        margin-bottom: 40px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 30px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .port-table-wrap table {
@@ -2196,202 +2196,165 @@
         transform: scale(1.01);
       }
       
-      /* Creative scenario table - dashboard cards */
+      /* Scenario table - no horizontal scroll, card layout */
       .scenario-wrap {
         background: rgba(255, 255, 255, 0.04);
         backdrop-filter: blur(20px);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 24px;
-        margin-bottom: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 30px;
         overflow: hidden;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       }
       
       .scenario-title {
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 900;
-        background: linear-gradient(135deg, var(--accent), var(--purple), var(--amber));
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #f1f5f9;
         text-align: center;
-        margin-bottom: 32px;
+        margin-bottom: 20px;
         letter-spacing: 1px;
+        -webkit-text-fill-color: unset;
+        background: none;
       }
       
-      /* Convert table to creative card layout */
-      .scenario-wrap table,
-      .scenario-wrap thead,
-      .scenario-wrap tbody,
-      .scenario-wrap tr,
-      .scenario-wrap th,
-      .scenario-wrap td {
+      /* Convert table to block layout */
+      .scenario-wrap table { display: block !important; width: 100% !important; min-width: auto !important; }
+      .scenario-wrap thead { display: none !important; }
+      .scenario-wrap tbody.st-group {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100% !important;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .scenario-wrap tbody.st-group:last-child { border-bottom: none; margin-bottom: 0; }
+      .scenario-wrap tbody.st-final { grid-template-columns: 1fr; }
+      
+      /* All tr become block cards */
+      .scenario-wrap tbody tr {
         display: block !important;
         width: 100% !important;
         min-width: auto !important;
-      }
-      
-      /* Hide table header */
-      .scenario-wrap thead {
-        display: none !important;
-      }
-      
-      /* Ultra creative card design for each row */
-      .scenario-wrap tbody tr {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-        border: 2px solid rgba(255, 255, 255, 0.15);
-        border-radius: 20px;
-        margin-bottom: 20px;
-        padding: 24px;
-        position: relative;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 12px;
         overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
-      .scenario-wrap tbody tr:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
-        border-color: var(--accent);
-      }
-      
-      /* Special styling for different row types */
+      /* Main rows span full width */
       .scenario-wrap tbody tr.st-main {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
-        border: 3px solid var(--accent);
-        transform: scale(1.03);
-        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+        grid-column: 1 / -1;
+        background: rgba(16, 185, 129, 0.12);
+        border: 2px solid var(--accent);
+        padding: 14px 16px;
       }
       
-      .scenario-wrap tbody tr.st-main:hover {
-        transform: scale(1.05) translateY(-4px);
-        box-shadow: 0 25px 50px rgba(16, 185, 129, 0.4);
-      }
-      
+      /* Cash rows span full width */
       .scenario-wrap tbody tr.st-cash {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.08) 100%);
-        border: 3px solid var(--amber);
-        box-shadow: 0 15px 30px rgba(245, 158, 11, 0.2);
+        grid-column: 1 / -1;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
       }
       
+      /* Sub rows go 2-up in grid */
       .scenario-wrap tbody tr.st-sub {
         background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        margin-left: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
       }
       
-      /* Creative cell layout */
+      /* Cell layout inside cards */
       .scenario-wrap td {
-        padding: 10px 0 !important;
-        font-size: 12px !important;
-        border: none !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        width: 100% !important;
+        min-width: auto !important;
+        padding: 4px 0 !important;
+        font-size: 11px !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
       }
+      .scenario-wrap td:last-child { border-bottom: none !important; }
       
-      .scenario-wrap td:last-child {
-        border-bottom: none !important;
-      }
-      
-      /* First cell as title */
+      /* First cell = title */
       .scenario-wrap td:first-child {
         font-weight: 800;
-        font-size: 16px !important;
-        color: var(--text);
-        padding-bottom: 16px !important;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
-        margin-bottom: 12px !important;
+        font-size: 12px !important;
+        color: #f1f5f9;
+        padding-bottom: 6px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        margin-bottom: 4px !important;
       }
-      
-      /* Price cells as badges */
+      .scenario-wrap tr.st-main td:first-child { font-size: 14px !important; }
+
+      /* Price cells */
       .scenario-wrap td:nth-child(n+3) {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        padding: 12px 16px !important;
-        margin: 6px 0 !important;
-        font-weight: 700;
-        text-align: center;
-        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 5px 8px !important;
+        margin: 2px 0 !important;
+        font-weight: 600;
       }
       
-      .scenario-wrap td:nth-child(n+3):hover {
-        background: rgba(16, 185, 129, 0.15);
-        transform: scale(1.05);
-      }
-      
-      /* Custom price highlight */
+      /* Custom price column highlight */
       .scenario-wrap td:nth-child(7) {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
-        border: 2px solid var(--accent);
-        font-weight: 800;
-        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3) !important;
+        font-weight: 700;
       }
       
-      /* Creative custom price input */
+      /* Custom price input */
       .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"] {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
-        border: 3px solid var(--accent);
-        border-radius: 24px;
-        padding: 32px !important;
-        flex-direction: row;
-        gap: 20px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
-      }
-      
-      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"]::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
-        animation: rotate 20s linear infinite reverse;
-      }
-      
-      #custom-price-input {
-        background: rgba(255, 255, 255, 0.15);
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        background: rgba(16, 185, 129, 0.1);
+        border: 2px solid var(--accent);
         border-radius: 16px;
         padding: 20px !important;
-        font-size: 18px;
+        flex-direction: row;
+        gap: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .scenario-wrap > div[style*="background:rgba(0,123,255,0.1)"]::before { display: none; }
+      
+      #custom-price-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 14px !important;
+        font-size: 16px;
         color: var(--text);
-        width: 300px !important;
+        width: 250px !important;
         position: relative;
         z-index: 1;
-        font-weight: 600;
       }
       
       #custom-price-input:focus {
         border-color: var(--accent);
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
       }
       
       .scenario-wrap button {
         background: linear-gradient(135deg, var(--accent), var(--purple));
         border: none;
-        border-radius: 16px;
-        padding: 20px 32px !important;
-        font-size: 16px;
-        font-weight: 800;
+        border-radius: 12px;
+        padding: 14px 24px !important;
+        font-size: 14px;
+        font-weight: 700;
         color: white;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         position: relative;
         z-index: 1;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
       }
       
       .scenario-wrap button:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
       }
       
       /* Creative buttons */
@@ -2949,7 +2912,7 @@
 
               </thead>
 
-              <tbody>
+              <tbody class="st-group">
 
                 <!-- ST 1 -->
 
@@ -3045,7 +3008,8 @@
                   <td class="r pos" id="cash-custom-total" style="white-space:nowrap;">$0</td>
                 </tr>
 
-                <!-- ST 2 -->
+              </tbody>
+              <tbody class="st-group">
 
                 <!-- ST 2 ITEMS -->
 
@@ -3481,6 +3445,9 @@
                   <td class="r pos" id="st3-cash-custom" style="white-space:nowrap;">$0<br><span class="bal">BAL $0</span></td>
                 </tr>
 
+              </tbody>
+              <tbody class="st-group">
+
                 <tr class="st-main">
 
                   <td data-translate="st4_tax">ST 4. 절세 제국 스케일업</td>
@@ -3608,6 +3575,9 @@
                   <td class="r pos" id="st4-cash-custom" style="color:var(--accent);white-space:nowrap;">$0<br><span class="bal">BAL $0</span></td>
                 </tr>
 
+              </tbody>
+              <tbody class="st-group">
+
                 <tr class="st-main">
                   <td data-translate="st5_final">ST 5. 최종 완성</td>
 
@@ -3718,6 +3688,8 @@
                   <td class="r neg" id="st4-summary-custom">$0<br><span class="bal">BAL $0</span></td>
                 </tr>
 
+              </tbody>
+              <tbody class="st-group st-final">
                 <!-- Final Validation -->
                 <tr class="st-main" style="background:rgba(255,255,255,0.05); border-top: 4px solid var(--border);">
                   <td style="color:#fff;" data-translate="final_validation">최종 검증</td>
