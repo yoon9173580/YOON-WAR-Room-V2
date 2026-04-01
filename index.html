@@ -447,6 +447,24 @@
       color: var(--text);
     }
 
+    /* Unified Dashboard Grid */
+    .ud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
+    .ud-section { border-radius: 10px; padding: 10px 12px; }
+    .ud-sb { background: rgba(0,200,83,0.06); border: 1px solid rgba(0,200,83,0.2); }
+    .ud-m7 { background: rgba(0,150,255,0.06); border: 1px solid rgba(0,150,255,0.2); }
+    .ud-idx { background: rgba(255,193,7,0.06); border: 1px solid rgba(255,193,7,0.2); }
+    .ud-section-hdr { font-size: 9px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .ud-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .ud-item { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 6px 8px; transition: all 0.2s ease; border: 1px solid transparent; }
+    .ud-item:hover { border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.35); transform: translateY(-1px); }
+    .ud-row { display: flex; align-items: baseline; gap: 6px; }
+    .ud-ticker { font-size: 10px; font-weight: 800; color: var(--textM); min-width: 38px; font-family: var(--mono); letter-spacing: 0.3px; }
+    .ud-price { font-size: 13px; font-weight: 700; color: var(--text); font-family: var(--mono); }
+    .ud-pct { font-size: 10px; font-family: var(--mono); margin-left: auto; font-weight: 600; }
+    .ud-pct.ud-up { color: var(--bull); }
+    .ud-pct.ud-down { color: var(--bear); }
+    .ud-ext { font-size: 8px; color: var(--textD); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 12px; }
+
     .btn-out {
       background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
       color: #000;
@@ -2622,35 +2640,39 @@
 
             <div class="port-bar-section" style="flex:3; min-width:980px;">
               <div class="port-bar-section-title">📊 UNIFIED MARKET DASHBOARD</div>
-              <div style="display:flex; gap:12px; margin-top:10px;">
-                <div style="flex:1; background:rgba(0,200,83,0.08); border:1px solid rgba(0,200,83,0.25); border-radius:10px; padding:8px;">
-                  <div style="font-size:10px; color:var(--accent); font-weight:800; margin-bottom:6px; letter-spacing:0.4px;">🎯 STRATEGIC BASKET</div>
-                  <div class="pstat"><div class="pstat-lbl">GME</div><div id="gme-price-display" class="pstat-val pos">$0.00</div><div id="gme-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">AMC</div><div id="amc-price-display" class="pstat-val">$0.00</div><div id="amc-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">IEP</div><div id="iep-price-display" class="pstat-val">$0.00</div><div id="iep-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">BB</div><div id="bb-price-display" class="pstat-val">$0.00</div><div id="bb-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">NOK</div><div id="nok-price-display" class="pstat-val">$0.00</div><div id="nok-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">BABA</div><div id="baba-price-display" class="pstat-val">$0.00</div><div id="baba-pct-display" class="pstat-pct">0.00%</div></div>
+              <div class="ud-grid">
+                <div class="ud-section ud-sb">
+                  <div class="ud-section-hdr" style="color:var(--accent);">🎯 STRATEGIC BASKET</div>
+                  <div class="ud-items">
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">GME</span><span id="gme-price-display" class="ud-price">$0.00</span><span id="gme-pct-display" class="ud-pct">0.00%</span></div><div id="gme-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">AMC</span><span id="amc-price-display" class="ud-price">$0.00</span><span id="amc-pct-display" class="ud-pct">0.00%</span></div><div id="amc-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">IEP</span><span id="iep-price-display" class="ud-price">$0.00</span><span id="iep-pct-display" class="ud-pct">0.00%</span></div><div id="iep-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">BB</span><span id="bb-price-display" class="ud-price">$0.00</span><span id="bb-pct-display" class="ud-pct">0.00%</span></div><div id="bb-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">NOK</span><span id="nok-price-display" class="ud-price">$0.00</span><span id="nok-pct-display" class="ud-pct">0.00%</span></div><div id="nok-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">BABA</span><span id="baba-price-display" class="ud-price">$0.00</span><span id="baba-pct-display" class="ud-pct">0.00%</span></div><div id="baba-ext-display" class="ud-ext"></div></div>
+                  </div>
                 </div>
-
-                <div style="flex:1; background:rgba(0,150,255,0.08); border:1px solid rgba(0,150,255,0.25); border-radius:10px; padding:8px;">
-                  <div style="font-size:10px; color:#45b8ff; font-weight:800; margin-bottom:6px; letter-spacing:0.4px;">💎 MAGNIFICENT 7</div>
-                  <div class="pstat"><div class="pstat-lbl">AAPL</div><div id="aapl-price-display" class="pstat-val">$0.00</div><div id="aapl-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">NVDA</div><div id="nvda-price-display" class="pstat-val">$0.00</div><div id="nvda-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">MSFT</div><div id="msft-price-display" class="pstat-val">$0.00</div><div id="msft-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">TSLA</div><div id="tsla-price-display" class="pstat-val">$0.00</div><div id="tsla-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">GOOGL</div><div id="googl-price-display" class="pstat-val">$0.00</div><div id="googl-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">AMZN</div><div id="amzn-price-display" class="pstat-val">$0.00</div><div id="amzn-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">META</div><div id="meta-price-display" class="pstat-val">$0.00</div><div id="meta-pct-display" class="pstat-pct">0.00%</div></div>
+                <div class="ud-section ud-m7">
+                  <div class="ud-section-hdr" style="color:#45b8ff;">💎 MAGNIFICENT 7</div>
+                  <div class="ud-items">
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">AAPL</span><span id="aapl-price-display" class="ud-price">$0.00</span><span id="aapl-pct-display" class="ud-pct">0.00%</span></div><div id="aapl-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">NVDA</span><span id="nvda-price-display" class="ud-price">$0.00</span><span id="nvda-pct-display" class="ud-pct">0.00%</span></div><div id="nvda-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">MSFT</span><span id="msft-price-display" class="ud-price">$0.00</span><span id="msft-pct-display" class="ud-pct">0.00%</span></div><div id="msft-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">TSLA</span><span id="tsla-price-display" class="ud-price">$0.00</span><span id="tsla-pct-display" class="ud-pct">0.00%</span></div><div id="tsla-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">GOOGL</span><span id="googl-price-display" class="ud-price">$0.00</span><span id="googl-pct-display" class="ud-pct">0.00%</span></div><div id="googl-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">AMZN</span><span id="amzn-price-display" class="ud-price">$0.00</span><span id="amzn-pct-display" class="ud-pct">0.00%</span></div><div id="amzn-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">META</span><span id="meta-price-display" class="ud-price">$0.00</span><span id="meta-pct-display" class="ud-pct">0.00%</span></div><div id="meta-ext-display" class="ud-ext"></div></div>
+                  </div>
                 </div>
-
-                <div style="flex:1; background:rgba(255,193,7,0.08); border:1px solid rgba(255,193,7,0.25); border-radius:10px; padding:8px;">
-                  <div style="font-size:10px; color:#ffd15a; font-weight:800; margin-bottom:6px; letter-spacing:0.4px;">📈 MARKET INDICES</div>
-                  <div class="pstat"><div class="pstat-lbl">BTC</div><div id="btc-price-display" class="pstat-val">$0.00</div><div id="btc-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">SPY</div><div id="spy-price-display" class="pstat-val">$0.00</div><div id="spy-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">QQQ</div><div id="qqq-price-display" class="pstat-val">$0.00</div><div id="qqq-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">VIX</div><div id="vix-price-display" class="pstat-val">$0.00</div><div id="vix-pct-display" class="pstat-pct">0.00%</div></div>
-                  <div class="pstat"><div class="pstat-lbl">FEAR & GREED</div><div id="fear-val" class="pstat-val">--</div></div>
+                <div class="ud-section ud-idx">
+                  <div class="ud-section-hdr" style="color:#ffd15a;">📈 MARKET INDICES</div>
+                  <div class="ud-items">
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">BTC</span><span id="btc-price-display" class="ud-price">$0.00</span><span id="btc-pct-display" class="ud-pct">0.00%</span></div><div id="btc-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">SPY</span><span id="spy-price-display" class="ud-price">$0.00</span><span id="spy-pct-display" class="ud-pct">0.00%</span></div><div id="spy-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">QQQ</span><span id="qqq-price-display" class="ud-price">$0.00</span><span id="qqq-pct-display" class="ud-pct">0.00%</span></div><div id="qqq-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">VIX</span><span id="vix-price-display" class="ud-price">$0.00</span><span id="vix-pct-display" class="ud-pct">0.00%</span></div><div id="vix-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker">F&G</span><span id="fear-val" class="ud-price">--</span></div></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4256,153 +4278,35 @@
     }
 
     // Update port-bar display values
+    function udUpdate(id, price, pct, ext, useFmt) {
+      const pe = document.getElementById(id + '-price-display');
+      if (pe && price > 0) pe.textContent = '$' + (useFmt ? fmt(price) : price.toFixed(2));
+      const pte = document.getElementById(id + '-pct-display');
+      if (pte) {
+        pte.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+        pte.className = 'ud-pct ' + (pct >= 0 ? 'ud-up' : 'ud-down');
+      }
+      const ee = document.getElementById(id + '-ext-display');
+      if (ee) ee.textContent = ext || '';
+    }
     function updatePortBarValues() {
-      // GME with percentage
-      const gmePriceEl = document.getElementById('gme-price-display');
-      if (gmePriceEl && V_GME_P > 0) gmePriceEl.textContent = '$' + V_GME_P.toFixed(2);
-      const gmePctEl = document.getElementById('gme-pct-display');
-      if (gmePctEl) {
-        gmePctEl.textContent = (V_GME_PCT >= 0 ? '+' : '') + V_GME_PCT.toFixed(2) + '%';
-        gmePctEl.className = 'pstat-pct ' + (V_GME_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // AMC with percentage
-      const amcPriceEl = document.getElementById('amc-price-display');
-      if (amcPriceEl && V_AMC_P > 0) amcPriceEl.textContent = '$' + V_AMC_P.toFixed(2);
-      const amcPctEl = document.getElementById('amc-pct-display');
-      if (amcPctEl) {
-        amcPctEl.textContent = (V_AMC_PCT >= 0 ? '+' : '') + V_AMC_PCT.toFixed(2) + '%';
-        amcPctEl.className = 'pstat-pct ' + (V_AMC_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // IEP with percentage
-      const iepPriceEl = document.getElementById('iep-price-display');
-      if (iepPriceEl && V_IEP_P > 0) iepPriceEl.textContent = '$' + V_IEP_P.toFixed(2);
-      const iepPctEl = document.getElementById('iep-pct-display');
-      if (iepPctEl) {
-        iepPctEl.textContent = (V_IEP_PCT >= 0 ? '+' : '') + V_IEP_PCT.toFixed(2) + '%';
-        iepPctEl.className = 'pstat-pct ' + (V_IEP_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // BB with percentage
-      const bbPriceEl = document.getElementById('bb-price-display');
-      if (bbPriceEl && V_BB_P > 0) bbPriceEl.textContent = '$' + V_BB_P.toFixed(2);
-      const bbPctEl = document.getElementById('bb-pct-display');
-      if (bbPctEl) {
-        bbPctEl.textContent = (V_BB_PCT >= 0 ? '+' : '') + V_BB_PCT.toFixed(2) + '%';
-        bbPctEl.className = 'pstat-pct ' + (V_BB_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // NOK with percentage
-      const nokPriceEl = document.getElementById('nok-price-display');
-      if (nokPriceEl && V_NOK_P > 0) nokPriceEl.textContent = '$' + V_NOK_P.toFixed(2);
-      const nokPctEl = document.getElementById('nok-pct-display');
-      if (nokPctEl) {
-        nokPctEl.textContent = (V_NOK_PCT >= 0 ? '+' : '') + V_NOK_PCT.toFixed(2) + '%';
-        nokPctEl.className = 'pstat-pct ' + (V_NOK_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // BABA with percentage
-      const babaPriceEl = document.getElementById('baba-price-display');
-      if (babaPriceEl && V_BABA_P > 0) babaPriceEl.textContent = '$' + V_BABA_P.toFixed(2);
-      const babaPctEl = document.getElementById('baba-pct-display');
-      if (babaPctEl) {
-        babaPctEl.textContent = (V_BABA_PCT >= 0 ? '+' : '') + V_BABA_PCT.toFixed(2) + '%';
-        babaPctEl.className = 'pstat-pct ' + (V_BABA_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      // Magnificent 7 with percentage
-      const aaplPriceEl = document.getElementById('aapl-price-display');
-      if (aaplPriceEl && V_AAPL_P > 0) aaplPriceEl.textContent = '$' + V_AAPL_P.toFixed(2);
-      const aaplPctEl = document.getElementById('aapl-pct-display');
-      if (aaplPctEl) {
-        aaplPctEl.textContent = (V_AAPL_PCT >= 0 ? '+' : '') + V_AAPL_PCT.toFixed(2) + '%';
-        aaplPctEl.className = 'pstat-pct ' + (V_AAPL_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const nvdaPriceEl = document.getElementById('nvda-price-display');
-      if (nvdaPriceEl && V_NVDA_P > 0) nvdaPriceEl.textContent = '$' + V_NVDA_P.toFixed(2);
-      const nvdaPctEl = document.getElementById('nvda-pct-display');
-      if (nvdaPctEl) {
-        nvdaPctEl.textContent = (V_NVDA_PCT >= 0 ? '+' : '') + V_NVDA_PCT.toFixed(2) + '%';
-        nvdaPctEl.className = 'pstat-pct ' + (V_NVDA_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const msftPriceEl = document.getElementById('msft-price-display');
-      if (msftPriceEl && V_MSFT_P > 0) msftPriceEl.textContent = '$' + V_MSFT_P.toFixed(2);
-      const msftPctEl = document.getElementById('msft-pct-display');
-      if (msftPctEl) {
-        msftPctEl.textContent = (V_MSFT_PCT >= 0 ? '+' : '') + V_MSFT_PCT.toFixed(2) + '%';
-        msftPctEl.className = 'pstat-pct ' + (V_MSFT_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const tslaPriceEl = document.getElementById('tsla-price-display');
-      if (tslaPriceEl && V_TSLA_P > 0) tslaPriceEl.textContent = '$' + V_TSLA_P.toFixed(2);
-      const tslaPctEl = document.getElementById('tsla-pct-display');
-      if (tslaPctEl) {
-        tslaPctEl.textContent = (V_TSLA_PCT >= 0 ? '+' : '') + V_TSLA_PCT.toFixed(2) + '%';
-        tslaPctEl.className = 'pstat-pct ' + (V_TSLA_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const googlPriceEl = document.getElementById('googl-price-display');
-      if (googlPriceEl && V_GOOGL_P > 0) googlPriceEl.textContent = '$' + V_GOOGL_P.toFixed(2);
-      const googlPctEl = document.getElementById('googl-pct-display');
-      if (googlPctEl) {
-        googlPctEl.textContent = (V_GOOGL_PCT >= 0 ? '+' : '') + V_GOOGL_PCT.toFixed(2) + '%';
-        googlPctEl.className = 'pstat-pct ' + (V_GOOGL_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const amznPriceEl = document.getElementById('amzn-price-display');
-      if (amznPriceEl && V_AMZN_P > 0) amznPriceEl.textContent = '$' + V_AMZN_P.toFixed(2);
-      const amznPctEl = document.getElementById('amzn-pct-display');
-      if (amznPctEl) {
-        amznPctEl.textContent = (V_AMZN_PCT >= 0 ? '+' : '') + V_AMZN_PCT.toFixed(2) + '%';
-        amznPctEl.className = 'pstat-pct ' + (V_AMZN_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-
-      const metaPriceEl = document.getElementById('meta-price-display');
-      if (metaPriceEl && V_META_P > 0) metaPriceEl.textContent = '$' + V_META_P.toFixed(2);
-      const metaPctEl = document.getElementById('meta-pct-display');
-      if (metaPctEl) {
-        metaPctEl.textContent = (V_META_PCT >= 0 ? '+' : '') + V_META_PCT.toFixed(2) + '%';
-        metaPctEl.className = 'pstat-pct ' + (V_META_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // BTC with percentage
-      const btcPriceEl = document.getElementById('btc-price-display');
-      if (btcPriceEl && V_BTC_P > 0) btcPriceEl.textContent = '$' + fmt(V_BTC_P);
-      const btcPctEl = document.getElementById('btc-pct-display');
-      if (btcPctEl) {
-        btcPctEl.textContent = (V_BTC_PCT >= 0 ? '+' : '') + V_BTC_PCT.toFixed(2) + '%';
-        btcPctEl.className = 'pstat-pct ' + (V_BTC_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // SPY with percentage
-      const spyPriceEl = document.getElementById('spy-price-display');
-      if (spyPriceEl && V_SPY_P > 0) spyPriceEl.textContent = '$' + V_SPY_P.toFixed(2);
-      const spyPctEl = document.getElementById('spy-pct-display');
-      if (spyPctEl) {
-        spyPctEl.textContent = (V_SPY_PCT >= 0 ? '+' : '') + V_SPY_PCT.toFixed(2) + '%';
-        spyPctEl.className = 'pstat-pct ' + (V_SPY_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // QQQ with percentage
-      const qqqPriceEl = document.getElementById('qqq-price-display');
-      if (qqqPriceEl && V_QQQ_P > 0) qqqPriceEl.textContent = '$' + V_QQQ_P.toFixed(2);
-      const qqqPctEl = document.getElementById('qqq-pct-display');
-      if (qqqPctEl) {
-        qqqPctEl.textContent = (V_QQQ_PCT >= 0 ? '+' : '') + V_QQQ_PCT.toFixed(2) + '%';
-        qqqPctEl.className = 'pstat-pct ' + (V_QQQ_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
-      
-      // VIX with percentage
-      const vixPriceEl = document.getElementById('vix-price-display');
-      if (vixPriceEl && V_VIX_P > 0) vixPriceEl.textContent = '$' + V_VIX_P.toFixed(2);
-      const vixPctEl = document.getElementById('vix-pct-display');
-      if (vixPctEl) {
-        vixPctEl.textContent = (V_VIX_PCT >= 0 ? '+' : '') + V_VIX_PCT.toFixed(2) + '%';
-        vixPctEl.className = 'pstat-pct ' + (V_VIX_PCT >= 0 ? 'pct-up' : 'pct-down');
-      }
+      udUpdate('gme', V_GME_P, V_GME_PCT, V_GME_EXT);
+      udUpdate('amc', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
+      udUpdate('iep', V_IEP_P, V_IEP_PCT, V_IEP_EXT);
+      udUpdate('bb', V_BB_P, V_BB_PCT, V_BB_EXT);
+      udUpdate('nok', V_NOK_P, V_NOK_PCT, V_NOK_EXT);
+      udUpdate('baba', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
+      udUpdate('aapl', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT);
+      udUpdate('nvda', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT);
+      udUpdate('msft', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
+      udUpdate('tsla', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT);
+      udUpdate('googl', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT);
+      udUpdate('amzn', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT);
+      udUpdate('meta', V_META_P, V_META_PCT, V_META_EXT);
+      udUpdate('btc', V_BTC_P, V_BTC_PCT, '', true);
+      udUpdate('spy', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
+      udUpdate('qqq', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
+      udUpdate('vix', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
     }
 
     // Update portfolio table values without full re-render
@@ -5669,201 +5573,36 @@
 
       upSB('TSLA', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT); upSB('GOOGL', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT); upSB('AMZN', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT); upSB('META', V_META_P, V_META_PCT, V_META_EXT);
 
-      // Update GME price in port-bar with flash animation
-      const gmePriceEl = document.getElementById('gme-price-display');
-      if (gmePriceEl && V_GME_P > 0) {
-        const oldValue = previousValues['gme-price-display'];
-        const newValue = '$' + V_GME_P.toFixed(2);
-        if (oldValue !== newValue) {
-          gmePriceEl.textContent = newValue;
-          flashUpdate('gme-price-display', V_GME_P >= 0);
-          previousValues['gme-price-display'] = newValue;
+      // Update all unified dashboard items with flash animation + ext
+      function udFlash(id, price, pct, ext, useFmt) {
+        const el = document.getElementById(id + '-price-display');
+        if (el && price > 0) {
+          const nv = '$' + (useFmt ? fmt(price) : price.toFixed(2));
+          if (previousValues[id + '-price-display'] !== nv) {
+            el.textContent = nv;
+            flashUpdate(id + '-price-display', pct >= 0);
+            previousValues[id + '-price-display'] = nv;
+          }
         }
+        udUpdate(id, price, pct, ext, useFmt);
       }
-
-      // Update AMC price in port-bar with flash animation
-      const amcPriceEl = document.getElementById('amc-price-display');
-      if (amcPriceEl && V_AMC_P > 0) {
-        const oldValue = previousValues['amc-price-display'];
-        const newValue = '$' + V_AMC_P.toFixed(2);
-        if (oldValue !== newValue) {
-          amcPriceEl.textContent = newValue;
-          flashUpdate('amc-price-display', V_AMC_P >= 0);
-          previousValues['amc-price-display'] = newValue;
-        }
-      }
-
-      // Update IEP price in port-bar with flash animation
-      const iepPriceEl = document.getElementById('iep-price-display');
-      if (iepPriceEl && V_IEP_P > 0) {
-        const oldValue = previousValues['iep-price-display'];
-        const newValue = '$' + V_IEP_P.toFixed(2);
-        if (oldValue !== newValue) {
-          iepPriceEl.textContent = newValue;
-          flashUpdate('iep-price-display', V_IEP_P >= 0);
-          previousValues['iep-price-display'] = newValue;
-        }
-      }
-
-      // Update BB price in port-bar with flash animation
-      const bbPriceEl = document.getElementById('bb-price-display');
-      if (bbPriceEl && V_BB_P > 0) {
-        const oldValue = previousValues['bb-price-display'];
-        const newValue = '$' + V_BB_P.toFixed(2);
-        if (oldValue !== newValue) {
-          bbPriceEl.textContent = newValue;
-          flashUpdate('bb-price-display', V_BB_P >= 0);
-          previousValues['bb-price-display'] = newValue;
-        }
-      }
-
-      // Update NOK price in port-bar with flash animation
-      const nokPriceEl = document.getElementById('nok-price-display');
-      if (nokPriceEl && V_NOK_P > 0) {
-        const oldValue = previousValues['nok-price-display'];
-        const newValue = '$' + V_NOK_P.toFixed(2);
-        if (oldValue !== newValue) {
-          nokPriceEl.textContent = newValue;
-          flashUpdate('nok-price-display', V_NOK_P >= 0);
-          previousValues['nok-price-display'] = newValue;
-        }
-      }
-
-      // Update BABA price in port-bar with flash animation
-      const babaPriceEl = document.getElementById('baba-price-display');
-      if (babaPriceEl && V_BABA_P > 0) {
-        const oldValue = previousValues['baba-price-display'];
-        const newValue = '$' + V_BABA_P.toFixed(2);
-        if (oldValue !== newValue) {
-          babaPriceEl.textContent = newValue;
-          flashUpdate('baba-price-display', V_BABA_P >= 0);
-          previousValues['baba-price-display'] = newValue;
-        }
-      }
-
-      // Update Magnificent 7 in port-bar with flash animation
-      const aaplPortEl = document.getElementById('aapl-price-display');
-      if (aaplPortEl && V_AAPL_P > 0) {
-        const oldValue = previousValues['aapl-price-display'];
-        const newValue = '$' + V_AAPL_P.toFixed(2);
-        if (oldValue !== newValue) {
-          aaplPortEl.textContent = newValue;
-          flashUpdate('aapl-price-display', V_AAPL_P >= 0);
-          previousValues['aapl-price-display'] = newValue;
-        }
-      }
-
-      const nvdaPortEl = document.getElementById('nvda-price-display');
-      if (nvdaPortEl && V_NVDA_P > 0) {
-        const oldValue = previousValues['nvda-price-display'];
-        const newValue = '$' + V_NVDA_P.toFixed(2);
-        if (oldValue !== newValue) {
-          nvdaPortEl.textContent = newValue;
-          flashUpdate('nvda-price-display', V_NVDA_P >= 0);
-          previousValues['nvda-price-display'] = newValue;
-        }
-      }
-
-      const msftPortEl = document.getElementById('msft-price-display');
-      if (msftPortEl && V_MSFT_P > 0) {
-        const oldValue = previousValues['msft-price-display'];
-        const newValue = '$' + V_MSFT_P.toFixed(2);
-        if (oldValue !== newValue) {
-          msftPortEl.textContent = newValue;
-          flashUpdate('msft-price-display', V_MSFT_P >= 0);
-          previousValues['msft-price-display'] = newValue;
-        }
-      }
-
-      const tslaPortEl = document.getElementById('tsla-price-display');
-      if (tslaPortEl && V_TSLA_P > 0) {
-        const oldValue = previousValues['tsla-price-display'];
-        const newValue = '$' + V_TSLA_P.toFixed(2);
-        if (oldValue !== newValue) {
-          tslaPortEl.textContent = newValue;
-          flashUpdate('tsla-price-display', V_TSLA_P >= 0);
-          previousValues['tsla-price-display'] = newValue;
-        }
-      }
-
-      const googlPortEl = document.getElementById('googl-price-display');
-      if (googlPortEl && V_GOOGL_P > 0) {
-        const oldValue = previousValues['googl-price-display'];
-        const newValue = '$' + V_GOOGL_P.toFixed(2);
-        if (oldValue !== newValue) {
-          googlPortEl.textContent = newValue;
-          flashUpdate('googl-price-display', V_GOOGL_P >= 0);
-          previousValues['googl-price-display'] = newValue;
-        }
-      }
-
-      const amznPortEl = document.getElementById('amzn-price-display');
-      if (amznPortEl && V_AMZN_P > 0) {
-        const oldValue = previousValues['amzn-price-display'];
-        const newValue = '$' + V_AMZN_P.toFixed(2);
-        if (oldValue !== newValue) {
-          amznPortEl.textContent = newValue;
-          flashUpdate('amzn-price-display', V_AMZN_P >= 0);
-          previousValues['amzn-price-display'] = newValue;
-        }
-      }
-
-      const metaPortEl = document.getElementById('meta-price-display');
-      if (metaPortEl && V_META_P > 0) {
-        const oldValue = previousValues['meta-price-display'];
-        const newValue = '$' + V_META_P.toFixed(2);
-        if (oldValue !== newValue) {
-          metaPortEl.textContent = newValue;
-          flashUpdate('meta-price-display', V_META_P >= 0);
-          previousValues['meta-price-display'] = newValue;
-        }
-      }
-
-      // Update BTC in port-bar with flash animation
-      const btcPriceEl = document.getElementById('btc-price-display');
-      if (btcPriceEl && V_BTC_P > 0) {
-        const oldValue = previousValues['btc-price-display'];
-        const newValue = '$' + fmt(V_BTC_P);
-        if (oldValue !== newValue) {
-          btcPriceEl.textContent = newValue;
-          flashUpdate('btc-price-display', V_BTC_P >= 0);
-          previousValues['btc-price-display'] = newValue;
-        }
-      }
-
-      // Update SPY, QQQ, VIX in port-bar with flash animation
-      const spyPriceEl = document.getElementById('spy-price-display');
-      if (spyPriceEl && V_SPY_P > 0) {
-        const oldValue = previousValues['spy-price-display'];
-        const newValue = '$' + V_SPY_P.toFixed(2);
-        if (oldValue !== newValue) {
-          spyPriceEl.textContent = newValue;
-          flashUpdate('spy-price-display', V_SPY_P >= 0);
-          previousValues['spy-price-display'] = newValue;
-        }
-      }
-
-      const qqqPriceEl = document.getElementById('qqq-price-display');
-      if (qqqPriceEl && V_QQQ_P > 0) {
-        const oldValue = previousValues['qqq-price-display'];
-        const newValue = '$' + V_QQQ_P.toFixed(2);
-        if (oldValue !== newValue) {
-          qqqPriceEl.textContent = newValue;
-          flashUpdate('qqq-price-display', V_QQQ_P >= 0);
-          previousValues['qqq-price-display'] = newValue;
-        }
-      }
-
-      const vixPriceEl = document.getElementById('vix-price-display');
-      if (vixPriceEl && V_VIX_P > 0) {
-        const oldValue = previousValues['vix-price-display'];
-        const newValue = '$' + V_VIX_P.toFixed(2);
-        if (oldValue !== newValue) {
-          vixPriceEl.textContent = newValue;
-          flashUpdate('vix-price-display', V_VIX_P >= 0);
-          previousValues['vix-price-display'] = newValue;
-        }
-      }
+      udFlash('gme', V_GME_P, V_GME_PCT, V_GME_EXT);
+      udFlash('amc', V_AMC_P, V_AMC_PCT, V_AMC_EXT);
+      udFlash('iep', V_IEP_P, V_IEP_PCT, V_IEP_EXT);
+      udFlash('bb', V_BB_P, V_BB_PCT, V_BB_EXT);
+      udFlash('nok', V_NOK_P, V_NOK_PCT, V_NOK_EXT);
+      udFlash('baba', V_BABA_P, V_BABA_PCT, V_BABA_EXT);
+      udFlash('aapl', V_AAPL_P, V_AAPL_PCT, V_AAPL_EXT);
+      udFlash('nvda', V_NVDA_P, V_NVDA_PCT, V_NVDA_EXT);
+      udFlash('msft', V_MSFT_P, V_MSFT_PCT, V_MSFT_EXT);
+      udFlash('tsla', V_TSLA_P, V_TSLA_PCT, V_TSLA_EXT);
+      udFlash('googl', V_GOOGL_P, V_GOOGL_PCT, V_GOOGL_EXT);
+      udFlash('amzn', V_AMZN_P, V_AMZN_PCT, V_AMZN_EXT);
+      udFlash('meta', V_META_P, V_META_PCT, V_META_EXT);
+      udFlash('btc', V_BTC_P, V_BTC_PCT, '', true);
+      udFlash('spy', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
+      udFlash('qqq', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
+      udFlash('vix', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
 
     }
 
