@@ -2584,157 +2584,9 @@
           </div>
 
 
-          <div class="port-table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-
-                  <th>Asset Instrument</th>
-
-                  <th class="r">Position</th>
-
-                  <th class="r">Avg Basis</th>
-
-                  <th class="r">Live Matrix</th>
-
-                  <th class="r">Terminal Value</th>
-
-                  <th class="r">Session Δ</th>
-
-                  <th class="r">Total Δ</th>
-
-                  <th class="r">ROI %</th>
-
-                </tr>
-
-              </thead>
-
-              <tbody id="portfolioBody">
-
-                <tr id="row_bbbyq">
-
-                  <td style="color:var(--amber); font-weight:900;"><span class="sym-tag">BBBYQ</span><br><span
-
-                      class="sub-tag">Bed Bath & Beyond</span></td>
-
-                  <td class="r">41,454</td>
-
-                  <td class="r muted">$0.80<br><span style="font-size:9px;color:var(--textD)">(est.)</span></td>
-
-                  <td class="r" style="font-weight:900;">BANKRUPT</td>
-
-                  <td class="r" id="cell_bbbyq_val">$0.00</td>
-
-                  <td class="r">—</td>
-
-                  <td class="r" id="cell_bbbyq_tot">$0.00</td>
-
-                  <td class="r" id="cell_bbbyq_roi">0.00%</td>
-
-                </tr>
-
-                <tr id="row_gme_e">
-
-                  <td style="color:var(--text); font-weight:900;"><span class="sym-tag">GME</span><br><span
-
-                      class="sub-tag">GameStop Equity</span></td>
-
-                  <td class="r">355</td>
-
-                  <td class="r muted">$30.00</td>
-
-                  <td class="r" style="font-weight:900;" id="cell_gme_e_p">WAITING...</td>
-
-                  <td class="r" id="cell_gme_e_val">$0.00</td>
-
-                  <td class="r" id="cell_gme_e_day">$0.00</td>
-
-                  <td class="r" id="cell_gme_e_tot">$0.00</td>
-
-                  <td class="r" id="cell_gme_e_roi">0.00%</td>
-
-                </tr>
-
-                <tr id="row_gme_o">
-
-                  <td style="color:var(--purple); font-weight:900;"><span class="sym-tag">GME $50C</span><br><span
-
-                      class="sub-tag">GME 17 Apr 26 Call</span></td>
-
-                  <td class="r">26</td>
-
-                  <td class="r muted">$0.36</td>
-
-                  <td class="r" style="font-weight:900;" id="cell_gme_o_p">WAITING...</td>
-
-                  <td class="r" id="cell_gme_o_val">$0.00</td>
-
-                  <td class="r" id="cell_gme_o_day">$0.00</td>
-
-                  <td class="r" id="cell_gme_o_tot">$0.00</td>
-
-                  <td class="r" id="cell_gme_o_roi">0.00%</td>
-
-                </tr>
-
-                <tr id="row_amc_e">
-
-                  <td style="color:var(--text); font-weight:900;"><span class="sym-tag">AMC</span><br><span
-
-                      class="sub-tag">AMC Entertainment</span></td>
-
-                  <td class="r">1</td>
-
-                  <td class="r muted">$1.18</td>
-
-                  <td class="r" style="font-weight:900;" id="cell_amc_e_p">WAITING...</td>
-
-                  <td class="r" id="cell_amc_e_val">$0.00</td>
-
-                  <td class="r" id="cell_amc_e_day">$0.00</td>
-
-                  <td class="r" id="cell_amc_e_tot">$0.00</td>
-
-                  <td class="r" id="cell_amc_e_roi">0.00%</td>
-
-                </tr>
-
-                <tr id="row_amc_o">
-
-                  <td style="color:var(--purple); font-weight:900;"><span class="sym-tag">AMC $2C</span><br><span
-
-                      class="sub-tag">AMC 02 Apr 26 Call</span></td>
-
-                  <td class="r">2</td>
-
-                  <td class="r muted">$0.07</td>
-
-                  <td class="r" style="font-weight:900;" id="cell_amc_o_p">WAITING...</td>
-
-                  <td class="r" id="cell_amc_o_val">$0.00</td>
-
-                  <td class="r" id="cell_amc_o_day">$0.00</td>
-
-                  <td class="r" id="cell_amc_o_tot">$0.00</td>
-
-                  <td class="r" id="cell_amc_o_roi">0.00%</td>
-
-                </tr>
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-
-
           <div class="scenario-wrap">
 
-            <div class="scenario-title">OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX</div>
+            <div class="scenario-title">PORTFOLIO & OPERATION OVERSEER: MULTI-STAGE DEPLOYMENT MATRIX</div>
 
             
 
@@ -2777,6 +2629,104 @@
                 </tr>
 
               </thead>
+
+              <tbody class="st-group">
+
+                <!-- CURRENT HOLDINGS -->
+
+                <tr class="st-main" style="background:rgba(245,158,11,0.15);">
+
+                  <td style="color:var(--amber); font-weight:900;">CURRENT HOLDINGS</td>
+
+                  <td style="color:var(--textD)">[LIVE PORTFOLIO SNAPSHOT]</td>
+
+                  <td class="r" colspan="5" style="text-align:center; color:var(--textM);">Real-time position tracking</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent" style="color:var(--amber); font-weight:900;">└ BBBYQ</td>
+
+                  <td class="det">Bed Bath & Beyond - 41,454 shares @ $0.80 est.</td>
+
+                  <td class="r pos" colspan="5" style="text-align:center; color:var(--amber);">BANKRUPT / SETTLEMENT PENDING</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ GME Equity</td>
+
+                  <td class="det">355 shares @ $30.00 cost basis</td>
+
+                  <td class="r" id="cell_gme_e_p">WAITING...</td>
+
+                  <td class="r" id="cell_gme_e_val">$0.00</td>
+
+                  <td class="r" id="cell_gme_e_day">$0.00</td>
+
+                  <td class="r" id="cell_gme_e_tot">$0.00</td>
+
+                  <td class="r" id="cell_gme_e_roi">0.00%</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ GME $50C Options</td>
+
+                  <td class="det">26 contracts @ $0.36 premium (Apr 26)</td>
+
+                  <td class="r" id="cell_gme_o_p">WAITING...</td>
+
+                  <td class="r" id="cell_gme_o_val">$0.00</td>
+
+                  <td class="r" id="cell_gme_o_day">$0.00</td>
+
+                  <td class="r" id="cell_gme_o_tot">$0.00</td>
+
+                  <td class="r" id="cell_gme_o_roi">0.00%</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ AMC Equity</td>
+
+                  <td class="det">1 share @ $1.18 cost basis</td>
+
+                  <td class="r" id="cell_amc_e_p">WAITING...</td>
+
+                  <td class="r" id="cell_amc_e_val">$0.00</td>
+
+                  <td class="r" id="cell_amc_e_day">$0.00</td>
+
+                  <td class="r" id="cell_amc_e_tot">$0.00</td>
+
+                  <td class="r" id="cell_amc_e_roi">0.00%</td>
+
+                </tr>
+
+                <tr class="st-sub">
+
+                  <td class="pl-indent">└ AMC $2C Options</td>
+
+                  <td class="det">2 contracts @ $0.07 premium (Apr 26)</td>
+
+                  <td class="r" id="cell_amc_o_p">WAITING...</td>
+
+                  <td class="r" id="cell_amc_o_val">$0.00</td>
+
+                  <td class="r" id="cell_amc_o_day">$0.00</td>
+
+                  <td class="r" id="cell_amc_o_tot">$0.00</td>
+
+                  <td class="r" id="cell_amc_o_roi">0.00%</td>
+
+                </tr>
+
+              </tbody>
 
               <tbody class="st-group">
 
