@@ -465,6 +465,14 @@
     .ud-pct.ud-down { color: var(--bear); }
     .ud-ext { font-size: 8px; color: var(--textD); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 12px; }
 
+    /* HNWI Wealth Tier Badges */
+    .hnwi-tier { font-size: 8px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; margin-top: 4px; display: inline-block; font-family: var(--mono); }
+    .tier-standard { background: rgba(100,116,139,0.2); color: #94a3b8; border: 1px solid rgba(100,116,139,0.3); }
+    .tier-hnwi { background: rgba(16,185,129,0.15); color: var(--accent); border: 1px solid rgba(16,185,129,0.3); }
+    .tier-vhnwi { background: rgba(139,92,246,0.15); color: var(--purple); border: 1px solid rgba(139,92,246,0.3); }
+    .tier-uhnwi { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.15)); color: var(--amber); border: 1px solid rgba(245,158,11,0.4); animation: tierPulse 2s ease-in-out infinite; }
+    @keyframes tierPulse { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
+
     .btn-out {
       background: linear-gradient(135deg, var(--accent) 0%, #06b6d4 100%);
       color: #000;
@@ -1917,6 +1925,21 @@
         transform: translateY(-2px);
       }
       
+      /* Unified Dashboard - Mobile Stack */
+      .ud-grid { grid-template-columns: 1fr !important; gap: 14px; }
+      .ud-section { padding: 14px; border-radius: 16px; }
+      .ud-section-hdr { font-size: 11px; margin-bottom: 10px; padding-bottom: 8px; text-align: center; }
+      .ud-items { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .ud-item { padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.3); }
+      .ud-row { flex-wrap: wrap; gap: 4px; }
+      .ud-ticker { font-size: 11px; min-width: 42px; font-weight: 900; }
+      .ud-price { font-size: 14px; }
+      .ud-pct { font-size: 11px; width: 100%; margin-left: 42px; margin-top: 2px; }
+      .ud-ext { font-size: 9px; margin-top: 4px; white-space: normal; line-height: 1.3; min-height: 14px; }
+
+      /* HNWI tier badges mobile */
+      .hnwi-tier { font-size: 9px; padding: 3px 10px; margin-top: 6px; }
+
       /* Hide sidebar completely */
       .market-sidebar {
         display: none !important;
@@ -2108,6 +2131,21 @@
         transform: scale(1.08) translateY(-4px);
         box-shadow: 0 25px 50px rgba(16, 185, 129, 0.5);
       }
+
+      /* Unified Dashboard - Fold 6 Unfolded */
+      .ud-grid { grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+      .ud-section { padding: 14px 16px; border-radius: 16px; }
+      .ud-section-hdr { font-size: 10px; margin-bottom: 10px; padding-bottom: 8px; }
+      .ud-items { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .ud-item { padding: 10px 12px; border-radius: 14px; background: rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+      .ud-item:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+      .ud-ticker { font-size: 11px; font-weight: 900; min-width: 44px; }
+      .ud-price { font-size: 14px; font-weight: 800; }
+      .ud-pct { font-size: 11px; font-weight: 700; }
+      .ud-ext { font-size: 9px; margin-top: 4px; min-height: 14px; }
+
+      /* HNWI tier badges - tablet */
+      .hnwi-tier { font-size: 9px; padding: 3px 12px; border-radius: 6px; margin-top: 6px; }
       
       /* Creative portfolio table - glass cards */
       .port-table-wrap {
@@ -2638,7 +2676,7 @@
 
           <div class="port-bar">
 
-            <div class="port-bar-section" style="flex:3; min-width:980px;">
+            <div class="port-bar-section" style="flex:3;">
               <div class="port-bar-section-title">📊 UNIFIED MARKET DASHBOARD</div>
               <div class="ud-grid">
                 <div class="ud-section ud-sb">
@@ -2682,13 +2720,15 @@
               <div class="port-bar-section-title">PORTFOLIO STATUS</div>
               <div class="pstat" style="border: 2px solid var(--accent); background: rgba(0,200,83,0.1);">
                 <div class="pstat-lbl" style="color: var(--accent); font-weight: 700;">💎 NET WORTH<br><span style="font-size:9px;font-weight:400;color:var(--textM)">(BBBYQ cost est.)</span></div>
-                <div id="net-worth-display" class="pstat-val" style="color: var(--accent);">-$36,699.43</div>
-                <div id="net-worth-pct" class="pstat-pct">-82.05%</div>
+                <div id="net-worth-display" class="pstat-val" style="color: var(--accent);">LOADING...</div>
+                <div id="net-worth-pct" class="pstat-pct">—</div>
+                <div id="net-worth-tier" class="hnwi-tier tier-standard">STANDARD</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">EQUITY</div>
                 <div id="p-total" class="pstat-val">$8,064.95</div>
                 <div id="equity-pct" class="pstat-pct">+0.97%</div>
+                <div id="equity-tier" class="hnwi-tier tier-standard">STANDARD</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">SESSION</div>
@@ -2704,11 +2744,13 @@
                 <div class="pstat-lbl">TARGET ($399)</div>
                 <div class="pstat-val" style="color:var(--amber)">$16.54M</div>
                 <div class="pstat-pct" style="color:var(--amber)">+20,425%</div>
+                <div class="hnwi-tier tier-uhnwi">UHNWI</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">CUSTOM TARGET</div>
                 <div id="custom-payout-target" class="pstat-val" style="color:var(--accent)">$0</div>
                 <div id="custom-target-pct" class="pstat-pct" style="color:var(--accent)">0.00%</div>
+                <div id="custom-target-tier" class="hnwi-tier tier-standard">STANDARD</div>
               </div>
             </div>
 
@@ -4307,6 +4349,7 @@
       udUpdate('spy', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
       udUpdate('qqq', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
       udUpdate('vix', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+      updateRealTimeNetWorth();
     }
 
     // Update portfolio table values without full re-render
@@ -4829,7 +4872,16 @@
       console.log('[DEBUG] Calling calculateFullPipelineWithCustomPrice with price:', price);
       calculateFullPipelineWithCustomPrice(price);
 
-      
+      // Update custom target payout in port-bar
+      const bbbyq_custom_val = 41454 * price;
+      const customPayoutEl = document.getElementById('custom-payout-target');
+      if (customPayoutEl) customPayoutEl.textContent = '$' + fmt(bbbyq_custom_val);
+      const customPctEl = document.getElementById('custom-target-pct');
+      if (customPctEl) {
+        const customPct = ((bbbyq_custom_val - (41454 * 0.80)) / (41454 * 0.80)) * 100;
+        customPctEl.textContent = (customPct >= 0 ? '+' : '') + fmt(customPct) + '%';
+      }
+      setTierBadge('custom-target-tier', bbbyq_custom_val);
 
       // Update display to show custom mode
       const customHeader = document.querySelector('th[style*="var(--accent)"]');
@@ -5800,6 +5852,22 @@
       updateRealTimeNetWorth();
     }
 
+    // Wealth tier helper
+    function getWealthTier(amount) {
+      const abs = Math.abs(amount);
+      if (abs >= 30000000) return { label: 'UHNWI', cls: 'tier-uhnwi' };
+      if (abs >= 5000000) return { label: 'VHNWI', cls: 'tier-vhnwi' };
+      if (abs >= 1000000) return { label: 'HNWI', cls: 'tier-hnwi' };
+      return { label: 'STANDARD', cls: 'tier-standard' };
+    }
+    function setTierBadge(elId, amount) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      const t = getWealthTier(amount);
+      el.textContent = t.label;
+      el.className = 'hnwi-tier ' + t.cls;
+    }
+
     // Real-time Net Worth calculation
     function updateRealTimeNetWorth() {
       if (netWorthMode === 'realtime') {
@@ -5837,17 +5905,10 @@
         // Net worth (will be negative due to losses)
         const real_time_net_worth = total_current_value - total_cost_basis;
         
-        // Calculate HNWI title based on absolute net worth value
-        const absNetWorth = Math.abs(real_time_net_worth);
-        const hnwiTitle = absNetWorth >= 30000000 ? 'UHNWI' : absNetWorth >= 5000000 ? 'VHNWI' : absNetWorth >= 1000000 ? 'HNWI' : '';
-        
         const netWorthDisplayEl = document.getElementById('net-worth-display');
         if (netWorthDisplayEl) {
-          if (real_time_net_worth < 0) {
-            netWorthDisplayEl.innerHTML = `-$${fmt(Math.abs(real_time_net_worth))}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
-          } else {
-            netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
-          }
+          const nwText = real_time_net_worth < 0 ? `-$${fmt(Math.abs(real_time_net_worth))}` : `$${fmt(real_time_net_worth)}`;
+          netWorthDisplayEl.textContent = nwText;
         }
 
         const netWorthPctEl = document.getElementById('net-worth-pct');
@@ -5856,6 +5917,10 @@
           netWorthPctEl.textContent = (netWorthPct >= 0 ? '+' : '') + netWorthPct.toFixed(2) + '%';
           netWorthPctEl.className = 'pstat-pct ' + (netWorthPct >= 0 ? 'pos' : 'neg');
         }
+
+        // Update tier badges
+        setTierBadge('net-worth-tier', real_time_net_worth);
+        setTierBadge('equity-tier', total_current_value);
       }
     }
 
