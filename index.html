@@ -2771,6 +2771,12 @@
                     <div class="ud-item"><div class="ud-row"><span class="ud-ticker">SPY</span><span id="spy-price-display" class="ud-price">$0.00</span><span id="spy-pct-display" class="ud-pct">0.00%</span></div><div id="spy-ext-display" class="ud-ext"></div></div>
                     <div class="ud-item"><div class="ud-row"><span class="ud-ticker">QQQ</span><span id="qqq-price-display" class="ud-price">$0.00</span><span id="qqq-pct-display" class="ud-pct">0.00%</span></div><div id="qqq-ext-display" class="ud-ext"></div></div>
                     <div class="ud-item"><div class="ud-row"><span class="ud-ticker">VIX</span><span id="vix-price-display" class="ud-price">$0.00</span><span id="vix-pct-display" class="ud-pct">0.00%</span></div><div id="vix-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#ff6b6b;">MOVE</span><span id="move-price-display" class="ud-price">0.00</span><span id="move-pct-display" class="ud-pct">0.00%</span></div><div id="move-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#4ecdc4;">KOSPI</span><span id="kospi-price-display" class="ud-price">0.00</span><span id="kospi-pct-display" class="ud-pct">0.00%</span></div><div id="kospi-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#45b8ff;">DXY</span><span id="dxy-price-display" class="ud-price">0.00</span><span id="dxy-pct-display" class="ud-pct">0.00%</span></div><div id="dxy-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#ffd700;">GOLD</span><span id="gold-price-display" class="ud-price">$0.00</span><span id="gold-pct-display" class="ud-pct">0.00%</span></div><div id="gold-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#a78bfa;">10Y</span><span id="tnx-price-display" class="ud-price">0.00%</span><span id="tnx-pct-display" class="ud-pct">0.00%</span></div><div id="tnx-ext-display" class="ud-ext"></div></div>
+                    <div class="ud-item"><div class="ud-row"><span class="ud-ticker" style="color:#e67e22;">OIL</span><span id="oil-price-display" class="ud-price">$0.00</span><span id="oil-pct-display" class="ud-pct">0.00%</span></div><div id="oil-ext-display" class="ud-ext"></div></div>
                     <div class="ud-item"><div class="ud-row"><span class="ud-ticker">F&G</span><span id="fear-val" class="ud-price">--</span></div></div>
                   </div>
                 </div>
@@ -3934,7 +3940,13 @@
 
     let V_VIX_P = 0, V_VIX_C = 0, V_VIX_PCT = 0, V_VIX_EXT = "";
 
-
+    // Market Indices (new)
+    let V_MOVE_P = 0, V_MOVE_C = 0, V_MOVE_PCT = 0, V_MOVE_EXT = "";
+    let V_KOSPI_P = 0, V_KOSPI_C = 0, V_KOSPI_PCT = 0, V_KOSPI_EXT = "";
+    let V_DXY_P = 0, V_DXY_C = 0, V_DXY_PCT = 0, V_DXY_EXT = "";
+    let V_GOLD_P = 0, V_GOLD_C = 0, V_GOLD_PCT = 0, V_GOLD_EXT = "";
+    let V_TNX_P = 0, V_TNX_C = 0, V_TNX_PCT = 0, V_TNX_EXT = "";
+    let V_OIL_P = 0, V_OIL_C = 0, V_OIL_PCT = 0, V_OIL_EXT = "";
 
     // Crypto
 
@@ -4168,7 +4180,7 @@
 
       conn.textContent = "[UPLINKING VIA VERCEL API...]";
 
-      const targets = "SPY,QQQ,^VIX,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
+      const targets = "SPY,QQQ,^VIX,^MOVE,^KS11,DX-Y.NYB,GC=F,^TNX,CL=F,AAPL,NVDA,TSLA,MSFT,GME,AMC,IEP,GOOGL,AMZN,META,BB,NOK,BABA,GME260417C00050000,AMC260402C00002000,BTC-USD";
 
       const targetUrl = `/api/quote?symbols=${targets}`;
 
@@ -4278,6 +4290,14 @@
           const qQQQ = extract('QQQ'); if (qQQQ) { V_QQQ_P = Number(qQQQ.regularMarketPrice) || 0; V_QQQ_C = Number(qQQQ.regularMarketChange) || 0; V_QQQ_PCT = Number(qQQQ.regularMarketChangePercent) || 0; V_QQQ_EXT = qQQQ._extInfo || getExt(qQQQ); }
 
           const qVIX = extract('^VIX'); if (qVIX) { V_VIX_P = Number(qVIX.regularMarketPrice) || 0; V_VIX_C = Number(qVIX.regularMarketChange) || 0; V_VIX_PCT = Number(qVIX.regularMarketChangePercent) || 0; V_VIX_EXT = qVIX._extInfo || getExt(qVIX); }
+
+          // New Market Indices
+          const qMOVE = extract('^MOVE'); if (qMOVE) { V_MOVE_P = Number(qMOVE.regularMarketPrice) || 0; V_MOVE_C = Number(qMOVE.regularMarketChange) || 0; V_MOVE_PCT = Number(qMOVE.regularMarketChangePercent) || 0; V_MOVE_EXT = qMOVE._extInfo || ''; }
+          const qKOSPI = extract('^KS11'); if (qKOSPI) { V_KOSPI_P = Number(qKOSPI.regularMarketPrice) || 0; V_KOSPI_C = Number(qKOSPI.regularMarketChange) || 0; V_KOSPI_PCT = Number(qKOSPI.regularMarketChangePercent) || 0; V_KOSPI_EXT = qKOSPI._extInfo || ''; }
+          const qDXY = extract('DX-Y.NYB'); if (qDXY) { V_DXY_P = Number(qDXY.regularMarketPrice) || 0; V_DXY_C = Number(qDXY.regularMarketChange) || 0; V_DXY_PCT = Number(qDXY.regularMarketChangePercent) || 0; V_DXY_EXT = qDXY._extInfo || ''; }
+          const qGOLD = extract('GC=F'); if (qGOLD) { V_GOLD_P = Number(qGOLD.regularMarketPrice) || 0; V_GOLD_C = Number(qGOLD.regularMarketChange) || 0; V_GOLD_PCT = Number(qGOLD.regularMarketChangePercent) || 0; V_GOLD_EXT = qGOLD._extInfo || ''; }
+          const qTNX = extract('^TNX'); if (qTNX) { V_TNX_P = Number(qTNX.regularMarketPrice) || 0; V_TNX_C = Number(qTNX.regularMarketChange) || 0; V_TNX_PCT = Number(qTNX.regularMarketChangePercent) || 0; V_TNX_EXT = qTNX._extInfo || ''; }
+          const qOIL = extract('CL=F'); if (qOIL) { V_OIL_P = Number(qOIL.regularMarketPrice) || 0; V_OIL_C = Number(qOIL.regularMarketChange) || 0; V_OIL_PCT = Number(qOIL.regularMarketChangePercent) || 0; V_OIL_EXT = qOIL._extInfo || ''; }
 
           // Options (Real Yahoo Fetch with Zero Prediction)
 
@@ -4488,6 +4508,12 @@
       udUpdate('spy', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
       udUpdate('qqq', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
       udUpdate('vix', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+      udUpdate('move', V_MOVE_P, V_MOVE_PCT, V_MOVE_EXT);
+      udUpdate('kospi', V_KOSPI_P, V_KOSPI_PCT, V_KOSPI_EXT);
+      udUpdate('dxy', V_DXY_P, V_DXY_PCT, V_DXY_EXT);
+      udUpdate('gold', V_GOLD_P, V_GOLD_PCT, V_GOLD_EXT);
+      udUpdate('tnx', V_TNX_P, V_TNX_PCT, V_TNX_EXT);
+      udUpdate('oil', V_OIL_P, V_OIL_PCT, V_OIL_EXT);
       updateRealTimeNetWorth();
     }
 
@@ -5805,6 +5831,12 @@
       udFlash('spy', V_SPY_P, V_SPY_PCT, V_SPY_EXT);
       udFlash('qqq', V_QQQ_P, V_QQQ_PCT, V_QQQ_EXT);
       udFlash('vix', V_VIX_P, V_VIX_PCT, V_VIX_EXT);
+      udFlash('move', V_MOVE_P, V_MOVE_PCT, V_MOVE_EXT);
+      udFlash('kospi', V_KOSPI_P, V_KOSPI_PCT, V_KOSPI_EXT);
+      udFlash('dxy', V_DXY_P, V_DXY_PCT, V_DXY_EXT);
+      udFlash('gold', V_GOLD_P, V_GOLD_PCT, V_GOLD_EXT);
+      udFlash('tnx', V_TNX_P, V_TNX_PCT, V_TNX_EXT);
+      udFlash('oil', V_OIL_P, V_OIL_PCT, V_OIL_EXT);
 
     }
 
