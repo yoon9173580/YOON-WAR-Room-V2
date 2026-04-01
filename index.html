@@ -2629,6 +2629,91 @@
               </div>
             </div>
 
+            <!-- Squeeze-On Mode Panel -->
+            <div id="squeeze-panel" style="margin-bottom:20px; padding:14px 16px; background:rgba(239,68,68,0.06); border:2px solid rgba(239,68,68,0.2); border-radius:10px; transition:all 0.3s;">
+              <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <button id="squeeze-toggle" onclick="toggleSqueezeMode()" style="padding:8px 18px; border:2px solid var(--bear); border-radius:8px; background:transparent; color:var(--bear); font-weight:900; font-size:13px; cursor:pointer; transition:all 0.2s; letter-spacing:1px;">SQUEEZE OFF</button>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="color:var(--textM); font-size:11px; font-weight:600;">IV:</span>
+                  <input type="range" id="squeeze-iv" min="100" max="800" value="300" step="10" style="width:120px; accent-color:var(--bear);" oninput="updateSqueezeCalc()">
+                  <span id="squeeze-iv-val" style="color:var(--bear); font-weight:900; font-size:14px; min-width:45px;">300%</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="color:var(--textM); font-size:11px; font-weight:600;">GME Target:</span>
+                  <input type="number" id="squeeze-gme-target" placeholder="e.g. 500" style="width:80px; padding:4px 8px; border:1px solid var(--border); border-radius:5px; background:var(--bg2); color:var(--text); font-size:13px; font-weight:700;" oninput="updateSqueezeCalc()">
+                </div>
+              </div>
+              <!-- Squeeze Results (hidden until activated) -->
+              <div id="squeeze-results" style="display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(239,68,68,0.15);">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:10px; margin-bottom:12px;">
+                  <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:10px;">
+                    <div style="font-size:10px; color:var(--textM); text-transform:uppercase;">GME $50C (26 contracts)</div>
+                    <div id="sq-gme-opt-val" style="font-size:18px; font-weight:900; color:var(--bull);">$0</div>
+                    <div id="sq-gme-opt-roi" style="font-size:11px; color:var(--bull);">+0% ROI</div>
+                  </div>
+                  <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:10px;">
+                    <div style="font-size:10px; color:var(--textM); text-transform:uppercase;">GME Equity (355 shares)</div>
+                    <div id="sq-gme-eq-val" style="font-size:18px; font-weight:900; color:var(--bull);">$0</div>
+                    <div id="sq-gme-eq-roi" style="font-size:11px; color:var(--bull);">+0% ROI</div>
+                  </div>
+                  <div style="background:rgba(0,0,0,0.2); border-radius:8px; padding:10px;">
+                    <div style="font-size:10px; color:var(--textM); text-transform:uppercase;">Total Portfolio (Squeeze)</div>
+                    <div id="sq-total-val" style="font-size:18px; font-weight:900; color:var(--accent);">$0</div>
+                    <div id="sq-total-roi" style="font-size:11px; color:var(--accent);">+0% ROI</div>
+                  </div>
+                </div>
+                <!-- Partial Liquidation Schedule -->
+                <div style="background:rgba(0,0,0,0.15); border-radius:8px; padding:12px;">
+                  <div style="font-size:11px; color:var(--amber); font-weight:700; margin-bottom:8px; letter-spacing:1px;">180-DAY PARTIAL LIQUIDATION SCHEDULE</div>
+                  <table style="width:100%; font-size:12px; border-collapse:collapse;">
+                    <thead>
+                      <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <th style="text-align:left; padding:4px 6px; color:var(--textM); font-weight:600;">Phase</th>
+                        <th style="text-align:left; padding:4px 6px; color:var(--textM); font-weight:600;">Action</th>
+                        <th style="text-align:right; padding:4px 6px; color:var(--textM); font-weight:600;">Gross</th>
+                        <th style="text-align:right; padding:4px 6px; color:var(--textM); font-weight:600;">Tax (37%)</th>
+                        <th style="text-align:right; padding:4px 6px; color:var(--textM); font-weight:600;">Net</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <td style="padding:5px 6px; color:var(--bear); font-weight:700;">P1: D-Day</td>
+                        <td style="padding:5px 6px; color:var(--text);">OTM Calls 전량 청산 (IV peak)</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p1-gross">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--amber);" id="sq-p1-tax">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p1-net">$0</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <td style="padding:5px 6px; color:var(--amber); font-weight:700;">P2: T+30</td>
+                        <td style="padding:5px 6px; color:var(--text);">GME Equity 50% 부분 청산</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p2-gross">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--amber);" id="sq-p2-tax">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p2-net">$0</td>
+                      </tr>
+                      <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <td style="padding:5px 6px; color:var(--bull); font-weight:700;">P3: T+90</td>
+                        <td style="padding:5px 6px; color:var(--text);">GME Equity 잔여 50% 청산</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p3-gross">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--amber);" id="sq-p3-tax">$0</td>
+                        <td style="padding:5px 6px; text-align:right; color:var(--bull); font-weight:700;" id="sq-p3-net">$0</td>
+                      </tr>
+                      <tr style="border-top:2px solid var(--accent);">
+                        <td colspan="2" style="padding:6px; color:var(--accent); font-weight:900;">TOTAL NET (Post-Tax)</td>
+                        <td style="padding:6px; text-align:right; color:var(--accent); font-weight:900;" id="sq-total-gross">$0</td>
+                        <td style="padding:6px; text-align:right; color:var(--amber); font-weight:700;" id="sq-total-tax">$0</td>
+                        <td style="padding:6px; text-align:right; color:var(--accent); font-weight:900;" id="sq-total-net">$0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div style="margin-top:8px; display:flex; gap:12px; flex-wrap:wrap; font-size:11px;">
+                    <span style="color:var(--textM);">ST2 즉시집행: <span id="sq-st2-cover" style="color:var(--bull); font-weight:700;">$0</span></span>
+                    <span style="color:var(--textM);">ST4 절세투입: <span id="sq-st4-cover" style="color:var(--amber); font-weight:700;">$0</span></span>
+                    <span style="color:var(--textM);">잔여 현금: <span id="sq-cash-remain" style="color:var(--accent); font-weight:700;">$0</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <table>
 
               <thead>
@@ -4042,6 +4127,7 @@
           renderTerminal();
 
           updateRealTimeNetWorth(); // Update real-time net worth
+          if (squeezeMode) updateSqueezeCalc(); // Refresh squeeze panel with live data
           
           // Recalculate all preset columns with live GME price for CS calculation
           console.log('[DEBUG] Recalculating all pipeline columns with V_GME_P:', V_GME_P);
@@ -5660,6 +5746,131 @@
 
       }
 
+    }
+
+    // ── Squeeze-On Mode ──
+    let squeezeMode = false;
+    function toggleSqueezeMode() {
+      squeezeMode = !squeezeMode;
+      const btn = document.getElementById('squeeze-toggle');
+      const panel = document.getElementById('squeeze-panel');
+      const results = document.getElementById('squeeze-results');
+      if (squeezeMode) {
+        btn.textContent = 'SQUEEZE ON';
+        btn.style.background = 'var(--bear)';
+        btn.style.color = '#fff';
+        panel.style.borderColor = 'rgba(239,68,68,0.6)';
+        panel.style.background = 'rgba(239,68,68,0.12)';
+        results.style.display = 'block';
+        updateSqueezeCalc();
+      } else {
+        btn.textContent = 'SQUEEZE OFF';
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--bear)';
+        panel.style.borderColor = 'rgba(239,68,68,0.2)';
+        panel.style.background = 'rgba(239,68,68,0.06)';
+        results.style.display = 'none';
+      }
+    }
+
+    function squeezeOptionPrice(underlying, strike, iv, dte) {
+      // Simplified IV-adjusted option pricing
+      // Price = intrinsic + extrinsic (time value with IV)
+      const intrinsic = Math.max(0, underlying - strike);
+      const t = Math.max(dte, 1) / 365;
+      // Extrinsic ≈ underlying × IV × sqrt(T) × 0.4 (simplified normal approx)
+      const extrinsic = underlying * (iv / 100) * Math.sqrt(t) * 0.4;
+      // Deep ITM: extrinsic shrinks; OTM: mostly extrinsic
+      const moneyness = (underlying - strike) / underlying;
+      const extrinsicAdj = extrinsic * Math.max(0.1, 1 - Math.abs(moneyness) * 0.5);
+      return intrinsic + extrinsicAdj;
+    }
+
+    function updateSqueezeCalc() {
+      if (!squeezeMode) return;
+      const ivVal = Number(document.getElementById('squeeze-iv').value) || 300;
+      document.getElementById('squeeze-iv-val').textContent = ivVal + '%';
+      const targetInput = document.getElementById('squeeze-gme-target');
+      const gmeTarget = Number(targetInput.value) || (V_GME_P > 0 ? V_GME_P : 30);
+
+      // GME $50C Apr 2026 — calculate DTE
+      const expiry = new Date('2026-04-17');
+      const now = new Date();
+      const dte = Math.max(0, Math.ceil((expiry - now) / (1000*60*60*24)));
+
+      // Option value per share at squeeze target + elevated IV
+      const optPricePerShare = squeezeOptionPrice(gmeTarget, 50, ivVal, dte);
+      const gmeOptTotal = 26 * optPricePerShare * 100; // 26 contracts × 100 shares
+      const gmeOptCost = 26 * 0.36 * 100; // $936
+      const gmeOptROI = gmeOptCost > 0 ? ((gmeOptTotal - gmeOptCost) / gmeOptCost * 100) : 0;
+
+      // GME Equity
+      const gmeEqTotal = 355 * gmeTarget;
+      const gmeEqCost = 355 * 30;
+      const gmeEqROI = gmeEqCost > 0 ? ((gmeEqTotal - gmeEqCost) / gmeEqCost * 100) : 0;
+
+      // Total
+      const totalVal = gmeOptTotal + gmeEqTotal;
+      const totalCost = gmeOptCost + gmeEqCost;
+      const totalROI = totalCost > 0 ? ((totalVal - totalCost) / totalCost * 100) : 0;
+
+      // Update cards
+      document.getElementById('sq-gme-opt-val').textContent = '$' + fmt(gmeOptTotal);
+      document.getElementById('sq-gme-opt-roi').textContent = '+' + fmt(gmeOptROI) + '% ROI';
+      document.getElementById('sq-gme-eq-val').textContent = '$' + fmt(gmeEqTotal);
+      document.getElementById('sq-gme-eq-roi').textContent = '+' + fmt(gmeEqROI) + '% ROI';
+      document.getElementById('sq-total-val').textContent = '$' + fmt(totalVal);
+      document.getElementById('sq-total-roi').textContent = '+' + fmt(totalROI) + '% ROI';
+
+      // ── 180-Day Partial Liquidation Schedule ──
+      const stcgRate = 0.37; // Short-term capital gains
+
+      // P1: D-Day — sell all OTM calls at IV peak
+      const p1Gross = gmeOptTotal;
+      const p1Gain = p1Gross - gmeOptCost;
+      const p1Tax = Math.max(0, p1Gain) * stcgRate;
+      const p1Net = p1Gross - p1Tax;
+
+      // P2: T+30 — sell 50% of GME equity (assume price holds ~80% of peak)
+      const p2Price = gmeTarget * 0.80;
+      const p2Shares = Math.floor(355 * 0.5);
+      const p2Gross = p2Shares * p2Price;
+      const p2Gain = p2Gross - (p2Shares * 30);
+      const p2Tax = Math.max(0, p2Gain) * stcgRate;
+      const p2Net = p2Gross - p2Tax;
+
+      // P3: T+90 — sell remaining 50% equity (assume price holds ~60% of peak)
+      const p3Price = gmeTarget * 0.60;
+      const p3Shares = 355 - p2Shares;
+      const p3Gross = p3Shares * p3Price;
+      const p3Gain = p3Gross - (p3Shares * 30);
+      const p3Tax = Math.max(0, p3Gain) * stcgRate;
+      const p3Net = p3Gross - p3Tax;
+
+      const totGross = p1Gross + p2Gross + p3Gross;
+      const totTax = p1Tax + p2Tax + p3Tax;
+      const totNet = p1Net + p2Net + p3Net;
+
+      document.getElementById('sq-p1-gross').textContent = '$' + fmt(p1Gross);
+      document.getElementById('sq-p1-tax').textContent = '-$' + fmt(p1Tax);
+      document.getElementById('sq-p1-net').textContent = '$' + fmt(p1Net);
+      document.getElementById('sq-p2-gross').textContent = '$' + fmt(p2Gross);
+      document.getElementById('sq-p2-tax').textContent = '-$' + fmt(p2Tax);
+      document.getElementById('sq-p2-net').textContent = '$' + fmt(p2Net);
+      document.getElementById('sq-p3-gross').textContent = '$' + fmt(p3Gross);
+      document.getElementById('sq-p3-tax').textContent = '-$' + fmt(p3Tax);
+      document.getElementById('sq-p3-net').textContent = '$' + fmt(p3Net);
+      document.getElementById('sq-total-gross').textContent = '$' + fmt(totGross);
+      document.getElementById('sq-total-tax').textContent = '-$' + fmt(totTax);
+      document.getElementById('sq-total-net').textContent = '$' + fmt(totNet);
+
+      // ST coverage breakdown
+      const st2Fixed = 400000 + 120000 + 60000 + 22320 + 22548 + 13920 + 380000 + 380000 + 100000 + 80000 + 200000;
+      const st4Reinvest = totNet * 0.40; // 40% to tax shield (O&G + QOF + CLAT)
+      const cashRemain = totNet - st2Fixed - st4Reinvest;
+      document.getElementById('sq-st2-cover').textContent = '$' + fmt(st2Fixed);
+      document.getElementById('sq-st4-cover').textContent = '$' + fmt(st4Reinvest);
+      document.getElementById('sq-cash-remain').textContent = '$' + fmt(Math.max(0, cashRemain));
     }
 
     // ── 180-Day Rule Countdown Timer ──
