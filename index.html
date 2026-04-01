@@ -5567,6 +5567,7 @@
 
       // GLOBAL SUMMARY with BBBYQ bankruptcy loss included
       const g_total_val = bb_val + ge_val + go_val + ae_val + ao_val;
+      const total_cost_basis = bb_cost + ge_cost + go_cost + ae_cost + ao_cost;
       
       // Update EQUITY with flash animation
       const pTotalEl = document.getElementById('p-total');
@@ -5575,12 +5576,20 @@
         const newValue = '$' + fmt(g_total_val);
         if (oldValue !== newValue) {
           pTotalEl.textContent = newValue;
+          pTotalEl.className = 'pstat-val ' + (g_total_val >= 0 ? 'pos' : 'neg');
           flashUpdate('p-total', g_total_val >= 0);
           previousValues['p-total'] = newValue;
         }
       }
-      
+
       const total_day_delta = (355 * V_GME_C) + (26 * V_GME_O_C * 100) + (1 * V_AMC_C) + (2 * V_AMC_O_C * 100);
+
+      const equityPctEl = document.getElementById('equity-pct');
+      if (equityPctEl) {
+        const equityPct = g_total_val !== 0 ? (total_day_delta / Math.abs(g_total_val)) * 100 : 0;
+        equityPctEl.textContent = (equityPct >= 0 ? '+' : '') + equityPct.toFixed(2) + '%';
+        equityPctEl.className = 'pstat-pct ' + (equityPct >= 0 ? 'pos' : 'neg');
+      }
       
       // Update SESSION with flash animation
       const pDaypnlEl = document.getElementById('p-daypnl');
@@ -5593,6 +5602,13 @@
           flashUpdate('p-daypnl', total_day_delta >= 0);
           previousValues['p-daypnl'] = newValue;
         }
+      }
+
+      const sessionPctEl = document.getElementById('session-pct');
+      if (sessionPctEl) {
+        const sessionPct = g_total_val !== 0 ? (total_day_delta / Math.abs(g_total_val)) * 100 : 0;
+        sessionPctEl.textContent = (sessionPct >= 0 ? '+' : '') + sessionPct.toFixed(2) + '%';
+        sessionPctEl.className = 'pstat-pct ' + (sessionPct >= 0 ? 'pos' : 'neg');
       }
       
       const total_profit = bb_profit + ge_profit + go_profit + ae_profit + ao_profit;
@@ -5608,6 +5624,13 @@
           flashUpdate('p-totpnl', total_profit >= 0);
           previousValues['p-totpnl'] = newValue;
         }
+      }
+
+      const unrealizedPctEl = document.getElementById('unrealized-pct');
+      if (unrealizedPctEl) {
+        const unrealizedPct = total_cost_basis > 0 ? (total_profit / total_cost_basis) * 100 : 0;
+        unrealizedPctEl.textContent = (unrealizedPct >= 0 ? '+' : '') + unrealizedPct.toFixed(2) + '%';
+        unrealizedPctEl.className = 'pstat-pct ' + (unrealizedPct >= 0 ? 'pos' : 'neg');
       }
 
 
@@ -5980,6 +6003,13 @@
           } else {
             netWorthDisplayEl.innerHTML = `$${fmt(real_time_net_worth)}${hnwiTitle ? `<br><span style="font-size:10px; color:var(--accent);">${hnwiTitle}</span>` : ''}`;
           }
+        }
+
+        const netWorthPctEl = document.getElementById('net-worth-pct');
+        if (netWorthPctEl) {
+          const netWorthPct = total_cost_basis > 0 ? (real_time_net_worth / total_cost_basis) * 100 : 0;
+          netWorthPctEl.textContent = (netWorthPct >= 0 ? '+' : '') + netWorthPct.toFixed(2) + '%';
+          netWorthPctEl.className = 'pstat-pct ' + (netWorthPct >= 0 ? 'pos' : 'neg');
         }
       }
     }
