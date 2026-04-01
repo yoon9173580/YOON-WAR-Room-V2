@@ -1831,9 +1831,45 @@
         background: none !important;
         border-radius: 0;
         line-height: 1.3;
+        white-space: nowrap !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
+      /* Column header labels via ::before */
+      .scenario-wrap tbody.st-group td:nth-child(3)::before,
+      .scenario-wrap tbody.st-group td:nth-child(4)::before,
+      .scenario-wrap tbody.st-group td:nth-child(5)::before,
+      .scenario-wrap tbody.st-group td:nth-child(6)::before {
+        display: block;
+        font-size: 7px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin-bottom: 1px;
+        line-height: 1;
+      }
+      .scenario-wrap tbody.st-group td:nth-child(3)::before { content: '$210'; color: #94a3b8; }
+      .scenario-wrap tbody.st-group td:nth-child(4)::before { content: '$242'; color: #94a3b8; }
+      .scenario-wrap tbody.st-group td:nth-child(5)::before { content: '$399'; color: var(--amber); }
+      .scenario-wrap tbody.st-group td:nth-child(6)::before { content: '$741'; color: var(--bull); }
+      /* Portfolio column labels (different from scenario) */
+      .scenario-wrap tbody.st-portfolio td:nth-child(3)::before,
+      .scenario-wrap tbody.st-portfolio td:nth-child(4)::before,
+      .scenario-wrap tbody.st-portfolio td:nth-child(5)::before,
+      .scenario-wrap tbody.st-portfolio td:nth-child(6)::before {
+        display: block;
+        font-size: 7px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin-bottom: 1px;
+        line-height: 1;
+        color: #64748b;
+      }
+      .scenario-wrap tbody.st-portfolio td:nth-child(3)::before { content: 'PRICE'; }
+      .scenario-wrap tbody.st-portfolio td:nth-child(4)::before { content: 'VALUE'; }
+      .scenario-wrap tbody.st-portfolio td:nth-child(5)::before { content: 'DAY'; }
+      .scenario-wrap tbody.st-portfolio td:nth-child(6)::before { content: 'TOTAL'; }
 
-      /* Custom cell — full width accent bar */
+      /* 7th cell — base style */
       .scenario-wrap td:nth-child(7) {
         display: block !important;
         flex: 0 0 100% !important;
@@ -1848,6 +1884,34 @@
         border-radius: 6px;
         color: var(--accent);
       }
+      /* Scenario 7th cell label: Custom */
+      .scenario-wrap tbody.st-group td:nth-child(7)::before {
+        content: 'CUSTOM';
+        display: block;
+        font-size: 7px;
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 0.5px;
+        margin-bottom: 1px;
+        line-height: 1;
+      }
+      /* Portfolio 7th cell: ROI — no accent, inherit color */
+      .scenario-wrap tbody.st-portfolio td:nth-child(7) {
+        background: rgba(255,255,255,0.03) !important;
+        border-top: 1px solid rgba(255,255,255,0.06) !important;
+        color: inherit !important;
+        flex: 0 0 100% !important;
+      }
+      .scenario-wrap tbody.st-portfolio td:nth-child(7)::before {
+        content: 'ROI';
+        display: block;
+        font-size: 7px;
+        font-weight: 600;
+        color: #64748b;
+        letter-spacing: 0.5px;
+        margin-bottom: 1px;
+        line-height: 1;
+      }
 
       /* BAL text inside price cells */
       .scenario-wrap .bal {
@@ -1855,6 +1919,18 @@
         font-size: 7px !important;
         line-height: 1.2;
         opacity: 0.7;
+      }
+
+      /* Final section (NET WORTH etc.) — larger font for emphasis */
+      .scenario-wrap tbody.st-final td:nth-child(3),
+      .scenario-wrap tbody.st-final td:nth-child(4),
+      .scenario-wrap tbody.st-final td:nth-child(5),
+      .scenario-wrap tbody.st-final td:nth-child(6) {
+        font-size: 13px !important;
+        font-weight: 900 !important;
+      }
+      .scenario-wrap tbody.st-final td:first-child {
+        font-size: 13px !important;
       }
 
       /* ── Compact grouped rows (eliminate inline-block whitespace) ── */
@@ -2896,7 +2972,7 @@
 
               </thead>
 
-              <tbody class="st-group">
+              <tbody class="st-portfolio">
 
                 <!-- CURRENT HOLDINGS -->
 
