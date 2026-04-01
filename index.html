@@ -378,16 +378,16 @@
 
     .port-bar-section-title {
       width: 100%;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      color: var(--textM);
-      margin-bottom: 8px;
-      padding: 6px 10px;
-      background: rgba(51, 65, 85, 0.3);
-      border-radius: 6px;
-      border: 1px solid var(--border);
+      color: #e2e8f0;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      background: rgba(51, 65, 85, 0.35);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .pstat {
@@ -429,44 +429,44 @@
     }
 
     .pstat-lbl {
-      font-size: 9px;
-      color: var(--textM);
+      font-size: 10px;
+      color: #cbd5e1;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 4px;
-      font-weight: 600;
+      letter-spacing: 0.8px;
+      margin-bottom: 5px;
+      font-weight: 700;
       font-family: var(--mono);
     }
 
     .pstat-val {
       font-family: var(--mono);
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 800;
       letter-spacing: 0;
       line-height: 1.2;
-      color: var(--text);
+      color: #f1f5f9;
     }
 
     /* Unified Dashboard Grid */
-    .ud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
-    .ud-section { border-radius: 10px; padding: 10px 12px; }
-    .ud-sb { background: rgba(0,200,83,0.06); border: 1px solid rgba(0,200,83,0.2); }
-    .ud-m7 { background: rgba(0,150,255,0.06); border: 1px solid rgba(0,150,255,0.2); }
-    .ud-idx { background: rgba(255,193,7,0.06); border: 1px solid rgba(255,193,7,0.2); }
-    .ud-section-hdr { font-size: 9px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .ud-items { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .ud-item { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 6px 8px; transition: all 0.2s ease; border: 1px solid transparent; }
-    .ud-item:hover { border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.35); transform: translateY(-1px); }
-    .ud-row { display: flex; align-items: baseline; gap: 6px; }
-    .ud-ticker { font-size: 10px; font-weight: 800; color: var(--textM); min-width: 38px; font-family: var(--mono); letter-spacing: 0.3px; }
-    .ud-price { font-size: 13px; font-weight: 700; color: var(--text); font-family: var(--mono); }
-    .ud-pct { font-size: 10px; font-family: var(--mono); margin-left: auto; font-weight: 600; }
-    .ud-pct.ud-up { color: var(--bull); }
-    .ud-pct.ud-down { color: var(--bear); }
-    .ud-ext { font-size: 8px; color: var(--textD); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 12px; }
+    .ud-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+    .ud-section { border-radius: 12px; padding: 14px 16px; }
+    .ud-sb { background: rgba(0,200,83,0.08); border: 1px solid rgba(0,200,83,0.25); }
+    .ud-m7 { background: rgba(0,150,255,0.08); border: 1px solid rgba(0,150,255,0.25); }
+    .ud-idx { background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.25); }
+    .ud-section-hdr { font-size: 11px; font-weight: 900; letter-spacing: 0.8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .ud-items { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .ud-item { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 10px 12px; transition: all 0.2s ease; border: 1px solid rgba(255,255,255,0.04); }
+    .ud-item:hover { border-color: rgba(255,255,255,0.15); background: rgba(0,0,0,0.4); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .ud-row { display: flex; align-items: baseline; gap: 8px; }
+    .ud-ticker { font-size: 12px; font-weight: 900; color: #e2e8f0; min-width: 44px; font-family: var(--mono); letter-spacing: 0.5px; }
+    .ud-price { font-size: 15px; font-weight: 800; color: #f8fafc; font-family: var(--mono); }
+    .ud-pct { font-size: 12px; font-family: var(--mono); margin-left: auto; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
+    .ud-pct.ud-up { color: #34d399; background: rgba(16,185,129,0.12); }
+    .ud-pct.ud-down { color: #f87171; background: rgba(239,68,68,0.12); }
+    .ud-ext { font-size: 10px; color: #94a3b8; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 14px; letter-spacing: 0.2px; }
 
     /* HNWI Wealth Tier Badges */
-    .hnwi-tier { font-size: 8px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 4px; margin-top: 4px; display: inline-block; font-family: var(--mono); }
+    .hnwi-tier { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; padding: 3px 10px; border-radius: 5px; margin-top: 6px; display: inline-block; font-family: var(--mono); }
     .tier-standard { background: rgba(100,116,139,0.2); color: #94a3b8; border: 1px solid rgba(100,116,139,0.3); }
     .tier-hnwi { background: rgba(16,185,129,0.15); color: var(--accent); border: 1px solid rgba(16,185,129,0.3); }
     .tier-vhnwi { background: rgba(139,92,246,0.15); color: var(--purple); border: 1px solid rgba(139,92,246,0.3); }
@@ -586,23 +586,24 @@
     .r {
       text-align: right;
       font-family: var(--mono);
+      font-size: 13px;
     }
 
     .pos {
-      color: var(--bull);
-      font-weight: 600;
+      color: #34d399;
+      font-weight: 700;
     }
 
     .neg {
-      color: var(--bear);
-      font-weight: 600;
+      color: #f87171;
+      font-weight: 700;
     }
 
     .sym-tag {
-      font-weight: 700;
+      font-weight: 800;
       font-family: var(--disp);
-      font-size: 16px;
-      color: var(--text);
+      font-size: 17px;
+      color: #f1f5f9;
       letter-spacing: -0.5px;
     }
 
@@ -618,15 +619,16 @@
 
     .ext-badge {
       display: inline-block;
-      font-size: 9px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--amber);
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: rgba(245, 158, 11, 0.18);
+      color: #fbbf24;
       margin-top: 4px;
-      font-weight: 600;
-      border: 1px solid rgba(245, 158, 11, 0.3);
+      font-weight: 700;
+      border: 1px solid rgba(245, 158, 11, 0.35);
       font-family: var(--mono);
+      letter-spacing: 0.3px;
     }
 
     /* ── COMPACT SCENARIO MATRIX ── */
@@ -642,14 +644,14 @@
 
     .scenario-title {
       font-family: var(--disp);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      padding: 16px 20px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #f1f5f9;
+      padding: 18px 20px 14px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       border-bottom: 1px solid var(--border);
-      background: rgba(16, 185, 129, 0.05);
+      background: rgba(16, 185, 129, 0.07);
       font-family: var(--mono);
     }
 
@@ -659,13 +661,13 @@
     }
 
     .scenario-wrap th {
-      padding: 8px 12px;
-      background: rgba(51, 65, 85, 0.3);
+      padding: 10px 12px;
+      background: rgba(51, 65, 85, 0.35);
       text-align: left;
-      font-size: 9px;
-      font-weight: 600;
+      font-size: 10px;
+      font-weight: 700;
       letter-spacing: 1px;
-      color: var(--textM);
+      color: #cbd5e1;
       border-bottom: 1px solid var(--border);
       font-family: var(--mono);
       text-transform: uppercase;
@@ -676,17 +678,17 @@
     }
 
     .scenario-wrap td {
-      padding: 8px 12px;
+      padding: 10px 12px;
       border-bottom: 1px solid rgba(51, 65, 85, 0.2);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 500;
       letter-spacing: 0.2px;
-      color: var(--text);
+      color: #e2e8f0;
     }
 
     .st-main td {
       color: var(--accent);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       padding: 12px;
       background: rgba(16, 185, 129, 0.05);
@@ -4136,33 +4138,25 @@
           // Options (Real Yahoo Fetch with Zero Prediction)
 
           const qGMEO = extract('GME260417C00050000');
+          console.log('[OPT] GME260417C00050000 raw:', qGMEO ? { price: qGMEO.regularMarketPrice, change: qGMEO.regularMarketChange, bid: qGMEO.bid, ask: qGMEO.ask } : 'NOT FOUND');
 
           if (qGMEO && qGMEO.regularMarketPrice) {
-
-            V_GME_O_P = qGMEO.regularMarketPrice; V_GME_O_C = qGMEO.regularMarketChange || 0;
-
+            V_GME_O_P = Number(qGMEO.regularMarketPrice); V_GME_O_C = Number(qGMEO.regularMarketChange) || 0;
           } else {
-
             V_GME_O_P = V_GME_O_P === 0 ? 0.035 : V_GME_O_P;
-
             V_GME_O_C = V_GME_O_C === 0 ? 0 : V_GME_O_C;
-
+            console.warn('[OPT] GME option: using fallback price $' + V_GME_O_P);
           }
 
-
-
           const qAMCO = extract('AMC260402C00002000');
+          console.log('[OPT] AMC260402C00002000 raw:', qAMCO ? { price: qAMCO.regularMarketPrice, change: qAMCO.regularMarketChange, bid: qAMCO.bid, ask: qAMCO.ask } : 'NOT FOUND');
 
           if (qAMCO && qAMCO.regularMarketPrice) {
-
-            V_AMC_O_P = qAMCO.regularMarketPrice; V_AMC_O_C = qAMCO.regularMarketChange || 0;
-
+            V_AMC_O_P = Number(qAMCO.regularMarketPrice); V_AMC_O_C = Number(qAMCO.regularMarketChange) || 0;
           } else {
-
             V_AMC_O_P = V_AMC_O_P === 0 ? 0.01 : V_AMC_O_P;
-
             V_AMC_O_C = V_AMC_O_C === 0 ? 0 : V_AMC_O_C;
-
+            console.warn('[OPT] AMC option (exp 4/2): using fallback price $' + V_AMC_O_P);
           }
 
 
@@ -5490,7 +5484,8 @@
       const go_val = 26 * V_GME_O_P * 100;
       const go_cost = 26 * 0.36 * 100; // $936 total cost
       const go_profit = go_val - go_cost;
-      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P);
+      const gmeOptLive = V_GME_O_P > 0 && V_GME_O_P !== 0.035;
+      document.getElementById('cell_gme_o_p').innerHTML = V_GME_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_GME_O_P) + (gmeOptLive ? '' : '<br><span style="font-size:9px;color:var(--amber)">EST</span>');
       document.getElementById('cell_gme_o_val').textContent = '$' + fmt(go_val);
       document.getElementById('cell_gme_o_day').textContent = (V_GME_O_C >= 0 ? '+' : '-') + '$' + fmt(Math.abs(26 * V_GME_O_C * 100));
       document.getElementById('cell_gme_o_day').className = 'r ' + (V_GME_O_C >= 0 ? 'pos' : 'neg');
@@ -5531,7 +5526,8 @@
 
       const ao_cost = 2 * 0.07 * 100; const ao_profit = ao_val - ao_cost;
 
-      document.getElementById('cell_amc_o_p').innerHTML = V_AMC_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_AMC_O_P);
+      const amcOptLive = V_AMC_O_P > 0 && V_AMC_O_P !== 0.01;
+      document.getElementById('cell_amc_o_p').innerHTML = V_AMC_O_P === 0 ? '<span style="color:var(--textM)">WAITING...</span>' : '$' + fmtOpt(V_AMC_O_P) + (amcOptLive ? '' : '<br><span style="font-size:9px;color:var(--amber)">EST</span>');
 
       document.getElementById('cell_amc_o_val').textContent = '$' + fmt(ao_val);
 
