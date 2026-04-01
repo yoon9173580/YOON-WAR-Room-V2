@@ -1570,22 +1570,32 @@
       }
       
       .brand-name {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 900;
         background: linear-gradient(135deg, var(--accent), var(--purple));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
-        margin-bottom: 16px;
-        letter-spacing: -1px;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
       }
-      
+
+      .flex.flex-wrap.items-center.gap-4 {
+        justify-content: center;
+      }
+
+      .flex.flex-wrap.items-center.gap-3 {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+      }
+
       /* Creative port bar - orbital layout */
       .port-bar {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        margin-bottom: 32px;
+        gap: 16px;
+        margin-bottom: 24px;
       }
       
       .port-bar-section {
@@ -1638,48 +1648,42 @@
       }
       
       .pstat {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
-        padding: 16px 12px;
+        padding: 14px;
         text-align: center;
         position: relative;
         z-index: 1;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-      }
-      
-      .pstat:hover {
-        transform: translateY(-4px) scale(1.02);
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-        box-shadow: 0 12px 24px rgba(16, 185, 129, 0.2);
+        transition: all 0.2s ease;
+        min-width: 0;
       }
       
       .pstat:active {
-        transform: translateY(-2px) scale(0.98);
+        transform: scale(0.97);
+        background: rgba(255, 255, 255, 0.08);
       }
       
       .pstat-lbl {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--textM);
+        font-size: 10px;
+        font-weight: 700;
+        color: #cbd5e1;
         margin-bottom: 6px;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.6px;
       }
       
       .pstat-val {
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 900;
-        margin-bottom: 4px;
-        background: linear-gradient(135deg, var(--text), var(--accent));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        margin-bottom: 3px;
+        color: #f1f5f9;
+        -webkit-text-fill-color: unset;
+        background: none;
       }
       
       .pstat-pct {
-        font-size: 10px;
-        color: var(--textD);
-        font-weight: 500;
+        font-size: 11px;
+        font-weight: 600;
       }
       
       /* Special NET WORTH card */
@@ -1690,74 +1694,75 @@
         transform: scale(1.02);
       }
       
-      /* Creative portfolio table - cards */
+      /* Portfolio table - horizontal scroll with better readability */
       .port-table-wrap {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 32px;
-        overflow: hidden;
+        border-radius: 18px;
+        padding: 12px;
+        margin-bottom: 24px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .port-table-wrap table {
         width: 100%;
+        min-width: 600px;
         border-collapse: separate;
         border-spacing: 0;
       }
       
       .port-table-wrap th {
-        background: rgba(16, 185, 129, 0.1);
+        background: rgba(16, 185, 129, 0.12);
         color: var(--accent);
-        padding: 12px 8px;
+        padding: 10px 8px;
         font-size: 10px;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         border: none;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
       }
       
       .port-table-wrap th:first-child {
-        border-radius: 12px 0 0 0;
+        border-radius: 10px 0 0 0;
       }
       
       .port-table-wrap th:last-child {
-        border-radius: 0 12px 0 0;
+        border-radius: 0 10px 0 0;
       }
       
       .port-table-wrap td {
         background: rgba(255, 255, 255, 0.02);
-        padding: 16px 8px;
-        font-size: 11px;
+        padding: 12px 8px;
+        font-size: 12px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.2s ease;
+        white-space: nowrap;
       }
       
-      .port-table-wrap tr:hover td {
-        background: rgba(255, 255, 255, 0.05);
-      }
-      
-      /* Creative scenario table - dashboard cards */
+      /* Scenario table - card layout */
       .scenario-wrap {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 32px;
+        border-radius: 18px;
+        padding: 16px;
+        margin-bottom: 20px;
         overflow: hidden;
       }
       
       .scenario-title {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 800;
-        background: linear-gradient(135deg, var(--accent), var(--purple));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #f1f5f9;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
         letter-spacing: 0.5px;
+        -webkit-text-fill-color: unset;
+        background: none;
       }
       
       /* Convert table to creative card layout */
@@ -1777,22 +1782,15 @@
         display: none !important;
       }
       
-      /* Creative card design for each row */
+      /* Card design for each row */
       .scenario-wrap tbody tr {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        margin-bottom: 16px;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        margin-bottom: 10px;
+        padding: 14px;
         position: relative;
         overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .scenario-wrap tbody tr:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
       }
       
       /* Special styling for different row types */
@@ -1813,15 +1811,15 @@
         margin-left: 20px;
       }
       
-      /* Creative cell layout */
+      /* Cell layout */
       .scenario-wrap td {
-        padding: 8px 0 !important;
+        padding: 6px 0 !important;
         font-size: 11px !important;
         border: none !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
       }
       
       .scenario-wrap td:last-child {
@@ -1830,28 +1828,27 @@
       
       /* First cell as title */
       .scenario-wrap td:first-child {
-        font-weight: 700;
-        font-size: 14px !important;
-        color: var(--text);
-        padding-bottom: 12px !important;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
-        margin-bottom: 8px !important;
+        font-weight: 800;
+        font-size: 13px !important;
+        color: #f1f5f9;
+        padding-bottom: 8px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        margin-bottom: 4px !important;
       }
       
       /* Price cells as badges */
       .scenario-wrap td:nth-child(n+3) {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        padding: 8px 12px !important;
-        margin: 4px 0 !important;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 8px;
+        padding: 6px 10px !important;
+        margin: 2px 0 !important;
         font-weight: 600;
-        text-align: center;
       }
       
       /* Custom price highlight */
       .scenario-wrap td:nth-child(7) {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
-        border: 1px solid var(--accent);
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.3);
         font-weight: 700;
       }
       
@@ -1928,16 +1925,16 @@
       }
       
       /* Unified Dashboard - Mobile Stack */
-      .ud-grid { grid-template-columns: 1fr !important; gap: 14px; }
-      .ud-section { padding: 14px; border-radius: 16px; }
-      .ud-section-hdr { font-size: 11px; margin-bottom: 10px; padding-bottom: 8px; text-align: center; }
-      .ud-items { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .ud-item { padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.3); }
-      .ud-row { flex-wrap: wrap; gap: 4px; }
-      .ud-ticker { font-size: 11px; min-width: 42px; font-weight: 900; }
-      .ud-price { font-size: 14px; }
-      .ud-pct { font-size: 11px; width: 100%; margin-left: 42px; margin-top: 2px; }
-      .ud-ext { font-size: 9px; margin-top: 4px; white-space: normal; line-height: 1.3; min-height: 14px; }
+      .ud-grid { grid-template-columns: 1fr !important; gap: 12px; }
+      .ud-section { padding: 16px; border-radius: 18px; }
+      .ud-section-hdr { font-size: 12px; font-weight: 900; margin-bottom: 12px; padding-bottom: 8px; text-align: center; letter-spacing: 1px; }
+      .ud-items { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .ud-item { padding: 12px; border-radius: 14px; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.06); }
+      .ud-row { flex-wrap: nowrap; gap: 6px; align-items: baseline; }
+      .ud-ticker { font-size: 11px; min-width: 40px; font-weight: 900; color: #e2e8f0; }
+      .ud-price { font-size: 14px; font-weight: 800; color: #f8fafc; }
+      .ud-pct { font-size: 11px; font-weight: 700; margin-left: auto; white-space: nowrap; }
+      .ud-ext { font-size: 9px; margin-top: 5px; white-space: normal; line-height: 1.4; min-height: 14px; color: #94a3b8; }
 
       /* HNWI tier badges mobile */
       .hnwi-tier { font-size: 9px; padding: 3px 10px; margin-top: 6px; }
@@ -2135,19 +2132,19 @@
       }
 
       /* Unified Dashboard - Fold 6 Unfolded */
-      .ud-grid { grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
-      .ud-section { padding: 14px 16px; border-radius: 16px; }
-      .ud-section-hdr { font-size: 10px; margin-bottom: 10px; padding-bottom: 8px; }
-      .ud-items { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .ud-item { padding: 10px 12px; border-radius: 14px; background: rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-      .ud-item:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-      .ud-ticker { font-size: 11px; font-weight: 900; min-width: 44px; }
-      .ud-price { font-size: 14px; font-weight: 800; }
-      .ud-pct { font-size: 11px; font-weight: 700; }
-      .ud-ext { font-size: 9px; margin-top: 4px; min-height: 14px; }
+      .ud-grid { grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+      .ud-section { padding: 18px 20px; border-radius: 20px; }
+      .ud-section-hdr { font-size: 12px; font-weight: 900; margin-bottom: 12px; padding-bottom: 10px; letter-spacing: 1px; }
+      .ud-items { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .ud-item { padding: 14px 16px; border-radius: 16px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+      .ud-item:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.12); }
+      .ud-ticker { font-size: 12px; font-weight: 900; min-width: 48px; color: #e2e8f0; }
+      .ud-price { font-size: 16px; font-weight: 800; color: #f8fafc; }
+      .ud-pct { font-size: 12px; font-weight: 700; }
+      .ud-ext { font-size: 10px; margin-top: 5px; min-height: 16px; color: #94a3b8; }
 
       /* HNWI tier badges - tablet */
-      .hnwi-tier { font-size: 9px; padding: 3px 12px; border-radius: 6px; margin-top: 6px; }
+      .hnwi-tier { font-size: 10px; padding: 3px 12px; border-radius: 6px; margin-top: 8px; }
       
       /* Creative portfolio table - glass cards */
       .port-table-wrap {
@@ -7013,11 +7010,11 @@
 
   </script>
 
-  <div style="text-align:center; padding:16px 20px 24px; font-size:11px; font-family:var(--mono); color:#64748b; letter-spacing:0.3px; border-top:1px solid rgba(255,255,255,0.05); margin-top:20px;">
-    <span style="color:#f59e0b;">&#9679;</span> <b style="color:#f59e0b;">UHNWI</b> 초고액자산가 ($30M+) &nbsp;&nbsp;
-    <span style="color:#a78bfa;">&#9679;</span> <b style="color:#a78bfa;">VHNWI</b> 최고액자산가 ($5M+) &nbsp;&nbsp;
-    <span style="color:#34d399;">&#9679;</span> <b style="color:#34d399;">HNWI</b> 고액자산가 ($1M+) &nbsp;&nbsp;
-    <span style="color:#94a3b8;">&#9679;</span> <b style="color:#94a3b8;">STANDARD</b> 일반 (&lt;$1M)
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px 20px; padding:16px 20px 24px; font-size:11px; font-family:var(--mono); color:#64748b; letter-spacing:0.3px; border-top:1px solid rgba(255,255,255,0.05); margin-top:20px;">
+    <span><span style="color:#f59e0b;">&#9679;</span> <b style="color:#f59e0b;">UHNWI</b> 초고액자산가 ($30M+)</span>
+    <span><span style="color:#a78bfa;">&#9679;</span> <b style="color:#a78bfa;">VHNWI</b> 최고액자산가 ($5M+)</span>
+    <span><span style="color:#34d399;">&#9679;</span> <b style="color:#34d399;">HNWI</b> 고액자산가 ($1M+)</span>
+    <span><span style="color:#94a3b8;">&#9679;</span> <b style="color:#94a3b8;">STANDARD</b> 일반 (&lt;$1M)</span>
   </div>
 
 </body>
