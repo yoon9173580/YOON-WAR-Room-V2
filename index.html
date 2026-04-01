@@ -2730,7 +2730,6 @@
                 <div class="pstat-lbl">EQUITY</div>
                 <div id="p-total" class="pstat-val">$8,064.95</div>
                 <div id="equity-pct" class="pstat-pct">+0.97%</div>
-                <div id="equity-tier" class="hnwi-tier tier-standard">STANDARD</div>
               </div>
               <div class="pstat">
                 <div class="pstat-lbl">SESSION</div>
@@ -5916,7 +5915,6 @@
 
         // Update tier badges
         setTierBadge('net-worth-tier', real_time_net_worth);
-        setTierBadge('equity-tier', total_current_value);
       }
     }
 
@@ -7014,6 +7012,13 @@
     }
 
   </script>
+
+  <div style="text-align:center; padding:16px 20px 24px; font-size:11px; font-family:var(--mono); color:#64748b; letter-spacing:0.3px; border-top:1px solid rgba(255,255,255,0.05); margin-top:20px;">
+    <span style="color:#f59e0b;">&#9679;</span> <b style="color:#f59e0b;">UHNWI</b> 초고액자산가 ($30M+) &nbsp;&nbsp;
+    <span style="color:#a78bfa;">&#9679;</span> <b style="color:#a78bfa;">VHNWI</b> 최고액자산가 ($5M+) &nbsp;&nbsp;
+    <span style="color:#34d399;">&#9679;</span> <b style="color:#34d399;">HNWI</b> 고액자산가 ($1M+) &nbsp;&nbsp;
+    <span style="color:#94a3b8;">&#9679;</span> <b style="color:#94a3b8;">STANDARD</b> 일반 (&lt;$1M)
+  </div>
 
 </body>
 
