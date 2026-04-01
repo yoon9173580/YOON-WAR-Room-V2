@@ -3270,7 +3270,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact-2">
 
                   <td class="pl-indent">└ 모빌리티 (진이)</td>
 
@@ -3288,7 +3288,7 @@
 
                 </tr>
 
-                <tr class="st-sub">
+                <tr class="st-sub st-compact-2">
                   <td class="pl-indent">└ Arun M5 CS Green</td>
                   <td class="det">인생의 귀인의 선물</td>
                   <td class="r neg">-$200k</td>
@@ -4695,7 +4695,7 @@
       const cell = document.getElementById(cellId);
       if (cell) {
         const bal = st2Remaining - csCost;
-        cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(bal)}</span>`;
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${csCost}" style="cursor:pointer;">${fmtDisplay(-csCost)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(bal)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
       }
@@ -4705,7 +4705,7 @@
     function updateCellWithBalancePositive(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
-        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">+${fmtDisplay(value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">+${fmtDisplay(value)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(balValue)}</span>`;
         cell.className = 'r pos';
         flashCell(cellId, true);
       }
@@ -4715,7 +4715,7 @@
     function updateCellWithBalanceNeg(cellId, value, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
-        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${fmtDisplay(-value)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.innerHTML = `<span class="clickable-amount" data-amount="${value}" style="cursor:pointer;">${fmtDisplay(-value)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(balValue)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
       }
@@ -4842,7 +4842,7 @@
     function updateMKItemWithBalance(cellId, itemValue, balValue) {
       const cell = document.getElementById(cellId);
       if (cell) {
-        cell.innerHTML = `${fmtDisplay(itemValue)}<br><span class="bal" style="font-size:10px;">BAL $${fmt(balValue)}</span>`;
+        cell.innerHTML = `${fmtDisplay(itemValue)}<br><span class="bal" style="font-size:10px;">BAL ${fmtMK(balValue)}</span>`;
         cell.className = 'r neg';
         flashCell(cellId, false);
       }
@@ -5442,13 +5442,11 @@
       let formatted;
       
       if (absAmount >= 1000000) {
-        // Show 2 decimal places for millions (e.g., 7.15M)
         const millions = (absAmount / 1000000).toFixed(2);
-        formatted = millions + 'M';
+        formatted = '$' + millions + 'M';
       } else if (absAmount >= 1000) {
-        // Round to nearest integer thousand (e.g., 500.5K -> 501K)
         const thousands = Math.round(absAmount / 1000);
-        formatted = thousands + 'K';
+        formatted = '$' + thousands + 'K';
       } else {
         formatted = '$' + Math.round(absAmount).toLocaleString('en-US');
       }
@@ -6234,25 +6232,25 @@
 
         if (csEl1) {
 
-          csEl1.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl1.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st2_remaining - cs_cost)}</span>`;
 
         }
 
         if (csEl2) {
 
-          csEl2.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl2.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st2_remaining - cs_cost)}</span>`;
 
         }
 
         if (csEl3) {
 
-          csEl3.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl3.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st2_remaining - cs_cost)}</span>`;
 
         }
 
         if (csEl4) {
 
-          csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_remaining - cs_cost)}</span>`;
+          csEl4.innerHTML = `<span class="clickable-amount" data-amount="${cs_cost}" style="cursor:pointer;">${fmtDisplay(-cs_cost)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st2_remaining - cs_cost)}</span>`;
 
         }
 
@@ -6348,7 +6346,7 @@
 
         if (st2El) {
 
-          st2El.innerHTML = `<span class="clickable-amount" data-amount="${st2_total}" style="cursor:pointer;">${fmtDisplay(-st2_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st2_total)}</span>`;
+          st2El.innerHTML = `<span class="clickable-amount" data-amount="${st2_total}" style="cursor:pointer;">${fmtDisplay(-st2_total)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st2_total)}</span>`;
 
         }
 
@@ -6360,7 +6358,7 @@
 
         if (st3El) {
 
-          st3El.innerHTML = `<span class="clickable-amount" data-amount="${st3_total}" style="cursor:pointer;">${fmtDisplay(-st3_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st3_total)}</span>`;
+          st3El.innerHTML = `<span class="clickable-amount" data-amount="${st3_total}" style="cursor:pointer;">${fmtDisplay(-st3_total)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st3_total)}</span>`;
 
         }
 
@@ -6369,7 +6367,7 @@
         // Update ST 4 display
         const st4El = document.getElementById(`st4-total-${i+1}`);
         if (st4El) {
-          st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(st4_total)}</span>`;
+          st4El.innerHTML = `<span class="clickable-amount" data-amount="${st4_total}" style="cursor:pointer;">${fmtDisplay(-st4_total)}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(st4_total)}</span>`;
         }
 
         // Update Cash in Hand (내 현금 수중) - use fixed HTML values, only on first init or custom price
@@ -6444,25 +6442,25 @@
 
         if (mobilitySelfEl1) {
 
-          mobilitySelfEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8305430)}</span>`;
+          mobilitySelfEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8305430)}</span>`;
 
         }
 
         if (mobilitySelfEl2) {
 
-          mobilitySelfEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9631972)}</span>`;
+          mobilitySelfEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9631972)}</span>`;
 
         }
 
         if (mobilitySelfEl3) {
 
-          mobilitySelfEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(16140318)}</span>`;
+          mobilitySelfEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(16140318)}</span>`;
 
         }
 
         if (mobilitySelfEl4) {
 
-          mobilitySelfEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30317733)}</span>`;
+          mobilitySelfEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilitySelfValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilitySelfValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30317733)}</span>`;
 
         }
 
@@ -6480,25 +6478,25 @@
 
         if (mobilityDadEl1) {
 
-          mobilityDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8185430)}</span>`;
+          mobilityDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8185430)}</span>`;
 
         }
 
         if (mobilityDadEl2) {
 
-          mobilityDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9511972)}</span>`;
+          mobilityDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9511972)}</span>`;
 
         }
 
         if (mobilityDadEl3) {
 
-          mobilityDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(16020318)}</span>`;
+          mobilityDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(16020318)}</span>`;
 
         }
 
         if (mobilityDadEl4) {
 
-          mobilityDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30197733)}</span>`;
+          mobilityDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30197733)}</span>`;
 
         }
 
@@ -6518,25 +6516,25 @@
 
         if (mobilityMomEl1) {
 
-          mobilityMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8105430)}</span>`;
+          mobilityMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8105430)}</span>`;
 
         }
 
         if (mobilityMomEl2) {
 
-          mobilityMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9431972)}</span>`;
+          mobilityMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9431972)}</span>`;
 
         }
 
         if (mobilityMomEl3) {
 
-          mobilityMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(16000318)}</span>`;
+          mobilityMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(16000318)}</span>`;
 
         }
 
         if (mobilityMomEl4) {
 
-          mobilityMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30137733)}</span>`;
+          mobilityMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30137733)}</span>`;
 
         }
 
@@ -6554,25 +6552,25 @@
 
         if (giftDadEl1) {
 
-          giftDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8163110)}</span>`;
+          giftDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8163110)}</span>`;
 
         }
 
         if (giftDadEl2) {
 
-          giftDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9489652)}</span>`;
+          giftDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9489652)}</span>`;
 
         }
 
         if (giftDadEl3) {
 
-          giftDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15997998)}</span>`;
+          giftDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15997998)}</span>`;
 
         }
 
         if (giftDadEl4) {
 
-          giftDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30175413)}</span>`;
+          giftDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30175413)}</span>`;
 
         }
 
@@ -6592,25 +6590,25 @@
 
         if (cashGiftDadEl1) {
 
-          cashGiftDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7779430)}</span>`;
+          cashGiftDadEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(7779430)}</span>`;
 
         }
 
         if (cashGiftDadEl2) {
 
-          cashGiftDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9105972)}</span>`;
+          cashGiftDadEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9105972)}</span>`;
 
         }
 
         if (cashGiftDadEl3) {
 
-          cashGiftDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15634318)}</span>`;
+          cashGiftDadEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15634318)}</span>`;
 
         }
 
         if (cashGiftDadEl4) {
 
-          cashGiftDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(29769333)}</span>`;
+          cashGiftDadEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftDadValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftDadValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(29769333)}</span>`;
 
         }
 
@@ -6628,25 +6626,25 @@
 
         if (giftMomEl1) {
 
-          giftMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8140562)}</span>`;
+          giftMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8140562)}</span>`;
 
         }
 
         if (giftMomEl2) {
 
-          giftMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9467104)}</span>`;
+          giftMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9467104)}</span>`;
 
         }
 
         if (giftMomEl3) {
 
-          giftMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15975450)}</span>`;
+          giftMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15975450)}</span>`;
 
         }
 
         if (giftMomEl4) {
 
-          giftMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30152865)}</span>`;
+          giftMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30152865)}</span>`;
 
         }
 
@@ -6666,25 +6664,25 @@
 
         if (cashGiftMomEl1) {
 
-          cashGiftMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7760562)}</span>`;
+          cashGiftMomEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(7760562)}</span>`;
 
         }
 
         if (cashGiftMomEl2) {
 
-          cashGiftMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9087104)}</span>`;
+          cashGiftMomEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9087104)}</span>`;
 
         }
 
         if (cashGiftMomEl3) {
 
-          cashGiftMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15615450)}</span>`;
+          cashGiftMomEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15615450)}</span>`;
 
         }
 
         if (cashGiftMomEl4) {
 
-          cashGiftMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(29750465)}</span>`;
+          cashGiftMomEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftMomValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftMomValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(29750465)}</span>`;
 
         }
 
@@ -6702,25 +6700,25 @@
 
         if (giftJiniEl1) {
 
-          giftJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8126642)}</span>`;
+          giftJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8126642)}</span>`;
 
         }
 
         if (giftJiniEl2) {
 
-          giftJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9453184)}</span>`;
+          giftJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9453184)}</span>`;
 
         }
 
         if (giftJiniEl3) {
 
-          giftJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15961530)}</span>`;
+          giftJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15961530)}</span>`;
 
         }
 
         if (giftJiniEl4) {
 
-          giftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30138945)}</span>`;
+          giftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${giftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-giftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30138945)}</span>`;
 
         }
 
@@ -6740,25 +6738,25 @@
 
         if (cashGiftJiniEl1) {
 
-          cashGiftJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8029430)}</span>`;
+          cashGiftJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8029430)}</span>`;
 
         }
 
         if (cashGiftJiniEl2) {
 
-          cashGiftJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9355972)}</span>`;
+          cashGiftJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9355972)}</span>`;
 
         }
 
         if (cashGiftJiniEl3) {
 
-          cashGiftJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15894318)}</span>`;
+          cashGiftJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15894318)}</span>`;
 
         }
 
         if (cashGiftJiniEl4) {
 
-          cashGiftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30029333)}</span>`;
+          cashGiftJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${cashGiftJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-cashGiftJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30029333)}</span>`;
 
         }
 
@@ -6778,25 +6776,25 @@
 
         if (mobilityJiniEl1) {
 
-          mobilityJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8046642)}</span>`;
+          mobilityJiniEl1.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[0]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8046642)}</span>`;
 
         }
 
         if (mobilityJiniEl2) {
 
-          mobilityJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9373184)}</span>`;
+          mobilityJiniEl2.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[1]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9373184)}</span>`;
 
         }
 
         if (mobilityJiniEl3) {
 
-          mobilityJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15861530)}</span>`;
+          mobilityJiniEl3.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[2]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15861530)}</span>`;
 
         }
 
         if (mobilityJiniEl4) {
 
-          mobilityJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(30038945)}</span>`;
+          mobilityJiniEl4.innerHTML = `<span class="clickable-amount" data-amount="${mobilityJiniValues[3]}" style="cursor:pointer;">${fmtDisplay(-mobilityJiniValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(30038945)}</span>`;
 
         }
 
@@ -6832,25 +6830,25 @@
 
         if (fidStrike40El1) {
 
-          fidStrike40El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4325122)}</span>`;
+          fidStrike40El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(4325122)}</span>`;
 
         }
 
         if (fidStrike40El2) {
 
-          fidStrike40El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(5605718)}</span>`;
+          fidStrike40El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(5605718)}</span>`;
 
         }
 
         if (fidStrike40El3) {
 
-          fidStrike40El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(11888642)}</span>`;
+          fidStrike40El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(11888642)}</span>`;
 
         }
 
         if (fidStrike40El4) {
 
-          fidStrike40El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(25575010)}</span>`;
+          fidStrike40El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike40Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike40Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(25575010)}</span>`;
 
         }
 
@@ -6868,25 +6866,25 @@
 
         if (fidStrike45El1) {
 
-          fidStrike45El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4023602)}</span>`;
+          fidStrike45El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(4023602)}</span>`;
 
         }
 
         if (fidStrike45El2) {
 
-          fidStrike45El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(5258252)}</span>`;
+          fidStrike45El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(5258252)}</span>`;
 
         }
 
         if (fidStrike45El3) {
 
-          fidStrike45El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(11315754)}</span>`;
+          fidStrike45El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(11315754)}</span>`;
 
         }
 
         if (fidStrike45El4) {
 
-          fidStrike45El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(24511075)}</span>`;
+          fidStrike45El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike45Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike45Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(24511075)}</span>`;
 
         }
 
@@ -6904,25 +6902,25 @@
 
         if (fidStrike50El1) {
 
-          fidStrike50El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(3722082)}</span>`;
+          fidStrike50El1.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[0]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(3722082)}</span>`;
 
         }
 
         if (fidStrike50El2) {
 
-          fidStrike50El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4910784)}</span>`;
+          fidStrike50El2.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[1]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(4910784)}</span>`;
 
         }
 
         if (fidStrike50El3) {
 
-          fidStrike50El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(10742865)}</span>`;
+          fidStrike50El3.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[2]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(10742865)}</span>`;
 
         }
 
         if (fidStrike50El4) {
 
-          fidStrike50El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(23447139)}</span>`;
+          fidStrike50El4.innerHTML = `<span class="clickable-amount" data-amount="${fidStrike50Values[3]}" style="cursor:pointer;">${fmtDisplay(-fidStrike50Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(23447139)}</span>`;
 
         }
 
@@ -6942,25 +6940,25 @@
 
         if (mooStrike40El1) {
 
-          mooStrike40El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(3221792)}</span>`;
+          mooStrike40El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(3221792)}</span>`;
 
         }
 
         if (mooStrike40El2) {
 
-          mooStrike40El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4334260)}</span>`;
+          mooStrike40El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(4334260)}</span>`;
 
         }
 
         if (mooStrike40El3) {
 
-          mooStrike40El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(9792314)}</span>`;
+          mooStrike40El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(9792314)}</span>`;
 
         }
 
         if (mooStrike40El4) {
 
-          mooStrike40El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(21681830)}</span>`;
+          mooStrike40El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike40Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike40Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(21681830)}</span>`;
 
         }
 
@@ -6978,25 +6976,25 @@
 
         if (mooStrike45El1) {
 
-          mooStrike45El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(2721502)}</span>`;
+          mooStrike45El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(2721502)}</span>`;
 
         }
 
         if (mooStrike45El2) {
 
-          mooStrike45El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(3757736)}</span>`;
+          mooStrike45El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(3757736)}</span>`;
 
         }
 
         if (mooStrike45El3) {
 
-          mooStrike45El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(8841763)}</span>`;
+          mooStrike45El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(8841763)}</span>`;
 
         }
 
         if (mooStrike45El4) {
 
-          mooStrike45El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(19916521)}</span>`;
+          mooStrike45El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike45Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike45Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(19916521)}</span>`;
 
         }
 
@@ -7014,25 +7012,25 @@
 
         if (mooStrike50El1) {
 
-          mooStrike50El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(2221212)}</span>`;
+          mooStrike50El1.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[0]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(2221212)}</span>`;
 
         }
 
         if (mooStrike50El2) {
 
-          mooStrike50El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(3181212)}</span>`;
+          mooStrike50El2.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[1]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(3181212)}</span>`;
 
         }
 
         if (mooStrike50El3) {
 
-          mooStrike50El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(7891212)}</span>`;
+          mooStrike50El3.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[2]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(7891212)}</span>`;
 
         }
 
         if (mooStrike50El4) {
 
-          mooStrike50El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(18151212)}</span>`;
+          mooStrike50El4.innerHTML = `<span class="clickable-amount" data-amount="${mooStrike50Values[3]}" style="cursor:pointer;">${fmtDisplay(-mooStrike50Values[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(18151212)}</span>`;
 
         }
 
@@ -7052,25 +7050,25 @@
 
         if (gmeEl1) {
 
-          gmeEl1.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[0]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(15279357)}</span>`;
+          gmeEl1.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[0]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(15279357)}</span>`;
 
         }
 
         if (gmeEl2) {
 
-          gmeEl2.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[1]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(18229170)}</span>`;
+          gmeEl2.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[1]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(18229170)}</span>`;
 
         }
 
         if (gmeEl3) {
 
-          gmeEl3.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[2]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(32701689)}</span>`;
+          gmeEl3.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[2]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(32701689)}</span>`;
 
         }
 
         if (gmeEl4) {
 
-          gmeEl4.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[3]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(64227811)}</span>`;
+          gmeEl4.innerHTML = `<span class="clickable-amount" data-amount="${gmePartialValues[3]}" style="cursor:pointer;">+${fmtDisplay(gmePartialValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(64227811)}</span>`;
 
         }
 
@@ -7090,25 +7088,25 @@
 
         if (ogEl1) {
 
-          ogEl1.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[0]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(4900000)}</span>`;
+          ogEl1.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[0]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(4900000)}</span>`;
 
         }
 
         if (ogEl2) {
 
-          ogEl2.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[1]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(5900000)}</span>`;
+          ogEl2.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[1]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(5900000)}</span>`;
 
         }
 
         if (ogEl3) {
 
-          ogEl3.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[2]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(10500000)}</span>`;
+          ogEl3.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[2]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(10500000)}</span>`;
 
         }
 
         if (ogEl4) {
 
-          ogEl4.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[3]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(20500000)}</span>`;
+          ogEl4.innerHTML = `<span class="clickable-amount" data-amount="${ogEnergyValues[3]}" style="cursor:pointer;">${fmtDisplay(-ogEnergyValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(20500000)}</span>`;
 
         }
 
@@ -7128,25 +7126,25 @@
 
         if (qofEl1) {
 
-          qofEl1.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[0]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(1900000)}</span>`;
+          qofEl1.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[0]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(1900000)}</span>`;
 
         }
 
         if (qofEl2) {
 
-          qofEl2.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[1]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(2900000)}</span>`;
+          qofEl2.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[1]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(2900000)}</span>`;
 
         }
 
         if (qofEl3) {
 
-          qofEl3.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[2]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(6900000)}</span>`;
+          qofEl3.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[2]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(6900000)}</span>`;
 
         }
 
         if (qofEl4) {
 
-          qofEl4.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[3]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(11900000)}</span>`;
+          qofEl4.innerHTML = `<span class="clickable-amount" data-amount="${qofHousingValues[3]}" style="cursor:pointer;">${fmtDisplay(-qofHousingValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(11900000)}</span>`;
 
         }
 
@@ -7166,25 +7164,25 @@
 
         if (clatEl1) {
 
-          clatEl1.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[0]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(1900000)}</span>`;
+          clatEl1.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[0]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[0])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(1900000)}</span>`;
 
         }
 
         if (clatEl2) {
 
-          clatEl2.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[1]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(2900000)}</span>`;
+          clatEl2.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[1]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[1])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(2900000)}</span>`;
 
         }
 
         if (clatEl3) {
 
-          clatEl3.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[2]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(6900000)}</span>`;
+          clatEl3.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[2]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[2])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(6900000)}</span>`;
 
         }
 
         if (clatEl4) {
 
-          clatEl4.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[3]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL $${fmt(10900000)}</span>`;
+          clatEl4.innerHTML = `<span class="clickable-amount" data-amount="${clatTrustValues[3]}" style="cursor:pointer;">${fmtDisplay(-clatTrustValues[3])}</span><br><span class="bal" style="font-size:10px;">BAL ${fmtMK(10900000)}</span>`;
 
         }
 
