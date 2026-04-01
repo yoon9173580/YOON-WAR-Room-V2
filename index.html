@@ -3412,6 +3412,16 @@
 
                 </tr>
 
+                <tr class="st-sub" style="background:rgba(245,158,11,0.08);">
+                  <td class="pl-indent" style="color:var(--amber); font-weight:700;">└ 즉시 절세액</td>
+                  <td class="det" style="color:var(--amber);">Tax Saved @ 23.8% LTCG (O&G IDC + QOF Deferral + CLAT Deduction)</td>
+                  <td class="r pos" id="tax-saved-st4-1" style="color:var(--amber); font-weight:700;">$0</td>
+                  <td class="r pos" id="tax-saved-st4-2" style="color:var(--amber); font-weight:700;">$0</td>
+                  <td class="r pos" id="tax-saved-st4-3" style="color:var(--amber); font-weight:700;">$0</td>
+                  <td class="r pos" id="tax-saved-st4-4" style="color:var(--amber); font-weight:700;">$0</td>
+                  <td class="r pos" id="tax-saved-st4-custom" style="color:var(--accent); font-weight:700;">$0</td>
+                </tr>
+
                 <tr class="st-cash" style="white-space:nowrap;">
                   <td class="pl-indent" style="color:var(--accent);white-space:nowrap;">💵 [최종 현금 잔고]</td>
                   <td class="det-cash" style="white-space:nowrap;">Tax Shield 방어 후 생존 잔고</td>
@@ -3464,17 +3474,17 @@
 
                   <td class="pl-indent" style="color:var(--amber);">└ (세무 실익)</td>
 
-                  <td class="det" style="color:var(--amber);">Tax Saved (세후)</td>
+                  <td class="det" style="color:var(--amber);">Tax Saved @ 23.8% (O&G IDC + QOF + CLAT)</td>
 
-                  <td class="r pos" style="color:var(--amber);">$833k</td>
+                  <td class="r pos" id="tax-saved-1" style="color:var(--amber);">$0</td>
 
-                  <td class="r pos" style="color:var(--amber);">$952k</td>
+                  <td class="r pos" id="tax-saved-2" style="color:var(--amber);">$0</td>
 
-                  <td class="r pos" style="color:var(--amber);">$1.79M</td>
+                  <td class="r pos" id="tax-saved-3" style="color:var(--amber);">$0</td>
 
-                  <td class="r pos" style="color:var(--amber);">$3.33M</td>
+                  <td class="r pos" id="tax-saved-4" style="color:var(--amber);">$0</td>
 
-                  <td class="r pos" id="tax-saved-custom" style="color:var(--accent);">$0<br><span class="bal">BAL $0</span></td>
+                  <td class="r pos" id="tax-saved-custom" style="color:var(--accent);">$0</td>
 
                 </tr>
 
@@ -3482,7 +3492,7 @@
 
                   <td class="pl-indent" style="color:var(--bull);">└ (월 예상 수익)</td>
 
-                  <td class="det" style="color:var(--bull);">Monthly Passive Income (Net)</td>
+                  <td class="det" style="color:var(--bull);">O&G 생산수익 8% + QOF 임대NOI 6% + CLAT 배당 4% (연환산/12)</td>
 
                   <td class="r pos" id="monthly-income-1" style="color:var(--bull);">106K</td>
 
@@ -4425,6 +4435,12 @@
       st4RunBal -= clat;
       updateCellWithBalanceNeg(`clat-trust-${suffix}`, clat, st4RunBal);
       
+      // Tax Saved @ 23.8% LTCG (immediate deduction benefit from O&G IDC + QOF deferral + CLAT deduction)
+      const taxSavedRate = 0.238; // 20% Federal LTCG + 3.8% NIIT
+      const taxSaved = Math.round((og_idc + qof + clat) * taxSavedRate);
+      st4RunBal += taxSaved;
+      updateCellWithBalancePositive(`tax-saved-st4-${suffix}`, taxSaved, st4RunBal);
+      
       // Update ST 4 header
       updateCellWithFormat(`st4-total-${suffix}`, -st4_total, 'neg');
       
@@ -4468,9 +4484,14 @@
       
       updateCellWithFormat(`st4-summary-${suffix}`, -st4_total, 'neg');
       
-      // Monthly Passive Income (Net) — estimated yields from reinvested assets
-      // O&G IDC ~10% annual, QOF ~6% annual, CLAT ~4% annual
-      const monthlyIncome = Math.round((og_idc * 0.10 + qof * 0.06 + clat * 0.04) / 12);
+      // Tax Saved @ 23.8% LTCG — ST5 summary row
+      updateCellWithFormat(`tax-saved-${suffix}`, taxSaved, 'pos');
+      
+      // Monthly Passive Income (Net) — real asset yields
+      // O&G WI production revenue: 8% annual net (oil/gas royalties after OpEx)
+      // QOF Multi-family rental NOI: 6% annual (apartment cap rate)
+      // CLAT Trust distribution: 4% annual (charitable lead annuity)
+      const monthlyIncome = Math.round((og_idc * 0.08 + qof * 0.06 + clat * 0.04) / 12);
       updateCellWithFormat(`monthly-income-${suffix}`, monthlyIncome, 'pos');
     }
 
