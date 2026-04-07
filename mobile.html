@@ -983,6 +983,11 @@
           <div class="stat-value" id="cashPosition">$0</div>
           <div class="stat-sub">Available liquidity</div>
         </div>
+        <div class="stat-card" id="ivCard">
+          <div class="stat-label">📊 GME IV</div>
+          <div class="stat-value amber" id="gmeIV">--</div>
+          <div class="stat-sub" id="gmeIVSub">Loading...</div>
+        </div>
         <div class="stat-card">
           <div class="stat-label">🚀 Target Value</div>
           <div class="stat-value pos" id="targetValue">$16.54M</div>
@@ -1115,7 +1120,8 @@
     let state = {
       gmePrice: 0,
       showActual: false,
-      marketData: {}
+      marketData: {},
+      gmeIV: null
     };
 
     // Formatters
@@ -1181,6 +1187,66 @@
       } catch (e) {
         document.getElementById('connStatus').textContent = 'OFFLINE';
         document.querySelector('.status-badge').style.borderColor = 'var(--red)';
+      }
+      // Fetch GME IV data independently
+      fetchGMEIV();
+    }
+
+    async function fetchGMEIV() {
+      try {
+        const res = await fetch('https://yoon-war-room-v2.vercel.app/api/gme-iv');
+        const data = await res.json();
+        state.gmeIV = data;
+        updateIVDisplay(data);
+      } catch (e) {
+        console.error('IV fetch error:', e);
+        document.getElementById('gmeIV').textContent = '--';
+        document.getElementById('gmeIVSub').textContent = 'Unavailable';
+      }
+    }
+
+    function updateIVDisplay(data) {
+      const ivEl = document.getElementById('gmeIV');
+      const ivSubEl = document.getElementById('gmeIVSub');
+      const ivCard = document.getElementById('ivCard');
+
+      if (!data || data.ivPercent === '--') {
+        ivEl.textContent = '--';
+        ivSubEl.textContent = 'Unavailable';
+        return;
+      }
+
+      ivEl.textContent = data.ivPercent + '%';
+      
+      // Color based on IV level
+      ivEl.classList.remove('pos', 'neg', 'amber');
+      switch (data.ivLevel) {
+        case 'LOW':
+          ivEl.style.color = 'var(--accent)';
+          ivSubEl.textContent = '🟢 LOW — Exp: ' + (data.expirationDate || '--');
+          ivCard.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+          break;
+        case 'NORMAL':
+          ivEl.classList.add('amber');
+          ivEl.style.color = '';
+          ivSubEl.textContent = '🟡 NORMAL — Exp: ' + (data.expirationDate || '--');
+          ivCard.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+          break;
+        case 'HIGH':
+          ivEl.style.color = '#f97316';
+          ivSubEl.textContent = '🟠 HIGH — Exp: ' + (data.expirationDate || '--');
+          ivCard.style.borderColor = 'rgba(249, 115, 22, 0.3)';
+          ivCard.style.background = 'radial-gradient(ellipse at top, rgba(249, 115, 22, 0.08) 0%, transparent 50%), var(--bg3)';
+          break;
+        case 'EXTREME':
+          ivEl.style.color = 'var(--red)';
+          ivSubEl.textContent = '🔴 EXTREME — Exp: ' + (data.expirationDate || '--');
+          ivCard.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+          ivCard.style.background = 'radial-gradient(ellipse at top, rgba(239, 68, 68, 0.1) 0%, transparent 50%), var(--bg3)';
+          break;
+        default:
+          ivEl.classList.add('amber');
+          ivSubEl.textContent = 'Strike: $' + (data.atmStrike || '--');
       }
     }
 

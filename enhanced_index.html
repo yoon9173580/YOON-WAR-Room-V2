@@ -414,6 +414,7 @@
           <span class="price-label">GME Current Price:</span>
           <span class="price-value" id="currentPrice">$25.00</span>
           <span class="price-ratio" id="priceRatio">1.00x base</span>
+          <span class="price-ratio" id="ivBadge" style="margin-left: 8px; border: 1px solid rgba(245, 158, 11, 0.4); color: #f59e0b;">IV: --</span>
         </div>
         <div class="last-updated" id="lastUpdated">
           Last Updated: Loading...
@@ -542,9 +543,43 @@
     function startPriceUpdates() {
       // Update price every 30 seconds
       updateInterval = setInterval(updateGMEPrice, 30000);
-      
+      // Fetch IV every 60 seconds  
+      fetchGMEIV();
+      setInterval(fetchGMEIV, 60000);
       // Also update every 5 seconds during market hours
       setInterval(checkMarketHours, 60000);
+    }
+
+    async function fetchGMEIV() {
+      try {
+        const res = await fetch('/api/gme-iv');
+        const data = await res.json();
+        const badge = document.getElementById('ivBadge');
+        if (data && data.ivPercent && data.ivPercent !== '--') {
+          badge.textContent = 'IV: ' + data.ivPercent + '%';
+          switch (data.ivLevel) {
+            case 'LOW':
+              badge.style.color = '#22d45a';
+              badge.style.borderColor = 'rgba(34, 212, 90, 0.4)';
+              break;
+            case 'NORMAL':
+              badge.style.color = '#f59e0b';
+              badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+              break;
+            case 'HIGH':
+              badge.style.color = '#f97316';
+              badge.style.borderColor = 'rgba(249, 115, 22, 0.5)';
+              break;
+            case 'EXTREME':
+              badge.style.color = '#f04040';
+              badge.style.borderColor = 'rgba(240, 64, 64, 0.5)';
+              badge.style.animation = 'pulse 1s infinite';
+              break;
+          }
+        }
+      } catch (e) {
+        console.error('IV fetch error:', e);
+      }
     }
 
     function updateGMEPrice() {
