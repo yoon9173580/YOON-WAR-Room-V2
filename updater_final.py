@@ -6,7 +6,7 @@ st1_totals = [8705430, 10031972, 16540318, 30717733]
 
 st2_items = [
   ('└ 모빌리티 (본인)', 'Aston Martin / MC20 / Ferrari F430', [-400000]*4, 'pl-indent'),
-  ('└ 모빌리티 (아빠)', 'BMW 740i', [-120000]*4, 'pl-indent'),
+  ('└ 모빌리티 (아빠)', 'Mercedes-Maybach S-Class', [-120000]*4, 'pl-indent'),
   ('└ 기프트 (아빠)', 'Omega Seamaster Diver 300M', [-22320]*4, 'pl-indent'),
   ('└ 기프트 (엄마)', 'Cartier Tank Louis & LV M27335', [-22548]*4, 'pl-indent'),
   ('└ 기프트 (진이)', 'Omega Aqua Terra & Dior Bag', [-13920]*4, 'pl-indent')
