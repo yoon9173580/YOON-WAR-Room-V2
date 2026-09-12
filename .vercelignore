@@ -1,0 +1,12 @@
+# Don't serve Python source publicly - this is a static+serverless-functions
+# site; these files exist for local/dev tooling only, not for the deployed
+# site to expose at its root.
+*.py
+requirements.txt
+
+# mobile.html and enhanced_index.html are the two live dashboards - keep.
+# The other pipeline/output pages aren't linked from the live site but are
+# left deployable in case they're still used directly by URL; uncomment to
+# stop serving them too:
+# *_pipeline.html
+# output*.html

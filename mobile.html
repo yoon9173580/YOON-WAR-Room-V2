@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>YOON WAR MOBILE</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     :root {
       --bg: #0a0c10;
@@ -913,22 +914,9 @@
       <h1 class="lock-title">YOON WAR</h1>
       <p class="lock-subtitle">Mobile Command Center</p>
       
-      <div class="pin-container">
-        <div class="pin-dot" id="dot0"></div>
-        <div class="pin-dot" id="dot1"></div>
-        <div class="pin-dot" id="dot2"></div>
-        <div class="pin-dot" id="dot3"></div>
-        <div class="pin-dot" id="dot4"></div>
-        <div class="pin-dot" id="dot5"></div>
-        <div class="pin-dot" id="dot6"></div>
-      </div>
-      
-      <div class="pin-input-wrapper">
-        <input type="password" class="pin-input" id="pinInput" maxlength="7" placeholder="•••••••" autocomplete="off">
-      </div>
-      
-      <button class="unlock-btn" onclick="unlock()">Access Terminal</button>
-      <div class="lock-error" id="lockError">Invalid Access Code</div>
+      <div id="googleSignInContainer" style="margin: 28px 0 12px; display: flex; justify-content: center; min-height: 44px;"></div>
+
+      <div class="lock-error" id="lockError">Access denied</div>
     </div>
   </div>
 
@@ -1108,21 +1096,26 @@
   <script>
     // Configuration
     const CONFIG = {
-      pin: 'IMRICH!',
-      bbbyqShares: 41454,
-      fidShares: 4307,
-      drsShares: 30000,
-      mooShares: 7147,
       refreshInterval: 30000
     };
+
+    const API_BASE = 'https://yoon-war-room-v2.vercel.app';
+    const SESSION_STORAGE_KEY = 'warroom_session';
 
     // State
     let state = {
       gmePrice: 0,
       showActual: false,
       marketData: {},
-      gmeIV: null
+      gmeIV: null,
+      sessionToken: null,
+      email: null,
+      portfolio: { bbbyqShares: 0, fidShares: 0, drsShares: 0, mooShares: 0 }
     };
+
+    function authHeaders() {
+      return state.sessionToken ? { 'Authorization': 'Bearer ' + state.sessionToken } : {};
+    }
 
     // Formatters
     const fmt = (n) => {
@@ -1140,45 +1133,134 @@
       return 'Building...';
     };
 
-    // PIN System
-    const pinInput = document.getElementById('pinInput');
-    const dots = Array.from({length: 7}, (_, i) => document.getElementById(`dot${i}`));
+    // Auth: Google Sign-In
+    function showLockError(msg) {
+      const err = document.getElementById('lockError');
+      err.textContent = msg;
+      err.classList.add('show');
+      setTimeout(() => err.classList.remove('show'), 3000);
+    }
 
-    pinInput.addEventListener('input', (e) => {
-      const val = e.target.value;
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('filled', i < val.length);
-      });
-    });
+    function enterApp() {
+      document.getElementById('lockScreen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('lockScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        document.getElementById('bottomBar').style.display = 'flex';
+        init();
+      }, 400);
+    }
 
-    pinInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') unlock();
-    });
+    function lockOut(reason) {
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      state.sessionToken = null;
+      state.email = null;
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('bottomBar').style.display = 'none';
+      const lockScreen = document.getElementById('lockScreen');
+      lockScreen.style.display = 'flex';
+      lockScreen.style.opacity = '1';
+      showLockError(reason || 'Session expired — please sign in again');
+      renderSignIn();
+    }
 
-    function unlock() {
-      if (pinInput.value === CONFIG.pin) {
-        document.getElementById('lockScreen').style.opacity = '0';
-        setTimeout(() => {
-          document.getElementById('lockScreen').style.display = 'none';
-          document.getElementById('mainApp').style.display = 'block';
-          document.getElementById('bottomBar').style.display = 'flex';
-          init();
-        }, 400);
-      } else {
-        const err = document.getElementById('lockError');
-        err.classList.add('show');
-        pinInput.style.borderColor = 'var(--red)';
-        setTimeout(() => {
-          err.classList.remove('show');
-          pinInput.style.borderColor = '';
-        }, 2000);
+    async function handleGoogleCredential(response) {
+      try {
+        const res = await fetch(API_BASE + '/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.credential })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.token) {
+          showLockError(data.error === 'Account not authorized' ? data.error : 'Access denied');
+          return;
+        }
+        state.sessionToken = data.token;
+        state.email = data.email;
+        sessionStorage.setItem(SESSION_STORAGE_KEY, data.token);
+        enterApp();
+      } catch (e) {
+        showLockError('Sign-in failed — check your connection');
       }
     }
 
+    // The GIS script tag is async - wait for window.google to actually exist
+    // instead of racing it (it usually loads first, but not guaranteed).
+    function waitForGoogleIdentity(timeoutMs = 8000) {
+      return new Promise((resolve, reject) => {
+        const start = Date.now();
+        (function poll() {
+          if (window.google && window.google.accounts && window.google.accounts.id) return resolve();
+          if (Date.now() - start > timeoutMs) return reject(new Error('Google Identity script failed to load'));
+          setTimeout(poll, 100);
+        })();
+      });
+    }
+
+    async function renderSignIn() {
+      try {
+        const [, data] = await Promise.all([
+          waitForGoogleIdentity(),
+          fetch(API_BASE + '/api/auth').then(r => r.json())
+        ]);
+        if (!data.clientId) {
+          showLockError('Sign-in not configured yet');
+          return;
+        }
+        google.accounts.id.initialize({
+          client_id: data.clientId,
+          callback: handleGoogleCredential
+        });
+        document.getElementById('googleSignInContainer').innerHTML = '';
+        google.accounts.id.renderButton(
+          document.getElementById('googleSignInContainer'),
+          { theme: 'filled_black', size: 'large', shape: 'pill' }
+        );
+      } catch (e) {
+        showLockError('Unable to reach sign-in service');
+      }
+    }
+
+    async function bootstrapAuth() {
+      const saved = sessionStorage.getItem(SESSION_STORAGE_KEY);
+      if (saved) {
+        try {
+          const res = await fetch(API_BASE + '/api/auth', { headers: { 'Authorization': 'Bearer ' + saved } });
+          const data = await res.json();
+          if (res.ok && data.valid) {
+            state.sessionToken = saved;
+            state.email = data.email;
+            enterApp();
+            return;
+          }
+        } catch (e) { /* fall through to sign-in */ }
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      }
+      renderSignIn();
+    }
+
     // Data Fetch
+    async function fetchPortfolio() {
+      try {
+        const res = await fetch(API_BASE + '/api/portfolio', { headers: authHeaders() });
+        if (res.status === 401) { lockOut(); return; }
+        if (!res.ok) return;
+        const data = await res.json();
+        state.portfolio = {
+          bbbyqShares: data.bbbyqShares || 0,
+          fidShares: data.fidShares || 0,
+          drsShares: data.drsShares || 0,
+          mooShares: data.mooShares || 0
+        };
+        updateUI();
+      } catch (e) { /* keep previous portfolio values */ }
+    }
+
     async function fetchData() {
       try {
-        const res = await fetch('https://yoon-war-room-v2.vercel.app/api/fetch-all');
+        const res = await fetch(API_BASE + '/api/fetch-all', { headers: authHeaders() });
+        if (res.status === 401) { lockOut(); return; }
         const data = await res.json();
         state.marketData = data;
         state.gmePrice = data.gme?.price || 0;
@@ -1194,7 +1276,7 @@
 
     async function fetchGMEIV() {
       try {
-        const res = await fetch('https://yoon-war-room-v2.vercel.app/api/gme-iv');
+        const res = await fetch(API_BASE + '/api/gme-iv');
         const data = await res.json();
         state.gmeIV = data;
         updateIVDisplay(data);
@@ -1252,7 +1334,7 @@
 
     // UI Update
     function updateUI() {
-      const bbbyqTotal = CONFIG.bbbyqShares * state.gmePrice;
+      const bbbyqTotal = state.portfolio.bbbyqShares * state.gmePrice;
       const netWorth = Math.abs(bbbyqTotal * 1.2);
 
       // Hero
@@ -1260,7 +1342,7 @@
       document.getElementById('heroTitle').textContent = getTitle(netWorth);
 
       // Stats
-      document.getElementById('bbbyqValue').textContent = fmt(CONFIG.bbbyqShares * 10);
+      document.getElementById('bbbyqValue').textContent = fmt(state.portfolio.bbbyqShares * 10);
       document.getElementById('gmePrice').textContent = '$' + state.gmePrice.toFixed(2);
       
       const change = state.marketData.gme?.change || 0;
@@ -1269,13 +1351,13 @@
       changeEl.style.color = change >= 0 ? 'var(--accent)' : 'var(--red)';
 
       document.getElementById('cashPosition').textContent = fmt(bbbyqTotal * 0.3);
-      document.getElementById('targetValue').textContent = fmt(CONFIG.bbbyqShares * 399);
+      document.getElementById('targetValue').textContent = fmt(state.portfolio.bbbyqShares * 399);
 
       // Pipeline
       document.getElementById('pipeLive').textContent = fmt(bbbyqTotal);
-      document.getElementById('pipeFid').textContent = fmt(CONFIG.fidShares * state.gmePrice);
-      document.getElementById('pipeDRS').textContent = fmt(CONFIG.drsShares * state.gmePrice);
-      document.getElementById('pipeMoo').textContent = fmt(CONFIG.mooShares * state.gmePrice);
+      document.getElementById('pipeFid').textContent = fmt(state.portfolio.fidShares * state.gmePrice);
+      document.getElementById('pipeDRS').textContent = fmt(state.portfolio.drsShares * state.gmePrice);
+      document.getElementById('pipeMoo').textContent = fmt(state.portfolio.mooShares * state.gmePrice);
 
       // Ticker
       const symbols = [
@@ -1315,7 +1397,7 @@
         return;
       }
 
-      const total = CONFIG.bbbyqShares * price;
+      const total = state.portfolio.bbbyqShares * price;
       const netWorth = total * 1.2;
 
       document.getElementById('resTotal').textContent = fmt(total);
@@ -1347,13 +1429,13 @@
 
     // Init
     function init() {
+      fetchPortfolio();
       fetchData();
       setInterval(fetchData, CONFIG.refreshInterval);
-      pinInput.focus();
     }
 
-    // Focus input on load
-    setTimeout(() => pinInput.focus(), 100);
+    // Kick off Google Sign-In / session restore on load
+    bootstrapAuth();
   </script>
 
 </body>

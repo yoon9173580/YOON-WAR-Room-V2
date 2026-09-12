@@ -1,35 +1,15 @@
 /**
- * GME Current Price API
- * Serverless equivalent of price_server.py's /api/gme-price route
+ * GME current price API for enhanced_index.html (updatePriceDisplay /
+ * updatePipelineValues). Public - no auth needed, Yahoo prices aren't secret.
  * Endpoint: /api/gme-price
  */
 
-const BASE_PRICE = 25.00;
+const { fetchYahooQuote } = require('../lib/yahoo-quote');
 
-async function fetchWithTimeout(url, options = {}, limitMs = 5000) {
-  return Promise.race([
-    fetch(url, options),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Fetch Timeout')), limitMs))
-  ]);
-}
-
-async function getGMEPrice() {
-  try {
-    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/GME';
-    const res = await fetchWithTimeout(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
-    }, 5000);
-
-    if (res && res.ok) {
-      const data = await res.json();
-      const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
-      if (price) return price;
-    }
-  } catch (e) {
-    console.error('[gme-price] Error fetching price:', e);
-  }
-  return BASE_PRICE;
-}
+// enhanced_index.html's pipeline math is baselined against $25.00
+// (see its CS-cost / ST3 / ST4 / GME-sell calculations). Overridable via
+// env in case that baseline ever changes.
+const BASE_PRICE = Number(process.env.GME_BASE_PRICE) || 25.00;
 
 function isMarketOpen() {
   const et = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
@@ -47,27 +27,24 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'OPTIONS') return res.status(200).end();
 
-    const price = await getGMEPrice();
-    const now = new Date().toISOString();
+    const quote = await fetchYahooQuote('GME').catch(() => null);
+    if (!quote) {
+      return res.status(502).json({ error: 'Unable to fetch GME price' });
+    }
+
+    const price = quote.regularMarketPrice;
 
     res.setHeader('Cache-Control', 's-maxage=15, stale-while-revalidate=30');
     return res.status(200).json({
-      price: price,
+      price,
       price_ratio: price / BASE_PRICE,
-      timestamp: now,
+      base_price: BASE_PRICE,
       market_open: isMarketOpen(),
-      last_update: now
+      timestamp: new Date().toLocaleString()
     });
 
   } catch (error) {
     console.error('[gme-price] Handler Error:', error);
-    return res.status(200).json({
-      price: BASE_PRICE,
-      price_ratio: 1.0,
-      timestamp: new Date().toISOString(),
-      market_open: false,
-      last_update: null,
-      error: String(error.message || error)
-    });
+    return res.status(500).json({ error: String(error.message || error) });
   }
 };

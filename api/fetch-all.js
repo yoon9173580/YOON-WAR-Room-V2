@@ -1,61 +1,16 @@
 /**
- * Aggregate market data API for the mobile dashboard
- * Endpoint: /api/fetch-all
- * Returns a flat object keyed by lowercase ticker: { price, change }
+ * Aggregate market data API for the mobile dashboard.
+ * Endpoint: /api/fetch-all - requires a Bearer session token (see api/auth.js).
+ *
+ * Response: { gme, aapl, nvda, tsla, btc, spy, vix, kospi, fear_greed,
+ *             timestamp, returned }
+ * `change` on each symbol is a percent (mobile.html appends '%' directly).
+ * A symbol whose fetch failed is omitted entirely rather than zero-filled,
+ * so the UI can tell "flat" from "unknown".
  */
 
-async function fetchWithTimeout(url, options = {}, limitMs = 5000) {
-  return Promise.race([
-    fetch(url, options),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('Fetch Timeout')), limitMs))
-  ]);
-}
-
-async function fetchYahooQuote(symbol) {
-  try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1m&range=1d`;
-    const res = await fetchWithTimeout(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
-    }, 5000);
-
-    if (!res || !res.ok) return null;
-
-    const data = await res.json();
-    const meta = data?.chart?.result?.[0]?.meta;
-    if (!meta || meta.regularMarketPrice == null) return null;
-
-    const price = meta.regularMarketPrice;
-    const prev = meta.previousClose || meta.chartPreviousClose || price;
-    const change = prev > 0 ? ((price - prev) / prev) * 100 : 0;
-
-    return { price, change };
-  } catch (e) {
-    console.error(`[fetch-all] Yahoo error for ${symbol}:`, e);
-    return null;
-  }
-}
-
-async function fetchBTC() {
-  try {
-    const res = await fetchWithTimeout('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true', {}, 5000);
-    if (res && res.ok) {
-      const data = await res.json();
-      if (data?.bitcoin?.usd) {
-        return { price: data.bitcoin.usd, change: data.bitcoin.usd_24h_change || 0 };
-      }
-    }
-  } catch (e) { }
-
-  try {
-    const res = await fetchWithTimeout('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT', {}, 5000);
-    if (res && res.ok) {
-      const data = await res.json();
-      return { price: parseFloat(data.lastPrice), change: parseFloat(data.priceChangePercent) };
-    }
-  } catch (e) { }
-
-  return { price: 0, change: 0 };
-}
+const { fetchYahooQuote, fetchKOSPI, fetchCrypto, fetchFearGreed } = require('../lib/yahoo-quote');
+const { verifySession, getBearerToken } = require('../lib/auth');
 
 const SYMBOL_MAP = { gme: 'GME', aapl: 'AAPL', nvda: 'NVDA', tsla: 'TSLA', spy: 'SPY', vix: '^VIX' };
 
@@ -63,28 +18,56 @@ module.exports = async function handler(req, res) {
   try {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
 
+    const session = verifySession(getBearerToken(req));
+    if (!session.valid) {
+      return res.status(401).json({ error: session.reason || 'unauthorized' });
+    }
+
     const keys = Object.keys(SYMBOL_MAP);
-    const [quotes, btc] = await Promise.all([
-      Promise.all(keys.map(k => fetchYahooQuote(SYMBOL_MAP[k]))),
-      fetchBTC()
+    const [settled, kospi, btc, fearGreed] = await Promise.all([
+      Promise.allSettled(keys.map(k => fetchYahooQuote(SYMBOL_MAP[k]))),
+      fetchKOSPI().catch(() => null),
+      fetchCrypto().catch(() => ({ p: null, pct: null })),
+      fetchFearGreed().catch(() => '--')
     ]);
 
     const result = {};
+    let returned = 0;
+
     keys.forEach((k, i) => {
-      result[k] = quotes[i] || { price: 0, change: 0 };
+      const r = settled[i];
+      if (r.status === 'fulfilled') {
+        result[k] = { price: r.value.regularMarketPrice, change: r.value.regularMarketChangePercent };
+        returned++;
+      }
     });
-    result.btc = btc;
+
+    if (kospi) {
+      result.kospi = { price: kospi.regularMarketPrice, change: kospi.regularMarketChangePercent };
+      returned++;
+    }
+    if (btc && btc.p != null) {
+      result.btc = { price: btc.p, change: btc.pct };
+      returned++;
+    }
+
+    result.fear_greed = fearGreed;
     result.timestamp = new Date().toISOString();
+    result.returned = returned;
+
+    if (returned === 0) {
+      return res.status(502).json({ error: 'All upstream sources failed', timestamp: result.timestamp });
+    }
 
     res.setHeader('Cache-Control', 's-maxage=5, stale-while-revalidate=10');
     return res.status(200).json(result);
 
   } catch (error) {
     console.error('[fetch-all] Handler Error:', error);
-    return res.status(200).json({ error: String(error.message || error) });
+    return res.status(500).json({ error: String(error.message || error) });
   }
 };

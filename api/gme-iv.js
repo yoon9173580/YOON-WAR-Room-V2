@@ -4,11 +4,33 @@
  * Endpoint: /api/gme-iv
  */
 
+const { getYahooCrumb } = require('../lib/yahoo-crumb');
+
 async function fetchWithTimeout(url, options = {}, limitMs = 5000) {
   return Promise.race([
     fetch(url, options),
     new Promise((_, reject) => setTimeout(() => reject(new Error('Fetch Timeout')), limitMs))
   ]);
+}
+
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+
+/**
+ * Fetch GME options chain from Yahoo Finance, authenticated with the
+ * cookie+crumb Yahoo now requires for v7/finance/options. Retries the
+ * handshake once on a 401 in case the cached crumb expired early.
+ */
+async function fetchOptionsChain(forceRefreshCrumb = false) {
+  const { cookie, crumb } = await getYahooCrumb(forceRefreshCrumb);
+  const url = `https://query1.finance.yahoo.com/v7/finance/options/GME?crumb=${encodeURIComponent(crumb)}`;
+  const res = await fetchWithTimeout(url, {
+    headers: { 'User-Agent': UA, 'Cookie': cookie }
+  }, 5000);
+
+  if (res && res.status === 401 && !forceRefreshCrumb) {
+    return fetchOptionsChain(true);
+  }
+  return res;
 }
 
 /**
@@ -17,13 +39,7 @@ async function fetchWithTimeout(url, options = {}, limitMs = 5000) {
  */
 async function fetchGMEOptionsIV() {
   try {
-    // Yahoo Finance options endpoint - gets full options chain
-    const url = 'https://query1.finance.yahoo.com/v7/finance/options/GME';
-    const res = await fetchWithTimeout(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
-    }, 5000);
+    const res = await fetchOptionsChain();
 
     if (!res || !res.ok) {
       console.error('[GME-IV] Yahoo options request failed:', res?.status);
@@ -31,7 +47,7 @@ async function fetchGMEOptionsIV() {
     }
 
     const data = await res.json();
-    
+
     if (!data?.optionChain?.result?.[0]) {
       console.error('[GME-IV] No option chain data returned');
       return null;
@@ -41,7 +57,7 @@ async function fetchGMEOptionsIV() {
     const quote = result.quote;
     const currentPrice = quote?.regularMarketPrice || 0;
     const options = result.options?.[0];
-    
+
     if (!options || !currentPrice) {
       console.error('[GME-IV] Missing options or price data');
       return null;
@@ -172,8 +188,8 @@ module.exports = async function handler(req, res) {
       return res.status(200).json(ivData);
     }
 
-    // Fallback response if fetch fails
-    return res.status(200).json({
+    // Upstream (Yahoo) failed - this is a 502, not a fabricated "everything's fine" 200.
+    return res.status(502).json({
       symbol: 'GME',
       iv: 0,
       ivPercent: '--',
@@ -184,7 +200,7 @@ module.exports = async function handler(req, res) {
 
   } catch (error) {
     console.error('[GME-IV] Handler Error:', error);
-    return res.status(200).json({
+    return res.status(500).json({
       symbol: 'GME',
       iv: 0,
       ivPercent: '--',

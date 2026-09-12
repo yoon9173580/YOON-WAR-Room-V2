@@ -33,3 +33,6 @@ venv/
 # Local files
 *.local
 .env
+
+# Node
+node_modules/

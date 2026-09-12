@@ -1,5 +1,8 @@
 {
   "name": "yoon-war-room",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "google-auth-library": "^9.14.1"
+  }
 }
